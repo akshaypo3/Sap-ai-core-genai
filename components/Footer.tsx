@@ -40,7 +40,7 @@ export default function Footer() {
   )
 }
 
-function MountainIcon(props) {
+function MountainIcon(props:any) {
   return (
     <svg
       {...props}
