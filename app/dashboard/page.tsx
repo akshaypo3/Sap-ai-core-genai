@@ -30,7 +30,7 @@ export default async function Home() {
   return (
     <>
       <ContentLayout title="Dashboard">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-zinc-900">
+      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
           <h1 className="font-bold text-2xl mb-2">Dashboard</h1>
           <Breadcrumb>
@@ -43,7 +43,7 @@ export default async function Home() {
         </div>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
-          <Button variant="outline">Add new</Button>
+          {/* <Button variant="outline">Add new</Button> */}
         </div>
       </div>
       Home
