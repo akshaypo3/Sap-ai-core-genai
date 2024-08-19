@@ -8,11 +8,13 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
+import SustenaLayout from "@/components/sustena-layout/sustena-layout";
+
 
 
 export const metadata: Metadata = {
-  title: "VASPP NEXUS",
-  description: "VASPP Internal Framework",
+  title: "VASPP Sutena",
+  description: "Development Version",
 };
 
 export default function RootLayout({
@@ -45,7 +47,7 @@ export default function RootLayout({
                 We are undergoing scheduled maintenance. Please come back later!
             </div>
         </main>
-        <Footer/>
+        {/* <Footer/> */}
         <Toaster />
       </ThemeProvider>
       </body>
@@ -53,20 +55,14 @@ export default function RootLayout({
     ):(
       <>
       <html lang="en" className={GeistSans.className}>
-      <body className="min-h-screen flex flex-col items-center w-full bg-gray-100 dark:bg-black bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#111111_1px,transparent_1px)] [background-size:16px_16px] ">
+      <body>
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-        <Header />
-          <main className="flex-grow w-full ">
-            <div className="container mx-auto px-4 max-w-7xl  ">
-                {children}
-            </div>
-        </main>
-        <Footer/>
+            <SustenaLayout>{children}</SustenaLayout>
         <Toaster />
       </ThemeProvider>
       </body>

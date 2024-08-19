@@ -12,7 +12,7 @@ import {
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
   import { Slash } from "lucide-react"
-  import { AddEventButton } from "@/app/ui/buttons";
+  // import { AddEventButton } from "@/app/ui/buttons";
 
 export default function SubheaderDashboard() {
 
