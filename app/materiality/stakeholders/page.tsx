@@ -32,7 +32,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getStakeholders, getStakeholderGroups } from "@/lib/stakeholders/data";
-import { AddStakeholderButton, AddStakeholderGroupButton } from "@/components/materiality/stakeholderanalysis/buttons";
+import { AddStakeholderButton, AddStakeholderGroupButton, DeleteStakeholderButton } from "@/components/materiality/stakeholders/buttons";
+import StakeholderMatrix from "@/components/materiality/stakeholders/StakeholderMatrix";
 
 export default async function Home() {
   const supabase = createClient();
@@ -47,6 +48,31 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+
+  const getBadgeProps = (score, isRelevance = false) => {
+    if (isRelevance) {
+      // Logic for relevance score (1-6)
+      if (score >= 1 && score <= 2) {
+        return { label: "Low", color: "bg-green-300" };
+      } else if (score >= 3 && score <= 4) {
+        return { label: "Medium", color: "bg-green-500" };
+      } else if (score >= 5 && score <= 6) {
+        return { label: "High", color: "bg-green-700" };
+      }
+    } else {
+      // Logic for interest, influence, and knowledge scores (1-3)
+      switch (score) {
+        case 1:
+          return { label: "Low", color: "bg-green-300" };
+        case 2:
+          return { label: "Medium", color: "bg-green-500" };
+        case 3:
+          return { label: "High", color: "bg-green-700" };
+        default:
+          return { label: "Unknown", color: "bg-gray-500" };
+      }
+    }
+  };
 
   return (
     <>
@@ -76,7 +102,7 @@ export default async function Home() {
         </div>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
-          <AddStakeholderButton/>
+          {/* <AddStakeholderButton/> */}
           <Button>Group Editor</Button>
         </div>
       </div>
@@ -91,9 +117,9 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2</div>
-              <p className="text-xs text-muted-foreground">
+              {/* <p className="text-xs text-muted-foreground">
                 -4 from last year
-              </p>
+              </p> */}
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-1">
@@ -105,9 +131,9 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2</div>
-              <p className="text-xs text-muted-foreground">
+              {/* <p className="text-xs text-muted-foreground">
                 -1 from last year
-              </p>
+              </p> */}
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-2">
@@ -117,9 +143,9 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">0%</div>
-              <p className="text-xs text-muted-foreground">
+              {/* <p className="text-xs text-muted-foreground">
                 -100% from last year
-              </p>
+              </p> */}
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
@@ -128,17 +154,17 @@ export default async function Home() {
               {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">100%</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold">0%</div>
+              {/* <p className="text-xs text-muted-foreground">
                 -0% from last year
-              </p>
+              </p> */}
             </CardContent>
           </Card>
         </div>
       </div>
 
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-        <Button className="bg-green-600 mb-5">Add stakeholder</Button>
+        <AddStakeholderButton/>
       <Table>
         <TableCaption>Stakeholders List</TableCaption>
         <TableHeader>
@@ -148,8 +174,8 @@ export default async function Home() {
             <TableHead>Group</TableHead>
             <TableHead>Interest</TableHead>
             <TableHead>Inluence</TableHead>
-            <TableHead>Knowledge</TableHead>
             <TableHead>Relevance</TableHead>
+            <TableHead>Knowledge</TableHead>
             <TableHead>Actions</TableHead>
             {/* <TableHead>Survey</TableHead> */}
           </TableRow>
@@ -160,23 +186,33 @@ export default async function Home() {
               <TableCell className="font-medium">{item.name}</TableCell>
               <TableCell>{item.description}</TableCell>
               <TableCell>
-                {Array.isArray(item.stakeholder_groups) ? item.stakeholder_groups[0].group : item.stakeholder_groups.group}
+                {Array.isArray(item.stakeholder_groups)
+                  ? item.stakeholder_groups[0].group
+                  : item.stakeholder_groups.group}
               </TableCell>
-              <TableCell><Badge className="bg-green-700">high</Badge></TableCell>
-              <TableCell><Badge className="bg-green-700">high</Badge></TableCell>
-              <TableCell><Badge className="bg-yellow-500">medium</Badge></TableCell>
-              <TableCell><Badge className="bg-green-700">high</Badge></TableCell>
               <TableCell>
-                <button className="rounded-md border p-2 hover:bg-gray-100">
-                  <span className="sr-only">Edit</span>
-                  <Pencil className="w-4" />
-                </button> 
-                <button className="rounded-md border p-2 hover:bg-gray-100 ml-1">
-                  <span className="sr-only">Delete</span>
-                  <Trash2 className="w-4" />
-                </button>
+                <Badge className={getBadgeProps(item.interest_score).color}>
+                  {getBadgeProps(item.interest_score).label}
+                </Badge>
               </TableCell>
-              {/* <TableCell><Badge variant="secondary">Started</Badge></TableCell> */}
+              <TableCell>
+                <Badge className={getBadgeProps(item.influence_score).color}>
+                  {getBadgeProps(item.influence_score).label}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <Badge className={getBadgeProps(item.relevance_score, true).color}>
+                  {getBadgeProps(item.relevance_score, true).label}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <Badge className={getBadgeProps(item.knowledge_score).color}>
+                  {getBadgeProps(item.knowledge_score).label}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <DeleteStakeholderButton id={item.id}/>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -204,6 +240,7 @@ export default async function Home() {
         </TableBody>
       </Table>
       </div>
+      <StakeholderMatrix/>
 
 
     </ContentLayout>
