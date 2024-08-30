@@ -4,11 +4,10 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-const supabase = createClient()
-
 // Create Stakeholder
 
 export async function createStakeholder(formData:FormData){
+  const supabase = createClient()
 
   const levels = ["low", "medium", "high"];
 
@@ -54,6 +53,7 @@ export async function createStakeholder(formData:FormData){
 // Delete Stakeholder
 
 export async function deleteStakeholder(id:any){
+  const supabase = createClient()
   try {
     const deletedStakeholder = await supabase.from('stakeholders').delete().eq('id',id)
   } catch (error) {
@@ -68,6 +68,7 @@ export async function deleteStakeholder(id:any){
 // Create Stakeholder Group
 
 export async function createStakeholderGroup(formData:FormData){
+  const supabase = createClient()
 
   const groupName = formData.get("name");
   const groupDesc = formData.get("description")

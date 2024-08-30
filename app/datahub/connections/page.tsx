@@ -54,7 +54,6 @@ export default async function Home() {
           {/* <Button variant="outline">Add new</Button> */}
         </div>
       </div>
-      <FlowDiagram/>
     </ContentLayout>
     </>
   );

@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
-const supabase = createClient()
 
 export async function getStakeholders(){
+    const supabase = createClient()
     const { data: stakeholders } = await supabase.from('stakeholders').select(`
         id,
         name,
@@ -20,6 +20,7 @@ export async function getStakeholders(){
 };
 
 export async function getStakeholderGroups(){
+    const supabase = createClient()
     const { data: stakeholderGroups } = await supabase.from('stakeholder_groups').select().order('group')
     return stakeholderGroups;
 };
