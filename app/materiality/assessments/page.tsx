@@ -31,6 +31,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getAssessments } from "@/lib/assessments/data";
+import { AddAssessmentButton } from "@/components/materiality/buttons";
 
 
 export default async function Home() {
@@ -43,6 +45,8 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+
+  const assessments = await getAssessments();
 
   return (
     <>
@@ -76,14 +80,13 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+      {/* <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card x-chunk="dashboard-01-chunk-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Latest Assessment
               </CardTitle>
-              {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2024</div>
@@ -97,7 +100,6 @@ export default async function Home() {
               <CardTitle className="text-sm font-medium">
                 Assessments finished
               </CardTitle>
-              {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">1</div>
@@ -108,7 +110,6 @@ export default async function Home() {
           <Card x-chunk="dashboard-01-chunk-2">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Due Assessments</CardTitle>
-              {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">0</div>
@@ -119,7 +120,6 @@ export default async function Home() {
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Average Assessment time</CardTitle>
-              {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">85 min</div>
@@ -129,7 +129,7 @@ export default async function Home() {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </div> */}
 
 
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
@@ -139,7 +139,7 @@ export default async function Home() {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Fiscal Year</TableHead>
-            <TableHead className="w-[100px]">Version</TableHead>
+            <TableHead className="w-[100px]">Framework</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Report Download</TableHead>
             <TableHead>Actions</TableHead>
@@ -147,11 +147,12 @@ export default async function Home() {
           </TableRow>
         </TableHeader>
         <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">2024</TableCell>
-              <TableCell className="font-medium">2</TableCell>
-              <TableCell><Badge className="bg-slate-500">Started</Badge></TableCell>
-              <TableCell><Badge variant="destructive">Assessment not finished</Badge></TableCell>
+          {assessments?.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell className="font-medium"><a href={process.env.BASE_URL+"/materiality/assessments/"+item.id}>{item.fyear}</a></TableCell>
+              <TableCell className="font-medium">{item.frameworks?.title || "No Framework"}</TableCell>
+              <TableCell><Badge className="bg-slate-500">{item.state}</Badge></TableCell>
+              <TableCell><Badge variant="destructive">Not finished</Badge></TableCell>
               <TableCell>
                 <button className="rounded-md border p-2 hover:bg-gray-100">
                   <span className="sr-only">Edit</span>
@@ -160,26 +161,14 @@ export default async function Home() {
               </TableCell>
               {/* <TableCell><Badge variant="secondary">Started</Badge></TableCell> */}
             </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">2023</TableCell>
-              <TableCell className="font-medium">4</TableCell>
-              <TableCell><Badge className="bg-green-600">Finished</Badge></TableCell>
-              <TableCell><Badge variant="outline">Download PDF</Badge></TableCell>
-              <TableCell>
-                <button className="rounded-md border p-2 hover:bg-gray-100">
-                  <span className="sr-only">Edit</span>
-                  <Pencil className="w-4" />
-                </button> 
-              </TableCell>
-              {/* <TableCell><Badge variant="secondary">Started</Badge></TableCell> */}
-            </TableRow>
+            ))}
         </TableBody>
       </Table>
       </div>
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
         <div className="flex items-center">
-          <Plus className="mr-2" />
-          <span className="hover:font-medium">New assessment</span>
+          {/* <span className="hover:font-medium">New assessment</span> */}
+          <AddAssessmentButton/>
         </div>
       </div>
     </ContentLayout>

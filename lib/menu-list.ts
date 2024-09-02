@@ -85,11 +85,6 @@ export function getMenuList(pathname: string): Group[] {
               href: "/materiality/assessments",
               label: "Assessments",
               active: pathname === "/materiality/assessments"
-            },
-            {
-              href: "/materiality/assessments/new",
-              label: "New Assessment",
-              active: pathname === "/materiality/assessments/new"
             }
           ]
         },
