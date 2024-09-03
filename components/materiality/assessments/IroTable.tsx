@@ -26,7 +26,6 @@ import {
 import { getAssessmentData } from "@/lib/assessments/data";
 import { Bar, Line, Pie, Scatter } from "react-chartjs-2"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dashboard } from "@/components/demo/materialityDashboardDemo";
 import { Badge } from "@/components/ui/badge";
 
 

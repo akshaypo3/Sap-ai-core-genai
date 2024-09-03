@@ -26,7 +26,6 @@ import {
 import { getAR16Items } from "@/lib/assessments/data";
 import { Bar, Line, Pie, Scatter } from "react-chartjs-2"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dashboard } from "@/components/demo/materialityDashboardDemo";
 
 // import Subheader from "@/components/Subheader";
 
@@ -68,7 +67,6 @@ export default async function Home() {
           {/* <Button variant="outline">Add new</Button> */}
         </div>
       </div>
-      <Dashboard />
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
       <Table>
         <TableCaption>ESRS AR16</TableCaption>
