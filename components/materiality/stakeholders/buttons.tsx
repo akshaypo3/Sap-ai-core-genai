@@ -50,6 +50,23 @@ export async function AddStakeholderGroupButton(){
   )
 }
 
+export async function AddLocation(){
+  return (
+    <Dialog>
+      <DialogTrigger><Button className="mb-3 bg-green-600">Add Location</Button></DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Uncaught error</DialogTitle>
+          <DialogDescription>
+            Please contact your Sustena administrator for more details.
+          </DialogDescription>
+        </DialogHeader>
+        {/* <CreateStakeholderGroupForm/> */}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export async function DeleteStakeholderButton({ id }: { id: string }){
 
   const deleteStakeholderWithId = deleteStakeholder.bind(null, id);

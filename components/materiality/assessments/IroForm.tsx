@@ -39,6 +39,7 @@ import { getIroData } from "@/lib/assessments/data";
 import { Bar, Line, Pie, Scatter } from "react-chartjs-2"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge";
+import { SaveIroButton } from "./buttons";
 
 
 export default async function IroForm(iroId:any){
@@ -58,10 +59,14 @@ export default async function IroForm(iroId:any){
         <form>
                 <div className="grid w-full items-center gap-1.5 mb-2 mt-3">
                     <Label htmlFor="description">Description</Label>
+                    <p className="text-sm">Describe how this topic has an impact on your company or how your company has an impact on the environment</p>
                     <Input type="text" name="description" placeholder=""/>
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="materiality_type">Materiality Type</Label>
+                            <p className="text-sm"><span className="font-bold">Impact materiality</span> refers to how a particular topic or issue influences the company’s impact on the economy, environment, or society. This type of materiality considers the extent to which the company's activities or decisions contribute to or alleviate broader environmental, social, or economic challenges. In this context, the significance is determined by the potential consequences of the company's actions on external stakeholders, ecosystems, or societal structures.</p>
+                            <p className="text-sm mt-2 mb-2"><span className="font-bold">Financial materiality</span> is concerned with how a particular topic or issue affects the financial performance or value of the company. This includes factors that could impact the company's revenue, costs, assets, liabilities, or overall market value. The focus is on identifying issues that are significant enough to influence the financial decisions of investors, shareholders, and other financial stakeholders.</p>
+                        
                             <Select name="materiality_type">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Impact Materiality"/>
@@ -73,9 +78,11 @@ export default async function IroForm(iroId:any){
                             </Select>
                         </div>
                     </div>
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="impact">Impact</Label>
+                            <p className="text-sm"><span className="font-bold">For Impact materiality:</span> Does this topic have a postive or negative impact?</p>
+                            <p className="text-sm"><span className="font-bold">For Financial materiality:</span> Is this topic a chance or a risk.</p>
                             <Select name="impact">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Impact"/>
@@ -89,9 +96,10 @@ export default async function IroForm(iroId:any){
                             </Select>
                         </div>
                     </div>
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="impactstate">Impact State</Label>
+                            <p className="text-sm"><span className="font-bold">For Impact materiality:</span> Is this an actual or a potential impact?</p>
                             <Select name="impactstate">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Actual Impact"/>
@@ -103,9 +111,10 @@ export default async function IroForm(iroId:any){
                             </Select>
                         </div>
                     </div>
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="scale">Scale</Label>
+                            <p className="text-sm">The "Scale" field refers to the extent or reach of the impact caused by a specific topic or issue. It evaluates how widespread the consequences of this issue are, considering both the geographical coverage (e.g., local, national, global) and the number of stakeholders or resources affected. The scale helps in understanding the magnitude of the impact, whether it affects a small group within a localized area or has broader implications across multiple regions or sectors.</p>
                             <Select name="scale">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Medium"/>
@@ -123,9 +132,10 @@ export default async function IroForm(iroId:any){
                       <Input type="text" name="scalereason" placeholder=""/>
                     </div>
 
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="scope">Scope</Label>
+                            <p className="text-sm">The "Scope" field measures the breadth or range of the impact related to a specific topic or issue. It assesses how many areas of the company's operations, stakeholders, or activities are affected.</p>
                             <Select name="scope">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Limited"/>
@@ -141,9 +151,10 @@ export default async function IroForm(iroId:any){
                       <Input type="text" name="scopereason" placeholder=""/>
                     </div>     
 
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="irremediability">Irremediability</Label>
+                            <p className="text-sm">The "Irremediability" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic. It considers how permanent or long-lasting the consequences are if the issue is not adequately addressed. </p>
                             <Select name="irremediability">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Easy"/>
@@ -159,9 +170,10 @@ export default async function IroForm(iroId:any){
                       <Input type="text" name="irremediabilityreason" placeholder=""/>
                     </div>
 
-                    <div className="w-full pt-2">
+                    <div className="w-full pt-5">
                         <div>
                             <Label htmlFor="probability">Probability</Label>
+                            <p className="text-sm">The "Probability" field assesses the likelihood that a particular event, issue, or impact will occur. It helps to gauge the risk associated with the issue based on its anticipated frequency or likelihood. </p>
                             <Select name="probability">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Easy"/>
@@ -176,18 +188,18 @@ export default async function IroForm(iroId:any){
                             </Select>
                         </div>
                         <Label htmlFor="probabilityreason">Reason for probability</Label>
+                        
                       <Input type="text" name="probabilityreason" placeholder=""/>
                     </div>                                             
                     
-                    <div className="flex mt-5">
-                        <div className="flex-auto">
-                            <Button className="w-full" type="submit">
-                                Save
-                            </Button>                       
-                        </div>
-                    </div>
+                    
                 </div>
             </form>
+            <div className="flex mt-5">
+                        <div className="flex-auto">
+                            <SaveIroButton/>                    
+                        </div>
+                    </div>
         </>
     )
 }

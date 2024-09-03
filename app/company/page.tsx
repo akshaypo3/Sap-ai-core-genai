@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { CircleHelp } from "lucide-react";
+import { AddLocation } from "@/components/materiality/stakeholders/buttons";
 
 
 
@@ -90,7 +91,7 @@ export default async function Home() {
           </div>
           <div className="flex space-x-4">
             {/* Button Section for Subheader */}
-            <Button variant="outline">Add location</Button>
+            <AddLocation/>
           </div>
         </div>
       </div>

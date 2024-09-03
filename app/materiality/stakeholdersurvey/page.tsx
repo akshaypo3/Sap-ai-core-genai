@@ -32,6 +32,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getStakeholders, getStakeholderGroups } from "@/lib/stakeholders/data"
+import { StakeholderSurveyEditButton } from "@/components/materiality/stakeholdersurvey/buttons";
+
 
 
 export default async function Home() {
@@ -46,6 +48,8 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+
+  
 
   return (
     <>
@@ -165,10 +169,7 @@ export default async function Home() {
               <TableCell className="font-medium">0</TableCell>
               <TableCell><Badge className="bg-red-500">0%</Badge></TableCell>
               <TableCell>
-                <button className="rounded-md border p-2 hover:bg-gray-100">
-                  <span className="sr-only">Edit</span>
-                  <Pencil className="w-4" />
-                </button> 
+                <StakeholderSurveyEditButton/>
               </TableCell>
               {/* <TableCell><Badge variant="secondary">Started</Badge></TableCell> */}
             </TableRow>
