@@ -1,4 +1,4 @@
-"use client";
+"use server"
 
 import Link from "next/link";
 import { LayoutGrid, LogOut, User } from "lucide-react";
@@ -20,8 +20,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import SignOutButton from "@/components/general/SignOutButton";
+import { getUserInfo } from "@/lib/settings/users/data";
 
-export function UserNav() {
+export async function UserNav() {
+  const userData = await getUserInfo(); 
+  const userEmail= userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
+  const userInitial = userName.substring(0,2);
+
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
@@ -34,7 +41,7 @@ export function UserNav() {
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="#" alt="Avatar" />
-                  <AvatarFallback className="bg-transparent">KR</AvatarFallback>
+                  <AvatarFallback className="bg-transparent"> {userData.user_metadata?.full_name || userInitial} </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -46,9 +53,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Kevin Renner</p>
+          <p className="text-sm font-medium leading-none">{userName}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              kevin.renner@vaspp.com
+            {userData.email}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -68,10 +75,7 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {}}>
-          <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
-          Sign out
-        </DropdownMenuItem>
+        <SignOutButton/>
       </DropdownMenuContent>
     </DropdownMenu>
   );
