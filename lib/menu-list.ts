@@ -14,7 +14,8 @@ import {
   FileText,
   FileQuestion,
   BookOpenText,
-  HeartHandshake
+  HeartHandshake,
+  BookText
 } from "lucide-react";
 
 type Submenu = {
@@ -51,87 +52,67 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Reporting Center",
+      groupLabel: "Assessment Center",
       menus: [
         {
-          href: "/company",
+          href: "/materiality/company",
           label: "Company",
-          active: pathname.includes("/company"),
+          active: pathname.includes("/materiality/company"),
           icon: Building2,
           submenus: []
         },
         {
-          href: "",
+          href: "/materiality/dashboard",
           label: "Materiality",
           active: pathname.includes("/materiality"),
           icon: ScatterChart,
-          submenus: [
-            {
-              href: "/materiality/dashboard",
-              label: "Dashboard",
-              active: pathname === "/materiality/dashboard"
-            },
-            {
-              href: "/materiality/stakeholders",
-              label: "Stakeholder Analysis",
-              active: pathname === "/materiality/stakeholders"
-            },
-            {
-              href: "/materiality/stakeholdersurvey",
-              label: "Stakeholder Survey",
-              active: pathname === "/materiality/stakeholdersurvey"
-            },
-            {
-              href: "/materiality/assessments",
-              label: "Assessments",
-              active: pathname === "/materiality/assessments"
-            }
-          ]
+          submenus: []
+        }
+      ]
+    },
+    {
+      groupLabel: "Reporting",
+      menus: [
+        {
+          href: "/reporting/dashboard",
+          label: "Dashboard",
+          active: pathname.includes("/reporting/dashboard"),
+          icon: LayoutGrid,
+          submenus: []
         },
         {
-          href: "",
+          href: "/reporting/frameworks",
           label: "Frameworks",
-          active: pathname.includes("/frameworks"),
-          icon: ClipboardList,
-          submenus: [
-            {
-              href: "/frameworks/dashboard",
-              label: "Dashboard",
-              active: pathname === "/frameworks/dashboard"
-            },
-            {
-              href: "/frameworks/editor",
-              label: "Framework Editor",
-              active: pathname === "/frameworks/editor"
-            }
-          ]
-        },
+          active: pathname.includes("/reporting/frameworks"),
+          icon: BookText,
+          submenus: []
+        },        
         {
           href: "",
-          label: "Reporting",
-          active: pathname.includes("/reporting"),
+          label: "Reports",
+          active: pathname.includes("/reporting/reports"),
           icon: FileText,
           submenus: [
             {
-              href: "/reporting/dashboard",
+              href: "/reporting/reports",
               label: "Dashboard",
-              active: pathname === "/reporting/dashboard"
+              active: pathname === "/reporting/reports"
             },
             {
-              href: "/reporting/internal",
-              label: "Internal Reporting",
-              active: pathname === "/reporting/internal"
+              href: "/reporting/reports/internal",
+              label: "Internal Reports",
+              active: pathname === "/reporting/reports/internal"
             },
             {
-              href: "/reporting/external",
-              label: "External Reporting",
-              active: pathname === "/reporting/external"
+              href: "/reporting/reports/external",
+              label: "External Reports",
+              active: pathname === "/reporting/reports/external"
             },
-            {
-              href: "/reporting/templates",
-              label: "Templates",
-              active: pathname === "/reporting/templates"
-            },
+            // {
+            //   href: "/reporting/reports/templates",
+            //   label: "Templates",
+            //   active: pathname === "/reporting/reports/templates"
+            // },
           ]
         },
       ]

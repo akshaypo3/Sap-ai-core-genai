@@ -8,13 +8,13 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
-import MainLayout from "@/components/layout/MainLayout";
+import SustenaLayout from "@/components/sustena-layout/sustena-layout";
 
 
 
 export const metadata: Metadata = {
-  title: "VASPP Certifications",
-  description: "Certifications issued by VASPP",
+  title: "VASPP Sutena",
+  description: "Development Version",
 };
 
 export default function RootLayout({
@@ -48,6 +48,7 @@ export default function RootLayout({
             </div>
         </main>
         {/* <Footer/> */}
+        <Toaster />
       </ThemeProvider>
       </body>
     </html>
@@ -61,8 +62,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
-        <Toaster/>
+            <SustenaLayout>{children}</SustenaLayout>
+        <Toaster />
       </ThemeProvider>
       </body>
     </html>

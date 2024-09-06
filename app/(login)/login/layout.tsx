@@ -8,13 +8,14 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
-import MainLayout from "@/components/layout/MainLayout";
+import SustenaLoginLayout from "@/components/sustena-layout/sustena-login-layout";
+import { NavbarLogin } from "@/components/sustena-layout/navbar-login";
 
 
 
 export const metadata: Metadata = {
-  title: "VASPP Certifications",
-  description: "Certifications issued by VASPP",
+  title: "VASPP Sutena",
+  description: "Development Version",
 };
 
 export default function RootLayout({
@@ -48,6 +49,7 @@ export default function RootLayout({
             </div>
         </main>
         {/* <Footer/> */}
+        <Toaster />
       </ThemeProvider>
       </body>
     </html>
@@ -55,16 +57,23 @@ export default function RootLayout({
       <>
       <html lang="en" className={GeistSans.className}>
       <body>
-      <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-        <Toaster/>
-      </ThemeProvider>
-      </body>
+  <ThemeProvider
+    attribute="class"
+    defaultTheme="system"
+    enableSystem
+    disableTransitionOnChange
+  >
+    <div className="flex flex-col min-h-screen">
+      <NavbarLogin />
+      {/* Flex-grow ensures the main content expands to fill the available space */}
+      <main className="flex-grow flex items-center justify-center">
+        {children}
+      </main>
+    </div>
+    <Toaster />
+  </ThemeProvider>
+</body>
+
     </html>
     </>
     )}
