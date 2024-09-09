@@ -54,8 +54,7 @@ export default function RootLayout({
     </html>
     ):(
       <>
-      <html lang="en" className={GeistSans.className}>
-      <body>
+      {/* <main className={GeistSans.className}> */}
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -65,8 +64,7 @@ export default function RootLayout({
             <SustenaLayout>{children}</SustenaLayout>
         <Toaster />
       </ThemeProvider>
-      </body>
-    </html>
+    {/* </main> */}
     </>
     )}
     </>

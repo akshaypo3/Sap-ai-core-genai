@@ -22,7 +22,7 @@ export function SaveIroButton(){
     )
 }
 
-export function SaveIroButton(){
+export function SaveLocationButton(){
     const { toast } = useToast();
 
     return(

@@ -55,8 +55,6 @@ export default function RootLayout({
     </html>
     ):(
       <>
-      <html lang="en" className={GeistSans.className}>
-      <body>
   <ThemeProvider
     attribute="class"
     defaultTheme="system"
@@ -72,9 +70,6 @@ export default function RootLayout({
     </div>
     <Toaster />
   </ThemeProvider>
-</body>
-
-    </html>
     </>
     )}
     </>
