@@ -28,8 +28,13 @@ import {
 } from "@/components/ui/table";
 import { Slash } from "lucide-react";
 import { getAllUsers, getUserInfo, getRoles } from "@/lib/settings/users/data";
+import { createUser } from "@/lib/settings/users/action"
 import { AddRoleButton,DeleteRoleButton} from "@/components/settings/roles/buttons";
 import { AddUserButton ,DeleteUserButton} from "@/components/settings/users/buttons";
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 
 export default async function Home() {
@@ -171,7 +176,6 @@ export default async function Home() {
               <TabsContent value="groups">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button>Create Group</Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
@@ -196,6 +200,7 @@ export default async function Home() {
                     </form>
                   </DialogContent>
                 </Dialog>
+                <AddGroupButton/>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -218,13 +223,9 @@ export default async function Home() {
                     ))}
                   </TableBody>
                 </Table>
+                </TabsContent>
               </div>
-              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
-                <div className="flex items-center">
-                  <AddGroupButton />
-                </div>
-              </div>
-            </TabsContent>
+            
             <TabsContent value="portalusers">Portal Users</TabsContent>
             <TabsContent value="activitylog">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
@@ -254,8 +255,7 @@ export default async function Home() {
                 </Table>
               </div>
             </TabsContent>
-          </div>
-        </Tabs>
+            </Tabs>
       </ContentLayout>
     </>
   );
