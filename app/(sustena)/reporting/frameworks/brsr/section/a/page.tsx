@@ -13,25 +13,8 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Slash, Trash2,Pencil } from "lucide-react"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
-import FrameworkCardsMateriality from "@/components/materiality/dashboard/FrameworkCardsMateriality";
+import SectionATabs  from "@/components/reporting/frameworks/brsr/section/a/SectionATabs"
+
 
 
 export default async function Home() {
@@ -50,7 +33,7 @@ export default async function Home() {
       <ContentLayout title="Materiality Dashboard">
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Materiality Dashboard</h1>
+          <h1 className="font-bold text-2xl mb-2">BRSR Section A</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
@@ -63,9 +46,8 @@ export default async function Home() {
           {/* Button Section for Subheader */}
           {/* <Button variant="outline">Add new</Button> <*/}
         </div>
-        
       </div>
-        <FrameworkCardsMateriality/>
+      <SectionATabs/>
     </ContentLayout>
     </>
   );

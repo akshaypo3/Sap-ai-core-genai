@@ -114,3 +114,39 @@ export async function deleteUser(user_id:any){
        redirect('/settings/users');
      };
 };
+
+export async function createRole(formData:FormData){
+  const supabase = createClient()
+
+  const RoleName = formData.get("role");
+  const RoleDesc = formData.get("description")
+
+  console.log(RoleName,RoleDesc);
+
+  try {
+    const newRoleGroup = await supabase.from('Test_Role').insert(
+      {
+        role:RoleName,
+        description:RoleDesc
+      }
+    );
+    console.log("Create Role: "+JSON.stringify(newRoleGroup))
+  } catch (error) {
+    console.error("Error while adding Role");
+  } finally {
+    revalidatePath('/settings/users');
+    redirect('/settings/users');
+  }
+}
+
+export async function deleteRole(id:any){
+  const supabase = createClient()
+  try {
+    const deletedRole = await supabase.from('Test_Role').delete().eq("id",id)
+  } catch (error) {
+    console.error("Error while deleting Role");
+  } finally {
+    revalidatePath('/settings/users');
+    redirect('/settings/users');
+  }
+}

@@ -34,6 +34,7 @@ export async function getUserInfo() {
   return data.user; 
 }
 
+
 export async function getActivityLog() {
   const supabase = createClient();
 
@@ -49,3 +50,14 @@ export async function getActivityLog() {
 
   return activities;
 }
+
+export async function getRoles(){
+  const supabase = createClient()
+  const { data: roles } = await supabase.from('Test_Role').select(`
+      id,
+      role,
+      description
+    `)
+  return roles;
+};
+

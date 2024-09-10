@@ -2,7 +2,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge"
+
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -13,25 +13,8 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Slash, Trash2,Pencil } from "lucide-react"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
-import FrameworkCardsMateriality from "@/components/materiality/dashboard/FrameworkCardsMateriality";
+import { Slash } from "lucide-react"
+// import Subheader from "@/components/Subheader";
 
 
 export default async function Home() {
@@ -47,28 +30,31 @@ export default async function Home() {
 
   return (
     <>
-      <ContentLayout title="Materiality Dashboard">
+      <ContentLayout title="Reporting Dashboard">
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Materiality Dashboard</h1>
+          <h1 className="font-bold text-2xl mb-2">Reporting Dashboard</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">Home</BreadcrumbLink>
+                    <BreadcrumbLink href="/reporting/dashboard/">Dashboard</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator>
+                    <Slash />
+                  </BreadcrumbSeparator>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/reporting/dashboard">Reporting</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>
         </div>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> <*/}
+          {/* <Button variant="outline">Add new</Button> */}
         </div>
-        
       </div>
-        <FrameworkCardsMateriality/>
+      Home
     </ContentLayout>
     </>
   );
 }
-
-

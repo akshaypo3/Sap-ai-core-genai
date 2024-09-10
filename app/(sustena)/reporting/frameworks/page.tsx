@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
-import FrameworkCardsMateriality from "@/components/materiality/dashboard/FrameworkCardsMateriality";
+import FrameworkCards from "@/components/reporting/frameworks/FrameworkCards";
 
 
 export default async function Home() {
@@ -65,7 +65,7 @@ export default async function Home() {
         </div>
         
       </div>
-        <FrameworkCardsMateriality/>
+        <FrameworkCards/>
     </ContentLayout>
     </>
   );

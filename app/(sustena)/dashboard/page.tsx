@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/table";
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import NewsCards from "@/components/dashboard/NewsCards";
+import UploadButton from "@/components/UploadButton";
 
 
 export default async function Home() {
@@ -48,6 +49,7 @@ export default async function Home() {
   return (
     <>
       <ContentLayout title="Dashboard">
+        {/* <UploadButton/> */}
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
           <h1 className="font-bold text-2xl mb-2">Dashboard</h1>

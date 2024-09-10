@@ -1,0 +1,49 @@
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select";
+import {
+    DialogClose
+  } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"  
+import { CircleHelp } from "lucide-react";
+import { createRole } from "@/lib/settings/users/action";
+
+interface NewStakeholderGroupFormData {
+    role: string;
+    description: string;
+}
+
+
+
+export default async function CreateRoleForm(){
+    return (
+        <form action={createRole}>
+                <div className="grid w-full items-center gap-1.5 mb-2">
+                    <Label htmlFor="name">Role</Label>
+                    <Input type="text" name="role"/>
+                    <Label htmlFor="description">Description</Label>
+                    <Input type="text" name="description"/>
+                    <div className="flex mt-5">
+                        <div className="flex-auto">
+                            <DialogClose asChild>
+                            <Button className="w-full" type="submit">
+                                Add Role
+                            </Button>
+                            </DialogClose>                        
+                        </div>
+                    </div>
+                </div>
+            </form>
+    )
+};

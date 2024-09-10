@@ -27,12 +27,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Slash } from "lucide-react";
-import { getAllUsers } from "@/lib/settings/users/data";
-import {
-  AddUserButton,
-  DeleteUserButton,
-} from "@/components/settings/users/buttons";
-import { getUserInfo } from "@/lib/settings/users/data";
+import { getAllUsers, getUserInfo, getRoles } from "@/lib/settings/users/data";
+import { AddRoleButton,DeleteRoleButton} from "@/components/settings/roles/buttons";
+import { AddUserButton ,DeleteUserButton} from "@/components/settings/users/buttons";
 
 
 export default async function Home() {
@@ -52,6 +49,8 @@ export default async function Home() {
   const users = await getAllUsers();
   const userGroups = await getUserGroups();
   const activityLogs = await getActivityLog();
+  const allRoles = await getRoles();
+
 
   return (
     <>
@@ -143,9 +142,60 @@ export default async function Home() {
                 </div>
               </div>
             </TabsContent>
-            <TabsContent value="roles">Roles</TabsContent>
-            <TabsContent value="groups">
-              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+              <TabsContent value="roles">
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                <AddRoleButton/>
+                  <Table>
+                    <TableCaption>Roles List</TableCaption>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Role</TableHead>
+                        <TableHead>Description</TableHead>
+                        {/* <TableHead>Survey</TableHead> */}
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {allRoles?.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell className="font-medium">{item.role}</TableCell>
+                          <TableCell>{item.description}</TableCell>
+                          <TableCell>
+                            <DeleteRoleButton id={item.id}/>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+          </TabsContent>
+              <TabsContent value="groups">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>Create Group</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Create New Group</DialogTitle>
+                    </DialogHeader>
+                    <form action={createUser}>
+                      <div className="grid w-full items-center gap-1.5 mb-2">
+                        <Label htmlFor="name">Name</Label>
+                        <Input type="text" name="name" />
+                        <Label htmlFor="description">Description</Label>
+                        <Input type="text" name="description" />
+                        <div className="flex mt-5">
+                          <div className="flex-auto">
+                            <DialogClose asChild>
+                              <Button className="w-full" type="submit">
+                                Add Group
+                              </Button>
+                            </DialogClose>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </DialogContent>
+                </Dialog>
                 <Table>
                   <TableHeader>
                     <TableRow>
