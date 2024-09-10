@@ -33,3 +33,19 @@ export async function getUserInfo() {
  const email = data?.user?.email || null; 
   return data.user; 
 }
+
+export async function getActivityLog() {
+  const supabase = createClient();
+
+  const { data: activities, error } = await supabase
+    .from("activitylog")
+    .select()
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching activity log:", error);
+    return [];
+  }
+
+  return activities;
+}
