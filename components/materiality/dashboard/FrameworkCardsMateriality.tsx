@@ -70,7 +70,7 @@ export default function FrameworkCardsMateriality() {
                 <span>{item.date}</span>
               </div> */}
             </div>
-            <Link href="/frameworks/brsr">
+            <Link href="/reporting/frameworks/brsr">
             <Button variant="outline" size="sm" className="bg-green-500 hover:bg-green-600 text-white hover:text-white ">Select</Button>
             </Link>
           </CardFooter>
