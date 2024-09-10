@@ -34,6 +34,23 @@ export async function getUserInfo() {
   return data.user; 
 }
 
+
+export async function getActivityLog() {
+  const supabase = createClient();
+
+  const { data: activities, error } = await supabase
+    .from("activitylog")
+    .select()
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching activity log:", error);
+    return [];
+  }
+
+  return activities;
+}
+
 export async function getRoles(){
   const supabase = createClient()
   const { data: roles } = await supabase.from('Test_Role').select(`
@@ -43,3 +60,4 @@ export async function getRoles(){
     `)
   return roles;
 };
+
