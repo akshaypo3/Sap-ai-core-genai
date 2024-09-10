@@ -36,6 +36,8 @@ import {
 } from "@/components/ui/table";
 import { Slash } from "lucide-react";
 import { getAllUsers } from "@/lib/settings/users/data";
+import { getRoles } from "@/lib/settings/users/data";
+import { AddRoleButton,DeleteRoleButton} from "@/components/settings/roles/buttons";
 import { AddUserButton ,DeleteUserButton} from "@/components/settings/users/buttons";
 
 export default async function Home() {
@@ -51,6 +53,7 @@ export default async function Home() {
 
   const users = await getAllUsers();
   const userGroups = await getUserGroups();
+  const allRoles = await getRoles();
 
   return (
     <>
@@ -127,7 +130,32 @@ export default async function Home() {
               </div>
             </div>
               </TabsContent>
-              <TabsContent value="roles">Roles</TabsContent>
+              <TabsContent value="roles">
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                <AddRoleButton/>
+                  <Table>
+                    <TableCaption>Roles List</TableCaption>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Role</TableHead>
+                        <TableHead>Description</TableHead>
+                        {/* <TableHead>Survey</TableHead> */}
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {allRoles?.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell className="font-medium">{item.role}</TableCell>
+                          <TableCell>{item.description}</TableCell>
+                          <TableCell>
+                            <DeleteRoleButton id={item.id}/>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+          </TabsContent>
               <TabsContent value="groups">
                 <Dialog>
                   <DialogTrigger asChild>

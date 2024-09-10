@@ -15,6 +15,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
+import { Input } from "@/components/ui/input"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { SearchIcon, MailIcon, PhoneIcon, BookOpenIcon } from "lucide-react"
 
 
 export default async function Home() {

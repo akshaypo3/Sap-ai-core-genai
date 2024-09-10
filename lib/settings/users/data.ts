@@ -33,3 +33,13 @@ export async function getUserInfo() {
  const email = data?.user?.email || null; 
   return data.user; 
 }
+
+export async function getRoles(){
+  const supabase = createClient()
+  const { data: roles } = await supabase.from('Test_Role').select(`
+      id,
+      role,
+      description
+    `)
+  return roles;
+};
