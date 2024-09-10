@@ -64,7 +64,7 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: "/materiality/dashboard",
           label: "Materiality",
-          active: pathname.includes("/materiality"),
+          active: pathname.includes("/materiality/dashboard"),
           icon: ScatterChart,
           submenus: []
         }
