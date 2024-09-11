@@ -28,20 +28,29 @@ import {
 } from "@/components/ui/table";
 import { Slash } from "lucide-react";
 import { getAllUsers, getUserInfo, getRoles } from "@/lib/settings/users/data";
-import { createUser } from "@/lib/settings/users/action"
-import { AddRoleButton,DeleteRoleButton} from "@/components/settings/roles/buttons";
-import { AddUserButton ,DeleteUserButton} from "@/components/settings/users/buttons";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { createUser } from "@/lib/settings/users/action";
+import {
+  AddRoleButton,
+  DeleteRoleButton,
+} from "@/components/settings/roles/buttons";
+import {
+  AddUserButton,
+  DeleteUserButton,
+} from "@/components/settings/users/buttons";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-
 export default async function Home() {
   const supabase = createClient();
-  const userData = await getUserInfo(); 
-  const userEmail= userData.email;
-  const userName = userEmail.substring(0, userEmail.indexOf('@'));
 
   const {
     data: { user },
@@ -55,7 +64,6 @@ export default async function Home() {
   const userGroups = await getUserGroups();
   const activityLogs = await getActivityLog();
   const allRoles = await getRoles();
-
 
   return (
     <>
@@ -147,115 +155,120 @@ export default async function Home() {
                 </div>
               </div>
             </TabsContent>
-              <TabsContent value="roles">
-                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                <AddRoleButton/>
-                  <Table>
-                    <TableCaption>Roles List</TableCaption>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Description</TableHead>
-                        {/* <TableHead>Survey</TableHead> */}
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {allRoles?.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell className="font-medium">{item.role}</TableCell>
-                          <TableCell>{item.description}</TableCell>
-                          <TableCell>
-                            <DeleteRoleButton id={item.id}/>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-          </TabsContent>
-              <TabsContent value="groups">
-                <Dialog>
-                  <DialogTrigger asChild>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Create New Group</DialogTitle>
-                    </DialogHeader>
-                    <form action={createUser}>
-                      <div className="grid w-full items-center gap-1.5 mb-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input type="text" name="name" />
-                        <Label htmlFor="description">Description</Label>
-                        <Input type="text" name="description" />
-                        <div className="flex mt-5">
-                          <div className="flex-auto">
-                            <DialogClose asChild>
-                              <Button className="w-full" type="submit">
-                                Add Group
-                              </Button>
-                            </DialogClose>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-                <AddGroupButton/>
+            <TabsContent value="roles">
+              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                <AddRoleButton />
                 <Table>
+                  <TableCaption>Roles List</TableCaption>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Name</TableHead>
+                      <TableHead>Role</TableHead>
                       <TableHead>Description</TableHead>
-                      <TableHead>Action</TableHead>
+                      {/* <TableHead>Survey</TableHead> */}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {userGroups?.map((item) => (
+                    {allRoles?.map((item) => (
                       <TableRow key={item.id}>
                         <TableCell className="font-medium">
-                          {item.group}
+                          {item.role}
                         </TableCell>
                         <TableCell>{item.description}</TableCell>
                         <TableCell>
-                          <DeleteGroupButton id={item.id} />
+                          <DeleteRoleButton id={item.id} />
                         </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                </TabsContent>
-              </div>
-            
-            <TabsContent value="portalusers">Portal Users</TabsContent>
-            <TabsContent value="activitylog">
-              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Time</TableHead>
-                      <TableHead>User</TableHead>
-                      <TableHead>Activity</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {activityLogs?.map((log) => (
-                      <TableRow key={log.id}>
-                        <TableCell>
-                          {new Date(log.created_at).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                          {new Date(log.created_at).toLocaleTimeString()}
-                        </TableCell>
-                        <TableCell>{userName}</TableCell>
-                        <TableCell>{log.activity}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </div>
             </TabsContent>
-            </Tabs>
+            <TabsContent value="groups">
+              <Dialog>
+                <DialogTrigger asChild></DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Create New Group</DialogTitle>
+                  </DialogHeader>
+                  <form action={createUser}>
+                    <div className="grid w-full items-center gap-1.5 mb-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input type="text" name="name" />
+                      <Label htmlFor="description">Description</Label>
+                      <Input type="text" name="description" />
+                      <div className="flex mt-5">
+                        <div className="flex-auto">
+                          <DialogClose asChild>
+                            <Button className="w-full" type="submit">
+                              Add Group
+                            </Button>
+                          </DialogClose>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
+              <AddGroupButton />
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {userGroups?.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell className="font-medium">
+                        {item.group}
+                      </TableCell>
+                      <TableCell>{item.description}</TableCell>
+                      <TableCell>
+                        <DeleteGroupButton id={item.id} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+          </div>
+
+          <TabsContent value="portalusers">Portal Users</TabsContent>
+          <TabsContent value="activitylog">
+            <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
+                    <TableHead>User</TableHead>
+                    <TableHead>Activity</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {activityLogs?.map((log) => (
+                    <TableRow key={log.id}>
+                      <TableCell>
+                        {new Date(log.created_at)
+                          .toLocaleDateString("en-GB")
+                          .replace(/\//g, ".")}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(log.created_at).toLocaleTimeString("en-GB", {
+                          hour12: false,
+                        })}
+                      </TableCell>
+                      <TableCell>{log.user}</TableCell>
+                      <TableCell>{log.activity}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </TabsContent>
+        </Tabs>
       </ContentLayout>
     </>
   );
