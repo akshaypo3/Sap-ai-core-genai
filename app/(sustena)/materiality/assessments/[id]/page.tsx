@@ -1,7 +1,4 @@
 import React from "react";
-import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-import { redirect, useSearchParams } from "next/navigation";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -11,32 +8,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+import { getAssessmentDataforchart } from "@/lib/assessments/data";
 import { Slash } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { getAssessmentData } from "@/lib/assessments/data";
-import { Bar, Line, Pie, Scatter } from "react-chartjs-2"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge";
 import IroTable from "@/components/materiality/assessments/IroTable";
-
-// import Subheader from "@/components/Subheader";
-
-
+import IroScatterchartclient from "@/components/materiality/assessments/IroScatterchartclient";
+import IroBarchart from "@/components/materiality/assessments/IroBarchart";
 export default function Home({ params }: { params: { id: string } }) {
-  // const searchParams = useSearchParams();
-  // const assessmentid = searchParams.get('id');
 
   const { id } = params;
   console.log("Id: "+id);
+  const AssessmentData =  getAssessmentDataforchart(id);
 
   return (
     <>
@@ -59,9 +40,16 @@ export default function Home({ params }: { params: { id: string } }) {
           </Breadcrumb>
         </div>
         <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
         </div>
+      </div>
+      <div className="bg-white p-5 border rounded">
+      <h1>Assessment Score Distribution Chart</h1>
+      </div>
+      <div>
+      <IroScatterchartclient data={AssessmentData}/>
+      </div>
+      <div>
+      <IroBarchart data={AssessmentData}/>
       </div>
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
       <IroTable id={id}/>
