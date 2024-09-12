@@ -3,20 +3,26 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function deleteGroup(id: any) {
   const supabase = createClient();
-
+  const userData = await getUserInfo(); 
+  const userEmail= userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
+ 
   try {
-    const { data: groupData } = await supabase.from('groups').select().eq('id', id);
+    const { data } = await supabase.from('groups').select().eq('id', id);
+
+    console.log("fetch the data",data)
 
     const { error } = await supabase.from("groups").delete().eq("id", id);
 
-    if (!error) {
+    if (!error && data) {
       await supabase.from("activitylog").insert({
-        id: groupData?.id,
         created_at: new Date().toISOString(), 
-        activity: `Group '${groupData?.group}' deleted`,
+        activity: `Group '${data[0]?.group}' deleted`,
+        user:userName,
       });
     }
   } catch (error) {
@@ -29,6 +35,9 @@ export async function deleteGroup(id: any) {
 
 export async function createGroup(formData: FormData) {
   const supabase = createClient();
+  const userData = await getUserInfo(); 
+  const userEmail= userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
 
   const groupName = formData.get("name");
   const groupDesc = formData.get("description");
@@ -44,13 +53,11 @@ export async function createGroup(formData: FormData) {
       })
       .select();
 
-    const typedData = data as { id: string }[] | null;  
-
-    if (!error && typedData && typedData.length > 0) {
+    if (!error && data) {
       await supabase.from("activitylog").insert({
-        id: typedData[0]?.id,
         created_at: new Date().toISOString(), 
         activity: `Group '${groupName}' created`, 
+        user:userName,
       });
     }
   } catch (error) {
@@ -63,6 +70,9 @@ export async function createGroup(formData: FormData) {
 
 export async function createUser(formData: FormData) {
   const supabase = createClient();
+  const userData = await getUserInfo(); 
+  const userEmail= userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
   const email = formData.get("email");
   const password = formData.get("password");
 
@@ -78,6 +88,7 @@ export async function createUser(formData: FormData) {
       await supabase.from("activitylog").insert({
         created_at: new Date().toISOString(), 
         activity: `User with '${email}' created`,
+        user:userName,
       });
     }
   } catch (error) {
@@ -88,25 +99,29 @@ export async function createUser(formData: FormData) {
   }
 }
 
-
 export async function deleteUser(user_id:any){
   const supabase = createClient()
+  const userData = await getUserInfo(); 
+  const userEmail= userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
+
     try {
-    const { data: userData } = await supabase.auth.admin.getUserById(user_id);
+    const { data } = await supabase.auth.admin.getUserById(user_id);
 
     const { error } = await supabase.auth.admin.deleteUser(user_id);
 
     if (!error) {
-      if (userData && userData.user && userData.user.email) {
+      if (data && data.user && data.user.email) {
         await supabase.from("activitylog").insert({
           created_at: new Date().toISOString(),
-          activity: `User '${userData.user.email}' deleted`,
+          activity: `User '${data.user.email}' deleted`,
+          user: userName,
         });
       } else {
-        console.warn("User data is invalid or email is missing:", userData);
+        console.warn("User data is invalid or email is missing:", data);
       }
     }
-    console.log("User deleted successfully! " + JSON.stringify(userData));
+    console.log("User deleted successfully! " + JSON.stringify(data));
      } catch (error) {
       console.log("Error while deleting User",error);
      } finally {
@@ -115,36 +130,61 @@ export async function deleteUser(user_id:any){
      };
 };
 
-export async function createRole(formData:FormData){
-  const supabase = createClient()
+export async function createRole(formData: FormData) {
+  const supabase = createClient();
+  const userData = await getUserInfo(); 
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
 
   const RoleName = formData.get("role");
-  const RoleDesc = formData.get("description")
+  const RoleDesc = formData.get("description");
 
-  console.log(RoleName,RoleDesc);
+  console.log(RoleName, RoleDesc);
 
   try {
-    const newRoleGroup = await supabase.from('Test_Role').insert(
-      {
-        role:RoleName,
-        description:RoleDesc
-      }
-    );
-    console.log("Create Role: "+JSON.stringify(newRoleGroup))
+    const { data, error } = await supabase
+      .from("Test_Role")
+      .insert({
+        role: RoleName,
+        description: RoleDesc,
+      })
+      .select();
+
+    if (!error && data) {
+      await supabase.from("activitylog").insert({
+        created_at: new Date().toISOString(),
+        activity: `Role '${RoleName}' created`,
+        user: userName,
+      });
+    }
   } catch (error) {
-    console.error("Error while adding Role");
+    console.error("Error while adding Role", error);
   } finally {
-    revalidatePath('/settings/users');
-    redirect('/settings/users');
+    revalidatePath("/settings/users");
+    redirect("/settings/users");
   }
 }
 
-export async function deleteRole(id:any){
-  const supabase = createClient()
+export async function deleteRole(id: any) {
+  const supabase = createClient();
+  const userData = await getUserInfo(); 
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf('@'));
+
   try {
-    const deletedRole = await supabase.from('Test_Role').delete().eq("id",id)
+    const { data } = await supabase.from('Test_Role').select().eq('id', id)
+
+    const { error } = await supabase.from('Test_Role').delete().eq("id", id);
+
+    if (!error && data) {
+      await supabase.from("activitylog").insert({
+        created_at: new Date().toISOString(),
+        activity: `Role '${data[0]?.role}' deleted`,
+        user: userName,
+      });
+    }
   } catch (error) {
-    console.error("Error while deleting Role");
+    console.error("Error while deleting Role", error);
   } finally {
     revalidatePath('/settings/users');
     redirect('/settings/users');
