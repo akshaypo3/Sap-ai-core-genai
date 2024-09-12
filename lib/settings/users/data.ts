@@ -29,7 +29,7 @@ export async function getUserInfo() {
     return [];
   }
 
- console.log("User data:", data.user);
+ //console.log("User data:", data.user);
  const email = data?.user?.email || null; 
   return data.user; 
 }

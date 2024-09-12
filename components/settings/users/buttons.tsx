@@ -10,7 +10,8 @@ import {
 import { Trash2 } from "lucide-react"
 import CreateUserForm from "@/components/settings/users/CreateUserForm";
 import { deleteUser} from "@/lib/settings/users/action";
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
+import CreateProfileForm from "@/components/settings/users/createProfileButton";
 
 
 export async function AddUserButton(){
@@ -66,3 +67,21 @@ export async function DeleteUserButton({ id }: { id: string }){
     </Dialog>      
     )
   }
+
+
+  export async function AddProfileButton(){
+    return (
+      <Dialog>
+      <DialogTrigger><Button className="mb-3 bg-green-600">Add Profile</Button></DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add Profile</DialogTitle>
+          <DialogDescription>
+            Add Profile Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <CreateProfileForm/>
+      </DialogContent>
+    </Dialog>
+    )
+};

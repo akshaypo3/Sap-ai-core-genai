@@ -41,7 +41,7 @@ export async function UserNav() {
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="#" alt="Avatar" />
-                  <AvatarFallback className="bg-transparent"> {userData.user_metadata?.full_name || userInitial} </AvatarFallback>
+                  <AvatarFallback className="bg-transparent"> {userData.user_metadata?.full_name?.toUpperCase() || userInitial?.toUpperCase()} </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
