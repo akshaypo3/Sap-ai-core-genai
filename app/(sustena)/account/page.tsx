@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react";
-import { getAllUsers } from "@/lib/settings/users/data";
-import { AddProfileButton } from "@/components//settings/users/buttons";
+import { EditProfileButton } from "@/components/settings/users/buttons";
+import { getAllUsers,getUserGroups,getRoles,getProfile } from "@/lib/settings/users/data";
 
 
 export default async function Home() {
   const supabase = createClient();
+  const groups = await getUserGroups();
+  const roles = await getRoles();
 
   const {
     data: { user },
@@ -31,7 +33,10 @@ export default async function Home() {
   }
 
   const users = await getAllUsers();
-
+  const profile = await getProfile();
+  //console.log("profile",profile);
+  
+  
   const signIn = async (formData: FormData) => {
     "use server";
 
@@ -82,44 +87,41 @@ export default async function Home() {
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" >Username</label>
       <input className="flex h-9 w-full rounded-md border border-input bg-transparent 
       px-3 py-1 text-sm shadow-sm transition-colors  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed 
-      disabled:opacity-50" placeholder="Username"  name="username" />      
+      disabled:opacity-50" placeholder="Username"  name="username"  value={profile[0]?.username || ""} />      
 </div>
 
 <div className="space-y-2 m-4">
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" >Email</label>
       <input className="flex h-9 w-full rounded-md border border-input bg-transparent 
       px-3 py-1 text-sm shadow-sm transition-colors  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed 
-      disabled:opacity-50" placeholder="you@example.com"  name="email" />      
+      disabled:opacity-50" placeholder="you@example.com"  name="email" value={profile[0]?.userEmail || ""} />      
 </div>
-
-<div className="space-y-2 m-4">
-      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Role</label>
-      <input className="flex h-9 w-full rounded-md border border-input bg-transparent 
-      px-3 py-1 text-sm shadow-sm transition-colors  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed 
-      disabled:opacity-50" placeholder="Role"  name="role" />      
-</div>
-
 <div className="space-y-2 m-4">
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Group</label>
       <input className="flex h-9 w-full rounded-md border border-input bg-transparent 
       px-3 py-1 text-sm shadow-sm transition-colors  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed 
-      disabled:opacity-50" placeholder="Group"  name="group" />      
+      disabled:opacity-50" placeholder="Group"  name="group"   value={profile[0]?.groups.group || ""} />      
+</div>
+<div className="space-y-2 m-4">
+      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Role</label>
+      <input className="flex h-9 w-full rounded-md border border-input bg-transparent 
+      px-3 py-1 text-sm shadow-sm transition-colors  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed 
+      disabled:opacity-50" placeholder="Role"  name="role"  value={profile[0]?.Test_Role.role || ""} />      
 </div>
 
 <div className="space-y-2 m-4">
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">ID</label>
       <input className="flex h-9 w-full rounded-md border border-input bg-transparent 
       px-3 py-1 text-sm shadow-sm transition-colors  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed 
-      disabled:opacity-50" placeholder="ID"  name="id" />      
+      disabled:opacity-50" placeholder="ID"  name="id" value={profile[0]?.id || ""} />      
 </div>
 </div>
 <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
-   <div className="flex items-center">
-    <AddProfileButton/>
-     </div>
+<div className="flex items-center">
+ <EditProfileButton data1={profile}/>
+   </div>
    </div>    
-</ContentLayout>
-     
+</ContentLayout>     
  </>
   );
 }

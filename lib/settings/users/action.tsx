@@ -75,12 +75,15 @@ export async function createUser(formData: FormData) {
   const userName = userEmail.substring(0, userEmail.indexOf('@'));
   const email = formData.get("email");
   const password = formData.get("password");
+  const userGroupID = formData.get("groupID");
+  const userRoleID = formData.get("roleID");
+  const profileUserName = email.substring(0, email.indexOf('@'));
 
   try {
     const { data, error } = await supabase.auth.admin.createUser({ 
       email, 
       password, 
-      email_confirm: true 
+      email_confirm: true //default flag to auto verify the email
     });
 
     if (!error && data) {
@@ -89,6 +92,14 @@ export async function createUser(formData: FormData) {
         created_at: new Date().toISOString(), 
         activity: `User with '${email}' created`,
         user:userName,
+      });
+// create a new user profile in the database for the supabase user with details
+      await supabase.from("user_profile").insert({  
+        id:data.user.id,   
+        username:profileUserName,
+        user_groupID:userGroupID,
+        user_roleID:userRoleID,        
+        userEmail:email        
       });
     }
   } catch (error) {
@@ -99,19 +110,31 @@ export async function createUser(formData: FormData) {
   }
 }
 
+// Delete the user from the Supabase
 export async function deleteUser(user_id:any){
   const supabase = createClient()
   const userData = await getUserInfo(); 
   const userEmail= userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf('@'));
+  console.log("user_id",user_id);
 
     try {
+      // delete the attached user profile      
+
     const { data } = await supabase.auth.admin.getUserById(user_id);
 
     const { error } = await supabase.auth.admin.deleteUser(user_id);
 
+    const { error: deleteError, data: deletedData } = await supabase
+  .from('user_profile')
+  .delete()
+  .eq('id', user_id);
+    
+
     if (!error) {
       if (data && data.user && data.user.email) {
+        
+       
         await supabase.from("activitylog").insert({
           created_at: new Date().toISOString(),
           activity: `User '${data.user.email}' deleted`,
@@ -121,7 +144,7 @@ export async function deleteUser(user_id:any){
         console.warn("User data is invalid or email is missing:", data);
       }
     }
-    console.log("User deleted successfully! " + JSON.stringify(data));
+   // console.log("User deleted successfully! " + JSON.stringify(data));
      } catch (error) {
       console.log("Error while deleting User",error);
      } finally {
@@ -190,3 +213,66 @@ export async function deleteRole(id: any) {
     redirect('/settings/users');
   }
 }
+
+
+// Create/Assign role Group & Role
+
+export async function editProfile(formData:FormData){
+  const supabase = createClient();
+  const userData = await getUserInfo();  
+  const userID = userData.id; 
+  const userName = formData.get("username");    
+  const userEmail = formData.get("userEmail");    
+  try {
+    const { data, error } = await supabase.from('user_profile').update(
+        {                 
+          username:userName 
+          //userEmail:userEmail      
+        })
+        .eq('id', userID)
+
+        if (error) {
+          throw new Error(`Failed to update profile: ${error.message}`);
+        }
+      } catch (error) {
+     console.error("Error while adding Profile", error.message);
+    } finally {
+      revalidatePath('/account');
+      redirect('/account');
+    };
+};
+
+
+
+
+// Edit the user profile from the Supabase
+export async function editUserRoleGroup(user_id:any,formData){
+  const supabase = createClient();
+  // const userName = formData.get("username");
+  // const userEmail = formData.get("userEmail"); 
+  const userGroupId = formData.get("groupID");
+  const userRoleId = formData.get("roleID");  
+  console.log("SELECTD ID",user_id); 
+  try {
+
+    const { data, error } = await supabase.from('user_profile').update(
+      {                 
+        user_groupID:userGroupId,
+        user_roleID:userRoleId    
+      })
+      .eq('id', user_id)
+      // const newProfile = await supabase.from('user_profile').insert(
+      //   {
+      //     user_groupID:userGroupId,
+      //     user_roleID:userRoleId,          
+      //     username:userName, 
+      //     userEmail:userEmail      
+      //   });
+      } catch (error) {
+     console.error("Error while adding Profile",error.message);
+    } finally {
+      revalidatePath('/settings/users');
+       redirect('/settings/users');
+    };
+};
+
