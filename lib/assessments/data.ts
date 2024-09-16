@@ -56,6 +56,30 @@ export async function getAssessmentData(materialityassessmentsid) {
       return [];
     }
   }
+  export async function getAssessmentDataforchart(materialityassessmentsid) {
+    const supabase = createClient();
+  
+    try {
+      // Query the esrs_iros table to fetch and sort rows with the specified assessment_id
+      const { data: esrsIrosData, error } = await supabase
+        .from('esrs_iros')
+        .select('*')
+        .eq('assessment_id', materialityassessmentsid)
+        .or('impact_score.gt.0,financial_score.gt.0')
+        .order('esrs_id', { ascending: true });
+  
+      // Handle errors
+      if (error) {
+        throw new Error("Error fetching data from esrs_iros: " + error.message);
+      }
+  
+      return esrsIrosData;
+  
+    } catch (error) {
+      console.error("Error while fetching esrs_iros data: ", error.message);
+      return [];
+    }
+  }
 
   export async function getIroData(iroId:any) {
     const supabase = createClient();

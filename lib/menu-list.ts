@@ -70,7 +70,7 @@ export function getMenuList(pathname: string): Group[] {
           submenus: []
         },  
         {
-          href: "/materiality/dashboard",
+          href: "/materiality/assessments",
           label: "Materiality",
           active: pathname.includes("/materiality/dashboard"),
           icon: ScatterChart,

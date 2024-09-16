@@ -1,7 +1,6 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { getUserGroups } from "@/lib/settings/users/data";
 import { getActivityLog } from "@/lib/settings/users/data";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
@@ -27,7 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Slash } from "lucide-react";
-import { getAllUsers, getUserInfo, getRoles } from "@/lib/settings/users/data";
+import { getAllUsers, getUserInfo, getRoles, getUserGroups,getProfile,fetchUsersWithProfilesAndRoles } from "@/lib/settings/users/data";
 import { createUser } from "@/lib/settings/users/action";
 import {
   AddRoleButton,
@@ -35,7 +34,7 @@ import {
 } from "@/components/settings/roles/buttons";
 import {
   AddUserButton,
-  DeleteUserButton,
+  DeleteUserButton,EditUserButton
 } from "@/components/settings/users/buttons";
 import {
   Dialog,
@@ -64,7 +63,9 @@ export default async function Home() {
   const userGroups = await getUserGroups();
   const activityLogs = await getActivityLog();
   const allRoles = await getRoles();
-
+  const AllData = await fetchUsersWithProfilesAndRoles();
+  //console.log("AllData",AllData);
+  
   return (
     <>
       <ContentLayout title="User Management">
@@ -102,52 +103,57 @@ export default async function Home() {
           <div className="bg-white p-5 border rounded">
             <TabsContent value="users">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead>Created</TableHead>
-                      <TableHead>Last Sign In</TableHead>
-                      <TableHead>Provider</TableHead>
-                      <TableHead>UID</TableHead>
-                      <TableHead>Action</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {users?.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell className="font-medium">
-                          {user.user_metadata?.full_name || "NA "}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {user.email}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {user.role}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {new Date(user.created_at).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {user.last_sign_in_at
-                            ? new Date(
-                                user.last_sign_in_at,
-                              ).toLocaleDateString()
-                            : "Never Signed In"}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {user.user_metadata[0]}
-                        </TableCell>
-                        <TableCell className="font-medium">{user.id}</TableCell>
-                        <TableCell>
-                          <DeleteUserButton id={user.id} />{" "}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+              <Table className="min-w-full table-auto border-collapse">
+  <TableHeader className="bg-gray-100">
+    <TableRow>
+      <TableHead className="px-6 py-3 text-left">Name</TableHead>
+      <TableHead className="px-6 py-3 text-left">Email</TableHead>
+      <TableHead className="px-6 py-3 text-left">Group</TableHead>
+      <TableHead className="px-6 py-3 text-left">Role</TableHead>
+      <TableHead className="px-6 py-3 text-left">Created</TableHead>
+      <TableHead className="px-6 py-3 text-left">Last Sign In</TableHead>
+      <TableHead className="px-6 py-3 text-left">UID</TableHead>
+      <TableHead className="px-6 py-3 text-center">Action</TableHead>
+      <TableHead className="px-6 py-3 text-center">Edit</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {AllData?.map((user) => (
+      <TableRow key={user.userId} className="border-b hover:bg-gray-50">
+        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+          {user?.name || "NA "}
+        </TableCell>
+        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+          {user.email}
+        </TableCell>
+        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+          {user.group?.group || "No Group"}
+        </TableCell>
+        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+          {user.role?.role || "No Role"}
+        </TableCell>
+        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+          {new Date(user.createdAt).toLocaleDateString()}
+        </TableCell>
+        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+          {user.lastSignInAt
+            ? new Date(user.lastSignInAt).toLocaleDateString()
+            : "Never Signed In"}
+        </TableCell>
+        <TableCell className="px-6 py-4 font-medium text-left whitespace-nowrap">
+          {user.userId}
+        </TableCell>
+        <TableCell className="px-6 py-4 text-center">
+          <DeleteUserButton id={user.userId} />{" "}
+        </TableCell>
+        <TableCell className="px-6 py-4 text-center">
+          <EditUserButton id={user.userId} />{" "}
+        </TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
+
               </div>
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
                 <div className="flex items-center">

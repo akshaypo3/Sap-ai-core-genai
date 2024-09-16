@@ -3,9 +3,6 @@ import {
     DialogClose
   } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { createUser} from "@/lib/settings/users/action";
-import { getAllUsers,getUserGroups,getRoles,getProfile } from "@/lib/settings/users/data";
 import {
     Select,
     SelectContent,
@@ -13,16 +10,26 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-export default async function CreateUserForm(){
+import { Button } from "@/components/ui/button";
+import { editUserRoleGroup} from "@/lib/settings/users/action";
+import { getAllUsers,getUserGroups,getRoles,getProfile,getProfileByID } from "@/lib/settings/users/data";
+
+interface clickID {
+    id: number;
+  }
+
+export default async function EditUserForm(clickID:any){
+    //const users = await getAllUsers();
     const groups = await getUserGroups();
     const roles = await getRoles();
-    return (
-        <form action={createUser}>
-                <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="name">Email</Label>
-                    <Input type="text" name="email" placeholder="Email"/>
-                    <Label htmlFor="description">Password</Label>
-                    <Input type="text" name="password" placeholder="Password"/>
+    //const profile = await getProfile();
+    const profilebyID= await getProfileByID(clickID);
+    console.log("SelectedID",clickID);
+        return (
+        <form action={editUserRoleGroup}>
+                <div className="grid w-full items-center gap-1.5 mb-2 ">
+                <Label htmlFor="userEmail">userEmail</Label>
+                <Input type="text" name="userEmail" />
                     <div className="w-full">
                         <div>
                             <Label htmlFor="groupID">Group</Label>
@@ -38,7 +45,6 @@ export default async function CreateUserForm(){
                             </Select>
                         </div>
                     </div>
-
                     <div className="w-full">
                         <div>
                             <Label htmlFor="roleID">Role</Label>
@@ -54,12 +60,11 @@ export default async function CreateUserForm(){
                             </Select>
                         </div>
                     </div>                                      
-
-                      <div className="flex mt-5">
+                    <div className="flex mt-5">
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                               Create User
+                               Save Profile
                             </Button>
                             </DialogClose>                        
                         </div>
