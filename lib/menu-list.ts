@@ -15,7 +15,8 @@ import {
   FileQuestion,
   BookOpenText,
   HeartHandshake,
-  BookText
+  BookText,
+  Goal
 } from "lucide-react";
 
 type Submenu = {
@@ -61,6 +62,13 @@ export function getMenuList(pathname: string): Group[] {
           icon: Building2,
           submenus: []
         },
+        {
+          href: "/materiality/goals",
+          label: "Goals",
+          active: pathname.includes("/materiality/goals"),
+          icon: Goal,
+          submenus: []
+        },  
         {
           href: "/materiality/assessments",
           label: "Materiality",

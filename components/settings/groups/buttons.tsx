@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import CreateGroupForm from "@/components/settings/groups/CreateGroupForm";
 
 
-export async function AddGroupButton(){
+export function AddGroupButton(){
   return (
     <Dialog>
     <DialogTrigger><Button className="mb-3 bg-green-600">Add Group</Button></DialogTrigger>
@@ -30,7 +30,7 @@ export async function AddGroupButton(){
   )
 };
 
-export async function DeleteGroupButton({ id }: { id: string }){
+export function DeleteGroupButton({ id }: { id: string }){
   const deleteGroupWithId = deleteGroup.bind(null, id);  
   return(      
     <Dialog>
