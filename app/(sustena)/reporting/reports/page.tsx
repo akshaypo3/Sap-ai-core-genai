@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
 import DashboardTopChartSection from "@/components/reporting/reports/DashboardTopChartSection";
+import ReportsTable from "@/components/reporting/reports/ReportsTable";
 
 
 export default async function Home() {
@@ -55,6 +56,7 @@ export default async function Home() {
         </div>
       </div>
       <DashboardTopChartSection/>
+      <ReportsTable/>
     </ContentLayout>
     </>
   );
