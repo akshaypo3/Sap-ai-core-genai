@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
+import DashboardTopChartSection from "@/components/reporting/reports/DashboardTopChartSection";
 
 
 export default async function Home() {
@@ -53,7 +54,7 @@ export default async function Home() {
           {/* <Button variant="outline">Add new</Button> */}
         </div>
       </div>
-      Home
+      <DashboardTopChartSection/>
     </ContentLayout>
     </>
   );

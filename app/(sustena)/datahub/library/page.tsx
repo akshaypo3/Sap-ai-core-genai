@@ -88,7 +88,7 @@ export default async function Home() {
     <div>   
     <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
         <div className="flex items-center">
-        <UploadButton/>
+          <UploadButton/>
         </div>
       </div> 
                   

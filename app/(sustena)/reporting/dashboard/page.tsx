@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
+import DashboardTopChartSection from "@/components/reporting/reports/DashboardTopChartSection";
 
 
 export default async function Home() {
@@ -51,6 +52,7 @@ export default async function Home() {
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <Button variant="outline">Add new</Button> */}
+          <DashboardTopChartSection/>
         </div>
       </div>
       Home
