@@ -8,13 +8,13 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
-import MainLayout from "@/components/layout/MainLayout";
+// import MainLayout from "@/components/layout/MainLayout";
 
 
 
 export const metadata: Metadata = {
-  title: "VASPP Certifications",
-  description: "Certifications issued by VASPP",
+  title: "VASPP Sustena",
+  description: "Sustainability Reporting Platform",
 };
 
 export default function RootLayout({
