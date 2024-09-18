@@ -20,8 +20,8 @@ const data = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 export default  function IroScatterchartclient(assessmentData:any) {
 
-  const assessmentDatafinal=assessmentData.data.value;
-  const assessmentDatafinal1 = JSON.parse(assessmentDatafinal);
+  const assessmentDatafinal1=assessmentData.data.value;
+  //const assessmentDatafinal1 = JSON.parse(assessmentDatafinal);
 console.log(assessmentDatafinal1);
   return (  
     <>
