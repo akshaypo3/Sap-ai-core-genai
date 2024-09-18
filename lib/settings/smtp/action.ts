@@ -24,11 +24,17 @@ export async function sendMail({ to, subject, text, html }: EmailDetails) {
     console.error("Error fetching SMTP settings:", error);
     return { success: false, error: "Failed to fetch SMTP settings" };
   }
+  let secureBool;
+  if(settings.port==465){
+    secureBool = true;
+  }else{
+    secureBool = false;
+  };
 
   const transporter = nodemailer.createTransport({
     host: settings.host,
     port: settings.port,
-    secure: true, // Use `true` for port 465, `false` for all other ports
+    secure: secureBool, 
     auth: {
       user: settings.username,
       pass: settings.password,
@@ -37,7 +43,7 @@ export async function sendMail({ to, subject, text, html }: EmailDetails) {
 
   try {
     const info = await transporter.sendMail({
-      from: '"SMTP API" <smtp@api.weee.dev>', // You might want to make this configurable too
+      from: `"SMTP API" <${settings.username}>`,
       to,
       subject,
       text,
