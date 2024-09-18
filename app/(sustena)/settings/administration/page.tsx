@@ -15,11 +15,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import SmtpSettings from "@/components/settings/smtp/SmtpSettings"; 
 // import Subheader from "@/components/Subheader";
+import { getSmtpSettings } from "@/lib/settings/smtp/data";
 
 
 export default async function Home() {
   const supabase = createClient();
+
+  const smtpSettings = await getSmtpSettings();
 
   const {
     data: { user },
@@ -68,7 +72,7 @@ export default async function Home() {
             {/* <UserManagement/> */}
           </TabsContent>
           <TabsContent value="smtp">
-            SMTP Settings
+          <SmtpSettings settings={smtpSettings}/>
             {/* <SMTPSettingsSection settings={smtpsettings}/> */}
           </TabsContent>
         </div>

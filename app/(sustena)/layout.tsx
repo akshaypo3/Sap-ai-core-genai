@@ -13,8 +13,8 @@ import SustenaLayout from "@/components/sustena-layout/sustena-layout";
 
 
 export const metadata: Metadata = {
-  title: "VASPP Sutena",
-  description: "Development Version",
+  title: "VASPP Sustena",
+  description: "Sustainability Reporting Platform",
 };
 
 export default function RootLayout({
