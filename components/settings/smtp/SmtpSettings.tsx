@@ -47,7 +47,7 @@ export default function SmtpSettings(smtpSettings:any){
     const handleClick = async () => {
 
         const emailDetails = {
-            to: "kevin.renner@weee.dev",
+            to: "kevin.renner@vaspp.com",
             subject: "SMTP Test Mail",
             text: "SMTP Test Mail",
             html: "<b>SMTP Test successful</b>"
