@@ -12,7 +12,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Slash, Trash2, Pencil } from "lucide-react";
 import {
@@ -22,20 +21,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import NewsCards from "@/components/dashboard/NewsCards";
 import UploadButton from "@/components/UploadButton";
-import { getTasks, getUserTasks } from "@/lib/dashboard/data";
-import { AddTask } from "@/components/dashboard/buttons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -48,9 +36,6 @@ export default async function Home() {
     return redirect("/login");
   }
 
-  const tasks = await getTasks();
-  const loggedTasks = await getUserTasks(user.id)
-  
   return (
     <>
       <ContentLayout title="Dashboard">
@@ -127,115 +112,6 @@ export default async function Home() {
           </Card>
         </div>
         <NewsCards />
-        <Tabs defaultValue="tasks" className="w-full mt-8">
-          <TabsList>
-            <TabsTrigger value="tasks">Tasks</TabsTrigger>
-          </TabsList>
-          <div className="bg-white p-5 border rounded">
-            <TabsContent value="tasks">
-              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead>Assigned to</TableHead>
-                      <TableHead>Created by</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Start date</TableHead>
-                      <TableHead>Due date</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {tasks?.map((task) => (
-                      <TableRow key={task.id}>
-                        <TableCell className="font-medium">
-                          {task.title}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.description}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.assigned_to}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.created_by}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.status}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.start_date}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.due_date}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </TabsContent>
-          </div>
-        </Tabs>
-        {user && (
-          <Tabs defaultValue="tasks" className="w-full mt-8">
-            <TabsList>
-              <TabsTrigger value="tasks">My Tasks</TabsTrigger>
-            </TabsList>
-            <div className="bg-white p-5 border rounded">
-              <TabsContent value="tasks">
-                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-start">
-                  <div className="flex items-center">
-                    <AddTask />
-                  </div>
-                </div>
-                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Assigned to</TableHead>
-                        <TableHead>Created by</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Start date</TableHead>
-                        <TableHead>Due date</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {loggedTasks?.map((task) => (
-                        <TableRow key={task.id}>
-                          <TableCell className="font-medium">
-                            {task.title}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {task.description}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {task.assigned_to}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {task.created_by}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {task.status}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {task.start_date}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {task.due_date}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </TabsContent>
-            </div>
-          </Tabs>
-        )}
       </ContentLayout>
     </>
   );

@@ -1,0 +1,200 @@
+import React from "react";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { ContentLayout } from "@/components/sustena-layout/content-layout";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Slash, Trash2, Pencil } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
+import NewsCards from "@/components/dashboard/NewsCards";
+import UploadButton from "@/components/UploadButton";
+import { getTasks, getUserTasks } from "@/lib/task/data";
+import { AddTask } from "@/components/task/buttons";
+import { ViewTaskButton } from "@/components/task/buttons";
+
+export default async function Home() {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
+
+  const tasks = await getTasks();
+  const loggedTasks = await getUserTasks(user.id);
+
+  return (
+    <>
+      <ContentLayout title="Tasks">
+        {/* <UploadButton/> */}
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <div>
+            <h1 className="font-bold text-2xl mb-2">Tasks</h1>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/internal/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <div className="flex space-x-4">
+            {/* Button Section for Subheader */}
+            {/* <Button variant="outline">Add new</Button> <*/}
+          </div>
+        </div>
+
+        <Tabs defaultValue="tasks" className="w-full">
+          <TabsList>
+            <TabsTrigger value="tasks">Tasks</TabsTrigger>
+          </TabsList>
+          <div className="bg-white p-5 border rounded">
+            <TabsContent value="tasks">
+              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead>Assigned to</TableHead>
+                      <TableHead>Created by</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Start date</TableHead>
+                      <TableHead>Due date</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {tasks?.map((task) => (
+                      <TableRow key={task.id}>
+                        <TableCell className="font-medium">
+                          {task.title}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {task.description}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {task.assigned_to_username}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {task.created_by_username}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {task.status}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {new Date(task.start_date)
+                            .toLocaleDateString("en-GB")
+                            .replace(/\//g, ".")}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {new Date(task.due_date)
+                            .toLocaleDateString("en-GB")
+                            .replace(/\//g, ".")}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </TabsContent>
+          </div>
+        </Tabs>
+        {user && (
+          <Tabs defaultValue="tasks" className="w-full mt-8">
+            <TabsList>
+              <TabsTrigger value="tasks">My Tasks</TabsTrigger>
+            </TabsList>
+            <div className="bg-white p-5 border rounded">
+              <TabsContent value="tasks">
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-start">
+                  <div className="flex items-center">
+                    <AddTask createdId={user.id} />
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Assigned to</TableHead>
+                        <TableHead>Created by</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Start date</TableHead>
+                        <TableHead>Due date</TableHead>
+                        <TableHead>Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {loggedTasks?.map((task) => (
+                        <TableRow key={task.id}>
+                          <TableCell className="font-medium">
+                            {task.title}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            {task.description}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            {task.assigned_to_username}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            {task.created_by_username}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            {task.status}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                          {new Date(task.start_date)
+                            .toLocaleDateString("en-GB")
+                            .replace(/\//g, ".")}
+                          </TableCell>
+                          <TableCell className="font-medium">
+                          {new Date(task.due_date)
+                            .toLocaleDateString("en-GB")
+                            .replace(/\//g, ".")}
+                          </TableCell>
+                          <TableCell>
+                          <ViewTaskButton taskId={task.id} />
+                        </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TabsContent>
+            </div>
+          </Tabs>
+        )}
+      </ContentLayout>
+    </>
+  );
+}
