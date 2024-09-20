@@ -16,7 +16,8 @@ import {
   BookOpenText,
   HeartHandshake,
   BookText,
-  Goal
+  Goal,
+  SquareCheckBig
 } from "lucide-react";
 
 type Submenu = {
@@ -56,10 +57,10 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "",
       menus: [
         {
-          href: "/tasks",
-          label: "Tasks",
-          active: pathname.includes("/tasks"),
-          icon: LayoutGrid,
+          href: "/task",
+          label: "Task",
+          active: pathname.includes("/task"),
+          icon: SquareCheckBig,
           submenus: []
         }
       ]

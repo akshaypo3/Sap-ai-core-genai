@@ -37,7 +37,6 @@ export function AddGoal(){
 };
 
 export function ViewGoalButton({ goalId }: { goalId: string }) {
-  console.log("goalId",goalId) 
   return (
     <>
     <Link href={`/materiality/goals/${goalId}`}>
@@ -50,7 +49,6 @@ export function ViewGoalButton({ goalId }: { goalId: string }) {
 }
 
 export function ViewGoalActivityButton({ activityId }: { activityId: string }) {
-  console.log("activityId",activityId) 
   return (
     <>
     <Link href={`/materiality/goals/changedlogs/${activityId}`}>
