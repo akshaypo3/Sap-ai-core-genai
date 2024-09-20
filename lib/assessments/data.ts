@@ -91,8 +91,8 @@ export async function getAssessmentData(materialityassessmentsid) {
       if (error) {
         throw new Error("Error fetching data from esrs_iros: " + error.message);
       }
-  
       return esrsIrosData;
+      
   
     } catch (error) {
       console.error("Error while fetching esrs_iros data: ", error.message);
