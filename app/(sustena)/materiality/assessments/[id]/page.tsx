@@ -8,16 +8,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { getAssessmentDataforchart } from "@/lib/assessments/data";
+import { getAssessmentData, getAssessmentDataforchart } from "@/lib/assessments/data";
 import { Slash } from "lucide-react";
 import IroTable from "@/components/materiality/assessments/IroTable";
 import IroScatterchartclient from "@/components/materiality/assessments/IroScatterchartclient";
 import IroBarchart from "@/components/materiality/assessments/IroBarchart";
-export default function Home({ params }: { params: { id: string } }) {
+
+export default async function Home({ params }: { params: { id: string } }) {
 
   const { id } = params;
-  console.log("Id: "+id);
-  const AssessmentData =  getAssessmentDataforchart(id);
+  const AssessmentData = await getAssessmentDataforchart(id);
+  const assessmentData = await getAssessmentData(id);
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function Home({ params }: { params: { id: string } }) {
         <div className="flex space-x-4">
         </div>
       </div>
-      <div className="bg-white p-5 border rounded">
+      {/* <div className="bg-white p-5 border rounded">
       <h1>Assessment Score Distribution Chart</h1>
       </div>
       <div>
@@ -50,9 +51,9 @@ export default function Home({ params }: { params: { id: string } }) {
       </div>
       <div>
       <IroBarchart data={AssessmentData}/>
-      </div>
+      </div> */}
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-      <IroTable id={id}/>
+      <IroTable assessmentData={assessmentData} assessmentId={id} />
       </div>
     </ContentLayout>
     </>

@@ -8,6 +8,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
+import { ChatProvider } from '@/app/contexts/ChatContext';
+import { ChatButton } from '@/components/chats/ChatButton';
+import { ChatInterface } from '@/components/chats/ChatInterface';
 // import MainLayout from "@/components/layout/MainLayout";
 
 
