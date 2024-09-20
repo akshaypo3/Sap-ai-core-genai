@@ -57,19 +57,21 @@ export default function RootLayout({
     ):(
       <>
       {/* <main className={GeistSans.className}> */}
-      <ChatProvider>
+      
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <ChatProvider>
+            <SustenaLayout>{children}</SustenaLayout>
             <ChatButton />
           <ChatInterface />
         <Toaster/>
+        </ChatProvider>
       </ThemeProvider>
-      </ChatProvider>
+      
     {/* </main> */}
     </>
     )}

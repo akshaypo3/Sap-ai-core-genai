@@ -13,13 +13,6 @@ import { Slash } from "lucide-react";
 import IroTable from "@/components/materiality/assessments/IroTable";
 import IroScatterchartclient from "@/components/materiality/assessments/IroScatterchartclient";
 import IroBarchart from "@/components/materiality/assessments/IroBarchart";
-
-export default async function Home({ params }: { params: { id: string } }) {
-
-  const { id } = params;
-  const AssessmentData = await getAssessmentDataforchart(id);
-  const assessmentData = await getAssessmentData(id);
-
 import ReusableBarChart, { ReusableBarChartProps } from "@/components/charts/ReusableBarChart";
 import ReusableScatteredChart, { ReusableScatteredChartProps } from "@/components/charts/ReusableScatterChart";
 import ReusablePieChart, { ReusablePieChartProps } from "@/components/charts/ReusablePieChart";
@@ -35,82 +28,86 @@ import {
   PieassessmentChartConfig,
   InteactiveChartConfig
 } from '@/components/charts/ChartData';
+
 export default async function Home({ params }: { params: { id: string } }) {
 
   const { id } = params;
+  const AssessmentData = await getAssessmentDataforchart(id);
+  const assessmentData = await getAssessmentData(id);
+
   //console.log("Id: "+id);
-  const AssessmentData1 =  await getAssessmentDataforchart(id);
+  // const AssessmentData1 =  await getAssessmentDataforchart(id);
 
-  const AssesmentbarChartProps: ReusableBarChartProps = {
-    data: AssessmentData1,
-    config: assessmentChartConfig,
-    title: "Bar Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    dataKey: "impact_score",
-    xAxisKey: "code"
-  };
+  // const AssesmentbarChartProps: ReusableBarChartProps = {
+  //   data: AssessmentData1,
+  //   config: assessmentChartConfig,
+  //   title: "Bar Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   dataKey: "impact_score",
+  //   xAxisKey: "code"
+  // };
   
-  const AssesmentScatteredChart: ReusableScatteredChartProps = {
-    data: AssessmentData1,
-    config: ScattaredassessmentChartConfig,
-    title: "Scattered Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    x_dataKey: "impact_score",
-    y_dataKey: "financial_score"
-  };
+  // const AssesmentScatteredChart: ReusableScatteredChartProps = {
+  //   data: AssessmentData1,
+  //   config: ScattaredassessmentChartConfig,
+  //   title: "Scattered Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   x_dataKey: "impact_score",
+  //   y_dataKey: "financial_score"
+  // };
 
-  const AssesmentPieChart: ReusablePieChartProps = {
-    data: AssessmentData1,
-    config: PieassessmentChartConfig,
-    title: "Pie Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    dataKey: "impact_score"
-  };
+  // const AssesmentPieChart: ReusablePieChartProps = {
+  //   data: AssessmentData1,
+  //   config: PieassessmentChartConfig,
+  //   title: "Pie Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   dataKey: "impact_score"
+  // };
 
-  const AssesmentPieChartwithlabel: ReusablePieChartwithlabelProps = {
-    data: AssessmentData1,
-    config: PieassessmentChartConfig,
-    title: "Pie Assessment Data with label",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    dataKey: "impact_score"
-  };
+  // const AssesmentPieChartwithlabel: ReusablePieChartwithlabelProps = {
+  //   data: AssessmentData1,
+  //   config: PieassessmentChartConfig,
+  //   title: "Pie Assessment Data with label",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   dataKey: "impact_score"
+  // };
 
-  const AssesmentPieChartdonut: ReusablePieChartdonutProps = {
-    data: AssessmentData1,
-    config: PieassessmentChartConfig,
-    title: "Pie Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    dataKey: "impact_score"
-  };
+  // const AssesmentPieChartdonut: ReusablePieChartdonutProps = {
+  //   data: AssessmentData1,
+  //   config: PieassessmentChartConfig,
+  //   title: "Pie Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   dataKey: "impact_score"
+  // };
 
-  const AssesmentLineChart: ReusableLineChartProps = {
-    data: AssessmentData1,
-    config: assessmentChartConfig,
-    title: "Line Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    dataKey: "impact_score",
-    xAxisKey: "code"
-  };
+  // const AssesmentLineChart: ReusableLineChartProps = {
+  //   data: AssessmentData1,
+  //   config: assessmentChartConfig,
+  //   title: "Line Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   dataKey: "impact_score",
+  //   xAxisKey: "code"
+  // };
 
-  const AssesmentLineChartInteractive: ReusableLineChartInteractiveProps = {
-    data: AssessmentData1,
-    config: InteactiveChartConfig,
-    title: "Line Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    fy_dataKey: "impact_score",
-    sy_dataKey: "financial_score",
-    xAxisKey: "code"
-  };
+  // const AssesmentLineChartInteractive: ReusableLineChartInteractiveProps = {
+  //   data: AssessmentData1,
+  //   config: InteactiveChartConfig,
+  //   title: "Line Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   fy_dataKey: "impact_score",
+  //   sy_dataKey: "financial_score",
+  //   xAxisKey: "code"
+  // };
 
-  const AssesmentBarChartInteractive: ReusableBarChartInteractiveProps = {
-    data: AssessmentData1,
-    config: InteactiveChartConfig,
-    title: "Bar Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
-    fy_dataKey: "impact_score",
-    sy_dataKey: "financial_score",
-    xAxisKey: "code"
-  };
+  // const AssesmentBarChartInteractive: ReusableBarChartInteractiveProps = {
+  //   data: AssessmentData1,
+  //   config: InteactiveChartConfig,
+  //   title: "Bar Assessment Data",
+  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //   fy_dataKey: "impact_score",
+  //   sy_dataKey: "financial_score",
+  //   xAxisKey: "code"
+  // };
 
   return (
     <>
