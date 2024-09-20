@@ -20,7 +20,7 @@ import CreateAssessmentForm from "@/components/materiality/CreateNewAssessment"
 export async function AddAssessmentButton(){
     return (
       <Dialog>
-      <DialogTrigger><Button className="w-full mb-3 bg-green-600">New Assessment</Button></DialogTrigger>
+      <DialogTrigger><Button className="w-full mb-3 bg-green-500 hover:bg-green-600">New Assessment</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Start new Assessment</DialogTitle>

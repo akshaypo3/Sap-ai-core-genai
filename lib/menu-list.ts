@@ -53,6 +53,18 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
+      groupLabel: "",
+      menus: [
+        {
+          href: "/tasks",
+          label: "Tasks",
+          active: pathname.includes("/tasks"),
+          icon: LayoutGrid,
+          submenus: []
+        }
+      ]
+    },
+    {
       groupLabel: "Assessment Center",
       menus: [
         {

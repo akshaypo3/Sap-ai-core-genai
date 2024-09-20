@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import SmtpSettings from "@/components/settings/smtp/SmtpSettings"; 
 // import Subheader from "@/components/Subheader";
 import { getSmtpSettings } from "@/lib/settings/smtp/data";
+import AnthropicApiDemo from "@/components/settings/ai/AnthropicWorkbench";
 
 
 export default async function Home() {
@@ -64,6 +65,7 @@ export default async function Home() {
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="adminusers">Administrative Users</TabsTrigger>
           <TabsTrigger value="smtp">SMTP</TabsTrigger>
+          <TabsTrigger value="anthropicai">Anthropic AI</TabsTrigger>
         </TabsList>
         <div className="bg-white p-5 border rounded">
         <TabsContent value="general">General Settings</TabsContent>
@@ -74,6 +76,9 @@ export default async function Home() {
           <TabsContent value="smtp">
           <SmtpSettings settings={smtpSettings}/>
             {/* <SMTPSettingsSection settings={smtpsettings}/> */}
+          </TabsContent>
+          <TabsContent value="anthropicai">
+            <AnthropicApiDemo/>
           </TabsContent>
         </div>
         </Tabs>

@@ -8,9 +8,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { getAssessmentDataforchart } from "@/lib/assessments/data";
+import { getAssessmentData, getAssessmentDataforchart } from "@/lib/assessments/data";
 import { Slash } from "lucide-react";
 import IroTable from "@/components/materiality/assessments/IroTable";
+import IroScatterchartclient from "@/components/materiality/assessments/IroScatterchartclient";
+import IroBarchart from "@/components/materiality/assessments/IroBarchart";
+
+export default async function Home({ params }: { params: { id: string } }) {
+
+  const { id } = params;
+  const AssessmentData = await getAssessmentDataforchart(id);
+  const assessmentData = await getAssessmentData(id);
+
 import ReusableBarChart, { ReusableBarChartProps } from "@/components/charts/ReusableBarChart";
 import ReusableScatteredChart, { ReusableScatteredChartProps } from "@/components/charts/ReusableScatterChart";
 import ReusablePieChart, { ReusablePieChartProps } from "@/components/charts/ReusablePieChart";
@@ -126,6 +135,10 @@ export default async function Home({ params }: { params: { id: string } }) {
         <div className="flex space-x-4">
         </div>
       </div>
+
+      {/* <div className="bg-white p-5 border rounded">
+      <h1>Assessment Score Distribution Chart</h1>
+
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
       <ReusableBarChart {...AssesmentbarChartProps} />
       </div>
@@ -143,15 +156,23 @@ export default async function Home({ params }: { params: { id: string } }) {
       </div>
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
       <ReusableLineChart {...AssesmentLineChart} />
+
       </div>
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
       <ReusableLineChartInteractive {...AssesmentLineChartInteractive} />
       </div>
+
+      <div>
+      <IroBarchart data={AssessmentData}/>
+      </div> */}
+
+        {/*
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
       <ReusableBarChartInteractive {...AssesmentBarChartInteractive} />
-      </div>
+      </div> */}
+
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-      <IroTable id={id}/>
+      <IroTable assessmentData={assessmentData} assessmentId={id} />
       </div>
     </ContentLayout>
     </>
