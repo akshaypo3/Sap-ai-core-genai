@@ -26,7 +26,7 @@ import { getAssessmentData } from "@/lib/assessments/data";
 import { Bar, Line, Pie, Scatter } from "react-chartjs-2"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge";
-import IroForm from "@/components/materiality/assessments/IroForm";
+import IroFormWrapper from "@/components/materiality/assessments/IroFormWrapper";
 
 // import Subheader from "@/components/Subheader";
 
@@ -36,7 +36,6 @@ export default function Home({ params }: { params: { iroid: string } }) {
   // const assessmentid = searchParams.get('id');
 
   const { iroid } = params;
-  console.log("IroId: "+iroid);
 
   return (
     <>
@@ -53,7 +52,7 @@ export default function Home({ params }: { params: { iroid: string } }) {
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard">2024</BreadcrumbLink>
+                    <BreadcrumbLink href='/materiality/assessments/${iroid}'>$(FY)</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>
@@ -63,9 +62,9 @@ export default function Home({ params }: { params: { iroid: string } }) {
           {/* <Button variant="outline">Add new</Button> */}
         </div>
       </div>
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-      <IroForm id={iroid}/>
-      </div>
+      {/* <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5"> */}
+      <IroFormWrapper id={iroid}/>
+      {/* </div> */}
     </ContentLayout>
     </>
   );

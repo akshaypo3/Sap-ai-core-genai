@@ -9,7 +9,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
 import SustenaLayout from "@/components/sustena-layout/sustena-layout";
-
+import { ChatProvider } from '@/app/contexts/ChatContext';
+import { ChatButton } from '@/components/chats/ChatButton';
+import { ChatInterface } from '@/components/chats/ChatInterface';
 
 
 export const metadata: Metadata = {
@@ -55,15 +57,21 @@ export default function RootLayout({
     ):(
       <>
       {/* <main className={GeistSans.className}> */}
+      
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
+            <ChatProvider>
             <SustenaLayout>{children}</SustenaLayout>
-        <Toaster />
+            <ChatButton />
+          <ChatInterface />
+        <Toaster/>
+        </ChatProvider>
       </ThemeProvider>
+      
     {/* </main> */}
     </>
     )}

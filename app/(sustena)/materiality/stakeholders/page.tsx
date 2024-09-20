@@ -103,7 +103,7 @@ export default async function Home() {
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <AddStakeholderButton/> */}
-          <Button>Group Editor</Button>
+          {/* <Button>Group Editor</Button> */}
         </div>
       </div>
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
