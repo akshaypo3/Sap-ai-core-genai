@@ -12,6 +12,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress";
@@ -19,8 +29,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { CircleHelp } from "lucide-react";
+import { CircleHelp, ZoomIn } from "lucide-react";
 import { AddLocation } from "@/components/materiality/stakeholders/buttons";
+import { getProductsAndServices, getLocations, getCompanyDetails } from "@/lib/company/data";
+import { AddLocationButton, AddProductButton } from "@/components/materiality/company/buttons";
+import { saveCompanyDetails } from "@/lib/company/action";
+
 
 
 
@@ -38,62 +52,128 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  const companyDetails = await getCompanyDetails();
+  const locations = await getLocations();
+  const products = await getProductsAndServices();
+  
+
   return (
     <>
       <ContentLayout title="Company Details">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Company</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
-      </div>
-      <div className="bg-white dark:bg-neutrak-950 rounded-md border">
-      <Alert>
-        {/* <Terminal className="h-4 w-4" /> */}
-        <AlertTitle>Step 1</AlertTitle>
-        <AlertDescription>
-          Collecting general information about your company. Please describe everything in natural language!
-          {/* <Progress value={33} className="mt-2" /> */}
-        </AlertDescription>
-      </Alert>
-      </div>
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-3">
-        
-        <Label htmlFor="text">Company Name</Label>
-        <Input type="text" placeholder="Mustermann AG" />
-        <Separator className="my-4"/>
-        <Label htmlFor="company_strategy">Company Strategy</Label>
-        <Textarea id="company_strategy"/>
-        <Label htmlFor="strategy_documents">Company Strategy Documents</Label>
-        <Input id="strategy_documents" type="file" />
-        <Separator className="my-4"/>
-        <Label htmlFor="business_model">Business Model</Label>
-        <Textarea id="business_model"/>
-        <Label htmlFor="products_services">Key products and services</Label>
-        <Textarea id="products_services"/>
-        <Separator className="my-4"/>
-      </div>
-
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-3">
-        <div className="mb-8 p-3 flex items-center justify-between bg-white dark:bg-neutral-950">
-          <div>
-            <h1 className="font-bold text-xl mb-2">Locations</h1>
+      
+      <div className="bg-white dark:bg-neutral-950 rounded-md border p-3">
+      <div className="flex items-center justify-between p-4 bg-gray-50 rounded-top">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">Company Details</h3>
           </div>
-          <div className="flex space-x-4">
-            {/* Button Section for Subheader */}
-            <AddLocation/>
+          <div className="mt-3">
+            {/* <Button></Button> */}
+        </div>
+      </div>
+      <div className="my-10">
+        <form action={saveCompanyDetails}>
+          <input type="hidden" name="company_id" value={companyDetails[0].id}/>
+          <Label htmlFor="companyname">Company Name</Label>
+          <Input type="text" name="companyname" placeholder={companyDetails[0].name} />
+          {/* <Separator className="my-4"/> */}
+          <Label htmlFor="company_strategy">Company Strategy</Label>
+          <Textarea id="company_strategy" name="company_strategy" placeholder={companyDetails[0].company_strategy}/>
+          {/* <Separator className="my-4"/> */}
+          <Label htmlFor="business_model">Business Model</Label>
+          <Textarea id="business_model" name="business_model" placeholder={companyDetails[0].business_model}/>
+          <div className="flex">
+          <Button className="mt-5 justify-end">Save Details</Button>
+          </div>
+        </form>
+        </div>
+        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-top">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">Locations</h3>
+          </div>
+          <div className="mt-3">
+            <AddLocationButton/>
+        </div>
+      </div>
+        <Table>
+          <TableCaption>A list of company locations</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[200px]">Name</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Street</TableHead>
+              <TableHead>Postal Code</TableHead>
+              <TableHead>City</TableHead>
+              <TableHead>Country</TableHead>
+              <TableHead className="text-right">Details</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+      {locations && locations.length > 0 ? (
+        locations.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell className="font-medium">{item.name}</TableCell>
+            <TableCell>{item.description}</TableCell>
+            <TableCell>{item.address}</TableCell>
+            <TableCell>{item.postalcode}</TableCell>
+            <TableCell>{item.city}</TableCell>
+            <TableCell>{item.country}</TableCell>
+            <TableCell className="text-right">
+              <Button className="p-2 ">
+                <span className="sr-only">View</span>
+                <ZoomIn className="w-4" />
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))
+      ) : (
+        <TableRow>
+          <TableCell colSpan={7} className="text-center">No locations found</TableCell>
+        </TableRow>
+      )}
+    </TableBody>
+        </Table>
+        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-top mt-10">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">Products / Services</h3>
+          </div>
+          <div className="mt-3">
+            <AddProductButton/>
           </div>
         </div>
+        <Table>
+          <TableCaption>A list of the most important products and services</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[200px]">Name</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead className="text-center">% of turnover</TableHead>
+              <TableHead className="text-right">Details</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {products && products.length > 0 ? (
+              products.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.name}</TableCell>
+                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                  <TableCell className="text-center">{item.turnover_percentage}</TableCell>
+                  <TableCell className="text-right">
+                    <Button className="p-2 ">
+                      <span className="sr-only">View</span>
+                      <ZoomIn className="w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center">No products or services found</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
     </ContentLayout>
     </>
