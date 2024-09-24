@@ -68,8 +68,6 @@ export async function getLocations() {
       console.error('Error fetching company details:', error);
       return [];
     }
-
-    console.log(data);
     
     return data || [];
   }
