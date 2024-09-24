@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
-import { Pencil } from "lucide-react";
+import { TrashIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { deleteComment } from "@/lib/task/action";
 
 import {
   Dialog,
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import AddTaskForm from "@/components/task/createTaskForm";
 import UpdateTaskForm from "./updateTaskForm";
+import { createComment } from "@/lib/task/action";
 
 export function AddTask(createdId: any) {
   return (
@@ -60,8 +62,78 @@ export function UpdateTaskButton({ task }: { task: any }) {
           <DialogTitle>Update Task</DialogTitle>
           <DialogDescription>Update the task details below.</DialogDescription>
         </DialogHeader>
-        <UpdateTaskForm task={task}/>
+        <UpdateTaskForm task={task} />
       </DialogContent>
     </Dialog>
   );
+}
+
+export function DeleteCommentButton({
+  commentId,
+  taskId,
+}: {
+  commentId: string;
+  taskId: string;
+}) {
+  const deleteCommentWithId = deleteComment.bind(null, commentId, taskId);
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="sm">
+          <TrashIcon className="w-4 h-4 mr-1" />
+          Delete
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="text-center">Delete comment</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-1 py-1">
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Label htmlFor="name" className="text-center">
+              Are you sure to delete the comment?
+            </Label>
+          </div>
+        </div>
+        <DialogFooter>
+          <form action={deleteCommentWithId}>
+            <DialogClose asChild>
+              <Button type="submit"> Yes</Button>
+            </DialogClose>
+          </form>
+        </DialogFooter>
+        {/* close button */}
+        {/* <DialogClose asChild>
+          <Button type="button" variant="secondary">
+            Close
+          </Button>
+        </DialogClose> */}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function AddCommentButton({ taskId }: { taskId: string }){
+  const handleSubmit = async (formData: FormData) => {
+    "use server";
+    await createComment(formData, taskId);
+  };
+
+  return(
+    <form action={handleSubmit} className="grid gap-6 mb-3">
+    <div className="w-full gap-1.5">
+      <Label htmlFor="comment">Add a comment</Label>
+      <Textarea
+        placeholder="Type your comment here."
+        id="comment"
+        name="comment"
+        required
+      />
+      <Button size="sm" className="mt-3" type="submit">
+        Add Comment
+      </Button>
+    </div>
+  </form>
+  )
 }

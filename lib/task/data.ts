@@ -87,4 +87,20 @@ export async function getTaskById(taskId: string) {
       };
     
     return formattedTasks;
+}
+
+export async function getComments(taskId:string){
+  const supabase = createClient();
+
+  const { data: comments, error } = await supabase
+  .from("comments")
+  .select()
+  .eq("task_id", taskId);
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return null;
   }
+
+  return comments;
+}

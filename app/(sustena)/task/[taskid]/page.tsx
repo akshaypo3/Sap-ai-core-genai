@@ -1,6 +1,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,14 +15,29 @@ import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
 import { getTaskById } from "@/lib/task/data";
 import { UpdateTaskButton } from "@/components/task/buttons";
+import { Comments } from "@/components/task/comments";
 
-export default async function taskPage({ params }: { params: { taskid: string } }) {
+export default async function taskPage({
+  params,
+}: {
+  params: { taskid: string };
+}) {
   const { taskid: taskId } = params;
 
   const task = await getTaskById(taskId);
 
   if (!task) {
     return notFound();
+  }
+
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
   }
 
   return (
@@ -38,15 +55,12 @@ export default async function taskPage({ params }: { params: { taskid: string } 
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/task">
-                    Tasks
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="/task">Tasks</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </div>
-
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
             <AlertTitle className="mb-5">Task Overview</AlertTitle>
@@ -91,11 +105,16 @@ export default async function taskPage({ params }: { params: { taskid: string } 
               </div>
             </AlertDescription>
           </Alert>
-          <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
-                <div className="flex items-center">
-                <UpdateTaskButton task={task}/>
-                </div>
+          {user.id === task.created_by.id && (
+            <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
+              <div className="flex items-center">
+                <UpdateTaskButton task={task} />
               </div>
+            </div>
+          )}
+          <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-start justify-start">
+            <Comments taskId={taskId} user={user}/>
+          </div>
         </div>
       </ContentLayout>
     </>
