@@ -65,8 +65,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ChatProvider>
-            <SustenaLayout>{children}</SustenaLayout>
-            <ChatButton />
+              <SustenaLayout>{children}</SustenaLayout>
+            <ChatButton/>
           <ChatInterface />
         <Toaster/>
         </ChatProvider>
