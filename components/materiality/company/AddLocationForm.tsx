@@ -53,6 +53,41 @@ export default async function AddLocationForm() {
                         </SelectContent>
                     </Select>
                 </div>
+
+                <div className="w-full">
+                    <Label htmlFor="employee_count">Employee Count</Label>
+                    <Select name="employee_count" required>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a size"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                                <SelectItem value="0-10">
+                                    0-10
+                                </SelectItem>
+                                <SelectItem value="11-50">
+                                    11-50
+                                </SelectItem>
+                                <SelectItem value="51-100">
+                                    51-100
+                                </SelectItem>
+                                <SelectItem value="100-500">
+                                    100-500
+                                </SelectItem>
+                                <SelectItem value="500-1.000">
+                                    500-1.000
+                                </SelectItem>
+                                <SelectItem value="1000-5.000">
+                                    1.000-5.000
+                                </SelectItem>
+                                <SelectItem value="5000-10.000">
+                                    5.000-10.000
+                                </SelectItem>
+                                <SelectItem value="> 10.000">
+                                    more than 10.000
+                                </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
                 
                 <div className="flex mt-5">
                     <div className="flex-auto">

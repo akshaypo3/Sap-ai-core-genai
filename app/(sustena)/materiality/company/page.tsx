@@ -82,7 +82,7 @@ export default async function Home() {
           <Label htmlFor="business_model">Business Model</Label>
           <Textarea id="business_model" name="business_model" placeholder={companyDetails[0].business_model}/>
           <div className="flex">
-          <Button className="mt-5 justify-end">Save Details</Button>
+          <Button className="mt-5 justify-end">Update Details</Button>
           </div>
         </form>
         </div>
@@ -104,6 +104,7 @@ export default async function Home() {
               <TableHead>Postal Code</TableHead>
               <TableHead>City</TableHead>
               <TableHead>Country</TableHead>
+              <TableHead>Employees</TableHead>
               <TableHead className="text-right">Details</TableHead>
             </TableRow>
           </TableHeader>
@@ -117,6 +118,7 @@ export default async function Home() {
             <TableCell>{item.postalcode}</TableCell>
             <TableCell>{item.city}</TableCell>
             <TableCell>{item.country}</TableCell>
+            <TableCell>{item.employee_count}</TableCell>
             <TableCell className="text-right">
               <Button className="p-2 ">
                 <span className="sr-only">View</span>

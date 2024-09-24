@@ -14,6 +14,7 @@ export async function addLocation(formData: FormData) {
       postalcode: parseInt(formData.get('postalcode') as string),
       city: formData.get('city') as string,
       country: formData.get('country') as string,
+      employee_count: formData.get('employee_count') as string,
     };
   
     const { data, error } = await supabase
@@ -60,26 +61,35 @@ export async function addLocation(formData: FormData) {
   export async function saveCompanyDetails(formData: FormData) {
     "use server"
     const supabase = createClient();
+    const companyId = formData.get('company_id');
   
+    if (typeof companyId !== 'string') {
+      throw new Error('Invalid company ID');
+    }
+
     const companyDetails = {
-      name: formData.get('companyname') as string,
-      company_strategy: formData.get('company_strategy') as string,
-      business_model: formData.get('business_model') as string,
+      name: formData.get('companyname'),
+      company_strategy: formData.get('company_strategy'),
+      business_model: formData.get('business_model'),
     };
+
+    for (const [key, value] of Object.entries(companyDetails)) {
+      if (typeof value !== 'string') {
+        throw new Error(`Invalid ${key}`);
+      }
+    }
   
     const { data, error } = await supabase
       .from('company_details')
-      .update([companyDetails])
+      .update(companyDetails)
+      .eq('id', companyId)
       .select();
-
-      console.log(data);
   
     if (error) {
-      console.error('Error inserting product/service:', error);
-      return { success: false, error: error.message };
+      console.error('Error updating company details:', error);
+      throw error;
     }
-
+    
     revalidatePath('/materiality/company');
-    redirect('/materiality/company')
-    // return { success: true, data };
-  }
+    redirect('/materiality/company');
+}
