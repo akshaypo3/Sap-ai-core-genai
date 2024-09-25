@@ -1,11 +1,8 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { getComments } from "@/lib/task/data";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteCommentButton } from "./buttons";
-import { AddCommentButton } from "./buttons";
+import { AddCommentButton } from "./AddCommentButton";
 
 export async function Comments({
   taskId,
@@ -22,7 +19,7 @@ export async function Comments({
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl">
       <h2 className="font-semibold text-xl">Comments</h2>
       <AddCommentButton taskId={taskId} />
       <div className="grid">

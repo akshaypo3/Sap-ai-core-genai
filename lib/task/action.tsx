@@ -234,13 +234,14 @@ cron.schedule("8 8 * * *", async () => {
   }
 });
 
-export const createComment = async (formData: FormData, taskId: string) => {
+export const createComment = async (formData: FormData) => {
   const supabase = createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
   const userId = userData.id;
 
+  const taskID = formData.get("taskID")
   const commentText = formData.get("comment");
 
   if (!commentText) {
@@ -252,7 +253,7 @@ export const createComment = async (formData: FormData, taskId: string) => {
     const { data: newComment, error } = await supabase.from("comments").insert({
       comment: commentText,
       user: userName,
-      task_id: taskId,
+      task_id: taskID,
       user_id: userId
     });
 
@@ -266,8 +267,8 @@ export const createComment = async (formData: FormData, taskId: string) => {
     console.error("Error creating comment:", error);
     return null;
   } finally {
-    revalidatePath(`/task/${taskId}`);
-    redirect(`/task/${taskId}`); 
+    revalidatePath(`/task/${taskID}`);
+    redirect(`/task/${taskID}`); 
   }
 }
 

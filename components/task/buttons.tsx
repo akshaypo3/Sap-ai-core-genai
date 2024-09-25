@@ -114,26 +114,3 @@ export function DeleteCommentButton({
   );
 }
 
-export function AddCommentButton({ taskId }: { taskId: string }){
-  const handleSubmit = async (formData: FormData) => {
-    "use server";
-    await createComment(formData, taskId);
-  };
-
-  return(
-    <form action={handleSubmit} className="grid gap-6 mb-3">
-    <div className="w-full gap-1.5">
-      <Label htmlFor="comment">Add a comment</Label>
-      <Textarea
-        placeholder="Type your comment here."
-        id="comment"
-        name="comment"
-        required
-      />
-      <Button size="sm" className="mt-3" type="submit">
-        Add Comment
-      </Button>
-    </div>
-  </form>
-  )
-}
