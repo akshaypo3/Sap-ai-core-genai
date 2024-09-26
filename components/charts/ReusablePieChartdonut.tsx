@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { Pie, PieChart, CartesianGrid, Label, XAxis, YAxis, Cell } from "recharts"
+import { Pie, PieChart, CartesianGrid, Label, XAxis, YAxis, Cell, LabelList } from "recharts"
 import CustomTooltip from "@/components/materiality/assessments/CustomTooltip";
 import {
   Card,
@@ -27,6 +27,10 @@ export interface ChartConfigItem {
     y_label: string;
     color: string;
 }
+interface GroupedStatus {
+  status: string;
+  count: number;
+}
 
 export interface ReusablePieChartdonutProps {
   data: DataPoint[];
@@ -36,6 +40,7 @@ export interface ReusablePieChartdonutProps {
   title: string;
   description: string;
   dataKey: string;
+  xAxisKey: string;
 }
 
 const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({ 
@@ -43,23 +48,45 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
   config, 
   title, 
   description, 
-  dataKey
+  dataKey,
+  xAxisKey,
 }) => {
     const chartConfig = config.assessment;
     const label=chartConfig.x_label;
     const colors = [
-      "#90EE90", "#98FB98", "#7CFC00", "#7FFF00", "#ADFF2F",
-      "#32CD32", "#228B22", "#556B2F", "#6B8E23", "#3CB371",
+      "#90EE90", "#7CFC00","#556B2F","#006400","#98FB98",  "#7FFF00", "#ADFF2F",
+      "#32CD32", "#228B22",  "#6B8E23", "#3CB371",
       "#2E8B57", "#006400"
     ];
     const measure=dataKey;
+    
     const totalScore = data.reduce((sum, item) => {
       const score = typeof item[measure] === 'string'
             ? parseFloat(item[measure])
             : item[measure];
       return sum + (score || 0);
   }, 0);
-
+  const groupedByStatus = data.reduce<Record<string, GroupedStatus>>((acc, item) => {
+    const status = item.status;
+  
+    // Calculate score (assuming the measure is defined)
+    const score = typeof item[measure] === 'string' ? parseFloat(item[measure]) : item[measure];
+  
+    // Check if the status already exists in the accumulator
+    if (!acc[status]) {
+      // Initialize the entry if it doesn't exist
+      acc[status] = { status, count: 0 }; // Create a new object with the status and totalScore
+    }
+  
+    // Add the score to the totalScore for the current status
+    acc[status].count += (score || 0); // Ensure score is a number
+  
+    return acc; // Return the accumulator for the next iteration
+  }, {});
+  
+  // Convert the result into an array
+  const result = Object.values(groupedByStatus);
+  //console.log(result);
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -69,18 +96,18 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={config}
-          className="mx-auto aspect-square max-h-[300px]"
         >
           <PieChart>
-            <ChartTooltip
+          <ChartTooltip
               cursor={false}
-              content={<CustomTooltip/>}
+              content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={data}
+              data={result}
               dataKey={dataKey}
-              nameKey="browser"
+              nameKey={xAxisKey}
               innerRadius={60}
+              outerRadius={120}
               strokeWidth={5}
             >
               {data.map((entry, index) => (
@@ -108,7 +135,7 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          {label}
+                          {"Total"}
                         </tspan>
                       </text>
                     )

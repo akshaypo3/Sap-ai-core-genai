@@ -62,7 +62,7 @@ const ReusablewithlabelPieChart: React.FC<ReusablePieChartwithlabelProps> = ({
     <CardContent className="flex-1 pb-0">
       <ChartContainer
         config={config}
-        className="mx-auto aspect-square max-h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+        className="pb-0 [&_.recharts-pie-label-text]:fill-foreground"
       >
         <PieChart>
           <ChartTooltip 
