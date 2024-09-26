@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { sendMail } from "@/lib/settings/smtp/action";
-// import { getUserInfo } from "@/lib/settings/users/data"
+import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function createTask(formData: FormData) {
   const supabase = createClient();
@@ -29,7 +29,7 @@ export async function createTask(formData: FormData) {
         description: description,
         assigned_to: assigned_to,
         created_by: created_by,
-        status: status, 
+        status: status,
         start_date: start_date,
         due_date: due_date,
       })
@@ -110,7 +110,7 @@ export async function createTask(formData: FormData) {
 export async function updateTask(formData: FormData) {
   const supabase = createClient();
 
-  const id = formData.get("id") 
+  const id = formData.get("id");
 
   const updatedData = {
     title: formData.get("title"),
@@ -132,7 +132,6 @@ export async function updateTask(formData: FormData) {
       console.error("Error updating task:", error);
       throw new Error("Failed to update task");
     }
-
   } catch (error) {
     console.error("Error in updateTask function:", error);
   } finally {
@@ -140,6 +139,20 @@ export async function updateTask(formData: FormData) {
     redirect("/task");
   }
 }
+
+export const updateTaskStatus = async (taskId: any, newStatus: any) => {
+  const supabase = createClient();
+  const { data: updatatedtasks, error } = await supabase
+    .from("tasks")
+    .update({ status: newStatus })
+    .eq("id", taskId);
+
+  if (error) {
+    console.error("Error updating task status:", error);
+  }
+
+  return updatatedtasks;
+};
 
 cron.schedule("8 8 * * *", async () => {
   const supabase = createClient();
@@ -152,20 +165,23 @@ cron.schedule("8 8 * * *", async () => {
       .from("tasks")
       .select("id, assigned_to, title, due_date")
       .lt("due_date", todayString)
-      .neq("status", "DONE"); 
+      .neq("status", "DONE");
 
     if (error) {
       throw new Error("Error fetching data from the database");
     }
 
     if (overdueTasks.length > 0) {
-      const tasksByUser = overdueTasks.reduce((acc: { [key: string]: any[] }, task) => {
-        if (!acc[task.assigned_to]) {
-          acc[task.assigned_to] = [];
-        }
-        acc[task.assigned_to].push(task);
-        return acc;
-      }, {});
+      const tasksByUser = overdueTasks.reduce(
+        (acc: { [key: string]: any[] }, task) => {
+          if (!acc[task.assigned_to]) {
+            acc[task.assigned_to] = [];
+          }
+          acc[task.assigned_to].push(task);
+          return acc;
+        },
+        {},
+      );
 
       for (const [assigned_to, tasks] of Object.entries(tasksByUser)) {
         if (tasks.length >= 50) {
@@ -201,7 +217,10 @@ cron.schedule("8 8 * * *", async () => {
 
           const emailResponse = await sendMail(emailDetails);
           if (!emailResponse) {
-            console.error("Error sending overdue notification email to", userEmail);
+            console.error(
+              "Error sending overdue notification email to",
+              userEmail,
+            );
           }
         } else {
           console.log(`User ${assigned_to} has fewer than 50 overdue tasks`);
@@ -214,3 +233,61 @@ cron.schedule("8 8 * * *", async () => {
     console.error("Error in cron job:", error);
   }
 });
+
+export const createComment = async (formData: FormData) => {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+  const userId = userData.id;
+
+  const taskID = formData.get("taskID")
+  const commentText = formData.get("comment");
+
+  if (!commentText) {
+    console.error("Comment cannot be empty");
+    return null;
+  }
+
+  try {
+    const { data: newComment, error } = await supabase.from("comments").insert({
+      comment: commentText,
+      user: userName,
+      task_id: taskID,
+      user_id: userId
+    });
+
+    if (error) {
+      console.error("Error creating comment:", error);
+      return null;
+    }
+
+    return newComment;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/task/${taskID}`);
+    redirect(`/task/${taskID}`); 
+  }
+}
+
+export const deleteComment = async (commentId: string, taskId: string) => {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase
+    .from("comments")
+    .delete()
+    .eq("id",commentId);
+
+    return data;
+
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/task/${taskId}`);
+    redirect(`/task/${taskId}`); 
+  }
+}
