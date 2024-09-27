@@ -43,7 +43,7 @@ type AssessmentData = {
   };
   const PieassessmentChartConfig: ChartConfig = {
     assessment: {
-      x_label: "Impact Score",
+      x_label: "Status",
       y_label: " ",
       color: "hsl(var(--chart-1))",
     },

@@ -4,6 +4,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Cell } fro
 import CustomTooltip from "@/components/materiality/assessments/CustomTooltip";
 import { ChartContainer } from '../ui/chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { json } from 'stream/consumers';
 
 export interface DataPoint {
     [key: string]: string | number;
@@ -41,32 +42,28 @@ const ReusableScatteredChart: React.FC<ReusableScatteredChartProps> = ({
       const xlabel=chartConfig.x_label;
       const ylabel=chartConfig.y_label;
       
+      const processedData = data.map((entry) => ({
+        ...entry,
+        [x_dataKey]: entry[x_dataKey] != null ? entry[x_dataKey] : 0,
+        [y_dataKey]: entry[y_dataKey] != null ? entry[y_dataKey] : 0
+    }));
   return (  
-    <Card style={{ height: '500px' }}>
+    <Card style={{width:'100%',height:'100%'}}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-      <ChartContainer config={config} style={{ height: '400px',width:'800px' }}>
-    <ScatterChart
-      width={900}
-      height={400}
-      margin={{
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20,
-      }}
-    > 
+      <ChartContainer config={config} style={{marginTop:'50px'}}>
+    <ScatterChart> 
       <CartesianGrid />
-      <XAxis type="number" dataKey={x_dataKey} label={{ value: xlabel, position: 'insideBottom', offset: -15, fill: '#666', fontSize: 14,textAnchor: 'middle',fontWeight: 'bold'}} tick={{ fill: '#666', fontSize: 12 }}/>
-      <YAxis type="number" dataKey={y_dataKey}  label={{value: ylabel, angle: -90, position: 'insideLeft', offset: 5, fill: '#666', fontSize: 14,textAnchor: 'middle',fontWeight: 'bold'}} tick={{ fill: '#666', fontSize: 12 }}/>
+      <XAxis type="number" dataKey={x_dataKey} label={{ value: xlabel, position: 'insideBottom', offset: 0, fill: '#666', fontSize: 14,textAnchor: 'middle',fontWeight: 'bold'}} tick={{ fill: '#666', fontSize: 10 }}/>
+      <YAxis type="number" dataKey={y_dataKey}  label={{value: ylabel, angle: -90, position: 'insideLeft', offset: 5, fill: '#666', fontSize: 14,textAnchor: 'middle',fontWeight: 'bold'}} tick={{ fill: '#666', fontSize: 10 }}/>
       <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3' }} />
-      <Scatter name="A school" data={data} fill="#8884d8">
-        {data.map((entry, index) => (
+      <Scatter name="A school" data={processedData} fill="#8884d8">
+        {processedData.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
+        ))} 
       </Scatter>
     </ScatterChart>
     </ChartContainer>
