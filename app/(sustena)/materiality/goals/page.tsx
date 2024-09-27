@@ -163,7 +163,6 @@ export default async function Home() {
                 </Table>
               </div>
             </TabsContent>
-          </div>
             <TabsContent value="activitylog">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
                 <Table>
@@ -200,6 +199,7 @@ export default async function Home() {
                 </Table>
               </div>
             </TabsContent>
+          </div>
         </Tabs>
       </ContentLayout>
     </>

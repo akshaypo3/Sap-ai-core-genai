@@ -9,9 +9,9 @@ import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function createTask(formData: FormData) {
   const supabase = createClient();
-  // const userData = await getUserInfo();
-  // const userEmail= userData.email;
-  // const userName = userEmail.substring(0, userEmail.indexOf('@'));
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
   const title = formData.get("title");
   const description = formData.get("description");
@@ -39,13 +39,31 @@ export async function createTask(formData: FormData) {
       throw new Error("Error while inserting in the database");
     }
 
-    // if (!error && data) {
-    //   await supabase.from("activitylog").insert({
-    //     created_at: new Date().toISOString(),
-    //     activity: `Group '${groupName}' created`,
-    //   //   user:userName,
-    //   });
-    // }
+    if (!error && data) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${title}' created`,
+          user: userName,
+          changes: {
+            user: userName,
+            activity: `Task '${title}' created`,
+            created_at: new Date().toISOString(),
+            title: title,
+            description: description,
+            assigned_to: assigned_to,
+            created_by: created_by,
+            status: status,
+            start_date: start_date,
+            due_date: due_date,
+          },
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
 
     const { data: createdUserData, error: createdUserError } = await supabase
       .from("user_profile")
@@ -109,6 +127,9 @@ export async function createTask(formData: FormData) {
 
 export async function updateTask(formData: FormData) {
   const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
   const id = formData.get("id");
 
@@ -123,14 +144,55 @@ export async function updateTask(formData: FormData) {
   };
 
   try {
-    const { data, error } = await supabase
+    const { data: currentTask, error: fetchError } = await supabase
+      .from("tasks")
+      .select()
+      .eq("id", id)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching current task data:", fetchError);
+      return;
+    }
+
+    const updatedFields: any = {};
+    for (const key in updatedData) {
+      if (String(updatedData[key]) !== String(currentTask[key])) {
+        updatedFields[key] = {
+          previous: currentTask[key] || "N/A",
+          updated: updatedData[key] || "N/A",
+        };
+      }
+    }
+
+    if (Object.keys(updatedFields).length === 0) {
+      console.log("No fields were updated.");
+      return;
+    }
+
+    const { data, error: updateError } = await supabase
       .from("tasks")
       .update(updatedData)
       .eq("id", id);
 
-    if (error) {
-      console.error("Error updating task:", error);
+    if (updateError) {
+      console.error("Error updating task:", updateError);
       throw new Error("Failed to update task");
+    }
+
+    if (!updateError) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${updatedData?.title}' updated`,
+          user: userName,
+          changes: updatedFields,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
     }
   } catch (error) {
     console.error("Error in updateTask function:", error);
@@ -241,7 +303,7 @@ export const createComment = async (formData: FormData) => {
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
   const userId = userData.id;
 
-  const taskID = formData.get("taskID")
+  const taskID = formData.get("taskID");
   const commentText = formData.get("comment");
 
   if (!commentText) {
@@ -254,12 +316,26 @@ export const createComment = async (formData: FormData) => {
       comment: commentText,
       user: userName,
       task_id: taskID,
-      user_id: userId
+      user_id: userId,
     });
 
     if (error) {
       console.error("Error creating comment:", error);
       return null;
+    }
+
+    if (!error) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Comment '${commentText}' created`,
+          user: userName,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
     }
 
     return newComment;
@@ -268,26 +344,58 @@ export const createComment = async (formData: FormData) => {
     return null;
   } finally {
     revalidatePath(`/task/${taskID}`);
-    redirect(`/task/${taskID}`); 
+    redirect(`/task/${taskID}`);
   }
-}
+};
 
 export const deleteComment = async (commentId: string, taskId: string) => {
   const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
   try {
+    const { data: previousData, error: fetchError } = await supabase
+      .from("comments")
+      .select()
+      .eq("id", commentId)
+      .single();
+
+      console.log("jhxshukx",previousData)
+
+    if (fetchError) {
+      console.error("Error fetching comment:", fetchError);
+      return null;
+    }
+
     const { data, error } = await supabase
-    .from("comments")
-    .delete()
-    .eq("id",commentId);
+      .from("comments")
+      .delete()
+      .eq("id", commentId);
 
-    return data;
+    if (error) {
+      console.error("Error deleting comment:", error);
+      return null;
+    }
 
+    if (!error) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Comment '${previousData.comment}' deleted`,
+          user: userName,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
   } catch (error) {
     console.error("Error deleting comment:", error);
     return null;
   } finally {
     revalidatePath(`/task/${taskId}`);
-    redirect(`/task/${taskId}`); 
+    redirect(`/task/${taskId}`);
   }
-}
+};
