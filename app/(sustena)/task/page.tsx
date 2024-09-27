@@ -125,7 +125,7 @@ export default async function Home() {
                             .replace(/\//g, ".")}
                         </TableCell>
                         <TableCell className="font-medium">
-                        <ViewTaskButton taskId={task.id}/>
+                          <ViewTaskButton taskId={task.id} />
                         </TableCell>
                       </TableRow>
                     ))}
