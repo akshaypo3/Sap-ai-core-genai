@@ -44,7 +44,7 @@ export async function Comments({
               <div className="mt-1">{comment.comment}</div>
               {user.id === comment.user_id && (
                 <div className="flex items-center gap-2">
-                  <DeleteCommentButton commentId={comment.id} taskId={taskId} />
+                  <DeleteCommentButton commentId={comment} taskId={taskId} />
                 </div>
               )}
             </div>

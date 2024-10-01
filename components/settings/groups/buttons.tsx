@@ -34,7 +34,7 @@ export function AddGroupButton() {
 }
 
 export function DeleteGroupButton({ id }: { id: string }) {
-  const deleteGroupWithId = deleteGroup.bind(null, id);
+  const deleteGroupWithId = deleteGroup.bind(null, id.id);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -52,23 +52,28 @@ export function DeleteGroupButton({ id }: { id: string }) {
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
             <Label htmlFor="name" className="text-center">
-              Are you sure to delete the group?
+              Are you sure to delete the group:{" "}
+              <b className="font-bold text-lg font-semibold text-red-600">
+                {id.group} <span className="text-black">?</span>
+              </b>
             </Label>
           </div>
         </div>
-        <DialogFooter>
-          <form action={deleteGroupWithId}>
-            <DialogClose asChild>
-              <Button type="submit"> Yes</Button>
-            </DialogClose>
-          </form>
+
+        <DialogFooter className="flex justify-between mt-4">
+          <div className="flex justify-end space-x-2 mt-4">
+            <DialogTrigger asChild>
+              <Button>Cancel</Button>
+            </DialogTrigger>
+            <form action={deleteGroupWithId}>
+              <DialogClose asChild>
+                <Button type="submit" variant="destructive">
+                  Delete Group
+                </Button>
+              </DialogClose>
+            </form>
+          </div>
         </DialogFooter>
-        {/* close button */}
-        {/* <DialogClose asChild>
-          <Button type="button" variant="secondary">
-            Close
-          </Button>
-        </DialogClose> */}
       </DialogContent>
     </Dialog>
   );
