@@ -277,7 +277,6 @@ export default async function Home() {
                   </div>
                 </div> */}
                 <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
-                  <SwapyWrapper loggedTasksData={loggedTasks} />
                   {/* <MyComponent/> */}
                 </div>
               </TabsContent>

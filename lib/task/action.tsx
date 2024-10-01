@@ -202,19 +202,6 @@ export async function updateTask(formData: FormData) {
   }
 }
 
-export const updateTaskStatus = async (taskId: any, newStatus: any) => {
-  const supabase = createClient();
-  const { data: updatatedtasks, error } = await supabase
-    .from("tasks")
-    .update({ status: newStatus })
-    .eq("id", taskId);
-
-  if (error) {
-    console.error("Error updating task status:", error);
-  }
-
-  return updatatedtasks;
-};
 
 cron.schedule("8 8 * * *", async () => {
   const supabase = createClient();

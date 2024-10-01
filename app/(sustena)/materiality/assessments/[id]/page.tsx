@@ -51,8 +51,8 @@ export default async function Home({ params }: { params: { id: string } }) {
   const AssesmentScatteredChart: ReusableScatteredChartProps = {
     data: AssessmentData1,
     config: ScattaredassessmentChartConfig,
-     title: "Scattered Assessment Data",
-     description: "Assessment is the systematic basis for making inferences about the learning and development",
+     title: "Materiality Matrix",
+     description: "Chart to see which topics are more material then others",
     x_dataKey: "impact_score",
     y_dataKey: "financial_score"
   };
@@ -84,8 +84,8 @@ export default async function Home({ params }: { params: { id: string } }) {
    const AssesmentPieChartdonut1: ReusablePieChartdonutProps = {
     data: AssessmentData2,
     config: PieassessmentChartConfig,
-    title: "Pie Assessment Data",
-    description: "Assessment is the systematic basis for making inferences about the learning and development",
+    title: "Progress",
+    description: "Progress Chart based on how many topics have been marked as material, not material or are under review",
     dataKey: "count",
     xAxisKey: "status"
   };
@@ -179,12 +179,12 @@ export default async function Home({ params }: { params: { id: string } }) {
       </div> */}
   <div className="flex flex-wrap justify-between">
 <div className="flex flex-col w-full md:w-2/5 p-2">
-<div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '250px' }}>
-<ReusablePieChartdonut {...AssesmentPieChartdonut1} />
+<div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '350px' }}>
+<ReusablePieChartdonut {...AssesmentPieChartdonut1}/>
 </div>
-<div className="mt-2 bg-white dark:bg-neutral-950 rounded-md border flex items-center justify-center" style={{ height: '250px' }}>
+{/* <div className="mt-2 bg-white dark:bg-neutral-950 rounded-md border flex items-center justify-center" style={{ height: '250px' }}>
 "PlaceHolder"
-</div>
+</div> */}
 </div>
 <div className="flex-1 w-full md:w-3/5 p-2">
 <div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '650px' }}>
