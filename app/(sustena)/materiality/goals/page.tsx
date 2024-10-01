@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { getActivityGoalLogs, getGoals } from "@/lib/goals/data";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
+import ChartCard from "@/components/materiality/goals/ChartCards";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -69,9 +70,12 @@ export default async function Home() {
           </div>
           <div className="flex space-x-4">
             {/* Button Section for Subheader */}
-            {/* <Button variant="outline">Add new</Button> */}
+            <Button variant="outline">Add Goal</Button>
           </div>
         </div>
+
+
+        <ChartCard/>
 
         <Tabs defaultValue="goals" className="w-full">
           <TabsList>

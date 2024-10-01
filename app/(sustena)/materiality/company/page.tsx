@@ -33,6 +33,8 @@ import { CircleHelp, ZoomIn } from "lucide-react";
 import { AddLocation } from "@/components/materiality/stakeholders/buttons";
 import { getProductsAndServices, getLocations, getCompanyDetails } from "@/lib/company/data";
 import { AddLocationButton, AddProductButton } from "@/components/materiality/company/buttons";
+import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
+import { DeleteProductButton } from "@/components/materiality/company/DeleteProductButton";
 import { saveCompanyDetails } from "@/lib/company/action";
 
 
@@ -74,13 +76,13 @@ export default async function Home() {
         <form action={saveCompanyDetails}>
           <input type="hidden" name="company_id" value={companyDetails[0].id}/>
           <Label htmlFor="companyname">Company Name</Label>
-          <Input type="text" name="companyname" placeholder={companyDetails[0].name} />
+          <Input type="text" name="companyname" value={companyDetails[0].name} />
           {/* <Separator className="my-4"/> */}
           <Label htmlFor="company_strategy">Company Strategy</Label>
-          <Textarea id="company_strategy" name="company_strategy" placeholder={companyDetails[0].company_strategy}/>
+          <Textarea id="company_strategy" name="company_strategy" value={companyDetails[0].company_strategy}/>
           {/* <Separator className="my-4"/> */}
           <Label htmlFor="business_model">Business Model</Label>
-          <Textarea id="business_model" name="business_model" placeholder={companyDetails[0].business_model}/>
+          <Textarea id="business_model" name="business_model" value={companyDetails[0].business_model}/>
           <div className="flex">
           <Button className="mt-5 justify-end">Update Details</Button>
           </div>
@@ -95,7 +97,6 @@ export default async function Home() {
         </div>
       </div>
         <Table>
-          <TableCaption>A list of company locations</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Name</TableHead>
@@ -120,10 +121,13 @@ export default async function Home() {
             <TableCell>{item.country}</TableCell>
             <TableCell>{item.employee_count}</TableCell>
             <TableCell className="text-right">
+              <Link href={`/materiality/company/location/${item.id}`}>
               <Button className="p-2 ">
                 <span className="sr-only">View</span>
                 <ZoomIn className="w-4" />
               </Button>
+              </Link>
+                <DeleteLocationButton location={item} />
             </TableCell>
           </TableRow>
         ))
@@ -143,7 +147,6 @@ export default async function Home() {
           </div>
         </div>
         <Table>
-          <TableCaption>A list of the most important products and services</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Name</TableHead>
@@ -162,10 +165,11 @@ export default async function Home() {
                   <TableCell>{item.description}</TableCell>
                   <TableCell className="text-center">{item.turnover_percentage}</TableCell>
                   <TableCell className="text-right">
-                    <Button className="p-2 ">
+                    {/* <Button className="p-2 ">
                       <span className="sr-only">View</span>
                       <ZoomIn className="w-4" />
-                    </Button>
+                    </Button> */}
+                    <DeleteProductButton product={item}/>
                   </TableCell>
                 </TableRow>
               ))

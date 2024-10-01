@@ -35,7 +35,7 @@ export default async function Home() {
       <ContentLayout title="Reporting Dashboard">
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Reporting Dashboard</h1>
+          <h1 className="font-bold text-2xl mb-2">Reports</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
@@ -55,7 +55,7 @@ export default async function Home() {
           {/* <Button variant="outline">Add new</Button> */}
         </div>
       </div>
-      <DashboardTopChartSection/>
+      {/* <DashboardTopChartSection/> */}
       <ReportsTable/>
     </ContentLayout>
     </>

@@ -296,6 +296,43 @@ cron.schedule("8 8 * * *", async () => {
   }
 });
 
+
+export async function updateTaskStatus(taskId: string, newStatus: string) {
+  const supabase = createClient();
+  console.log("updateTaskStatus triggered");
+
+  let updatedData: any = {
+    status: newStatus,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (newStatus === "DONE") {
+    updatedData.completed_date = new Date().toISOString();
+  } else {
+    updatedData.completed_date = null;
+  }
+
+  
+
+  try {
+    const { data, error } = await supabase
+      .from("tasks")
+      .update(updatedData)
+      .eq("id", taskId)
+      .select();
+
+    if (error) {
+      console.error("Error updating task status:", error);
+      throw new Error("Failed to update task status");
+    }
+
+    return data?.[0];
+  } catch (error) {
+    console.error("Error in updateTaskStatus function:", error);
+    throw error;
+  }
+}
+
 export const createComment = async (formData: FormData) => {
   const supabase = createClient();
   const userData = await getUserInfo();
@@ -399,3 +436,4 @@ export const deleteComment = async (commentId: string, taskId: string) => {
     redirect(`/task/${taskId}`);
   }
 };
+
