@@ -38,7 +38,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AddGoal, ViewGoalButton, ViewGoalActivityButton } from "@/components/goals/buttons";
+import { AddGoal, ViewGoalButton, ViewGoalActivityButton, AddValue } from "@/components/goals/buttons";
+import { AlertTitle } from "@/components/ui/alert";
 
 export default async function Home() {
   const supabase = createClient();
@@ -88,8 +89,12 @@ export default async function Home() {
                 <div className="flex items-center">
                   <AddGoal />
                 </div>
+                {/* <div className="flex items-center">
+                  <AddValue goalId={goalId}/>
+                </div> */}
               </div>
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+              <AlertTitle className="mb-5">Details</AlertTitle>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -139,13 +144,13 @@ export default async function Home() {
                           {goal.current_value}
                         </TableCell> */}
                         <TableCell className="font-medium">
-                          {goal.progress}
+                          {goal.progress} %
                         </TableCell>
                         <TableCell className="font-medium">
                           {goal.owner}
                         </TableCell>
                         <TableCell className="font-medium">
-                          {goal.status ? "Active" : "Inactive"}
+                          {goal.status ? "Completed" : "In Progress"}
                         </TableCell>
                         {/* <TableCell className="font-medium">
                           {goal.key_actions}

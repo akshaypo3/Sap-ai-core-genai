@@ -17,6 +17,7 @@ import {
 import CreateGoalForm from "@/components/goals/createGoalForm";
 import UpdateGoalForm from "@/components/goals/updateGoalForm";
 import { deleteGoal } from "@/lib/goals/action";
+import CreateValueForm from "./createValueForm";
 
 export function AddGoal() {
   return (
@@ -29,7 +30,24 @@ export function AddGoal() {
           <DialogTitle>Add Goal</DialogTitle>
           <DialogDescription>Add Goal Function Description</DialogDescription>
         </DialogHeader>
-        <CreateGoalForm className="my-4" />
+        <CreateGoalForm />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function AddValue({ goalId: string }) {
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button className="mb-3 bg-green-600">Add Value</Button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
+        <DialogHeader>
+          <DialogTitle>Add Value</DialogTitle>
+          <DialogDescription>Add Goal Values</DialogDescription>
+        </DialogHeader>
+        <CreateValueForm goalId={goalId} />
       </DialogContent>
     </Dialog>
   );
@@ -56,7 +74,6 @@ export function ViewGoalActivityButton({ activityId }: { activityId: string }) {
 }
 
 export function DeleteGoalButton({ goalId }: { goalId: string }) {
-  // console.log("goalId",goalId);
   const deleteGoalWithId = deleteGoal.bind(null, goalId.id);
   return (
     <Dialog>
