@@ -37,6 +37,8 @@ import UploadButton from "@/components/UploadButton";
 import { getTasks, getUserTasks } from "@/lib/task/data";
 import { AddTask } from "@/components/task/buttons";
 import { ViewTaskButton } from "@/components/task/buttons";
+import KanbanBoard from "@/components/task/KanbanBoard";
+import { updateTaskStatus } from "@/lib/task/action";
 
 export default async function Home() {
   const supabase = createClient();
@@ -72,6 +74,8 @@ export default async function Home() {
             {/* <Button variant="outline">Add new</Button> <*/}
           </div>
         </div>
+
+        <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus}/>
 
         <Tabs defaultValue="tasks" className="w-full">
           <TabsList>
