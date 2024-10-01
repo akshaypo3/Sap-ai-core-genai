@@ -211,7 +211,7 @@ export default async function Home() {
                 </Badge>
               </TableCell>
               <TableCell>
-                <DeleteStakeholderButton id={item.id}/>
+                <DeleteStakeholderButton stakeholder={item}/>
               </TableCell>
             </TableRow>
           ))}

@@ -75,7 +75,7 @@ export function DeleteCommentButton({
   commentId: string;
   taskId: string;
 }) {
-  const deleteCommentWithId = deleteComment.bind(null, commentId, taskId);
+  const deleteCommentWithId = deleteComment.bind(null, commentId.id, taskId);
 
   return (
     <Dialog>
@@ -85,30 +85,38 @@ export function DeleteCommentButton({
           Delete
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
           <DialogTitle className="text-center">Delete comment</DialogTitle>
         </DialogHeader>
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
-            <Label htmlFor="name" className="text-center">
-              Are you sure to delete the comment?
+            <Label
+              htmlFor="name"
+              className="text-center overflow-hidden max-h-32" // Adjust max-h value as needed
+            >
+              Are you sure to delete the comment:{" "}
+              <b className="font-bold text-lg font-semibold text-red-600">
+                {commentId.comment} <span className="text-black">?</span>
+              </b>
             </Label>
           </div>
         </div>
-        <DialogFooter>
-          <form action={deleteCommentWithId}>
-            <DialogClose asChild>
-              <Button type="submit"> Yes</Button>
-            </DialogClose>
-          </form>
+
+        <DialogFooter className="flex justify-between mt-4">
+          <div className="flex justify-end space-x-2 mt-4">
+            <DialogTrigger asChild>
+              <Button>Cancel</Button>
+            </DialogTrigger>
+            <form action={deleteCommentWithId}>
+              <DialogClose asChild>
+                <Button type="submit" variant="destructive">
+                  Delete Comment
+                </Button>
+              </DialogClose>
+            </form>
+          </div>
         </DialogFooter>
-        {/* close button */}
-        {/* <DialogClose asChild>
-          <Button type="button" variant="secondary">
-            Close
-          </Button>
-        </DialogClose> */}
       </DialogContent>
     </Dialog>
   );
@@ -117,12 +125,9 @@ export function DeleteCommentButton({
 export function ViewTaskActivityButton({ activityId }: { activityId: string }) {
   return (
     <>
-    <Link href={`/task/taskLogs/${activityId}`}>
-    <Button className="mb-3 bg-green-600">
-      View Changes
-    </Button>
-    </Link>
+      <Link href={`/task/taskLogs/${activityId}`}>
+        <Button className="mb-3 bg-green-600">View Changes</Button>
+      </Link>
     </>
   );
 }
-
