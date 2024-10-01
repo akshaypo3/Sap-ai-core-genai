@@ -109,8 +109,21 @@ export default async function ActivityPage({
     return "N/A";
   };
 
-  const titleUpdate = renderField("title") !== "N/A";
-  const userUpdate = changeField("user") !== "N/A";
+  const titleUpdate = [
+    renderField("title"),
+    renderField("description"),
+    renderField("assigned_to"),
+    renderField("created_by"),
+    renderField("status"),
+    renderField("start_date"),
+    renderField("due_date"),
+  ].some((field) => field !== "N/A");
+
+  const userUpdate = [
+    changeField("user"),
+    changeField("activity"),
+    changeField("created_at"),
+  ].some((field) => field !== "N/A");
 
   const commentLogsExist = comments?.filter((comment) =>
     comment.comment.includes("Comment"),
@@ -245,7 +258,7 @@ export default async function ActivityPage({
               </Alert>
             ) : (
               <Alert>
-                 <AlertTitle className="mb-5">Comments</AlertTitle>
+                <AlertTitle className="mb-5">Comments</AlertTitle>
                 <h3>No Comments Available</h3>
                 <p>There are no comments to display for this task.</p>
               </Alert>

@@ -40,6 +40,7 @@ export async function createTask(formData: FormData) {
     }
 
     if (!error && data) {
+      const taskId = data[0]?.id;
       const { error: logError } = await supabase
         .from("task-activitylog")
         .insert({
@@ -58,6 +59,7 @@ export async function createTask(formData: FormData) {
             start_date: start_date,
             due_date: due_date,
           },
+          task_id : taskId
         });
 
       if (logError) {
@@ -188,6 +190,7 @@ export async function updateTask(formData: FormData) {
           activity: `Task '${updatedData?.title}' updated`,
           user: userName,
           changes: updatedFields,
+          task_id : id,
         });
 
       if (logError) {
@@ -331,6 +334,7 @@ export const createComment = async (formData: FormData) => {
           created_at: new Date().toISOString(),
           activity: `Comment '${commentText}' created`,
           user: userName,
+          task_id : taskID
         });
 
       if (logError) {
@@ -385,6 +389,7 @@ export const deleteComment = async (commentId: string, taskId: string) => {
           created_at: new Date().toISOString(),
           activity: `Comment '${previousData.comment}' deleted`,
           user: userName,
+          task_id : taskId
         });
 
       if (logError) {
