@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import { Bar, BarChart, CartesianGrid, Label, XAxis, YAxis } from "recharts"
-import CustomTooltip from "@/components/materiality/assessments/CustomTooltip";
+import CustomTooltip from "@/components/charts/CustomTooltip";
 import {
   Card,
   CardContent,
@@ -49,15 +49,16 @@ const ReusableBarChart: React.FC<ReusableBarChartProps> = ({
   xAxisKey
 }) => {
     const chartConfig = config.assessment;
+    const label=chartConfig.x_label;
 
   return (
-    <Card style={{ height: '500px' }}>
+    <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={config} style={{ height: '400px',width:'800px' }}>
+        <ChartContainer config={config}>
           <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -65,13 +66,8 @@ const ReusableBarChart: React.FC<ReusableBarChartProps> = ({
               tickLine={false}
               tickMargin={0}
               axisLine={false}
+              tickFormatter={(value) => value.slice(0, 10)}
               >
-              <Label 
-                value={chartConfig?.x_label || "X Axis"}
-                offset={-5} 
-                position="insideBottom" 
-                style={{ textAnchor: 'middle', fontSize: 14, fontWeight: 'bold' }} 
-              />
             </XAxis>
             <YAxis 
               tickLine={false}
@@ -85,9 +81,9 @@ const ReusableBarChart: React.FC<ReusableBarChartProps> = ({
               />
             </YAxis>
             <ChartTooltip
-              cursor={false}
-              content={<CustomTooltip/>}
-            />
+            cursor={false}  
+            content={<CustomTooltip/>}
+          />
             <Bar 
               dataKey={dataKey} 
               fill='green'
@@ -96,15 +92,14 @@ const ReusableBarChart: React.FC<ReusableBarChartProps> = ({
           </BarChart>
         </ChartContainer>
       </CardContent>
-      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          {isTrendingUp ? "Trending up" : "Trending down"} by {Math.abs(trendPercentage)}% this month 
-          <TrendIcon className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          {footerText}
-        </div>
-      </CardFooter> */}
+      <CardFooter className="flex-col gap-2 text-sm">
+      <div className="flex items-center gap-2 font-medium leading-none">
+        {label}
+      </div>
+      {/* <div className="leading-none text-muted-foreground">
+        Showing total visitors for the last 6 months
+      </div> */}
+    </CardFooter>
     </Card>
   )
 }

@@ -13,7 +13,13 @@ import {
 
 export default function CreateGoalForm() {
   return (
-    <form action={createGoal} className="p-4">
+
+    <form
+      action={createGoal}
+      className={`p-4 ${className}`}
+      //style={{ maxHeight: "90vh" }}
+    >
+
       <div className="grid w-full items-center gap-1.5 mb-2">
         <Label htmlFor="name">Goal Name</Label>
         <Input type="text" name="name" placeholder="Goal Name" required />
