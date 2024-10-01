@@ -3,14 +3,23 @@ import { DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createGoal } from "@/lib/goals/action";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export default function CreateGoalForm({ className }: { className?: string }) {
+export default function CreateGoalForm() {
   return (
+
     <form
       action={createGoal}
       className={`p-4 ${className}`}
       //style={{ maxHeight: "90vh" }}
     >
+
       <div className="grid w-full items-center gap-1.5 mb-2">
         <Label htmlFor="name">Goal Name</Label>
         <Input type="text" name="name" placeholder="Goal Name" required />
@@ -66,26 +75,23 @@ export default function CreateGoalForm({ className }: { className?: string }) {
           required
         />
 
-        <Label htmlFor="progress">Progress (%)</Label>
+        {/* <Label htmlFor="progress">Progress (%)</Label>
         <Input
           type="number"
           name="progress"
           placeholder="Progress (%)"
           required
-        />
+        /> */}
 
         <Label htmlFor="owner">Owner</Label>
         <Input type="text" name="owner" placeholder="Owner" required />
 
-        <Label htmlFor="status" className="flex items-center">
-          <span className="mr-2">Status</span>
-          <input
-            type="checkbox"
-            name="status"
-            className="h-4 w-4 border-gray-300 rounded focus:ring-indigo-500"
-            style={{ width: "16px", height: "16px" }}
-          />
-        </Label>
+
+        <div className="w-full">
+          <Label htmlFor="status">Status</Label>
+          <Input type="hidden" name="status" defaultValue="FALSE"/>
+          <Input defaultValue="In Progress" readOnly />
+        </div>
 
         <Label htmlFor="key_actions">Key Actions</Label>
         <Input
@@ -119,6 +125,22 @@ export default function CreateGoalForm({ className }: { className?: string }) {
         <Label htmlFor="comments">Comments</Label>
         <Input type="text" name="comments" placeholder="Comments" required />
 
+        <div className="w-full">
+          <Label htmlFor="visualization">Status</Label>
+          <Select
+            name="visualization"
+          >
+            <SelectTrigger>
+              <SelectValue
+                placeholder="Select Chart"
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Bar Graph">Bar Graph</SelectItem>
+              <SelectItem value="Line Graph">Line Graph</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <div className="flex mt-5">
           <div className="flex-auto">
             <DialogClose asChild>
@@ -132,4 +154,3 @@ export default function CreateGoalForm({ className }: { className?: string }) {
     </form>
   );
 }
-

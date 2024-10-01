@@ -186,6 +186,7 @@ export async function createRole(formData: FormData) {
 }
 
 export async function deleteRole(id: any) {
+  //console.log("delete role", id);
   const supabase = createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
@@ -242,6 +243,7 @@ export async function editProfile(formData: FormData) {
 
 // Edit the user profile from the Supabase
 export async function editUserRoleGroup(user_id: any, formData) {
+  console.log("user_id", user_id);
   const supabase = createClient();
   // const userName = formData.get("username");
   // const userEmail = formData.get("userEmail");
@@ -263,6 +265,13 @@ export async function editUserRoleGroup(user_id: any, formData) {
     //     username:userName,
     //     userEmail:userEmail
     //   });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log("data", data);
+    // Return the updated data to the calling component
+    return { success: true, data };
   } catch (error) {
     console.error("Error while adding Profile", error.message);
   } finally {

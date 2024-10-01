@@ -109,33 +109,12 @@ export function getMenuList(pathname: string): Group[] {
           submenus: []
         },        
         {
-          href: "",
+          href: "/reporting/reports",
           label: "Reports",
           active: pathname.includes("/reporting/reports"),
           icon: FileText,
-          submenus: [
-            {
-              href: "/reporting/reports",
-              label: "Dashboard",
-              active: pathname === "/reporting/reports"
-            },
-            {
-              href: "/reporting/reports/internal",
-              label: "Internal Reports",
-              active: pathname === "/reporting/reports/internal"
-            },
-            {
-              href: "/reporting/reports/external",
-              label: "External Reports",
-              active: pathname === "/reporting/reports/external"
-            },
-            // {
-            //   href: "/reporting/reports/templates",
-            //   label: "Templates",
-            //   active: pathname === "/reporting/reports/templates"
-            // },
-          ]
-        },
+          submenus: []
+        }, 
       ]
     },
     {

@@ -58,7 +58,7 @@ export default async function taskPage({
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
-  const taskLogs = Logs?.filter((logs) => logs.user === userName);
+  const taskLogs = Logs?.filter((logs) => logs.task_id === taskId && logs.user === userName)
 
   return (
     <>
@@ -139,7 +139,7 @@ export default async function taskPage({
           </div>
 
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
-            <h2 className="font-semibold text-xl mb-3">My Activity Logs</h2>
+            <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
             <Table>
               <TableHeader>
                 <TableRow>

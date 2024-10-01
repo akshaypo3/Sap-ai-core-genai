@@ -36,7 +36,7 @@ export async function AddRoleButton() {
   );
 }
 
-export async function DeleteRoleButton({ id }: { id: string }) {
+export async function DeleteRoleButton({ id }: { id }) {
   return (
     <Dialog>
       <DialogTrigger>
@@ -48,6 +48,9 @@ export async function DeleteRoleButton({ id }: { id: string }) {
         </button>
       </DialogTrigger>
       <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-center">Delete Role</DialogTitle>
+        </DialogHeader>
         <DeleteRoleForm id={id} />
       </DialogContent>
     </Dialog>

@@ -22,7 +22,7 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 export const description = "A radial chart with text"
 
 const chartData = [
-  { browser: "safari", visitors: 106, fill: "var(--color-safari)" },
+  { browser: "safari", visitors: 27, fill: "var(--color-safari)" },
 ]
 
 const chartConfig = {
@@ -50,7 +50,7 @@ export default function ChartQuestionCompletion() {
           <RadialBarChart
             data={chartData}
             startAngle={0}
-            endAngle={360}
+            endAngle={120}
             innerRadius={80}
             outerRadius={110}
           >

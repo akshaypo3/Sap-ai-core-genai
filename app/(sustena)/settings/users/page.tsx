@@ -178,10 +178,10 @@ export default async function Home() {
                           {user.userId}
                         </TableCell>
                         <TableCell className="px-6 py-4 text-center">
-                          <DeleteUserButton id={user.userId} />{" "}
+                          <DeleteUserButton id={user} />{" "}
                         </TableCell>
                         <TableCell className="px-6 py-4 text-center">
-                          <EditUserButton id={user.userId} />{" "}
+                          <EditUserButton id={user} />{" "}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -224,7 +224,7 @@ export default async function Home() {
                           <RoleDetailsButton roleid={item.id} />
                         </TableCell>
                         <TableCell>
-                          <DeleteRoleButton id={item.id} />
+                          <DeleteRoleButton id={item} />
                         </TableCell>
                       </TableRow>
                     ))}
@@ -283,7 +283,7 @@ export default async function Home() {
                         <GroupDetailsButton groupid={item.id} />
                       </TableCell>
                       <TableCell>
-                        <DeleteGroupButton id={item.id} />
+                        <DeleteGroupButton id={item} />
                       </TableCell>
                     </TableRow>
                   ))}

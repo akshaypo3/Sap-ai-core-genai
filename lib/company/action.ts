@@ -1,9 +1,10 @@
+"use server"
+
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function addLocation(formData: FormData) {
-    "use server"
     const supabase = createClient();
   
     const location = {
@@ -33,7 +34,6 @@ export async function addLocation(formData: FormData) {
   }
 
   export async function addProductService(formData: FormData) {
-    "use server"
     const supabase = createClient();
   
     const productService = {
@@ -59,7 +59,6 @@ export async function addLocation(formData: FormData) {
   }
 
   export async function saveCompanyDetails(formData: FormData) {
-    "use server"
     const supabase = createClient();
     const companyId = formData.get('company_id');
   
@@ -92,4 +91,42 @@ export async function addLocation(formData: FormData) {
     
     revalidatePath('/materiality/company');
     redirect('/materiality/company');
+}
+
+export async function deleteCompanyLocationWithId(id){
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase.from('company_locations').delete().eq('id',id);
+    
+    if(error){
+      console.log("Error while deleting company location");
+    }else{
+      console.log("Successfully deleted location with id",id)
+    }
+  } catch (error) {
+    console.log("Error while deleting company location");
+  } finally{
+    revalidatePath('/materiality/company');
+    redirect('/materiality/company');
+  }
+}
+
+export async function deleteCompanyProductWithId(id){
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase.from('products_services').delete().eq('id',id);
+    
+    if(error){
+      console.log("Error while deleting company product");
+    }else{
+      console.log("Successfully deleted product with id",id)
+    }
+  } catch (error) {
+    console.log("Error while deleting company product");
+  } finally{
+    revalidatePath('/materiality/company');
+    redirect('/materiality/company');
+  }
 }

@@ -6,22 +6,18 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
-import { Slash } from "lucide-react"
+import { Slash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { getGoalById } from "@/lib/goals/data";
 import { DeleteGoalButton } from "@/components/goals/buttons";
 import { UpdateGoalButton } from "@/components/goals/buttons";
 
-export default async function GoalPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function GoalPage({ params }: { params: { id: string } }) {
   const { id: goalId } = params;
 
   const goal = await getGoalById(goalId);
@@ -42,10 +38,12 @@ export default async function GoalPage({
                   <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/goals">Goals</BreadcrumbLink>
+                  <BreadcrumbLink href="/materiality/goals">
+                    Goals
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -54,7 +52,7 @@ export default async function GoalPage({
 
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
-            <AlertTitle className="mb-5">Goal Overview</AlertTitle>
+          <h2 className="font-semibold text-xl mb-3">Goal Overview</h2>
             <AlertDescription>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -77,7 +75,9 @@ export default async function GoalPage({
                 </div>
                 <div>
                   <Label>Current Value</Label>
-                  <p>{goal.current_value}</p>
+                  <p>
+                    {goal.current_value} {goal.unit_of_measure}
+                  </p>
                 </div>
                 <div>
                   <Label>Progress</Label>
@@ -89,7 +89,7 @@ export default async function GoalPage({
                 </div>
                 <div>
                   <Label>Status</Label>
-                  <p>{goal.status ? "Active" : "Inactive"}</p>
+                  <p>{goal.status ? "Completed" : "In Progress"}</p>
                 </div>
                 <div>
                   <Label>Key Actions</Label>
@@ -109,11 +109,10 @@ export default async function GoalPage({
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
                 <div className="flex items-center">
                 <UpdateGoalButton goal={goal}/>
-                <DeleteGoalButton goalId={goal.id}/>
+                <DeleteGoalButton goalId={goal}/>
                 </div>
               </div>
         </div>
-        <Separator className="my-8" />
       </ContentLayout>
     </>
   );
