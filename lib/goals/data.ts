@@ -62,3 +62,24 @@ export async function getActivityGoalLogs() {
 
   return activities;
 }
+export async function Goalhistory() {
+  const supabase = createClient();
+
+  const { data: goalsWithHistory, error } = await supabase
+    .from("goals")
+    .select(`
+      *,
+      goal_history (
+        *
+      )
+    `)
+    .order("created_at", { ascending: true });
+
+
+  if (error) {
+    console.error("Error fetching activity logs for goals:", error);
+    return [];
+  }
+
+  return goalsWithHistory;
+}

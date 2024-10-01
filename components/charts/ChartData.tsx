@@ -48,6 +48,13 @@ type AssessmentData = {
       color: "hsl(var(--chart-1))",
     },
   };
+  const GoalChartConfig: ChartConfig = {
+    assessment: {
+      x_label: "Date",
+      y_label: "Actual Value",
+      color: "hsl(var(--chart-1))",
+    },
+  };
 //   const InteactiveChartConfig: ChartConfig = {
 //     assessment: {
 //       x_label: "Impact Score",
@@ -88,7 +95,8 @@ interface ChartItemConfig {
     assessmentChartConfig,
     ScattaredassessmentChartConfig,
     PieassessmentChartConfig,
-    InteactiveChartConfig
+    InteactiveChartConfig,
+    GoalChartConfig
   };
   export type {
     AssessmentData,

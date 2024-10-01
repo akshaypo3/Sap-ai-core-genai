@@ -1,7 +1,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { getActivityGoalLogs, getGoals } from "@/lib/goals/data";
+import { getActivityGoalLogs, getGoals ,Goalhistory} from "@/lib/goals/data";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -38,7 +38,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AddGoal, ViewGoalButton, ViewGoalActivityButton } from "@/components/goals/buttons";
-
+import  {GoalChart}from "@/components/charts/GoalChart";
 export default async function Home() {
   const supabase = createClient();
 
@@ -52,6 +52,8 @@ export default async function Home() {
 
   const goals = await getGoals();
   const goalActivityLogs = await getActivityGoalLogs()
+  const goalshistory = await Goalhistory()
+  const length=goalshistory.length%3
 
   return (
     <>
@@ -72,7 +74,20 @@ export default async function Home() {
             {/* <Button variant="outline">Add new</Button> */}
           </div>
         </div>
-
+        <div className="flex flex-wrap"> {/* Add flex-wrap to allow wrapping to the next row */}
+  {goalshistory.map((goal, index) => {
+    return (
+      <div key={goal.id} className="w-1/3 p-2 flex"> {/* Each chart takes one-third of the width */}
+        <GoalChart goal={goal.goal_history} Chart={goal.visualization} name={goal.name} desc={goal.description} unit={goal.unit_of_measure} />
+      </div>
+    );
+  })}
+  
+  {/* Render a blank space if there are less than three charts */}
+  {goalshistory.length < 3 && (
+    <div className="w-1/3 p-2 flex"></div> // This creates the blank space for the third chart
+  )}
+</div>
         <Tabs defaultValue="goals" className="w-full">
           <TabsList>
             <TabsTrigger value="goals">Goals</TabsTrigger>

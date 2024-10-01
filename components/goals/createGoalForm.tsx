@@ -8,8 +8,8 @@ export default function CreateGoalForm({ className }: { className?: string }) {
   return (
     <form
       action={createGoal}
-      className={`max-h-[75vh] overflow-y-auto p-4 ${className}`}
-      style={{ maxHeight: "90vh" }}
+      className={`p-4 ${className}`}
+      //style={{ maxHeight: "90vh" }}
     >
       <div className="grid w-full items-center gap-1.5 mb-2">
         <Label htmlFor="name">Goal Name</Label>

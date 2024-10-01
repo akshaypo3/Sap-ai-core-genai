@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts"
-import CustomTooltip from "@/components/materiality/assessments/CustomTooltip";
+import CustomTooltip from "@/components/charts/CustomTooltip";
 import {
   Card,
   CardContent,
@@ -59,7 +59,7 @@ const ReusableLineChart: React.FC<ReusableLineChartProps> = ({
       <CardDescription>{description}</CardDescription>
     </CardHeader>
     <CardContent>
-      <ChartContainer config={config} style={{ height: '400px',width:'800px' }}>
+      <ChartContainer config={config}>
         <LineChart
           accessibilityLayer
           data={data}
@@ -74,11 +74,16 @@ const ReusableLineChart: React.FC<ReusableLineChartProps> = ({
             tickLine={false}
             axisLine={false}
             tickMargin={8}
-            //tickFormatter={(value) => value.slice(0, 3)}
+            tickFormatter={(value) => value.slice(0, 10)}
           />
-          <YAxis 
-          label={{value: label1, angle: -90, position: 'insideLeft', offset: 5, fill: '#666', fontSize: 14,textAnchor: 'middle',fontWeight: 'bold'}} tick={{ fill: '#666', fontSize: 12 }}
-          />
+          <YAxis>
+          <Label 
+                value={chartConfig?.y_label || "Y Axis"}
+                angle={-90} 
+                position="insideLeft" 
+                style={{ textAnchor: 'middle', fontSize: 14, fontWeight: 'bold' }} 
+              />
+         </YAxis>
           <ChartTooltip
             cursor={false}  
             content={<CustomTooltip/>}
