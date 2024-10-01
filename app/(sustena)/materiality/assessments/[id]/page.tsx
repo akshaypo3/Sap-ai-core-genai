@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { getAssessmentData, getAssessmentDataforchart } from "@/lib/assessments/data";
+import { getAssessmentData, getAssessmentDataforchart ,getEsrsIrosStatscount} from "@/lib/assessments/data";
 import { Slash } from "lucide-react";
 import IroTable from "@/components/materiality/assessments/IroTable";
 import IroScatterchartclient from "@/components/materiality/assessments/IroScatterchartclient";
@@ -28,6 +28,7 @@ import {
   PieassessmentChartConfig,
   InteactiveChartConfig
 } from '@/components/charts/ChartData';
+import { Chart } from "chart.js";
 
 export default async function Home({ params }: { params: { id: string } }) {
 
@@ -35,26 +36,26 @@ export default async function Home({ params }: { params: { id: string } }) {
   const AssessmentData = await getAssessmentDataforchart(id);
   const assessmentData = await getAssessmentData(id);
 
-  //console.log("Id: "+id);
-  // const AssessmentData1 =  await getAssessmentDataforchart(id);
+  const AssessmentData1 =  await getAssessmentDataforchart(id);
+  const AssessmentData2 = await getEsrsIrosStatscount(id);
 
-  // const AssesmentbarChartProps: ReusableBarChartProps = {
-  //   data: AssessmentData1,
+  //  const AssesmentbarChartProps: ReusableBarChartProps = {
+  //    data: AssessmentData1,
   //   config: assessmentChartConfig,
   //   title: "Bar Assessment Data",
   //   description: "Assessment is the systematic basis for making inferences about the learning and development",
   //   dataKey: "impact_score",
-  //   xAxisKey: "code"
+  //  xAxisKey: "code"
   // };
   
-  // const AssesmentScatteredChart: ReusableScatteredChartProps = {
-  //   data: AssessmentData1,
-  //   config: ScattaredassessmentChartConfig,
-  //   title: "Scattered Assessment Data",
-  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
-  //   x_dataKey: "impact_score",
-  //   y_dataKey: "financial_score"
-  // };
+  const AssesmentScatteredChart: ReusableScatteredChartProps = {
+    data: AssessmentData1,
+    config: ScattaredassessmentChartConfig,
+     title: "Scattered Assessment Data",
+     description: "Assessment is the systematic basis for making inferences about the learning and development",
+    x_dataKey: "impact_score",
+    y_dataKey: "financial_score"
+  };
 
   // const AssesmentPieChart: ReusablePieChartProps = {
   //   data: AssessmentData1,
@@ -64,21 +65,30 @@ export default async function Home({ params }: { params: { id: string } }) {
   //   dataKey: "impact_score"
   // };
 
-  // const AssesmentPieChartwithlabel: ReusablePieChartwithlabelProps = {
-  //   data: AssessmentData1,
-  //   config: PieassessmentChartConfig,
-  //   title: "Pie Assessment Data with label",
-  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
-  //   dataKey: "impact_score"
-  // };
+  //  const AssesmentPieChartwithlabel: ReusablePieChartwithlabelProps = {
+  //    data: AssessmentData1,
+  //    config: PieassessmentChartConfig,
+  //    title: "Pie Assessment Data with label",
+  //    description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //    dataKey: "impact_score"
+  //  };
 
   // const AssesmentPieChartdonut: ReusablePieChartdonutProps = {
-  //   data: AssessmentData1,
-  //   config: PieassessmentChartConfig,
-  //   title: "Pie Assessment Data",
-  //   description: "Assessment is the systematic basis for making inferences about the learning and development",
-  //   dataKey: "impact_score"
-  // };
+  //    data: AssessmentData2,
+  //    config: PieassessmentChartConfig,
+  //    title: "Pie Assessment Data",
+  //    description: "Assessment is the systematic basis for making inferences about the learning and development",
+  //    dataKey: "impact_score"
+  //  };
+
+   const AssesmentPieChartdonut1: ReusablePieChartdonutProps = {
+    data: AssessmentData2,
+    config: PieassessmentChartConfig,
+    title: "Pie Assessment Data",
+    description: "Assessment is the systematic basis for making inferences about the learning and development",
+    dataKey: "count",
+    xAxisKey: "status"
+  };
 
   // const AssesmentLineChart: ReusableLineChartProps = {
   //   data: AssessmentData1,
@@ -167,7 +177,25 @@ export default async function Home({ params }: { params: { id: string } }) {
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
       <ReusableBarChartInteractive {...AssesmentBarChartInteractive} />
       </div> */}
-
+  <div className="flex flex-wrap justify-between">
+<div className="flex flex-col w-full md:w-2/5 p-2">
+<div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '250px' }}>
+<ReusablePieChartdonut {...AssesmentPieChartdonut1} />
+</div>
+<div className="mt-2 bg-white dark:bg-neutral-950 rounded-md border flex items-center justify-center" style={{ height: '250px' }}>
+"PlaceHolder"
+</div>
+</div>
+<div className="flex-1 w-full md:w-3/5 p-2">
+<div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '650px' }}>
+<ReusableScatteredChart {...AssesmentScatteredChart} />
+</div>
+</div>
+</div>
+ 
+      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+      <IroTable assessmentData={assessmentData} assessmentId={id} />
+      </div>
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
       <IroTable assessmentData={assessmentData} assessmentId={id} />
       </div>

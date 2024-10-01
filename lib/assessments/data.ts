@@ -1,5 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 
+export interface DataPoint {
+  [key: string]: string | number;
+}
 
 export async function getAR16Items(){
     const supabase = createClient()
@@ -65,7 +68,7 @@ export async function getAssessmentData(materialityassessmentsid) {
         .flat()  
     }));
 
-    // console.log("Processed data:", JSON.stringify(processedData, null, 2));
+    //console.log("Processed data:", JSON.stringify(processedData, null, 2));
 
     return processedData;
 
@@ -91,6 +94,7 @@ export async function getAssessmentData(materialityassessmentsid) {
       if (error) {
         throw new Error("Error fetching data from esrs_iros: " + error.message);
       }
+      //console.log(esrsIrosData);
       return esrsIrosData;
       
   
@@ -175,3 +179,39 @@ export async function getAssessmentData(materialityassessmentsid) {
       };
     }
   }
+
+  export async function getEsrsIrosStatscount(materialityassessmentsid) {
+    const supabase = createClient();
+  
+    try {
+      const { data: esrsIrosData, error } = await supabase
+        .from('esrs_iros')
+        .select('*')
+        .eq('assessment_id', materialityassessmentsid);
+  
+      if (error) {
+        throw new Error("Error fetching data from esrs_iros: " + error.message);
+      }
+  
+      // Check if data is retrieved
+      //console.log("Fetched Data:", esrsIrosData);
+  
+      // Ensure esrsIrosData is an array before mapping
+      if (Array.isArray(esrsIrosData)) {
+        // Add a count column to each row
+        const dataWithCount = esrsIrosData.map(item => ({
+          ...item,
+          count: 1, // Add the count property with value 1
+        }));
+  
+        //console.log("Data with Count Added:", dataWithCount); // Log the new data
+        return dataWithCount;
+      } else {
+        console.error("Fetched data is not an array:", esrsIrosData);
+        return [];
+      }
+    } catch (error) {
+      console.error("Error while fetching esrs_iros data: ", error.message);
+      return [];
+    }
+  }  

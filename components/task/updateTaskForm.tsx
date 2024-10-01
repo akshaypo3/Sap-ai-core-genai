@@ -15,12 +15,11 @@ import {
 export default async function UpdateTaskForm({ task }: any) {
   const users = await getUserProfiles();
 
-  const assignedUser = users.find((user) => user.id === task.assigned_to);
+  const assignedUser = users.find((user) => user.id === task.assigned_to.id);
 
   return (
-    <form action={updateTask} method="POST">
+    <form action={updateTask}>
       <input type="hidden" name="id" value={task.id} />
-      
       <div className="grid w-full items-center gap-1.5 mb-2">
         <Label htmlFor="title">Task Title</Label>
         <Input
@@ -42,9 +41,12 @@ export default async function UpdateTaskForm({ task }: any) {
 
         <div className="w-full">
           <Label htmlFor="assigned_to">Assigned To</Label>
-          <Select name="assigned_to" defaultValue={assignedUser ? assignedUser.id : ""}>
+          <Select
+            name="assigned_to"
+            defaultValue={assignedUser ? assignedUser.id : "Select User"}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Select user" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {users.map((user) => (

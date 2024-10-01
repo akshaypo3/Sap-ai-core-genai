@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AddGroupButton,
   DeleteGroupButton,
+  GroupDetailsButton,
 } from "@/components/settings/groups/buttons";
 import {
   Table,
@@ -26,15 +27,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Slash } from "lucide-react";
-import { getAllUsers, getUserInfo, getRoles, getUserGroups,getProfile,fetchUsersWithProfilesAndRoles } from "@/lib/settings/users/data";
+import {
+  getAllUsers,
+  getUserInfo,
+  getRoles,
+  getUserGroups,
+  getProfile,
+  fetchUsersWithProfilesAndRoles,
+  usercountForRole,
+  usercountForGroups,
+} from "@/lib/settings/users/data";
 import { createUser } from "@/lib/settings/users/action";
 import {
   AddRoleButton,
   DeleteRoleButton,
+  RoleDetailsButton,
 } from "@/components/settings/roles/buttons";
 import {
   AddUserButton,
-  DeleteUserButton,EditUserButton
+  DeleteUserButton,
+  EditUserButton,
 } from "@/components/settings/users/buttons";
 import {
   Dialog,
@@ -64,8 +76,11 @@ export default async function Home() {
   const activityLogs = await getActivityLog();
   const allRoles = await getRoles();
   const AllData = await fetchUsersWithProfilesAndRoles();
-  //console.log("AllData",AllData);
-  
+  const rolesData = await usercountForRole();
+  const groupsData = await usercountForGroups();
+
+  //console.log("roleUserCount", rolesData);
+
   return (
     <>
       <ContentLayout title="User Management">
@@ -103,57 +118,75 @@ export default async function Home() {
           <div className="bg-white p-5 border rounded">
             <TabsContent value="users">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-              <Table className="min-w-full table-auto border-collapse">
-  <TableHeader className="bg-gray-100">
-    <TableRow>
-      <TableHead className="px-6 py-3 text-left">Name</TableHead>
-      <TableHead className="px-6 py-3 text-left">Email</TableHead>
-      <TableHead className="px-6 py-3 text-left">Group</TableHead>
-      <TableHead className="px-6 py-3 text-left">Role</TableHead>
-      <TableHead className="px-6 py-3 text-left">Created</TableHead>
-      <TableHead className="px-6 py-3 text-left">Last Sign In</TableHead>
-      <TableHead className="px-6 py-3 text-left">UID</TableHead>
-      <TableHead className="px-6 py-3 text-center">Action</TableHead>
-      <TableHead className="px-6 py-3 text-center">Edit</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    {AllData?.map((user) => (
-      <TableRow key={user.userId} className="border-b hover:bg-gray-50">
-        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-          {user?.name || "NA "}
-        </TableCell>
-        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-          {user.email}
-        </TableCell>
-        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-          {user.group?.group || "No Group"}
-        </TableCell>
-        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-          {user.role?.role || "No Role"}
-        </TableCell>
-        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-          {new Date(user.createdAt).toLocaleDateString()}
-        </TableCell>
-        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-          {user.lastSignInAt
-            ? new Date(user.lastSignInAt).toLocaleDateString()
-            : "Never Signed In"}
-        </TableCell>
-        <TableCell className="px-6 py-4 font-medium text-left whitespace-nowrap">
-          {user.userId}
-        </TableCell>
-        <TableCell className="px-6 py-4 text-center">
-          <DeleteUserButton id={user.userId} />{" "}
-        </TableCell>
-        <TableCell className="px-6 py-4 text-center">
-          <EditUserButton id={user.userId} />{" "}
-        </TableCell>
-      </TableRow>
-    ))}
-  </TableBody>
-</Table>
-
+                <Table className="min-w-full table-auto border-collapse">
+                  <TableHeader className="bg-gray-100">
+                    <TableRow>
+                      <TableHead className="px-6 py-3 text-left">
+                        Name
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-left">
+                        Email
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-left">
+                        Group
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-left">
+                        Role
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-left">
+                        Created
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-left">
+                        Last Sign In
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-left">UID</TableHead>
+                      <TableHead className="px-6 py-3 text-center">
+                        Action
+                      </TableHead>
+                      <TableHead className="px-6 py-3 text-center">
+                        Edit
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {AllData?.map((user) => (
+                      <TableRow
+                        key={user.userId}
+                        className="border-b hover:bg-gray-50"
+                      >
+                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+                          {user?.name || "NA "}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+                          {user.email}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+                          {user.group?.group || "No Group"}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+                          {user.role?.role || "No Role"}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+                          {new Date(user.createdAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
+                          {user.lastSignInAt
+                            ? new Date(user.lastSignInAt).toLocaleDateString()
+                            : "Never Signed In"}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 font-medium text-left whitespace-nowrap">
+                          {user.userId}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 text-center">
+                          <DeleteUserButton id={user.userId} />{" "}
+                        </TableCell>
+                        <TableCell className="px-6 py-4 text-center">
+                          <EditUserButton id={user.userId} />{" "}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
                 <div className="flex items-center">
@@ -165,21 +198,31 @@ export default async function Home() {
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
                 <AddRoleButton />
                 <Table>
-                  <TableCaption>Roles List</TableCaption>
+                  <TableCaption>{/* Roles List */}</TableCaption>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Role</TableHead>
                       <TableHead>Description</TableHead>
-                      {/* <TableHead>Survey</TableHead> */}
+                      <TableHead style={{ textAlign: "left" }}>
+                        Users Count
+                      </TableHead>
+                      <TableHead>Details</TableHead>
+                      <TableHead>Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {allRoles?.map((item) => (
+                    {rolesData?.map((item) => (
                       <TableRow key={item.id}>
                         <TableCell className="font-medium">
                           {item.role}
                         </TableCell>
                         <TableCell>{item.description}</TableCell>
+                        <TableCell className="text-center">
+                          {item.user_count}
+                        </TableCell>
+                        <TableCell>
+                          <RoleDetailsButton roleid={item.id} />
+                        </TableCell>
                         <TableCell>
                           <DeleteRoleButton id={item.id} />
                         </TableCell>
@@ -221,16 +264,24 @@ export default async function Home() {
                   <TableRow>
                     <TableHead>Name</TableHead>
                     <TableHead>Description</TableHead>
+                    <TableHead className="text-center">Users Count</TableHead>
+                    <TableHead>Details</TableHead>
                     <TableHead>Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {userGroups?.map((item) => (
+                  {groupsData?.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell className="font-medium">
                         {item.group}
                       </TableCell>
                       <TableCell>{item.description}</TableCell>
+                      <TableCell className="text-center">
+                        {item.user_count}
+                      </TableCell>
+                      <TableCell>
+                        <GroupDetailsButton groupid={item.id} />
+                      </TableCell>
                       <TableCell>
                         <DeleteGroupButton id={item.id} />
                       </TableCell>

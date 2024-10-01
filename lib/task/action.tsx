@@ -5,13 +5,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { sendMail } from "@/lib/settings/smtp/action";
-// import { getUserInfo } from "@/lib/settings/users/data"
+import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function createTask(formData: FormData) {
   const supabase = createClient();
-  // const userData = await getUserInfo();
-  // const userEmail= userData.email;
-  // const userName = userEmail.substring(0, userEmail.indexOf('@'));
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
   const title = formData.get("title");
   const description = formData.get("description");
@@ -29,7 +29,7 @@ export async function createTask(formData: FormData) {
         description: description,
         assigned_to: assigned_to,
         created_by: created_by,
-        status: status, 
+        status: status,
         start_date: start_date,
         due_date: due_date,
       })
@@ -39,13 +39,31 @@ export async function createTask(formData: FormData) {
       throw new Error("Error while inserting in the database");
     }
 
-    // if (!error && data) {
-    //   await supabase.from("activitylog").insert({
-    //     created_at: new Date().toISOString(),
-    //     activity: `Group '${groupName}' created`,
-    //   //   user:userName,
-    //   });
-    // }
+    if (!error && data) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${title}' created`,
+          user: userName,
+          changes: {
+            user: userName,
+            activity: `Task '${title}' created`,
+            created_at: new Date().toISOString(),
+            title: title,
+            description: description,
+            assigned_to: assigned_to,
+            created_by: created_by,
+            status: status,
+            start_date: start_date,
+            due_date: due_date,
+          },
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
 
     const { data: createdUserData, error: createdUserError } = await supabase
       .from("user_profile")
@@ -109,8 +127,11 @@ export async function createTask(formData: FormData) {
 
 export async function updateTask(formData: FormData) {
   const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
-  const id = formData.get("id") 
+  const id = formData.get("id");
 
   const updatedData = {
     title: formData.get("title"),
@@ -123,16 +144,56 @@ export async function updateTask(formData: FormData) {
   };
 
   try {
-    const { data, error } = await supabase
+    const { data: currentTask, error: fetchError } = await supabase
+      .from("tasks")
+      .select()
+      .eq("id", id)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching current task data:", fetchError);
+      return;
+    }
+
+    const updatedFields: any = {};
+    for (const key in updatedData) {
+      if (String(updatedData[key]) !== String(currentTask[key])) {
+        updatedFields[key] = {
+          previous: currentTask[key] || "N/A",
+          updated: updatedData[key] || "N/A",
+        };
+      }
+    }
+
+    if (Object.keys(updatedFields).length === 0) {
+      console.log("No fields were updated.");
+      return;
+    }
+
+    const { data, error: updateError } = await supabase
       .from("tasks")
       .update(updatedData)
       .eq("id", id);
 
-    if (error) {
-      console.error("Error updating task:", error);
+    if (updateError) {
+      console.error("Error updating task:", updateError);
       throw new Error("Failed to update task");
     }
 
+    if (!updateError) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${updatedData?.title}' updated`,
+          user: userName,
+          changes: updatedFields,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
   } catch (error) {
     console.error("Error in updateTask function:", error);
   } finally {
@@ -140,6 +201,20 @@ export async function updateTask(formData: FormData) {
     redirect("/task");
   }
 }
+
+export const updateTaskStatus = async (taskId: any, newStatus: any) => {
+  const supabase = createClient();
+  const { data: updatatedtasks, error } = await supabase
+    .from("tasks")
+    .update({ status: newStatus })
+    .eq("id", taskId);
+
+  if (error) {
+    console.error("Error updating task status:", error);
+  }
+
+  return updatatedtasks;
+};
 
 cron.schedule("8 8 * * *", async () => {
   const supabase = createClient();
@@ -152,20 +227,23 @@ cron.schedule("8 8 * * *", async () => {
       .from("tasks")
       .select("id, assigned_to, title, due_date")
       .lt("due_date", todayString)
-      .neq("status", "DONE"); 
+      .neq("status", "DONE");
 
     if (error) {
       throw new Error("Error fetching data from the database");
     }
 
     if (overdueTasks.length > 0) {
-      const tasksByUser = overdueTasks.reduce((acc: { [key: string]: any[] }, task) => {
-        if (!acc[task.assigned_to]) {
-          acc[task.assigned_to] = [];
-        }
-        acc[task.assigned_to].push(task);
-        return acc;
-      }, {});
+      const tasksByUser = overdueTasks.reduce(
+        (acc: { [key: string]: any[] }, task) => {
+          if (!acc[task.assigned_to]) {
+            acc[task.assigned_to] = [];
+          }
+          acc[task.assigned_to].push(task);
+          return acc;
+        },
+        {},
+      );
 
       for (const [assigned_to, tasks] of Object.entries(tasksByUser)) {
         if (tasks.length >= 50) {
@@ -201,7 +279,10 @@ cron.schedule("8 8 * * *", async () => {
 
           const emailResponse = await sendMail(emailDetails);
           if (!emailResponse) {
-            console.error("Error sending overdue notification email to", userEmail);
+            console.error(
+              "Error sending overdue notification email to",
+              userEmail,
+            );
           }
         } else {
           console.log(`User ${assigned_to} has fewer than 50 overdue tasks`);
@@ -214,6 +295,7 @@ cron.schedule("8 8 * * *", async () => {
     console.error("Error in cron job:", error);
   }
 });
+
 
 export async function updateTaskStatus(taskId: string, newStatus: string) {
   const supabase = createClient();
@@ -250,3 +332,108 @@ export async function updateTaskStatus(taskId: string, newStatus: string) {
     throw error;
   }
 }
+
+export const createComment = async (formData: FormData) => {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+  const userId = userData.id;
+
+  const taskID = formData.get("taskID");
+  const commentText = formData.get("comment");
+
+  if (!commentText) {
+    console.error("Comment cannot be empty");
+    return null;
+  }
+
+  try {
+    const { data: newComment, error } = await supabase.from("comments").insert({
+      comment: commentText,
+      user: userName,
+      task_id: taskID,
+      user_id: userId,
+    });
+
+    if (error) {
+      console.error("Error creating comment:", error);
+      return null;
+    }
+
+    if (!error) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Comment '${commentText}' created`,
+          user: userName,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
+
+    return newComment;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/task/${taskID}`);
+    redirect(`/task/${taskID}`);
+  }
+};
+
+export const deleteComment = async (commentId: string, taskId: string) => {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+
+  try {
+    const { data: previousData, error: fetchError } = await supabase
+      .from("comments")
+      .select()
+      .eq("id", commentId)
+      .single();
+
+      console.log("jhxshukx",previousData)
+
+    if (fetchError) {
+      console.error("Error fetching comment:", fetchError);
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from("comments")
+      .delete()
+      .eq("id", commentId);
+
+    if (error) {
+      console.error("Error deleting comment:", error);
+      return null;
+    }
+
+    if (!error) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Comment '${previousData.comment}' deleted`,
+          user: userName,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/task/${taskId}`);
+    redirect(`/task/${taskId}`);
+  }
+};
+

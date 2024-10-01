@@ -87,4 +87,70 @@ export async function getTaskById(taskId: string) {
       };
     
     return formattedTasks;
+}
+
+export async function getComments(taskId:string){
+  const supabase = createClient();
+
+  const { data: comments, error } = await supabase
+  .from("comments")
+  .select()
+  .order('created_at', { ascending: false })
+  .eq("task_id", taskId);
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return null;
   }
+
+  return comments;
+}
+
+export async function getTaskLogs(){
+  const supabase = createClient();
+
+  const { data: tasklogs, error } = await supabase
+  .from("task-activitylog")
+  .select()
+  .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error("Error fetching task logs:", error);
+    return null;
+  }
+
+  return tasklogs;
+}
+
+export async function getTaskActivityLogById(activityId: string) {
+  const supabase = createClient();
+
+  const { data: log, error } = await supabase
+    .from("task-activitylog")
+    .select()
+    .eq("id", activityId)
+    .single(); 
+
+  if (error) {
+    console.error("Error fetching activity logs:", error);
+    return null;
+  }
+
+  return log;
+}
+
+export const getCommentsByTaskId = async (userId : string) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("comments")
+    .select()
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return [];
+  }
+
+  return data;
+};

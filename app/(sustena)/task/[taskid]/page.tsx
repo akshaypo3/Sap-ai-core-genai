@@ -1,6 +1,9 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { getUserInfo } from "@/lib/settings/users/data";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,13 +11,29 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
 import { getTaskById } from "@/lib/task/data";
 import { UpdateTaskButton } from "@/components/task/buttons";
+import { Comments } from "@/components/task/comments";
+import { ViewTaskActivityButton } from "@/components/task/buttons";
+import { getTaskLogs } from "@/lib/task/data";
 
-export default async function taskPage({ params }: { params: { taskid: string } }) {
+export default async function taskPage({
+  params,
+}: {
+  params: { taskid: string };
+}) {
   const { taskid: taskId } = params;
 
   const task = await getTaskById(taskId);
@@ -22,6 +41,24 @@ export default async function taskPage({ params }: { params: { taskid: string } 
   if (!task) {
     return notFound();
   }
+
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
+
+  const Logs = await getTaskLogs();
+
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+
+  const taskLogs = Logs?.filter((logs) => logs.user === userName);
 
   return (
     <>
@@ -38,18 +75,15 @@ export default async function taskPage({ params }: { params: { taskid: string } 
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/task">
-                    Tasks
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="/task">Tasks</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </div>
-
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
-            <AlertTitle className="mb-5">Task Overview</AlertTitle>
+            <h2 className="font-semibold text-xl mb-3">Task Overview</h2>
             <AlertDescription>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -91,11 +125,60 @@ export default async function taskPage({ params }: { params: { taskid: string } 
               </div>
             </AlertDescription>
           </Alert>
-          <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
-                <div className="flex items-center">
-                <UpdateTaskButton task={task}/>
-                </div>
+
+          {user.id === task.created_by.id && (
+            <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
+              <div className="flex items-center">
+                <UpdateTaskButton task={task} />
               </div>
+            </div>
+          )}
+
+          <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-start justify-start">
+            <Comments taskId={taskId} user={user} />
+          </div>
+
+          <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
+            <h2 className="font-semibold text-xl mb-3">My Activity Logs</h2>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Time</TableHead>
+                  <TableHead>User</TableHead>
+                  <TableHead>Activity</TableHead>
+                  <TableHead>Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {taskLogs && taskLogs.length > 0 ? (
+                  taskLogs.map((log) => (
+                    <TableRow key={log.id}>
+                      <TableCell>
+                        {new Date(log.created_at)
+                          .toLocaleDateString("en-GB")
+                          .replace(/\//g, ".")}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(log.created_at).toLocaleTimeString("en-GB", {
+                          hour12: false,
+                        })}
+                      </TableCell>
+                      <TableCell>{log.user}</TableCell>
+                      <TableCell>{log.activity}</TableCell>
+                      <TableCell>
+                        <ViewTaskActivityButton activityId={log.id} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5}>No activity logs available.</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </ContentLayout>
     </>

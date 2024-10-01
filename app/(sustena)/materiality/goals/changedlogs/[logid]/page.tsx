@@ -83,7 +83,7 @@ export default async function ActivityPage({
   return (
     <>
       <ContentLayout title="Changes">
-        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+        <div className="mb-5 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
             <h1 className="font-bold text-2xl mb-2">{activity.user}</h1>
             <Breadcrumb>
@@ -104,7 +104,7 @@ export default async function ActivityPage({
           </div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-950 rounded-md p-6">
+        <div className="bg-white dark:bg-neutral-950 rounded-md mb-5">
           <Alert>
             <AlertTitle className="mb-5">Descriptive Changes</AlertTitle>
             <AlertDescription>
@@ -173,7 +173,7 @@ export default async function ActivityPage({
             </AlertDescription>
           </Alert>
         </div>
-        <div className="bg-white dark:bg-neutral-950 rounded-md p-6">
+        <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
             <AlertDescription>
               <div className="grid grid-cols-2 gap-4">
