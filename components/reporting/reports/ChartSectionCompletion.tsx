@@ -21,9 +21,9 @@ import {
 export const description = "A bar chart with a label"
 
 const chartData = [
-  { section: "A", done: 100 },
-  { section: "B", done: 100 },
-  { section: "C", done: 100 },
+  { section: "A", done: 65 },
+  { section: "B", done: 0 },
+  { section: "C", done: 0 },
 ]
 
 const chartConfig = {

@@ -23,9 +23,9 @@ import {
 export const description = "A stacked bar chart with a legend"
 
 const chartData = [
-  { month: "A", desktop: 68, mobile: 0 },
-  { month: "B", desktop: 12, mobile: 0 },
-  { month: "C", desktop: 80, mobile: 27 },
+  { month: "A", desktop: 27, mobile: 0 },
+  { month: "B", desktop: 0, mobile: 12 },
+  { month: "C", desktop: 0, mobile: 107 },
 ]
 
 const chartConfig = {

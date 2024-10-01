@@ -9,7 +9,6 @@ export async function getNewsArticles(){
         if(error){
             console.error("Error while fetching news articles:", error)
         }else{
-            console.log(newsArticles);
             return newsArticles;
         };
         
@@ -29,7 +28,6 @@ export async function getNewsArticlesById(newsArticleId:any){
         if(error){
             console.error("Error while fetching news article:", error)
         }else{
-            console.log(newsArticle);
             return newsArticle;
         };
         
