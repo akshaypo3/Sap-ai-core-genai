@@ -16,7 +16,7 @@ export default function CreateGoalForm() {
 
     <form
       action={createGoal}
-      className={`p-4 ${className}`}
+      className="p-4"
       //style={{ maxHeight: "90vh" }}
     >
 
