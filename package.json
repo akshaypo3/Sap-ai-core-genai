@@ -40,6 +40,7 @@
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tremor/react": "^3.17.4",
+    "@xyflow/react": "^12.3.1",
     "autoprefixer": "10.4.17",
     "chart.js": "^4.4.4",
     "class-variance-authority": "^0.7.0",
