@@ -1,22 +1,16 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-
-import { ContentLayout } from "@/components/sustena-layout/content-layout";
+import { ContentLayout } from "@/components/sustena-layout/content-layout-datahub";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
-// import Subheader from "@/components/Subheader";
-import FlowDiagram from "@/components/datahub/SourceConnections";
-
+import DataHub from "@/components/datahub/DataHub";
 
 export default async function Home() {
   const supabase = createClient();
@@ -30,31 +24,10 @@ export default async function Home() {
   }
 
   return (
-    <>
-      <ContentLayout title="Connections">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Data Hub: Connections</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard/">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/datahub/connections">Data Hub</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
+    <ContentLayout title="Connections">
+      <div style={{ height: 'calc(100vh - 175px)', width: '100%' }}>
+        <DataHub />
       </div>
     </ContentLayout>
-    </>
   );
 }
