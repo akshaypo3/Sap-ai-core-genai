@@ -36,7 +36,8 @@ export function AddGoal() {
   );
 }
 
-export function AddValue({ goalId: string }) {
+export function AddValue({ goalId }:{ goalId:string}) {
+  console.log(goalId);
   return (
     <Dialog>
       <DialogTrigger>

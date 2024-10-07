@@ -121,7 +121,7 @@ export async function createGoal(formData: FormData) {
         },
       });
     }
-    console.log("Created Goal: " + JSON.stringify(data));
+    //console.log("Created Goal: " + JSON.stringify(data));
   } catch (error) {
     console.error("Error while adding Goal:", error);
   } finally {
@@ -231,7 +231,7 @@ export async function updateGoal(id: string, goalData: any) {
   }
 }
 
-export async function addValue(formData: FormData, goalId: string) {
+export async function addValue(formData:FormData) {
   const supabase = createClient();
 
   const targetValue = parseFloat(formData.get("target_value") as string) || 0;
@@ -241,6 +241,7 @@ export async function addValue(formData: FormData, goalId: string) {
   const comments = formData.get("comments");
   const status = formData.get("status");
   const unitOfMeasure = formData.get("unit_of_measure");
+  const goalId = formData.get("goalId")
 
   const calculateProgress = (
     currentValue: number,
@@ -298,7 +299,7 @@ export async function addValue(formData: FormData, goalId: string) {
       console.log("New goal current value is added");
     }
 
-    console.log("Added Value:", value);
+    //console.log("Added Value:", value);
   } catch (error) {
     console.error("Error while adding value:", error);
   } finally {

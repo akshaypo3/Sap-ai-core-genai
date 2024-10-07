@@ -3,7 +3,10 @@ import { createClient } from "@/utils/supabase/server";
 export async function getGoals() {
   const supabase = createClient();
 
-  const { data: goals, error } = await supabase.from("goals").select();
+  const { data: goals, error } = await supabase
+    .from("goals")
+    .select()
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Error fetching goals:", error);
@@ -70,7 +73,7 @@ export async function Goalhistory() {
     .select(`
       *,
       goal_history (
-        *
+         *
       )
     `)
     .order("created_at", { ascending: true });
@@ -80,6 +83,12 @@ export async function Goalhistory() {
     console.error("Error fetching activity logs for goals:", error);
     return [];
   }
+   // Sort the goal_history for each goal by recorded_at
+   goalsWithHistory.forEach(goal => {
+    if (goal.goal_history) {
+      goal.goal_history.sort((a, b) => new Date(a.recorded_at) - new Date(b.recorded_at));
+    }
+  });
 
   return goalsWithHistory;
 }

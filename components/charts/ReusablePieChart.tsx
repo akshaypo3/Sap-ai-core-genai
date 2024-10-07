@@ -2,6 +2,7 @@
 import React from "react"
 import { Pie, PieChart, Label, Cell } from "recharts"
 import CustomTooltip from "@/components/materiality/assessments/CustomTooltip";
+import CustomTooltipGoal from "@/components/charts/CustomTooltip";
 import {
   Card,
   CardContent,
@@ -46,12 +47,30 @@ const ReusablePieChart: React.FC<ReusablePieChartProps> = ({
   dataKey
 }) => {
     const chartConfig = config.assessment;
-    const label=chartConfig.x_label;
+    const label=chartConfig.y_label;
     const colors = [
       "#90EE90", "#98FB98", "#7CFC00", "#7FFF00", "#ADFF2F",
       "#32CD32", "#228B22", "#556B2F", "#6B8E23", "#3CB371",
       "#2E8B57", "#006400"
     ];
+    const buttonText=chartConfig.color;
+    let tooltip;
+
+    if (buttonText === "Goal") {
+      tooltip = (
+        <ChartTooltip
+            cursor={false}  
+            content={<CustomTooltipGoal/>}
+          />
+      );
+    } else {
+      tooltip=(
+      <ChartTooltip
+            cursor={false}
+            content={<CustomTooltip/>}
+          /> 
+      );
+    }
 
   return (
     <Card className="flex flex-col">
@@ -62,13 +81,10 @@ const ReusablePieChart: React.FC<ReusablePieChartProps> = ({
     <CardContent className="flex-1 pb-0">
       <ChartContainer
         config={config}
-        className="mx-auto aspect-square max-h-[300px]"
+        className="mx-auto aspect-square max-h-[290px]"
       >
         <PieChart>
-          <ChartTooltip
-            cursor={false}
-            content={<CustomTooltip/>}
-          />
+        {tooltip}
           <Pie data={data} dataKey={dataKey} nameKey="browser">
           {data.map((entry, index) => (
         <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />

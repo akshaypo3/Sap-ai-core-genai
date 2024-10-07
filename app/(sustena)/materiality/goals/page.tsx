@@ -75,16 +75,16 @@ export default async function Home() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="flex space-x-4">
-            {/* Button Section for Subheader */}
+          {/* <div className="flex space-x-4">
+            Button Section for Subheader
             <Button variant="outline">Add Goal</Button>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-wrap"> {/* Add flex-wrap to allow wrapping to the next row */}
   {goalshistory.map((goal, index) => {
     return (
       <div key={goal.id} className="w-1/3 p-2 flex"> {/* Each chart takes one-third of the width */}
-        <GoalChart goal={goal.goal_history} Chart={goal.visualization} name={goal.name} desc={goal.description} unit={goal.unit_of_measure} />
+        <GoalChart goal={goal.goal_history} Chart={goal.visualization} name={goal.name} desc={goal.description} unit={goal.unit_of_measure} goalId={goal.id} />
       </div>
     );
   })}

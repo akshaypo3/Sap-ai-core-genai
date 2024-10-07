@@ -12,12 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default async function CreateValueForm({ goalId: string }) {
-  const goal = await getGoalById(goalId);
+export default function CreateValueForm({ goalId }: { goalId: string }) {
+  //const goal = await getGoalById(goalId);
+  const goal =goalId;
+  const goalId1= goal.goal_id
 
   return (
-    <form action={(formData) => addValue(formData, goalId)} className="p-4">
+    <form action={addValue} className="p-4">
       <div className="grid w-full items-center gap-1.5 mb-2">
+        <Input type="hidden" name="goalId" value ={goalId1} />
         <Label htmlFor="target_value">Target Value</Label>
         <Input
           type="number"
@@ -47,7 +50,7 @@ export default async function CreateValueForm({ goalId: string }) {
 
         <div className="w-full">
           <Label htmlFor="status">Status</Label>
-          <Select name="status" defaultValue={goal.status}>
+          <Select name="status" defaultValue={goal.status ? "TRUE" : "FALSE"}>
             <SelectTrigger>
               <SelectValue placeholder="Select Status" />
             </SelectTrigger>
