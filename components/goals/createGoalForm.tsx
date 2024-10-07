@@ -16,7 +16,7 @@ export default function CreateGoalForm() {
 
     <form
       action={createGoal}
-      className={`p-4 ${className}`}
+      className={`p-4`}
       //style={{ maxHeight: "90vh" }}
     >
 
@@ -138,6 +138,8 @@ export default function CreateGoalForm() {
             <SelectContent>
               <SelectItem value="Bar Graph">Bar Graph</SelectItem>
               <SelectItem value="Line Graph">Line Graph</SelectItem>
+              <SelectItem value="Pie Graph">Pie Graph</SelectItem>
+              <SelectItem value="Donut Graph">Donut Graph</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import { Bar, BarChart, CartesianGrid, Label, XAxis, YAxis } from "recharts"
-import CustomTooltip from "@/components/charts/CustomTooltip";
+import CustomTooltipGoal from "@/components/charts/CustomTooltip";
 import {
   Card,
   CardContent,
@@ -16,6 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { AddValue } from "@/components/goals/buttons";
 
 // Define types for the props
 export interface DataPoint {
@@ -50,13 +51,23 @@ const ReusableBarChart: React.FC<ReusableBarChartProps> = ({
 }) => {
     const chartConfig = config.assessment;
     const label=chartConfig.x_label;
-
+    const len=data.length-1
+    const data1=data[len];
+    const buttonText=chartConfig.color;
+    
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
+      <CardHeader  className="flex justify-between">
+<div className="flex justify space-x-2 mt-1">
+<CardTitle>{title}</CardTitle>
+</div>
+<div className="flex justify-between items-center mt-0 w-full"> {/* Ensure full width */}
+<CardDescription className="mr-1"> {/* Add some margin to separate from the button */}
+    {description}
+</CardDescription>
+  {buttonText === "Goal" && <AddValue className="py-2 px-4" goalId={data[len]} />}
+</div>
+</CardHeader>
       <CardContent>
         <ChartContainer config={config}>
           <BarChart accessibilityLayer data={data}>
@@ -82,7 +93,7 @@ const ReusableBarChart: React.FC<ReusableBarChartProps> = ({
             </YAxis>
             <ChartTooltip
             cursor={false}  
-            content={<CustomTooltip/>}
+            content={<CustomTooltipGoal/>}
           />
             <Bar 
               dataKey={dataKey} 

@@ -2,7 +2,7 @@ import React from 'react';
 import { TooltipProps } from 'recharts';
 
 // Custom Tooltip component
-const CustomTooltip: React.FC<TooltipProps<any, any>> = ({ active, payload }) => {
+const CustomTooltipGoal: React.FC<TooltipProps<any, any>> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const { goal_id,recorded_at,current_value,progress,unit_of_measure } = payload[0].payload;
 
@@ -18,4 +18,4 @@ const CustomTooltip: React.FC<TooltipProps<any, any>> = ({ active, payload }) =>
 
   return null;
 };
-export default CustomTooltip;
+export default CustomTooltipGoal;

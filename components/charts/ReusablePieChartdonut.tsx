@@ -2,6 +2,7 @@
 import React from "react"
 import { Pie, PieChart, CartesianGrid, Label, XAxis, YAxis, Cell, LabelList } from "recharts"
 import CustomTooltip from "@/components/materiality/assessments/CustomTooltip";
+import CustomTooltipGoal from "@/components/charts/CustomTooltip";
 import {
   Card,
   CardContent,
@@ -52,7 +53,8 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
   xAxisKey,
 }) => {
     const chartConfig = config.assessment;
-    const label=chartConfig.x_label;
+    const buttonText=chartConfig.color;
+    const label=buttonText==="Goal"?chartConfig.y_label:chartConfig.x_label;
     const colors = [
       "#90EE90", "#7CFC00","#556B2F","#006400","#98FB98",  "#7FFF00", "#ADFF2F",
       "#32CD32", "#228B22",  "#6B8E23", "#3CB371",
@@ -66,6 +68,24 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
             : item[measure];
       return sum + (score || 0);
   }, 0);
+  let result;
+  let tooltip;
+  if (buttonText === "Goal") {
+  result = data;
+  tooltip = (
+    <ChartTooltip
+        cursor={false}  
+        content={<CustomTooltipGoal/>}
+      />
+  );
+  }
+  else{
+    tooltip=(
+      <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+      );
   const groupedByStatus = data.reduce<Record<string, GroupedStatus>>((acc, item) => {
     const status = item.status;
   
@@ -85,8 +105,10 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
   }, {});
   
   // Convert the result into an array
-  const result = Object.values(groupedByStatus);
+  result = Object.values(groupedByStatus);
   //console.log(result);
+}
+  
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -96,18 +118,16 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={config}
+          className="mx-auto aspect-square max-h-[290px]"
         >
           <PieChart>
-          <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+          {tooltip}
             <Pie
               data={result}
               dataKey={dataKey}
               nameKey={xAxisKey}
               innerRadius={60}
-              outerRadius={120}
+              outerRadius={105}
               strokeWidth={5}
             >
               {data.map((entry, index) => (
