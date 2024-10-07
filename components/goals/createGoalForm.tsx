@@ -17,7 +17,6 @@ export default function CreateGoalForm() {
     <form
       action={createGoal}
       className={`p-4`}
-      //style={{ maxHeight: "90vh" }}
     >
 
       <div className="grid w-full items-center gap-1.5 mb-2">
