@@ -1,5 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -16,8 +18,13 @@ import { Progress } from "@/components/ui/progress";
 import { getGoalById } from "@/lib/goals/data";
 import { DeleteGoalButton } from "@/components/goals/buttons";
 import { UpdateGoalButton } from "@/components/goals/buttons";
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
-export default async function GoalPage({ params }: { params: { id: string } }) {
+export default async function GoalPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id: goalId } = params;
 
   const goal = await getGoalById(goalId);
@@ -25,6 +32,18 @@ export default async function GoalPage({ params }: { params: { id: string } }) {
   if (!goal) {
     return notFound();
   }
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
+
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
 
   return (
     <>
@@ -67,11 +86,19 @@ export default async function GoalPage({ params }: { params: { id: string } }) {
                 </div>
                 <div>
                   <Label>Start Date</Label>
-                  <p>{goal.start_date}</p>
+                  <p>{new Date(goal.start_date).toLocaleDateString(
+                      "en-GB",
+                      { timeZone: actualTime }
+                    )}
+                    </p>
                 </div>
                 <div>
                   <Label>End Date</Label>
-                  <p>{goal.end_date}</p>
+                  <p>{new Date(goal.end_date).toLocaleDateString(
+                      "en-GB",
+                      { timeZone: actualTime }
+                    )}
+                    </p>
                 </div>
                 <div>
                   <Label>Current Value</Label>

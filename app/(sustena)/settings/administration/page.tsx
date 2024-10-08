@@ -19,7 +19,9 @@ import SmtpSettings from "@/components/settings/smtp/SmtpSettings";
 // import Subheader from "@/components/Subheader";
 import { getSmtpSettings } from "@/lib/settings/smtp/data";
 import AnthropicApiDemo from "@/components/settings/ai/AnthropicWorkbench";
-
+import TimeZone from "@/components/settings/timezone/Timezone";
+import { getTimeZone } from "@/lib/settings/timezone/data";
+import { changeTimezone } from "@/lib/settings/timezone/action";
 
 export default async function Home() {
   const supabase = createClient();
@@ -33,6 +35,13 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+
+  const { initialTimezone } = await getTimeZone({ userId: user.id });
+
+  const handleTimezoneChange = async (newTimezone: { value: string }) => {
+    "use server"
+    await changeTimezone(user.id, newTimezone.value);
+  };
 
   return (
     <>
@@ -68,7 +77,9 @@ export default async function Home() {
           <TabsTrigger value="anthropicai">Anthropic AI</TabsTrigger>
         </TabsList>
         <div className="bg-white p-5 border rounded">
-        <TabsContent value="general">General Settings</TabsContent>
+        <TabsContent value="general">
+        <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
+          </TabsContent>
           <TabsContent value="adminusers">
             Administrative Users
             {/* <UserManagement/> */}

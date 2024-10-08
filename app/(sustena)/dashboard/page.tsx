@@ -111,7 +111,7 @@ export default async function Home() {
             </CardContent>
           </Card>
         </div>
-        <NewsCards />
+        <NewsCards userId={user.id}/>
       </ContentLayout>
     </>
   );

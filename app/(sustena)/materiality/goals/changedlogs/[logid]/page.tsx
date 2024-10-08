@@ -1,5 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -12,6 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
 import { getActivityLogById } from "@/lib/goals/data";
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function ActivityPage({
   params,
@@ -26,6 +29,15 @@ export default async function ActivityPage({
     return notFound();
   }
 
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
+
   let changes = {};
   try {
     changes =
@@ -37,6 +49,9 @@ export default async function ActivityPage({
     changes = {};
   }
 
+  const timezone = await getTimeZone({ userId: user.id });
+  const actualTime = timezone.userWithTimezone.timezone;
+
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
 
@@ -44,10 +59,10 @@ export default async function ActivityPage({
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "UTC",
+      // hour: "2-digit",
+      // minute: "2-digit",
+      // second: "2-digit",
+      timeZone: actualTime,
     };
 
     const formattedDate = date
@@ -63,22 +78,25 @@ export default async function ActivityPage({
       return fieldData?.updated ? "Changed" : "N/A";
       // return fieldData?.updated ? fieldData.updated : "N/A";
     }
+    if (field === "start_date" || field === "end_date") {
+      return fieldData.updated ? formatDate(fieldData.updated) : "N/A";
+    }
     return fieldData ? fieldData.updated ?? "N/A" : "N/A";
   };
 
   const changeField = (field: string) => {
-    const changeData = changes[field];
-    if (field === "user") {
-      return changeData || "N/A";
-    }
+      const changeData = changes[field];
+      if (field === "user") {
+        return changeData || "N/A";
+      }
 
-    if (field === "activity") {
-      return changeData || "N/A";
-    }
+      if (field === "activity") {
+        return changeData || "N/A";
+      }
 
-    if (field === "created_at" || field === "deleted_at") {
-      return changeData ? formatDate(changeData) : "N/A";
-    }
+      if (field === "created_at" || field === "deleted_at") {
+        return changeData ? formatDate(changeData) : "N/A";
+      }
   };
 
   const titleUpdate = [
@@ -96,16 +114,16 @@ export default async function ActivityPage({
     renderField("status"),
     renderField("key_actions"),
     renderField("risk"),
-    renderField("comments")
-  ].some(field => field !== "N/A");
-  
+    renderField("comments"),
+  ].some((field) => field !== "N/A");
+
   const userUpdate = [
     changeField("user"),
     changeField("activity"),
     changeField("created_at"),
-    changeField("deleted_at")
-  ].some(field => field !== "N/A");
-  
+    changeField("deleted_at"),
+  ].some((field) => field !== "N/A");
+
   return (
     <>
       <ContentLayout title="Changes">
