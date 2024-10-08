@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { Label } from "@/components/ui/label";
 
@@ -17,7 +17,7 @@ import {
 import CreateGoalForm from "@/components/goals/createGoalForm";
 import UpdateGoalForm from "@/components/goals/updateGoalForm";
 import { deleteGoal } from "@/lib/goals/action";
-import CreateValueForm from "./createValueForm";
+import CreateValueForm from "@/components/goals/createValueForm";
 
 export function AddGoal() {
   return (
@@ -138,7 +138,7 @@ export function UpdateGoalButton({ goal }: { goal: any }) {
           <DialogTitle>Update Goal</DialogTitle>
           <DialogDescription>Update the goal details below.</DialogDescription>
         </DialogHeader>
-        <UpdateGoalForm goal={goal} className="my-4" />
+        <UpdateGoalForm goal={goal}/>
       </DialogContent>
     </Dialog>
   );

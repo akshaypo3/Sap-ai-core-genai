@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  AddGroupButton,
+  // AddGroupButton,
   DeleteGroupButton,
   GroupDetailsButton,
 } from "@/components/settings/groups/buttons";
@@ -39,7 +39,7 @@ import {
 } from "@/lib/settings/users/data";
 import { createUser } from "@/lib/settings/users/action";
 import {
-  AddRoleButton,
+  // AddRoleButton,
   DeleteRoleButton,
   RoleDetailsButton,
 } from "@/components/settings/roles/buttons";
@@ -59,6 +59,9 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AddRoleButton } from "@/components/settings/roles/buttons";
+import { AddGroupButton } from "@/components/settings/groups/buttons";
+import { getTimeZone} from "@/lib/settings/timezone/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -79,7 +82,9 @@ export default async function Home() {
   const rolesData = await usercountForRole();
   const groupsData = await usercountForGroups();
 
-  //console.log("roleUserCount", rolesData);
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
+  // console.log("roleUserCount", rolesData);
 
   return (
     <>
@@ -167,11 +172,13 @@ export default async function Home() {
                           {user.role?.role || "No Role"}
                         </TableCell>
                         <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {new Date(user.createdAt).toLocaleDateString()}
+                          {new Date(user.createdAt).toLocaleDateString("en-GB",{ timeZone:actualTime
+                          })}
                         </TableCell>
                         <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
                           {user.lastSignInAt
-                            ? new Date(user.lastSignInAt).toLocaleDateString()
+                            ? new Date(user.lastSignInAt).toLocaleDateString("en-GB",{ timeZone:actualTime
+                            })
                             : "Never Signed In"}
                         </TableCell>
                         <TableCell className="px-6 py-4 font-medium text-left whitespace-nowrap">
@@ -309,11 +316,14 @@ export default async function Home() {
                     <TableRow key={log.id}>
                       <TableCell>
                         {new Date(log.created_at)
-                          .toLocaleDateString("en-GB")
+                          .toLocaleDateString("en-GB", {
+                            timeZone:actualTime
+                          })
                           .replace(/\//g, ".")}
                       </TableCell>
                       <TableCell>
                         {new Date(log.created_at).toLocaleTimeString("en-GB", {
+                          timeZone:actualTime,
                           hour12: false,
                         })}
                       </TableCell>

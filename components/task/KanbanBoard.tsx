@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarIcon } from "lucide-react"
 
-export default function KanbanBoard({ initialTasks, updateTaskStatus }) {
+export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, timezone }) {
   const [tasks, setTasks] = useState(initialTasks);
+  const actualTime = timezone.userWithTimezone.timezone;
 
   const columns = {
     TODO: tasks.filter(task => task.status === "TODO"),
@@ -42,7 +43,7 @@ export default function KanbanBoard({ initialTasks, updateTaskStatus }) {
       console.error("Failed to update task status:", error);
     }
   }, [updateTaskStatus]);
-
+  
   return (
     <div className="grid grid-cols-4 gap-2 mb-5 rounded">
       {Object.entries(columns).map(([status, tasks]) => (
@@ -51,6 +52,7 @@ export default function KanbanBoard({ initialTasks, updateTaskStatus }) {
           title={status.replace(/_/g, " ")}
           tasks={tasks}
           onDragOver={handleDragOver}
+          actualTime={actualTime}
           onDrop={(e) => handleDrop(e, status)}
         />
       ))}
@@ -58,7 +60,7 @@ export default function KanbanBoard({ initialTasks, updateTaskStatus }) {
   );
 }
 
-function Column({ title, tasks, onDragOver, onDrop }) {
+function Column({ title, tasks, onDragOver, onDrop, actualTime }) {
   return (
     <div 
       className="bg-white min-h-96 flex flex-col"
@@ -68,7 +70,7 @@ function Column({ title, tasks, onDragOver, onDrop }) {
       <div className="pt-2 pl-2 text-sm text-zinc-500">{title}</div>
       <div className="flex-grow space-y-2 p-2">
         {tasks.map((task) => (
-          <TaskCard key={task.id} {...task} />
+          <TaskCard key={task.id} {...task} actualTime={actualTime} />
         ))}
         {tasks.length === 0 && (
           <div className="h-full min-h-[100px] border-2 border-dashed border-gray-200 rounded-lg"></div>
@@ -78,7 +80,7 @@ function Column({ title, tasks, onDragOver, onDrop }) {
   );
 }
 
-function TaskCard({ id, title, description, assigned_to_username, status, start_date, due_date }) {
+function TaskCard({ id, title, description, assigned_to_username, status, start_date, due_date, actualTime }) {
   return (
     <Card 
       className="w-full mt-2 cursor-move" 
@@ -96,11 +98,13 @@ function TaskCard({ id, title, description, assigned_to_username, status, start_
         <div className="flex items-center space-x-4 text-sm">
           <div className="flex items-center space-x-2">
             <CalendarIcon className="h-4 w-4 opacity-70" />
-            <span>{new Date(start_date).toLocaleDateString("en-GB").replace(/\//g, ".")}</span>
+            <span>{new Date(start_date).toLocaleDateString("en-GB",{ timeZone:actualTime
+                          }).replace(/\//g, ".")}</span>
           </div>
           <div className="flex items-center space-x-2">
             <CalendarIcon className="h-4 w-4 opacity-70" />
-            <span>{new Date(due_date).toLocaleDateString("en-GB").replace(/\//g, ".")}</span>
+            <span>{new Date(due_date).toLocaleDateString("en-GB",{ timeZone:actualTime
+                          }).replace(/\//g, ".")}</span>
           </div>
         </div>
       </CardContent>

@@ -2,10 +2,14 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CalendarIcon, UserIcon } from "lucide-react"
 import { getNewsArticles } from "@/lib/news/data"
+import { getTimeZone } from "@/lib/settings/timezone/data";
 import Link from "next/link";
 
-export default async function Component() {
+export default async function Component({userId}:{userId:string}) {
   const newsArticles = await getNewsArticles();
+
+  const timezone = await getTimeZone({userId})
+  const actualTime = timezone.userWithTimezone.timezone
 
   return (
     <>
@@ -30,7 +34,8 @@ export default async function Component() {
                 </div>
                 <div className="flex items-center mt-1">
                   <CalendarIcon className="w-3 h-3 mr-1" />
-                  <span>{new Date(item.created_at).toLocaleDateString()}</span>
+                  <span>{new Date(item.created_at).toLocaleDateString("en-GB",{ timeZone:actualTime
+                  })}</span>
                 </div>
               </div>
               <Link href={`/news/${item.id}`}>
