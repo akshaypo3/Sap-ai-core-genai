@@ -3,6 +3,7 @@ import { getComments } from "@/lib/task/data";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteCommentButton } from "./buttons";
 import { AddCommentButton } from "./AddCommentButton";
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export async function Comments({
   taskId,
@@ -13,10 +14,19 @@ export async function Comments({
 }) {
   const comments = await getComments(taskId);
 
-  const formatRelativeTime = (dateString: string) => {
+  // const formatRelativeTime = (dateString: string) => {
+  //   const date = new Date(dateString);
+  //   return formatDistanceToNow(date, { addSuffix: true });
+  // };
+
+  const formatRelativeTime = (dateString: string, timeZone: string) => {
     const date = new Date(dateString);
-    return formatDistanceToNow(date, { addSuffix: true });
+    const dateInUserTimezone = new Date(date.toLocaleString("en-US", { timeZone }));
+    return formatDistanceToNow(dateInUserTimezone, { addSuffix: true });
   };
+
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
 
   return (
     <div className="w-full max-w-2xl">
@@ -38,7 +48,7 @@ export async function Comments({
               <div className="flex items-center gap-2">
                 <div className="font-semibold">{comment.user}</div>
                 <div className="text-gray-500 text-xs dark:text-gray-400">
-                  {formatRelativeTime(comment.created_at)}
+                  {formatRelativeTime(comment.created_at,actualTime)}
                 </div>
               </div>
               <div className="mt-1">{comment.comment}</div>

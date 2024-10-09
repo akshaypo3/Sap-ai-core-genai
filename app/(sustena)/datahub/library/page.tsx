@@ -25,8 +25,7 @@ import { getallFiles } from "@/lib/datahub/data";
 import { DownloadFileButton} from "@/components/datahub/downloadButton";
 import {columns_file } from "@/components/table/columns";
 import { DataTable } from "@/components/table/data-table";
-
-
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -40,6 +39,9 @@ export default async function Home() {
 
   const files = await getallFiles();
  
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
+
   return (
     <>
       <ContentLayout title="Library">
@@ -81,7 +83,18 @@ export default async function Home() {
             <TableRow key={file.id}>
               <TableCell>{file.id || 'NA '}</TableCell>
               <TableCell className="font-medium">{file.name || 'NA '}</TableCell>    
-              <TableCell className="font-medium">{file.created_at || 'NA '}</TableCell>
+              <TableCell className="font-medium">
+              {file.created_at ? 
+              new Date(file.created_at)
+              .toLocaleDateString('en-GB', { timeZone: actualTime })
+              .replace(/\//g, '.') 
+              + ' ' +
+              new Date(file.created_at)
+              .toLocaleTimeString('en-GB', {
+              timeZone: actualTime,
+              hour12: false,})
+              : 'NA'}
+              </TableCell>
               <TableCell><DownloadFileButton name={file.name}/> </TableCell>          
               </TableRow>            
           ))}

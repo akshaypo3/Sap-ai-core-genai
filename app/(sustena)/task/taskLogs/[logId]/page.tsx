@@ -23,6 +23,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
 import { getTaskActivityLogById, getCommentsByTaskId } from "@/lib/task/data";
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function ActivityPage({
   params,
@@ -59,6 +60,9 @@ export default async function ActivityPage({
     changes = {};
   }
 
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
+
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
 
@@ -66,10 +70,10 @@ export default async function ActivityPage({
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "UTC",
+      // hour: "2-digit",
+      // minute: "2-digit",
+      // second: "2-digit",
+      timeZone:actualTime
     };
 
     const formattedDate = date
@@ -84,6 +88,9 @@ export default async function ActivityPage({
       const fieldData = changes[field];
 
       if (fieldData && typeof fieldData === "object") {
+        if (field === "start_date" || field === "due_date") {
+          return fieldData.updated ? formatDate(fieldData.updated) : "N/A";
+        }
         return "updated" in fieldData ? fieldData.updated : "N/A";
       }
     }
@@ -234,13 +241,15 @@ export default async function ActivityPage({
                       <TableRow key={comment.id}>
                         <TableCell>
                           {new Date(comment.created_at)
-                            .toLocaleDateString("en-GB")
+                            .toLocaleDateString("en-GB",{ timeZone:actualTime
+                          })
                             .replace(/\//g, ".")}
                         </TableCell>
                         <TableCell className="font-medium">
                           {new Date(comment.created_at).toLocaleTimeString(
                             "en-GB",
                             {
+                              timeZone:actualTime,
                               hour12: false,
                             },
                           )}

@@ -42,7 +42,7 @@ import KanbanBoard from "@/components/task/KanbanBoard";
 import { updateTaskStatus } from "@/lib/task/action";
 import { DataTable } from "@/components/table/data-table"; 
 import { columns_task } from "@/components/table/columns";
-
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 
 export default async function Home() {
@@ -58,6 +58,9 @@ export default async function Home() {
 
   const tasks = await getTasks();
   const loggedTasks = await getUserTasks(user.id);
+
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
 
   return (
     <>
@@ -80,7 +83,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus}/>
+        <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone}/>
 
         <Tabs defaultValue="tasks" className="w-full">
           <TabsList>
@@ -125,12 +128,14 @@ export default async function Home() {
                         </TableCell>
                         <TableCell className="font-medium">
                           {new Date(task.start_date)
-                            .toLocaleDateString("en-GB")
+                            .toLocaleDateString("en-GB",{ timeZone:actualTime
+                          })
                             .replace(/\//g, ".")}
                         </TableCell>
                         <TableCell className="font-medium">
                           {new Date(task.due_date)
-                            .toLocaleDateString("en-GB")
+                            .toLocaleDateString("en-GB",{ timeZone:actualTime
+                            })
                             .replace(/\//g, ".")}
                         </TableCell>
                         <TableCell className="font-medium">

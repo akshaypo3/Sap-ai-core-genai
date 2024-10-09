@@ -36,7 +36,7 @@ export async function AddRoleButton() {
   );
 }
 
-export async function DeleteRoleButton({ id }: { id }) {
+export async function DeleteRoleButton({ id }: { id:string }) {
   return (
     <Dialog>
       <DialogTrigger>

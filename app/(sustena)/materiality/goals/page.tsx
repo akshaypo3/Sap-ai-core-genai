@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  AddGroupButton,
+  // AddGroupButton,
   DeleteGroupButton,
 } from "@/components/settings/groups/buttons";
 import {
@@ -38,14 +38,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-
-import  {GoalChart}from "@/components/charts/GoalChart";
+import { GoalChart}from "@/components/charts/GoalChart";
 import { AddGoal, ViewGoalButton, ViewGoalActivityButton, AddValue } from "@/components/goals/buttons";
 import { AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/table/data-table"; 
 import { columns_goal,columns_activity_goal} from "@/components/table/columns";
-
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -62,6 +60,9 @@ export default async function Home() {
   const goalActivityLogs = await getActivityGoalLogs()
   const goalshistory = await Goalhistory()
   const length=goalshistory.length%3
+
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
 
   return (
     <>
@@ -185,7 +186,7 @@ export default async function Home() {
                         <TableCell>{goal.risks}</TableCell>
                         <TableCell>{goal.comments}</TableCell> */}
                         <TableCell>
-                          <ViewGoalButton goalId={goal.id} />
+                          <ViewGoalButton goalId={goal.id}/>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -213,11 +214,12 @@ export default async function Home() {
                     <TableRow key={log.id}>
                       <TableCell>
                         {new Date(log.created_at)
-                          .toLocaleDateString("en-GB")
+                          .toLocaleDateString("en-GB",{ timeZone:actualTime })
                           .replace(/\//g, ".")}
                       </TableCell>
                       <TableCell>
                         {new Date(log.created_at).toLocaleTimeString("en-GB", {
+                          timeZone:actualTime,
                           hour12: false,
                         })}
                       </TableCell>

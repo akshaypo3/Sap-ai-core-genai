@@ -30,6 +30,7 @@ import { ViewTaskActivityButton } from "@/components/task/buttons";
 import { getTaskLogs } from "@/lib/task/data";
 import { DataTable } from "@/components/table/data-table"; 
 import { columns_task_log } from "@/components/table/columns";
+import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function taskPage({
   params,
@@ -61,6 +62,9 @@ export default async function taskPage({
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
   const taskLogs = Logs?.filter((logs) => logs.task_id === taskId && logs.user === userName)
+
+  const timezone = await getTimeZone({ userId: user.id })
+  const actualTime = timezone.userWithTimezone.timezone
 
   return (
     <>
@@ -112,7 +116,8 @@ export default async function taskPage({
                   <Label>Start Date</Label>
                   <p>
                     {new Date(task.start_date)
-                      .toLocaleDateString("en-GB")
+                      .toLocaleDateString("en-GB",{ timeZone:actualTime
+                      })
                       .replace(/\//g, ".")}
                   </p>
                 </div>
@@ -120,7 +125,8 @@ export default async function taskPage({
                   <Label>Due Date</Label>
                   <p>
                     {new Date(task.due_date)
-                      .toLocaleDateString("en-GB")
+                      .toLocaleDateString("en-GB",{ timeZone:actualTime
+                      })
                       .replace(/\//g, ".")}
                   </p>
                 </div>
@@ -161,11 +167,13 @@ export default async function taskPage({
                     <TableRow key={log.id}>
                       <TableCell>
                         {new Date(log.created_at)
-                          .toLocaleDateString("en-GB")
+                          .toLocaleDateString("en-GB",{ timeZone:actualTime
+                          })
                           .replace(/\//g, ".")}
                       </TableCell>
                       <TableCell>
                         {new Date(log.created_at).toLocaleTimeString("en-GB", {
+                          timeZone:actualTime,
                           hour12: false,
                         })}
                       </TableCell>
