@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/table";
 import { getallFiles } from "@/lib/datahub/data";
 import { DownloadFileButton} from "@/components/datahub/downloadButton";
+import {columns_file } from "@/components/table/columns";
+import { DataTable } from "@/components/table/data-table";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function Home() {
@@ -66,6 +68,7 @@ export default async function Home() {
       {/* Home */}
       <p>File Upload</p>
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+      <DataTable columns={columns_file} data={files} filter={'name'}/>
         <Table>
           <TableHeader>
           <TableRow>

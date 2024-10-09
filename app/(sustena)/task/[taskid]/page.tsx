@@ -28,6 +28,8 @@ import { UpdateTaskButton } from "@/components/task/buttons";
 import { Comments } from "@/components/task/comments";
 import { ViewTaskActivityButton } from "@/components/task/buttons";
 import { getTaskLogs } from "@/lib/task/data";
+import { DataTable } from "@/components/table/data-table"; 
+import { columns_task_log } from "@/components/table/columns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function taskPage({
@@ -146,6 +148,9 @@ export default async function taskPage({
 
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
             <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
+            <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_task_log} data={taskLogs} filter={'user'}/>
+                </div>
             <Table>
               <TableHeader>
                 <TableRow>

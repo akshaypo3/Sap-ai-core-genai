@@ -39,6 +39,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@tanstack/react-table": "^8.20.5",
     "@tremor/react": "^3.17.4",
     "@xyflow/react": "^12.3.1",
     "autoprefixer": "10.4.17",

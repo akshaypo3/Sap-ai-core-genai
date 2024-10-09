@@ -41,6 +41,8 @@ import { Input } from "@/components/ui/input";
 import { GoalChart}from "@/components/charts/GoalChart";
 import { AddGoal, ViewGoalButton, ViewGoalActivityButton, AddValue } from "@/components/goals/buttons";
 import { AlertTitle } from "@/components/ui/alert";
+import { DataTable } from "@/components/table/data-table"; 
+import { columns_goal,columns_activity_goal} from "@/components/table/columns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function Home() {
@@ -112,6 +114,9 @@ export default async function Home() {
               </div>
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
               <AlertTitle className="mb-5">Details</AlertTitle>
+              <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_goal} data={goals} filter={'name'}/>
+                </div>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -191,6 +196,9 @@ export default async function Home() {
             </TabsContent>
             <TabsContent value="activitylog">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+              <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_activity_goal} data={goalActivityLogs} filter={'user'}/>
+                </div>
                 <Table>
                   <TableHeader>
                     <TableRow>

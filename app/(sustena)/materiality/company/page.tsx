@@ -36,6 +36,9 @@ import { AddLocationButton, AddProductButton } from "@/components/materiality/co
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
 import { DeleteProductButton } from "@/components/materiality/company/DeleteProductButton";
 import { saveCompanyDetails } from "@/lib/company/action";
+import { DataTable } from "@/components/table/data-table"; 
+import { columns_location,columns_product } from "@/components/table/columns";
+
 
 
 
@@ -96,6 +99,9 @@ export default async function Home() {
             <AddLocationButton/>
         </div>
       </div>
+      <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_location} data={locations} filter={'name'}/>
+                </div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -146,6 +152,9 @@ export default async function Home() {
             <AddProductButton/>
           </div>
         </div>
+        <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_product} data={products} filter={'name'}/>
+                </div>
         <Table>
           <TableHeader>
             <TableRow>
