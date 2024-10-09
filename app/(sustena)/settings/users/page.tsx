@@ -59,6 +59,9 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DataTable } from "@/components/table/data-table"; 
+import { User, columns_user,columns_role,columns_group,columns_activity } from "@/components/table/columns";
+
 
 export default async function Home() {
   const supabase = createClient();
@@ -70,6 +73,7 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+   
 
   const users = await getAllUsers();
   const userGroups = await getUserGroups();
@@ -78,8 +82,6 @@ export default async function Home() {
   const AllData = await fetchUsersWithProfilesAndRoles();
   const rolesData = await usercountForRole();
   const groupsData = await usercountForGroups();
-
-  //console.log("roleUserCount", rolesData);
 
   return (
     <>
@@ -118,6 +120,9 @@ export default async function Home() {
           <div className="bg-white p-5 border rounded">
             <TabsContent value="users">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+              <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_user} data={AllData} filter={'email'}/>
+                </div>
                 <Table className="min-w-full table-auto border-collapse">
                   <TableHeader className="bg-gray-100">
                     <TableRow>
@@ -197,6 +202,9 @@ export default async function Home() {
             <TabsContent value="roles">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
                 <AddRoleButton />
+                <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_role} data={rolesData} filter={'role'}/>
+                </div>
                 <Table>
                   <TableCaption>{/* Roles List */}</TableCaption>
                   <TableHeader>
@@ -259,6 +267,9 @@ export default async function Home() {
                 </DialogContent>
               </Dialog>
               <AddGroupButton />
+              <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_group} data={groupsData} filter={'group'}/>
+                </div>
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -295,6 +306,9 @@ export default async function Home() {
           <TabsContent value="portalusers">Portal Users</TabsContent>
           <TabsContent value="activitylog">
             <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+            <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_activity} data={activityLogs} filter={'user'}/>
+                </div>
               <Table>
                 <TableHeader>
                   <TableRow>

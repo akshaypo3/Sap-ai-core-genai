@@ -40,6 +40,9 @@ import { AddTask } from "@/components/task/buttons";
 import { ViewTaskButton } from "@/components/task/buttons";
 import KanbanBoard from "@/components/task/KanbanBoard";
 import { updateTaskStatus } from "@/lib/task/action";
+import { DataTable } from "@/components/table/data-table"; 
+import { columns_task } from "@/components/table/columns";
+
 
 
 export default async function Home() {
@@ -86,6 +89,9 @@ export default async function Home() {
           <div className="bg-white p-5 border rounded">
             <TabsContent value="tasks">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+              <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_task} data={tasks} filter={'title'}/>
+                </div>
                 <Table>
                   <TableHeader>
                     <TableRow>
