@@ -198,8 +198,8 @@ export async function markIroAsNotMaterial(formData:FormData){
   }
 }
 
-export async function deleteAssessmentWithId(id) {
-  let assessmentId = id.assessmentId;
+export async function deleteAssessmentWithId(id:string) {
+  let assessmentId = id;
   const supabase = createClient();
 
   try {
@@ -220,7 +220,7 @@ export async function deleteAssessmentWithId(id) {
     console.log(`Successfully deleted assessment with id: ${id}`);
 
     revalidatePath("/materiality/assessments");
-    return { success: true, message: "Assessment deleted successfully" };
+    // return { success: true, message: "Assessment deleted successfully" };
 
   } catch (error) {
     console.error("Error deleting assessment:", error.message);
