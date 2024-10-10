@@ -37,7 +37,8 @@ import { DeleteLocationButton } from "@/components/materiality/company/DeleteLoc
 import { DeleteProductButton } from "@/components/materiality/company/DeleteProductButton";
 import { saveCompanyDetails } from "@/lib/company/action";
 import { DataTable } from "@/components/table/data-table"; 
-import { columns_location,columns_product } from "@/components/table/columns";
+import { columns_location} from "@/components/table/LocationsTableColumns";
+import { columns_product } from "@/components/table/ProductsTableColumns";
 
 
 

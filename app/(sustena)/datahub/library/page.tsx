@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/table";
 import { getallFiles } from "@/lib/datahub/data";
 import { DownloadFileButton} from "@/components/datahub/downloadButton";
-import {columns_file } from "@/components/table/columns";
+import {columns_file } from "@/components/table/FIlesTableColumns";
 import { DataTable } from "@/components/table/data-table";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
