@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react";
-import { EditProfileButton } from "@/components/settings/users/buttons";
+import EditProfileButton  from "@/components/settings/users/editProfileButton";
 import { getAllUsers, getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
 
 export default async function Home() {

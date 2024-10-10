@@ -1,5 +1,8 @@
 "use client"
 
+// import { revalidatePath } from "next/cache";
+import { usePathname } from "next/navigation";
+import { redirect } from "next/navigation";
 import * as React from "react";
 import { Languages } from "lucide-react";
 import Link from "next/link";
@@ -12,17 +15,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { US, DE } from "country-flag-icons/react/3x2";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation"; 
 import Cookies from "js-cookie";
 
 export function LanguageToggle() {
   const { locale, setLocale } = useLocaleContext();
-  const router = useRouter();
+
+  const pathname = usePathname()
 
   const handleLocaleChange = (newLocale: string) => {
     setLocale(newLocale);
     Cookies.set("locale", newLocale);
-    router.refresh(); 
+    // revalidatePath("/dashboard");
+    redirect(pathname);
   };
 
   return (
