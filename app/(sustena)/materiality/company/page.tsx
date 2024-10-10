@@ -24,6 +24,15 @@ import { DeleteProductButton } from "@/components/materiality/company/DeleteProd
 import { getProductsAndServices, getLocations, getCompanyDetails } from "@/lib/company/data";
 import { saveCompanyDetails } from "@/lib/company/action";
 import { getTranslations } from 'next-intl/server';
+import { DataTable } from "@/components/table/data-table"; 
+import { columns_location} from "@/components/table/LocationsTableColumns";
+import { columns_product } from "@/components/table/ProductsTableColumns";
+
+
+
+
+
+// import Subheader from "@/components/Subheader";
 
 export default async function Home() {
   const supabase = createClient();
@@ -67,6 +76,10 @@ export default async function Home() {
           <h3 className="text-xl font-semibold">{t('company.locations.title')}</h3>
           <AddLocationButton />
         </div>
+      </div>
+      <div className="min-w-full table-auto border-collapse">
+         <DataTable columns={columns_location} data={locations} filter={'name'}/>
+       </div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -115,6 +128,9 @@ export default async function Home() {
           <h3 className="text-xl font-semibold">{t('company.products.title')}</h3>
           <AddProductButton />
         </div>
+        <div className="min-w-full table-auto border-collapse">
+                <DataTable columns={columns_product} data={products} filter={'name'}/>
+                </div>
         <Table>
           <TableHeader>
             <TableRow>

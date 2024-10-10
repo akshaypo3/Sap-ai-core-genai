@@ -7,7 +7,9 @@ import { Slash } from "lucide-react";
 import UploadButton from "@/components/datahub/UploadButton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getallFiles } from "@/lib/datahub/data";
-import { DownloadFileButton } from "@/components/datahub/downloadButton";
+import { DownloadFileButton} from "@/components/datahub/downloadButton";
+import {columns_file } from "@/components/table/FIlesTableColumns";
+import { DataTable } from "@/components/table/data-table";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import {getTranslations} from 'next-intl/server';
  
