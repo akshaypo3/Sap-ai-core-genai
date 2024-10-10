@@ -1,0 +1,575 @@
+{
+  "metadata": {
+    "title": "VASPP Sutena",
+    "description": "Development Version"
+  },
+  "maintenance": {
+    "message": "We are undergoing scheduled maintenance. Please come back later!"
+  },
+  "login": {
+    "email_label": "E-Mail",
+    "email_placeholder": "max.mustermann@vaspp.com",
+    "password_label": "Password",
+    "password_placeholder": "****************",
+    "sign_in_button": "Sign In",
+    "signing_in": "Signing in...",
+    "error_message": "User could not be authenticated",
+    "signup_redirect": "Check email to continue sign-in process"
+  },
+  "account": {
+    "title": "Account",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "account": "Account"
+    },
+    "profile": {
+      "title": "Profile",
+      "username": "Username",
+      "email": "Email",
+      "group": "Group",
+      "role": "Role",
+      "id": "User ID",
+      "placeholder": {
+        "username": "Enter your username",
+        "email": "you@example.com",
+        "group": "Enter your group",
+        "role": "Enter your role",
+        "id": "Enter your user ID"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "home": "Home",
+    "currentReportingYear": "Current Reporting Year",
+    "materialTopicsIdentified": "Material Topics identified",
+    "openDatapoints": "Open Datapoints",
+    "reportFinished": "Report finished",
+    "showAssessment": "Show assessment",
+    "seeOpenDatapoints": "See open datapoints",
+    "continueWork": "Continue work"
+  },
+  "library": {
+    "title": "Library",
+    "fileUpload": "File Upload",
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "created": "Created",
+      "action": "Action"
+    },
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "library": "Library"
+    }
+  },
+  "frameworks": {
+    "title": "Frameworks",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "frameworks": "Frameworks"
+    }
+  },
+  "frameworkEditor": {
+    "title": "Framework Editor",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "frameworks": "Frameworks",
+      "editor": "Editor"
+    }
+  },
+  "glossary": {
+    "title": "Glossary",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "help": "Help",
+      "glossary": "Glossary"
+    }
+  },
+  "guidance": {
+    "title": "Guidance",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "help": "Help",
+      "guidance": "Guidance"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "searchPlaceholder": "Search for help topics...",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "help": "Help",
+      "support": "Support"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "item1": {
+          "question": "How do I start a new sustainability report?",
+          "answer": "To start a new sustainability report, log in to your EcoReport account and click on the \"New Report\" button on your dashboard. Follow the step-by-step guide to input your organization's data and generate your report."
+        },
+        "item2": {
+          "question": "Can I import data from previous years?",
+          "answer": "Yes, you can import data from previous years. Go to the \"Data Management\" section and select \"Import Historical Data\". You can then upload your past reports or data files in supported formats (CSV, Excel, etc.)."
+        },
+        "item3": {
+          "question": "How often should I update my sustainability metrics?",
+          "answer": "We recommend updating your sustainability metrics at least quarterly to maintain accurate and up-to-date reports. However, some organizations prefer monthly updates for more granular tracking. You can set custom reminders in your EcoReport settings."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "email": {
+        "title": "Email Support",
+        "address": "help@sustena.com",
+        "responseTime": "We aim to respond within 24 hours."
+      },
+      "phone": {
+        "title": "Phone Support",
+        "number": "+49 622 7859 0888",
+        "availability": "Available Monday-Friday, 9am-5pm EST"
+      }
+    },
+    "resources": {
+      "title": "Additional Resources",
+      "userGuide": "User Guide",
+      "videoTutorials": "Video Tutorials",
+      "bestPractices": "Best Practices"
+    }
+  },
+  "materiality": {
+    "assessments": {
+      "title": "Materiality Assessments",
+      "name": "Assessment",
+      "date": "2024",
+      "Fiscal Year": "Fiscal Year",
+      "Framework": "Framework",
+      "Status": "Status",
+      "Total IROs": "Total IROs",
+      "Material": "Material",
+      "Not Material": "Not Material",
+      "Under Review": "Under Review",
+      "To Be Assessed": "To Be Assessed",
+      "actions": "Actions",
+      "noFramework": "No Frameworks",
+      "view":"View",
+      "id": {
+        "dashboard": "Dashboard",
+        "title": "Materiality",
+        "name": "Assessment",
+        "date": "2024",
+        "title1": "Progress",
+        "description1": "Progress Chart based on how many topics have been marked as material, not material or are under review",
+        "xDataKey1": "count",
+        "yDataKey1": "status",
+        "title2": "Materiality Matrix",
+        "description2": "Chart to see which topics are more material than others",
+        "xDataKey2": "impact_score",
+        "yDataKey2": "financial_score"
+      },
+      "iroid": {
+        "Dashboard": "Dashboard",
+        "Materiality": "Materiality",
+        "Assessment": "Assessment",
+        "$(FY)": "$(FY)",
+        "Assessment Progress Overview": "Assessment Progress Overview",
+        "Total IROs:": "Total IROs:",
+        "Material:": "Material:",
+        "Not Material:": "Not Material:",
+        "To Be Assessed:": "To Be Assessed:",
+        "Under Review:": "Under Review:"
+      },
+      "new":{
+        "title":"New Assessment",
+        "New Assessment":"New Assessment",
+        "Dashboard":"Dashboard",
+        "Materiality":"Materiality",
+        "Assessments":"Assessments",
+        "New":"New",
+        "Home":"Home"
+      }
+    },
+    "company": {
+      "title": "Company Details",
+      "companyName": "Company Name",
+      "companyStrategy": "Company Strategy",
+      "businessModel": "Business Model",
+      "updateDetails": "Update Details",
+      "locations": {
+        "title": "Locations",
+        "noLocations": "No locations found"
+      },
+      "products": {
+        "title": "Products / Services",
+        "noProducts": "No products or services found"
+      },
+      "details": {
+        "name": "Name",
+        "type": "Type",
+        "street": "Street",
+        "postalCode": "Postal Code",
+        "city": "City",
+        "country": "Country",
+        "employees": "Employees",
+        "details": "Details",
+        "turnoverPercentage": "% of turnover",
+        "description": "Description"
+      },
+      "breadcrumbs": {
+        "dashboard": "Dashboard",
+        "materiality": "Materiality",
+        "assessments": "Assessments",
+        "new": "New Assessment"
+      },
+      "buttons": {
+        "addNew": "Add New"
+      },
+      "location": {
+        "Location": "Location",
+        "Company Location": "Company Location",
+        "Location ID": "Location ID"
+      }
+    },
+    "dashboard": {
+      "dashboard": {
+        "title": "Materiality Dashboard"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "materialityDashboard": "Materiality Dashboard"
+      }
+    },
+    "goals": {
+      "companyGoals": "Company Goals",
+      "goalsTitle": "Goals",
+      "dashboard": "Dashboard",
+      "goalsTab": "Goals",
+      "activityLogTab": "Activity Logs",
+      "name": "Name",
+      "description": "Description",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "progress": "Progress",
+      "owner": "Owner",
+      "status": "Status",
+      "action": "Action",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "date": "Date",
+      "time": "Time",
+      "user": "User",
+      "activity": "Activity"
+    },
+    "goalDetails": {
+      "dashboard": "Dashboard",
+      "goals": "Goals",
+      "title": "Goal Details",
+      "goalOverview": "Goal Overview",
+      "description": "Description",
+      "targetValue": "Target Value",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "currentValue": "Current Value",
+      "progress": "Progress",
+      "owner": "Owner",
+      "status": "Status",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "keyActions": "Key Actions",
+      "risks": "Risks",
+      "comments": "Comments"
+    },
+    "logDetails": {
+      "dashboard": "Dashboard",
+      "goals": "Goals",
+      "details": "Details",
+      "name": "Name",
+      "target_value": "Target Value",
+      "unit_of_measure": "Unit of Measure",
+      "baseline_value": "Baseline Value",
+      "current_value": "Current Value",
+      "progress": "Progress",
+      "frequency_of_measurement": "Frequency of Measurement",
+      "description": "Description",
+      "owner": "Owner",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "status": "Status",
+      "key_actions": "Key Actions",
+      "risk": "Risk",
+      "comments": "Comments",
+      "user": "User",
+      "activity": "Activity",
+      "created_at": "Created At",
+      "deleted_at": "Deleted At"
+    },
+    "stakeholders": {
+      "title": "Materiality Assessments",
+      "stakeholder_analysis": "Stakeholder Analysis for 2024",
+      "dashboard": "Dashboard",
+      "materiality": "Materiality",
+      "stakeholders": "Stakeholders",
+      "identified_stakeholders": "Identified Stakeholders",
+      "stakeholder_groups_engaged": "Stakeholder Groups engaged",
+      "survey_completion_rate": "Survey Completion Rate",
+      "survey_response_rate": "Survey Response Rate",
+      "stakeholders_list": "Stakeholders List",
+      "name": "Name",
+      "description": "Description",
+      "group": "Group",
+      "interest": "Interest",
+      "influence": "Influence",
+      "relevance": "Relevance",
+      "knowledge": "Knowledge",
+      "actions": "Actions"
+    },
+    "stakeholderssurvey": {
+      "pageTitle": "Materiality Assessments",
+      "stakeholderSurvey": "Stakeholder Survey",
+      "dashboard": "Dashboard",
+      "materiality": "Materiality",
+      "identifiedStakeholders": "Identified Stakeholders",
+      "stakeholderGroupsEngaged": "Stakeholder Groups engaged",
+      "surveyCompletionRate": "Survey Completion Rate",
+      "openAnswers": "Open Answers",
+      "stakeholdersList": "Stakeholders List",
+      "name": "Name",
+      "description": "Description",
+      "group": "Group",
+      "questions": "Questions",
+      "answers": "Answers",
+      "completed": "Completed",
+      "actions": "Actions",
+      "-4 from last year": "-4 from last year",
+      "-1 from last year": "-1 from last year",
+      "-100% from last year": "-100% from last year"
+    }
+  },
+  "news": {
+    "min read": "min read",
+    "Back to News": "Back to News"
+  },
+  "reporting": {
+    "dashboard": {
+      "title": "Reporting Dashboard",
+      "Reporting Dashboard": "Reporting Dashboard",
+      "Dashboard": "Dashboard",
+      "Reporting": "Reporting"
+    },
+    "frameworks": {
+      "title": "Materiality Dashboard",
+      "Materiality Dashboard": "Materiality Dashboard",
+      "Home": "Home",
+      "esrs": {
+        "title": "Materiality Dashboard",
+        "Materiality Dashboard": "Materiality Dashboard",
+        "Home": "Home",
+        "continue": "Continue",
+        "s1-44": {
+          "title": "Materiality Dashboard",
+          "Materiality Dashboard": "Materiality Dashboard",
+          "Home": "Home"
+        },
+        "s1-55": {
+          "title": "Materiality Dashboard",
+          "Materiality Dashboard": "Materiality Dashboard",
+          "Home": "Home"
+        },
+        "s1-59": {
+          "title": "Materiality Dashboard",
+          "Materiality Dashboard": "Materiality Dashboard",
+          "Home": "Home"
+        },
+        "s1-66": {
+          "title": "Materiality Dashboard",
+          "Materiality Dashboard": "Materiality Dashboard",
+          "Home": "Home"
+        },
+        "s1-77": {
+          "title": "Materiality Dashboard",
+          "Materiality Dashboard": "Materiality Dashboard",
+          "Home": "Home"
+        }
+      },
+      "brsr": {
+        "title": "BRSR Dashboard",
+        "BRSR": "BRSR",
+        "Home": "Home",
+        "section a": {
+          "title": "Materiality Dashboard",
+          "BRSR Section A": "BRSR Section A",
+          "Home": "Home"
+        },
+        "backup": {
+          "title": "Materiality Dashboard",
+          "BRSR Section A": "BRSR",
+          "Home": "Home"
+        }
+      }
+    },
+    "reports": {
+      "title": "Reporting Dashboard",
+      "Reports": "Reports",
+      "Dashboard": "Dashboard",
+      "Reporting": "Reporting",
+      "external": {
+        "externalReporting": "External Reporting",
+        "dashboard": "Dashboard",
+        "reporting": "Reporting",
+        "external": "External"
+      },
+      "internal": {
+        "internalReporting": "Internal Reporting",
+        "dashboard": "Dashboard",
+        "reporting": "Reporting",
+        "internal": "External"
+      }
+    }
+  },
+  "settings": {
+    "administration": {
+      "title": "Sustena Administration",
+      "Dashboard": "Dashboard",
+      "Administration": "Administration",
+      "General": "General",
+      "Administrative Users": "Administrative Users",
+      "SMTP": "SMTP",
+      "Anthropic AI": "Anthropic AI"
+    },
+    "groups": {
+      "title": "Group Details",
+      "Group Details": "Group Details",
+      "Dashboard": "Dashboard",
+      "Users": "Users",
+      "Username": "Username",
+      "Email": "Email",
+      "Created": "Created",
+      "Group Assigned": "Group Assigned",
+      "No users": "No users found for this Group."
+    },
+    "roles": {
+      "title": "Role Details",
+      "Role Details": "Group Details",
+      "Dashboard": "Dashboard",
+      "Users": "Users",
+      "Username": "Username",
+      "Email": "Email",
+      "Created": "Created",
+      "Group Assigned": "Group Assigned",
+      "No users": "No users found for this Group."
+    },
+    "users": {
+      "title": "User Management",
+      "User Management": "User Management",
+      "Dashboard": "Dashboard",
+      "Users": "Users",
+      "Roles": "Roles",
+      "Groups": "Groups",
+      "Portal Users": "Portal Users",
+      "Activity Log": "Activity Log",
+      "Name": "Name",
+      "Email": "Email",
+      "Group": "Group",
+      "Role": "Role",
+      "Created": "Created",
+      "Last Sign In": "Last Sign In",
+      "Action": "Action",
+      "UID": "UID",
+      "Edit": "Edit",
+      "Description": "Description",
+      "Users Count": "User Count",
+      "Details": "Details",
+      "Create New Group": "Create New Group",
+      "Add Group": "Add Group",
+      "Date": "Date",
+      "Time": "Time",
+      "User": "User",
+      "Activity": "Activity"
+    }
+  },
+  "task": {
+    "title": "Tasks",
+    "Tasks": "Tasks",
+    "Home": "Home",
+    "Title": "Title",
+    "Description": "Description",
+    "Assigned to": "Assigned to",
+    "Created by": "Created by",
+    "Status": "Status",
+    "Start date": "Start date",
+    "Due date": "Due date",
+    "Action": "Action",
+    "My Tasks": "My Tasks",
+    "taskId": {
+      "title": "Task Details",
+      "Dashboard": "Dashboard",
+      "Tasks": "Tasks",
+      "Task Overview": "Task Overview",
+      "Title": "Title",
+      "Description": "Description",
+      "Assigned User": "Assigned User",
+      "Created User": "Created User",
+      "Status": "Status",
+      "Start Date": "Start Date",
+      "Due Date": "Due Date",
+      "Activity Logs": "Activity Logs",
+      "Date": "Date",
+      "Time": "Time",
+      "User": "User",
+      "Activity": "Activity",
+      "Action": "Action",
+      "No activity": "No activity logs available."
+    },
+    "logDetails": {
+      "title": "Task Activity Changes",
+      "Dashboard": "Dashboard",
+      "Tasks": "Tasks",
+      "Details": "Details",
+      "Task Title": "Task Title",
+      "Description": "Description",
+      "Assigned To": "Assigned To",
+      "Created By": "Created By",
+      "Status": "Status",
+      "Start Date": "Start Date",
+      "Due Date": "Due Date",
+      "User": "User",
+      "Activity": "Activity",
+      "Created At": "Created At",
+      "Comments": "Comments",
+      "Date": "Date",
+      "Time": "Time",
+      "Comment": "Comment",
+      "No Comments Available": "No Comments Available",
+      "no comments": "There are no comments to display for this task."
+    }
+  },
+  "main-layout": {
+    "title": "VASPP Sustena",
+    "description": "Sustainability Reporting Platform",
+    "maintainance": "We are undergoing scheduled maintenance. Please come back later!"
+  },
+  "main-page": {
+    "title": "Dashboard",
+    "Dashboard": "Dashboard",
+    "Home": "Home",
+    "Current Reporting Year": "Current Reporting Year",
+    "2024": "2024",
+    "Material Topics identified": "Material Topics identified",
+    "Show assessment": "Show assessment",
+    "Open Datapoints": "Open Datapoints",
+    "See open datapoints": "See open datapoints",
+    "Report finished": "Report finished",
+    "71%": "71%",
+    "34": "34",
+    "17": "17",
+    "Continue work": "Continue work"
+  },
+  "brsr-entry": {
+    "BRSR Report": "BRSR Report"
+  },
+  "app-layout": {
+    "maintainance": "We are undergoing scheduled maintenance. Please come back later!"
+  }
+}

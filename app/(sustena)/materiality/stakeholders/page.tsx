@@ -34,6 +34,7 @@ import {
 import { getStakeholders, getStakeholderGroups } from "@/lib/stakeholders/data";
 import { AddStakeholderButton, AddStakeholderGroupButton, DeleteStakeholderButton } from "@/components/materiality/stakeholders/buttons";
 import StakeholderMatrix from "@/components/materiality/stakeholders/StakeholderMatrix";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -46,7 +47,7 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/login");
+    return redirect("stakeholders./login");
   }
 
   const getBadgeProps = (score, isRelevance = false) => {
@@ -74,32 +75,34 @@ export default async function Home() {
     }
   };
 
+  const t = await getTranslations('materiality');
+
   return (
     <>
-      <ContentLayout title="Materiality Assessments">
+      <ContentLayout title={t("stakeholders.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Stakeholder Analysis for 2024</h1>
-          <Breadcrumb>
+          <div>
+            <h1 className="font-bold text-2xl mb-2">{t("stakeholders.stakeholder_analysis")}</h1>
+            <Breadcrumb>
               <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard/">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard">Materiality</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/stakeholders">Stakeholders</BreadcrumbLink>
-                  </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard/">{t("stakeholders.dashboard")}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard">{t("stakeholders.materiality")}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/stakeholders">{t("stakeholders.stakeholders")}</BreadcrumbLink>
+                </BreadcrumbItem>
               </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+            </Breadcrumb>
+          </div>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <AddStakeholderButton/> */}
@@ -110,9 +113,7 @@ export default async function Home() {
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           <Card x-chunk="dashboard-01-chunk-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Identified Stakeholders
-              </CardTitle>
+            <CardTitle className="text-sm font-medium">{t("stakeholders.identified_stakeholders")}</CardTitle>
               {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
@@ -124,9 +125,7 @@ export default async function Home() {
           </Card>
           <Card x-chunk="dashboard-01-chunk-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Stakeholder Groups engaged
-              </CardTitle>
+            <CardTitle className="text-sm font-medium">{t("stakeholders.stakeholder_groups_engaged")}</CardTitle>
               {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
@@ -138,7 +137,7 @@ export default async function Home() {
           </Card>
           <Card x-chunk="dashboard-01-chunk-2">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Survey Completion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("stakeholders.survey_completion_rate")}</CardTitle>
               {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
@@ -150,7 +149,7 @@ export default async function Home() {
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Survey Response Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("stakeholders.survey_response_rate")}</CardTitle>
               {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
@@ -166,19 +165,18 @@ export default async function Home() {
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
         <AddStakeholderButton/>
       <Table>
-        <TableCaption>Stakeholders List</TableCaption>
+      <TableCaption>{t("stakeholders.stakeholders_list")}</TableCaption>
         <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Group</TableHead>
-            <TableHead>Interest</TableHead>
-            <TableHead>Inluence</TableHead>
-            <TableHead>Relevance</TableHead>
-            <TableHead>Knowledge</TableHead>
-            <TableHead>Actions</TableHead>
-            {/* <TableHead>Survey</TableHead> */}
-          </TableRow>
+        <TableRow>
+                <TableHead>{t("stakeholders.name")}</TableHead>
+                <TableHead>{t("stakeholders.description")}</TableHead>
+                <TableHead>{t("stakeholders.group")}</TableHead>
+                <TableHead>{t("stakeholders.interest")}</TableHead>
+                <TableHead>{t("stakeholders.influence")}</TableHead>
+                <TableHead>{t("stakeholders.relevance")}</TableHead>
+                <TableHead>{t("stakeholders.knowledge")}</TableHead>
+                <TableHead>{t("stakeholders.actions")}</TableHead>
+              </TableRow>
         </TableHeader>
         <TableBody>
           {stakeholders?.map((item) => (
@@ -223,13 +221,13 @@ export default async function Home() {
         {/* <Button className="bg-green-600 mb-5">Add Group</Button> */}
         <AddStakeholderGroupButton/>
       <Table>
-        <TableCaption>Stakeholder Groups</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-          </TableRow>
-        </TableHeader>
+      <TableCaption>{t("stakeholders.stakeholder_groups")}</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t("stakeholders.name")}</TableHead>
+                <TableHead>{t("stakeholders.description")}</TableHead>
+              </TableRow>
+            </TableHeader>
         <TableBody>
           {stakeholderGroups?.map((item) => (
             <TableRow key={item.id}>

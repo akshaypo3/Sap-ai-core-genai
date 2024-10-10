@@ -22,6 +22,7 @@ import AnthropicApiDemo from "@/components/settings/ai/AnthropicWorkbench";
 import TimeZone from "@/components/settings/timezone/Timezone";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { changeTimezone } from "@/lib/settings/timezone/action";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -43,22 +44,24 @@ export default async function Home() {
     await changeTimezone(user.id, newTimezone.value);
   };
 
+  const t = await getTranslations('settings');
+
   return (
     <>
       <ContentLayout title="Administration">
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Sustena Administration</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("administration.title")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                    <BreadcrumbLink href="/dashboard">{t("administration.Dashboard")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/settings/administration">Administration</BreadcrumbLink>
+                    <BreadcrumbLink href="/settings/administration">{t("administration.Administration")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>
@@ -71,17 +74,17 @@ export default async function Home() {
 
       <Tabs defaultValue="general" className="w-full">
         <TabsList>
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="adminusers">Administrative Users</TabsTrigger>
-          <TabsTrigger value="smtp">SMTP</TabsTrigger>
-          <TabsTrigger value="anthropicai">Anthropic AI</TabsTrigger>
+          <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
+          <TabsTrigger value="adminusers">{t("administration. Administrative Users")}</TabsTrigger>
+          <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
+          <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
         </TabsList>
         <div className="bg-white p-5 border rounded">
         <TabsContent value="general">
         <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
           </TabsContent>
           <TabsContent value="adminusers">
-            Administrative Users
+          {t("administration. Administrative Users")}
             {/* <UserManagement/> */}
           </TabsContent>
           <TabsContent value="smtp">

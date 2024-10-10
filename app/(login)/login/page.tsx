@@ -1,28 +1,15 @@
-import Link from "next/link";
+import { useTranslations } from 'next-intl'; // Import translation hook
 import Image from "next/image"; // Add this import
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "./submit-button";
 import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select";
-import {
-    DialogClose
-  } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
+export default function Login({ searchParams }: { searchParams: { message: string }; }) {
+  const t = useTranslations('login'); // Define the namespace for translations
+
   const signIn = async (formData: FormData) => {
     "use server";
 
@@ -36,33 +23,10 @@ export default function Login({
     });
 
     if (error) {
-      return redirect("/login?message=User could not be authenticated");
+      return redirect(`/login?message=${t('error_message')}`); // Use translation
     }
 
     return redirect("/dashboard");
-  };
-
-  const signUp = async (formData: FormData) => {
-    "use server";
-
-    const origin = headers().get("origin");
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
-    }
-
-    return redirect("/login?message=Check email to continue sign in process");
   };
 
   return (
@@ -84,19 +48,21 @@ export default function Login({
         />
       </div>
       <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-        <Label htmlFor="email">E-Mail</Label>
-        <Input type="text" name="email" placeholder="max.mustermann@vaspp.com" required/>
-        
-        <Label htmlFor="password">Password</Label>
-        <Input type="password" name="password" placeholder="****************" required/>
+        {/* Using translated text for label and placeholders */}
+        <Label htmlFor="email">{t('email_label')}</Label>
+        <Input type="text" name="email" placeholder={t('email_placeholder')} required/>
+
+        <Label htmlFor="password">{t('password_label')}</Label>
+        <Input type="password" name="password" placeholder={t('password_placeholder')} required/>
 
         <SubmitButton
           formAction={signIn}
           className="bg-green-500 hover:bg-green-600 rounded-lg px-4 py-2 text-foreground mb-2 text-white"
-          pendingText="Signing in..."
+          pendingText={t('signing_in')} // Pending state text
         >
-          Sign In
+          {t('sign_in_button')} {/* Sign In button text */}
         </SubmitButton>
+
         {searchParams?.message && (
           <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
             {searchParams.message}

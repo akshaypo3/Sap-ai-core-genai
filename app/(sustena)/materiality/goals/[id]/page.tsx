@@ -10,21 +10,21 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { getGoalById } from "@/lib/goals/data";
-import { DeleteGoalButton } from "@/components/goals/buttons";
-import { UpdateGoalButton } from "@/components/goals/buttons";
+import { DeleteGoalButton, UpdateGoalButton } from "@/components/goals/buttons";
 import { getTimeZone } from "@/lib/settings/timezone/data";
+import { getTranslations } from 'next-intl/server';
 
 export default async function GoalPage({
   params,
 }: {
   params: { id: string };
 }) {
+  const t = await getTranslations('materiality');
   const { id: goalId } = params;
 
   const goal = await getGoalById(goalId);
@@ -42,26 +42,26 @@ export default async function GoalPage({
     return redirect("/login");
   }
 
-  const timezone = await getTimeZone({ userId: user.id })
-  const actualTime = timezone.userWithTimezone.timezone
+  const timezone = await getTimeZone({ userId: user.id });
+  const actualTime = timezone.userWithTimezone.timezone;
 
   return (
     <>
-      <ContentLayout title="Goal Details">
+      <ContentLayout title={t('goalDetails.title')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
             <h1 className="font-bold text-2xl mb-2">{goal.name}</h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">{t('goalDetails.dashboard')}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
                   <BreadcrumbLink href="/materiality/goals">
-                    Goals
+                  {t('goalDetails.goals')}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -71,74 +71,70 @@ export default async function GoalPage({
 
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
-          <h2 className="font-semibold text-xl mb-3">Goal Overview</h2>
+            <h2 className="font-semibold text-xl mb-3">{t('goalDetails.goalOverview')}</h2>
             <AlertDescription>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Description</Label>
+                  <Label>{t('goalDetails.description')}</Label>
                   <p>{goal.description}</p>
                 </div>
                 <div>
-                  <Label>Target Value</Label>
+                  <Label>{t('goalDetails.targetValue')}</Label>
                   <p>
                     {goal.target_value} {goal.unit_of_measure}
                   </p>
                 </div>
                 <div>
-                  <Label>Start Date</Label>
-                  <p>{new Date(goal.start_date).toLocaleDateString(
-                      "en-GB",
-                      { timeZone: actualTime }
-                    )}
-                    </p>
+                  <Label>{t('goalDetails.startDate')}</Label>
+                  <p>
+                    {new Date(goal.start_date).toLocaleDateString('en-GB', { timeZone: actualTime })}
+                  </p>
                 </div>
                 <div>
-                  <Label>End Date</Label>
-                  <p>{new Date(goal.end_date).toLocaleDateString(
-                      "en-GB",
-                      { timeZone: actualTime }
-                    )}
-                    </p>
+                  <Label>{t('goalDetails.endDate')}</Label>
+                  <p>
+                    {new Date(goal.end_date).toLocaleDateString('en-GB', { timeZone: actualTime })}
+                  </p>
                 </div>
                 <div>
-                  <Label>Current Value</Label>
+                  <Label>{t('goalDetails.currentValue')}</Label>
                   <p>
                     {goal.current_value} {goal.unit_of_measure}
                   </p>
                 </div>
                 <div>
-                  <Label>Progress</Label>
+                  <Label>{t('goalDetails.progress')}</Label>
                   <Progress value={goal.progress} />
                 </div>
                 <div>
-                  <Label>Owner</Label>
+                  <Label>{t('goalDetails.owner')}</Label>
                   <p>{goal.owner}</p>
                 </div>
                 <div>
-                  <Label>Status</Label>
-                  <p>{goal.status ? "Completed" : "In Progress"}</p>
+                  <Label>{t('goalDetails.status')}</Label>
+                  <p>{goal.status ? t('goalDetails.completed') : t('goalDetails.inProgress')}</p>
                 </div>
                 <div>
-                  <Label>Key Actions</Label>
+                  <Label>{t('goalDetails.keyActions')}</Label>
                   <p>{goal.key_actions}</p>
                 </div>
                 <div>
-                  <Label>Risks</Label>
+                  <Label>{t('goalDetails.risks')}</Label>
                   <p>{goal.risks}</p>
                 </div>
                 <div>
-                  <Label>Comments</Label>
+                  <Label>{t('goalDetails.comments')}</Label>
                   <p>{goal.comments}</p>
                 </div>
               </div>
             </AlertDescription>
           </Alert>
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
-                <div className="flex items-center">
-                <UpdateGoalButton goal={goal}/>
-                <DeleteGoalButton goalId={goal}/>
-                </div>
-              </div>
+            <div className="flex items-center">
+              <UpdateGoalButton goal={goal} />
+              <DeleteGoalButton goalId={goal.id} />
+            </div>
+          </div>
         </div>
       </ContentLayout>
     </>

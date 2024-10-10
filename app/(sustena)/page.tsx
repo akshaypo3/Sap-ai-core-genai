@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/table";
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import NewsCards from "@/components/dashboard/NewsCards";
-
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -45,16 +45,18 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  const t = await getTranslations('main-page');
+
   return (
     <>
-      <ContentLayout title="Dashboard">
+      <ContentLayout title={t("title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Dashboard</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("Dashboard")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/internal/">Home</BreadcrumbLink>
+                    <BreadcrumbLink href="/internal/">{t("Home")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>
@@ -70,12 +72,12 @@ export default async function Home() {
           <Card x-chunk="dashboard-01-chunk-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Current Reporting Year
+                {t("Current Reporting Year")}
               </CardTitle>
               {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">2024</div>
+              <div className="text-2xl font-bold">{t("2024")}</div>
               {/* <p className="text-xs text-muted-foreground">
                 -4 from last year
               </p> */}
@@ -84,38 +86,38 @@ export default async function Home() {
           <Card x-chunk="dashboard-01-chunk-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Material Topics identified
+                {t("Material Topics identified")}
               </CardTitle>
               {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">17</div>
+              <div className="text-2xl font-bold">17{t("title")}</div>
               <p className="text-xs text-muted-foreground">
-                Show assessment
+                {t("Show assessment")}
               </p>
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-2">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Open Datapoints</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("Open Datapoints")}</CardTitle>
               {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">34</div>
+              <div className="text-2xl font-bold">{t("34")}</div>
               <p className="text-xs text-muted-foreground">
-                See open datapoints
+                {t("See open datapoints")}
               </p>
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Report finished</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("Report finished")}</CardTitle>
               {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">71%</div>
+              <div className="text-2xl font-bold">{t("71%")}</div>
               <p className="text-xs text-muted-foreground">
-                Continue work
+                {t("Continue work")}
               </p>
             </CardContent>
           </Card>

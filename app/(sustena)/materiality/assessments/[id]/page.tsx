@@ -29,6 +29,7 @@ import {
   InteactiveChartConfig
 } from '@/components/charts/ChartData';
 import { Chart } from "chart.js";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home({ params }: { params: { id: string } }) {
 
@@ -39,6 +40,7 @@ export default async function Home({ params }: { params: { id: string } }) {
   const AssessmentData1 =  await getAssessmentDataforchart(id);
   const AssessmentData2 = await getEsrsIrosStatscount(id);
 
+  const t = await getTranslations('materiality');
   //  const AssesmentbarChartProps: ReusableBarChartProps = {
   //    data: AssessmentData1,
   //   config: assessmentChartConfig,
@@ -51,11 +53,20 @@ export default async function Home({ params }: { params: { id: string } }) {
   const AssesmentScatteredChart: ReusableScatteredChartProps = {
     data: AssessmentData1,
     config: ScattaredassessmentChartConfig,
-     title: "Materiality Matrix",
-     description: "Chart to see which topics are more material then others",
-    x_dataKey: "impact_score",
-    y_dataKey: "financial_score"
+    title: t('assessments.id.title2'), 
+    description: t('assessments.id.description2'), 
+    x_dataKey: t('assessments.id.xDataKey2'), 
+    y_dataKey: t('assessments.id.yDataKey2') 
   };
+
+  // const AssesmentScatteredChart: ReusableScatteredChartProps = {
+  //   data: AssessmentData1,
+  //   config: ScattaredassessmentChartConfig,
+  //    title: "Materiality Matrix",
+  //    description: "Chart to see which topics are more material then others",
+  //   x_dataKey: "impact_score",
+  //   y_dataKey: "financial_score"
+  // };
 
   // const AssesmentPieChart: ReusablePieChartProps = {
   //   data: AssessmentData1,
@@ -84,10 +95,10 @@ export default async function Home({ params }: { params: { id: string } }) {
    const AssesmentPieChartdonut1: ReusablePieChartdonutProps = {
     data: AssessmentData2,
     config: PieassessmentChartConfig,
-    title: "Progress",
-    description: "Progress Chart based on how many topics have been marked as material, not material or are under review",
-    dataKey: "count",
-    xAxisKey: "status"
+    title: t('assessments.id.title1'),
+    description: t('assessments.id.description1'),
+    dataKey: t('assessments.id.xDataKey1'),
+    xAxisKey: t('assessments.id.yDataKey2')
   };
 
   // const AssesmentLineChart: ReusableLineChartProps = {
@@ -119,29 +130,28 @@ export default async function Home({ params }: { params: { id: string } }) {
   //   xAxisKey: "code"
   // };
 
+
   return (
     <>
-      <ContentLayout title="Dashboard">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Materiality</h1>
-          <Breadcrumb>
+      <ContentLayout title={t('assessments.id.dashboard')}>
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <div>
+            <h1 className="font-bold text-2xl mb-2">{t('assessments.id.title')}</h1>
+            <Breadcrumb>
               <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard/">Assessment</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard">2024</BreadcrumbLink>
-                  </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard/">{t('assessments.id.name')}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard">{t('assessments.id.date')}</BreadcrumbLink>
+                </BreadcrumbItem>
               </BreadcrumbList>
-          </Breadcrumb>
+            </Breadcrumb>
+          </div>
         </div>
-        <div className="flex space-x-4">
-        </div>
-      </div>
 
       {/* <div className="bg-white p-5 border rounded">
       <h1>Assessment Score Distribution Chart</h1>

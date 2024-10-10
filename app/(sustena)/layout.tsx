@@ -12,7 +12,7 @@ import SustenaLayout from "@/components/sustena-layout/sustena-layout";
 import { ChatProvider } from '@/app/contexts/ChatContext';
 import { ChatButton } from '@/components/chats/ChatButton';
 import { ChatInterface } from '@/components/chats/ChatInterface';
-
+import { useTranslations } from 'next-intl';
 
 export const metadata: Metadata = {
   title: "VASPP Sustena",
@@ -32,6 +32,7 @@ export default function RootLayout({
     maintenance = false;
   };
 
+  const t = useTranslations('main-layout');
     return (
     <>
     { maintenance == true ? (
@@ -46,7 +47,7 @@ export default function RootLayout({
         {/* <MaintenanceHeader /> */}
           <main className="flex-grow w-full ">
             <div className="container mx-auto px-4 max-w-7xl  ">
-                We are undergoing scheduled maintenance. Please come back later!
+                {t("maintainance")}
             </div>
         </main>
         {/* <Footer/> */}

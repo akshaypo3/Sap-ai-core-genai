@@ -17,7 +17,7 @@ import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
 import DashboardTopChartSection from "@/components/reporting/reports/DashboardTopChartSection";
 import ReportsTable from "@/components/reporting/reports/ReportsTable";
-
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -29,23 +29,24 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const t = await getTranslations('reporting');
 
   return (
     <>
-      <ContentLayout title="Reporting Dashboard">
+      <ContentLayout title={t("reports.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Reports</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("reports.Reports")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard/">Dashboard</BreadcrumbLink>
+                    <BreadcrumbLink href="/reporting/dashboard/">{t("reports.Dashboard")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard">Reporting</BreadcrumbLink>
+                    <BreadcrumbLink href="/reporting/dashboard">{t("reports.Reporting")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>

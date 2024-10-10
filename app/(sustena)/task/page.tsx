@@ -41,6 +41,7 @@ import { ViewTaskButton } from "@/components/task/buttons";
 import KanbanBoard from "@/components/task/KanbanBoard";
 import { updateTaskStatus } from "@/lib/task/action";
 import { getTimeZone } from "@/lib/settings/timezone/data";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -59,17 +60,19 @@ export default async function Home() {
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
 
+  const t = await getTranslations('task');
+
   return (
     <>
-      <ContentLayout title="Tasks">
+      <ContentLayout title={t("title")}>
         {/* <UploadButton/> */}
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
-            <h1 className="font-bold text-2xl mb-2">Tasks</h1>
+            <h1 className="font-bold text-2xl mb-2">{t("Tasks")}</h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">{t("Home")}</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -84,7 +87,7 @@ export default async function Home() {
 
         <Tabs defaultValue="tasks" className="w-full">
           <TabsList>
-            <TabsTrigger value="tasks">Tasks</TabsTrigger>
+            <TabsTrigger value="tasks">{t("Tasks")}</TabsTrigger>
           </TabsList>
           <div className="bg-white p-5 border rounded">
             <TabsContent value="tasks">
@@ -92,14 +95,14 @@ export default async function Home() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead>Assigned to</TableHead>
-                      <TableHead>Created by</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Start date</TableHead>
-                      <TableHead>Due date</TableHead>
-                      <TableHead>Action</TableHead>
+                      <TableHead>{t("title")}</TableHead>
+                      <TableHead>{t("Description")}</TableHead>
+                      <TableHead>{t("Assigned to")}</TableHead>
+                      <TableHead>{t("Created by")}</TableHead>
+                      <TableHead>{t("Status")}</TableHead>
+                      <TableHead>{t("Start date")}</TableHead>
+                      <TableHead>{t("Due date")}</TableHead>
+                      <TableHead>{t("Action")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -146,7 +149,7 @@ export default async function Home() {
         {user && (
           <Tabs defaultValue="tasks" className="w-full mt-8">
             <TabsList>
-              <TabsTrigger value="tasks">My Tasks</TabsTrigger>
+              <TabsTrigger value="tasks">{t("My Tasks")}</TabsTrigger>
             </TabsList>
             <div className="bg-white p-5 border rounded">
               <TabsContent value="tasks">

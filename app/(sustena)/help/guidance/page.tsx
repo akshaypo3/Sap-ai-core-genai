@@ -1,30 +1,16 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Slash } from "lucide-react"
-// import Subheader from "@/components/Subheader";
-import { Input } from "@/components/ui/input"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { SearchIcon, MailIcon, PhoneIcon, BookOpenIcon } from "lucide-react"
-
+import { getTranslations } from 'next-intl/server'; // Updated import
+import { Slash } from "lucide-react";
 
 export default async function Home() {
   const supabase = createClient();
@@ -37,39 +23,42 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  // Use getTranslations to fetch translations
+  const t = await getTranslations('guidance');
+
   return (
     <>
-      <ContentLayout title="Guidance">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Guidance</h1>
-          <Breadcrumb>
+      <ContentLayout title={t('title')}>
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <div>
+            <h1 className="font-bold text-2xl mb-2">{t('title')}</h1>
+            <Breadcrumb>
               <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/help/guidance">Help</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/help/guidance">Guidance</BreadcrumbLink>
-                  </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard/">{t('breadcrumb.dashboard')}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/help/guidance">{t('breadcrumb.help')}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/help/guidance">{t('breadcrumb.guidance')}</BreadcrumbLink>
+                </BreadcrumbItem>
               </BreadcrumbList>
-          </Breadcrumb>
+            </Breadcrumb>
+          </div>
+          <div className="flex space-x-4">
+            {/* Button Section for Subheader */}
+            {/* <Button variant="outline">Add new</Button> */}
+          </div>
         </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
-      </div>
-      Home
-    </ContentLayout>
+        Home
+      </ContentLayout>
     </>
   );
 }

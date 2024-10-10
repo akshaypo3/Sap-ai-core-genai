@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/table";
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import SectionCards from "@/components/reporting/frameworks/brsr/SectionCards";
-
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -45,16 +45,18 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  const t = await getTranslations('reporting');
+
   return (
     <>
-      <ContentLayout title="Materiality Dashboard">
+        <ContentLayout title={t("frameworks.brsr.backup.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">BRSR</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("frameworks.brsr.backup.BRSR")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">Home</BreadcrumbLink>
+                    <BreadcrumbLink href="/dashboard/">{t("frameworks.brsr.backup.Home")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>

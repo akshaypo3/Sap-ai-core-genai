@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Slash, Calendar, Clock, User } from "lucide-react"
 import { getNewsArticlesById } from "@/lib/news/data";
 import { getTimeZone } from "@/lib/settings/timezone/data";
+import { getTranslations } from 'next-intl/server';
 
 import Image from "next/image";
 
@@ -43,6 +44,8 @@ export default async function NewsArticle({ params }: { params: { id: string } }
 
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
+
+  const t = await getTranslations('news');
 
   return (
     <ContentLayout title="News Article">
@@ -78,7 +81,7 @@ export default async function NewsArticle({ params }: { params: { id: string } }
             <span className="mr-4">{new Date(newsArticle.created_at).toLocaleDateString("en-GB",{ timeZone:actualTime
                           })}</span>
             <Clock className="h-4 w-4 mr-2" />
-            <span>{readTime} min read</span>
+            <span>{readTime} {t('min read')}</span>
           </div>
           <Image 
             src={newsArticle.image_link} 
@@ -99,7 +102,7 @@ export default async function NewsArticle({ params }: { params: { id: string } }
 
         <footer className="mt-8 pt-4 border-t">
           <Button variant="outline" asChild>
-            <Link href="/dashboard">Back to News</Link>
+            <Link href="/dashboard">{t("Back to News")}</Link>
           </Button>
         </footer>
       </article>

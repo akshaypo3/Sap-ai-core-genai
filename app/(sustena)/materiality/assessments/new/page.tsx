@@ -9,17 +9,13 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Slash } from "lucide-react"
-// import Subheader from "@/components/Subheader";
-
+import { Slash } from "lucide-react";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -28,45 +24,47 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  const t = await getTranslations('materiality'); // Fetch translations
+
   return (
     <>
-      <ContentLayout title="New Assessment">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">New Assessment</h1>
-          <Breadcrumb>
+      <ContentLayout title={t('assessments.new.title')}>
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <div>
+            <h1 className="font-bold text-2xl mb-2">{t('assessments.new.New Assessment')}</h1>
+            <Breadcrumb>
               <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard/">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard">Materiality</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/assessments">Assessments</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/assessments/new">New</BreadcrumbLink>
-                  </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard/">{t('assessments.new.Dashboard')}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard">{t('assessments.new.Materiality')}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/assessments">{t('assessments.new.Assessments')}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/assessments/new">{t('assessments.new.New')}</BreadcrumbLink>
+                </BreadcrumbItem>
               </BreadcrumbList>
-          </Breadcrumb>
+            </Breadcrumb>
+          </div>
+          <div className="flex space-x-4">
+            {/* Button Section for Subheader */}
+            {/* <Button variant="outline">{t('buttons.addNew')}</Button> */}
+          </div>
         </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
-      </div>
-      Home
-    </ContentLayout>
+        {t("assessments.new.Home")}
+      </ContentLayout>
     </>
   );
 }
