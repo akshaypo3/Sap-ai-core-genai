@@ -79,7 +79,7 @@ export default async function Home() {
       </div>
       <div className="min-w-full table-auto border-collapse">
          <DataTable columns={columns_location} data={locations} filter={'name'}/>
-       </div>
+      </div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -130,7 +130,7 @@ export default async function Home() {
         </div>
         <div className="min-w-full table-auto border-collapse">
                 <DataTable columns={columns_product} data={products} filter={'name'}/>
-                </div>
+        </div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -161,7 +161,6 @@ export default async function Home() {
             )}
           </TableBody>
         </Table>
-      </div>
     </ContentLayout>
   );
 }
