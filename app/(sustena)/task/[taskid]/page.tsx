@@ -29,7 +29,7 @@ import { Comments } from "@/components/task/comments";
 import { ViewTaskActivityButton } from "@/components/task/buttons";
 import { getTaskLogs } from "@/lib/task/data";
 import { DataTable } from "@/components/table/data-table"; 
-import { columns_task_log } from "@/components/table/columns";
+import { columns_task_log } from "@/components/table/TaskLogsTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function taskPage({

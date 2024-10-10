@@ -79,7 +79,7 @@ export default async function ActivityPage({
       // return fieldData?.updated ? fieldData.updated : "N/A";
     }
     if (field === "start_date" || field === "end_date") {
-      return fieldData.updated ? formatDate(fieldData.updated) : "N/A";
+      return fieldData?.updated ? formatDate(fieldData.updated) : "N/A";
     }
     return fieldData ? fieldData.updated ?? "N/A" : "N/A";
   };

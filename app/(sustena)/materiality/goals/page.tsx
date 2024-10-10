@@ -42,7 +42,8 @@ import { GoalChart}from "@/components/charts/GoalChart";
 import { AddGoal, ViewGoalButton, ViewGoalActivityButton, AddValue } from "@/components/goals/buttons";
 import { AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/table/data-table"; 
-import { columns_goal,columns_activity_goal} from "@/components/table/columns";
+import { columns_goal} from "@/components/table/GoalsTableColumns";
+import { columns_activity_goal} from "@/components/table/GoalActivityLogsTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
 export default async function Home() {

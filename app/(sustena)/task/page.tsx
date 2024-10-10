@@ -41,7 +41,7 @@ import { ViewTaskButton } from "@/components/task/buttons";
 import KanbanBoard from "@/components/task/KanbanBoard";
 import { updateTaskStatus } from "@/lib/task/action";
 import { DataTable } from "@/components/table/data-table"; 
-import { columns_task } from "@/components/table/columns";
+import { columns_task } from "@/components/table/TasksTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 
 
