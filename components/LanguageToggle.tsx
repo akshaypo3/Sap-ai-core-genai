@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Languages } from "lucide-react";
 import Link from "next/link";
-import { useLocaleContext } from "@/app/contexts/lanContext";
+import { useLocaleContext } from "@/app/contexts/LanContext";
 import {
   DropdownMenu,
   DropdownMenuContent,

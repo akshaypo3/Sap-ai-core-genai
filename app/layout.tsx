@@ -6,7 +6,7 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
-import { LocaleProvider } from "./contexts/lanContext";
+import { LocaleProvider } from "@/app/contexts/LanContext";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
 // import MainLayout from "@/components/layout/MainLayout";
