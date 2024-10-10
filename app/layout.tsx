@@ -6,18 +6,20 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LocaleProvider } from "./contexts/lanContext";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { useTheme } from "next-themes"
 // import MainLayout from "@/components/layout/MainLayout";
-
-
+import {NextIntlClientProvider} from 'next-intl';
+import {getLocale, getMessages} from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 
 export const metadata: Metadata = {
   title: "VASPP Sustena",
   description: "Sustainability Reporting Platform",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -29,6 +31,12 @@ export default function RootLayout({
   } else if (process.env.MAINTENANCE === "false"){
     maintenance = false;
   };
+
+  const locale = await getLocale();
+
+  const messages = await getMessages();
+
+  const t = await getTranslations('app-layout');
 
     return (
     <>
@@ -44,7 +52,7 @@ export default function RootLayout({
         {/* <MaintenanceHeader /> */}
           <main className="flex-grow w-full ">
             <div className="container mx-auto px-4 max-w-7xl  ">
-                We are undergoing scheduled maintenance. Please come back later!
+                {t("maintainance")}
             </div>
         </main>
         {/* <Footer/> */}
@@ -53,8 +61,10 @@ export default function RootLayout({
     </html>
     ):(
       <>
-      <html lang="en" className={GeistSans.className}>
+      <html lang={locale} className={GeistSans.className}>
       <body>
+      <NextIntlClientProvider messages={messages}>
+      <LocaleProvider>
       <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -64,6 +74,8 @@ export default function RootLayout({
             {children}
         <Toaster/>
       </ThemeProvider>
+      </LocaleProvider>
+      </NextIntlClientProvider>
       </body>
     </html>
     </>

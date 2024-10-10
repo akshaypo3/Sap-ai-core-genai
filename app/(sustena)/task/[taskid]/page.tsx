@@ -31,6 +31,7 @@ import { getTaskLogs } from "@/lib/task/data";
 import { DataTable } from "@/components/table/data-table"; 
 import { columns_task_log } from "@/components/table/TaskLogsTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
+import { getTranslations } from 'next-intl/server';
 
 export default async function taskPage({
   params,
@@ -66,22 +67,24 @@ export default async function taskPage({
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
 
+  const t = await getTranslations('task');
+
   return (
     <>
-      <ContentLayout title="Task Details">
+      <ContentLayout title={t("taskId.title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
             <h1 className="font-bold text-2xl mb-2">{task.title}</h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">{t("taskId.Dashboard")}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/task">Tasks</BreadcrumbLink>
+                  <BreadcrumbLink href="/task">{t("taskId.Tasks")}</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -89,31 +92,31 @@ export default async function taskPage({
         </div>
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
-            <h2 className="font-semibold text-xl mb-3">Task Overview</h2>
+            <h2 className="font-semibold text-xl mb-3">{t("taskId.Task Overview")}</h2>
             <AlertDescription>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Title</Label>
+                  <Label>{t("taskId.Title")}</Label>
                   <p>{task.title}</p>
                 </div>
                 <div>
-                  <Label>Description</Label>
+                  <Label>{t("taskId.Description")}</Label>
                   <p>{task.description}</p>
                 </div>
                 <div>
-                  <Label>Assigned User</Label>
+                  <Label>{t("taskId.Assigned User")}</Label>
                   <p>{task.assigned_to_username}</p>
                 </div>
                 <div>
-                  <Label>Created User</Label>
+                  <Label>{t("taskId.Created User")}</Label>
                   <p>{task.created_by_username}</p>
                 </div>
                 <div>
-                  <Label>Status</Label>
+                  <Label>{t("taskId.Status")}</Label>
                   <p>{task.status}</p>
                 </div>
                 <div>
-                  <Label>Start Date</Label>
+                  <Label>{t("taskId.Start Date")}</Label>
                   <p>
                     {new Date(task.start_date)
                       .toLocaleDateString("en-GB",{ timeZone:actualTime
@@ -122,7 +125,7 @@ export default async function taskPage({
                   </p>
                 </div>
                 <div>
-                  <Label>Due Date</Label>
+                  <Label>{t("taskId.Due Date")}</Label>
                   <p>
                     {new Date(task.due_date)
                       .toLocaleDateString("en-GB",{ timeZone:actualTime
@@ -147,18 +150,19 @@ export default async function taskPage({
           </div>
 
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
+            <h2 className="font-semibold text-xl mb-3">{t("taskId.Activity Logs")}</h2>
             <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
             <div className="min-w-full table-auto border-collapse">
                 <DataTable columns={columns_task_log} data={taskLogs} filter={'user'}/>
-                </div>
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Time</TableHead>
-                  <TableHead>User</TableHead>
-                  <TableHead>Activity</TableHead>
-                  <TableHead>Action</TableHead>
+                  <TableHead>{t("taskId.Date")}</TableHead>
+                  <TableHead>{t("taskId.Time")}</TableHead>
+                  <TableHead>{t("taskId.User")}</TableHead>
+                  <TableHead>{t("taskId.Activity")}</TableHead>
+                  <TableHead>{t("taskId.Action")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -186,7 +190,7 @@ export default async function taskPage({
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={5}>No activity logs available.</TableCell>
+                    <TableCell colSpan={5}>{t("taskId.No activity")}</TableCell>
                   </TableRow>
                 )}
               </TableBody>

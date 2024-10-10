@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
 import { getTaskActivityLogById, getCommentsByTaskId } from "@/lib/task/data";
 import { getTimeZone } from "@/lib/settings/timezone/data";
+import { getTranslations } from 'next-intl/server';
 
 export default async function ActivityPage({
   params,
@@ -136,22 +137,24 @@ export default async function ActivityPage({
     comment.comment.includes("Comment"),
   );
 
+  const t = await getTranslations('task');
+
   return (
     <>
-      <ContentLayout title="Task Activity Changes">
+      <ContentLayout title={t("logDetails.title")}>
         <div className="mb-5 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
             <h1 className="font-bold text-2xl mb-2">{activity.user}</h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">{t("logDetails.Dashboard")}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/task">Tasks</BreadcrumbLink>
+                  <BreadcrumbLink href="/task">{t("logDetails.Tasks")}</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -161,35 +164,35 @@ export default async function ActivityPage({
         {userUpdate && commentLogsExist ? null : (
           <div className="bg-white dark:bg-neutral-950 rounded-md mb-5">
             <Alert>
-              <AlertTitle className="mb-5">Details</AlertTitle>
+              <AlertTitle className="mb-5">{t("logDetails.Details")}</AlertTitle>
               <AlertDescription>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Task Title</Label>
+                    <Label>{t("logDetails.Task Title")}</Label>
                     <p>{renderField("title")}</p>
                   </div>
                   <div>
-                    <Label>Description</Label>
+                    <Label>{t("logDetails.Description")}</Label>
                     <p>{renderField("description")}</p>
                   </div>
                   <div>
-                    <Label>Assigned To</Label>
+                    <Label>{t("logDetails.Assigned To")}</Label>
                     <p>{renderField("assigned_to")}</p>
                   </div>
                   <div>
-                    <Label>Created By</Label>
+                    <Label>{t("logDetails.Created By")}</Label>
                     <p>{renderField("created_by")}</p>
                   </div>
                   <div>
-                    <Label>Status</Label>
+                    <Label>{t("logDetails.Status")}</Label>
                     <p>{renderField("status")}</p>
                   </div>
                   <div>
-                    <Label>Start Date</Label>
+                    <Label>{t("logDetails.Start Date")}</Label>
                     <p>{renderField("start_date")}</p>
                   </div>
                   <div>
-                    <Label>Due Date</Label>
+                    <Label>{t("logDetails.Due Date")}</Label>
                     <p>{renderField("due_date")}</p>
                   </div>
                 </div>
@@ -201,19 +204,19 @@ export default async function ActivityPage({
         {titleUpdate && commentLogsExist ? null : (
           <div className="bg-white dark:bg-neutral-950 rounded-md">
             <Alert>
-              <AlertTitle className="mb-5">Details</AlertTitle>
+              <AlertTitle className="mb-5">{t("logDetails.Details")}</AlertTitle>
               <AlertDescription>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>User</Label>
+                    <Label>{t("logDetails.User")}</Label>
                     <p>{changeField("user")}</p>
                   </div>
                   <div>
-                    <Label>Activity</Label>
+                    <Label>{t("logDetails.Activity")}</Label>
                     <p>{changeField("activity")}</p>
                   </div>
                   <div>
-                    <Label>Created At</Label>
+                    <Label>{t("logDetails.Created At")}</Label>
                     <p>{changeField("created_at")}</p>
                   </div>
                 </div>
@@ -226,14 +229,14 @@ export default async function ActivityPage({
           <div className="bg-white dark:bg-neutral-950 rounded-md mt-5">
             {commentLogsExist && comments?.length > 0 ? (
               <Alert>
-                <h3>Comments</h3>
+                <h3>{t("logDetails.Comments")}</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Time</TableHead>
-                      <TableHead>User</TableHead>
-                      <TableHead>Comment</TableHead>
+                      <TableHead>{t("logDetails.Date")}</TableHead>
+                      <TableHead>{t("logDetails.Time")}</TableHead>
+                      <TableHead>{t("logDetails.User")}</TableHead>
+                      <TableHead>{t("logDetails.Comment")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -267,9 +270,9 @@ export default async function ActivityPage({
               </Alert>
             ) : (
               <Alert>
-                <AlertTitle className="mb-5">Comments</AlertTitle>
-                <h3>No Comments Available</h3>
-                <p>There are no comments to display for this task.</p>
+                <AlertTitle className="mb-5">{t("logDetails.Comments")}</AlertTitle>
+                <h3>{t("logDetails.No Comments Available")}</h3>
+                <p>{t("logDetails.no comments")}</p>
               </Alert>
             )}
           </div>

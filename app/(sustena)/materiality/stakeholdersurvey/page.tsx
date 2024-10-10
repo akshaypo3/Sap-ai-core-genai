@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/table";
 import { getStakeholders, getStakeholderGroups } from "@/lib/stakeholders/data"
 import { StakeholderSurveyEditButton } from "@/components/materiality/stakeholdersurvey/buttons";
-
+import { getTranslations } from 'next-intl/server';
 
 
 export default async function Home() {
@@ -46,37 +46,37 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/login");
+    return redirect("stakeholderssurvey./login");
   }
 
-  
+  const t = await getTranslations('materiality');
 
   return (
     <>
-      <ContentLayout title="Materiality Assessments">
+      <ContentLayout title={t("stakeholderssurvey.pageTitle")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Stakeholder Survey</h1>
-          <Breadcrumb>
+      <div>
+            <h1 className="font-bold text-2xl mb-2">{t("stakeholderssurvey.stakeholderSurvey")}</h1>
+            <Breadcrumb>
               <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard/">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/dashboard">Materiality</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/materiality/stakeholders">Stakeholder Survey</BreadcrumbLink>
-                  </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard/">{t("stakeholderssurvey.dashboard")}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/dashboard">{t("stakeholderssurvey.materiality")}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator>
+                  <Slash />
+                </BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/materiality/stakeholders">{t("stakeholderssurvey.stakeholderSurvey")}</BreadcrumbLink>
+                </BreadcrumbItem>
               </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+            </Breadcrumb>
+          </div>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <Button variant="outline">Add new</Button> */}
@@ -89,46 +89,46 @@ export default async function Home() {
           <Card x-chunk="dashboard-01-chunk-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Identified Stakeholders
+              {t("stakeholderssurvey.identifiedStakeholders")}
               </CardTitle>
               {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2</div>
               <p className="text-xs text-muted-foreground">
-                -4 from last year
+              {t("stakeholderssurvey.-4 from last year")}
               </p>
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Stakeholder Groups engaged
+              {t("stakeholderssurvey.stakeholderGroupsEngaged")}
               </CardTitle>
               {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2</div>
               <p className="text-xs text-muted-foreground">
-                -1 from last year
+              {t("stakeholderssurvey.-1 from last year")}
               </p>
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-2">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Survey Completion Rate</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("stakeholderssurvey.surveyCompletionRate")}</CardTitle>
               {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">0%</div>
               <p className="text-xs text-muted-foreground">
-                -100% from last year
+                {t("stakeholderssurvey.-100% from last year")}
               </p>
             </CardContent>
           </Card>
           <Card x-chunk="dashboard-01-chunk-3">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Open Answers</CardTitle>
+              <CardTitle className="text-sm font-medium"> {t("stakeholderssurvey.openAnswers")}</CardTitle>
               {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
@@ -142,21 +142,20 @@ export default async function Home() {
 
 
       <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-        <h1 className="font-bold p-3">Identified Stakeholders</h1>
+      <h1 className="font-bold p-3">{t("stakeholderssurvey.identifiedStakeholders")}</h1>
       <Table>
-        <TableCaption>Stakeholders List</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Group</TableHead>
-            <TableHead>Questions</TableHead>
-            <TableHead>Answers</TableHead>
-            <TableHead>Completed</TableHead>
-            <TableHead>Actions</TableHead>
-            {/* <TableHead>Survey</TableHead> */}
-          </TableRow>
-        </TableHeader>
+      <TableCaption>{t("stakeholderssurvey.stakeholdersList")}</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t("stakeholderssurvey.name")}</TableHead>
+                <TableHead>{t("stakeholderssurvey.description")}</TableHead>
+                <TableHead>{t("stakeholderssurvey.group")}</TableHead>
+                <TableHead>{t("stakeholderssurvey.questions")}</TableHead>
+                <TableHead>{t("stakeholderssurvey.answers")}</TableHead>
+                <TableHead>{t("stakeholderssurvey.completed")}</TableHead>
+                <TableHead>{t("stakeholderssurvey.actions")}</TableHead>
+              </TableRow>
+            </TableHeader>
         <TableBody>
           {stakeholders?.map((item) => (
             <TableRow key={item.id}>

@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/table";
 import { AddUserButton } from "@/components/settings/users/buttons";
 import { ChangeGroupButton } from "@/components/settings/groups/buttons";
+import { getTranslations } from 'next-intl/server';
+
 
 export default async function roleDetailsPage({
   params,
@@ -36,12 +38,13 @@ export default async function roleDetailsPage({
     // return notFound();
   }
 
+  const t = await getTranslations('settings');
   return (
     <>
-      <ContentLayout title="Role Details">
+      <ContentLayout title={t("groups.Group title")}>
         <div className="mb-8 p-8 flex flex-col space-y-4 bg-white dark:bg-neutral-950 rounded-md border">
           <div className="flex flex-col space-y-2">
-            <h1 className="font-bold text-3xl mb-2">Group Details</h1>
+            <h1 className="font-bold text-3xl mb-2">{t("groups.Group Details")}</h1>
             <Breadcrumb>
               <BreadcrumbList className="flex space-x-1">
                 <BreadcrumbItem>
@@ -49,7 +52,7 @@ export default async function roleDetailsPage({
                     href="/dashboard"
                     className="text-blue-600 hover:underline"
                   >
-                    Dashboard
+                 {t("groups.Dashboard")}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
@@ -60,7 +63,7 @@ export default async function roleDetailsPage({
                     href="/settings/users"
                     className="text-blue-600 hover:underline"
                   >
-                    Users
+                  {t("groups.Users")}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -75,16 +78,16 @@ export default async function roleDetailsPage({
             <TableHeader>
               <TableRow className="bg-gray-100 dark:bg-gray-800">
                 <TableHead className="font-medium text-left py-4 px-6">
-                  Username
+                {t("groups.Username")}
                 </TableHead>
                 <TableHead className="font-medium text-left py-4 px-6">
-                  Email
+                {t("groups.Email")}
                 </TableHead>
                 <TableHead className="font-medium text-left py-4 px-6">
-                  Created
+                {t("groups.Created")}
                 </TableHead>
                 <TableHead className="font-medium text-left py-4 px-6">
-                  Group Assigned
+                {t("groups.Group Assigned")}
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -110,7 +113,7 @@ export default async function roleDetailsPage({
                 ) : (
                   <TableRow key={group.id}>
                     <TableCell colSpan={3} className="text-center py-4 px-6">
-                      No users found for this Group.
+                    {t("groups.No users")}
                     </TableCell>
                   </TableRow>
                 )

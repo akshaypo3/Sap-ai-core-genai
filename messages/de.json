@@ -1,0 +1,13 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "home": "Startseite",
+    "currentReportingYear": "Aktuelles Berichtsjahr",
+    "materialTopicsIdentified": "Identifizierte wesentliche Themen",
+    "openDatapoints": "Offene Datenpunkte",
+    "reportFinished": "Bericht abgeschlossen",
+    "showAssessment": "Bewertung anzeigen",
+    "seeOpenDatapoints": "Offene Datenpunkte anzeigen",
+    "continueWork": "Arbeit fortsetzen"
+  }
+}

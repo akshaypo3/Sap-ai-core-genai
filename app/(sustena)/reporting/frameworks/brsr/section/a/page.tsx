@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import SectionATabs  from "@/components/reporting/frameworks/brsr/section/a/SectionATabs"
-
+import { getTranslations } from 'next-intl/server';
 
 
 export default async function Home() {
@@ -28,16 +28,18 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  const t = await getTranslations('reporting');
+
   return (
     <>
-      <ContentLayout title="Materiality Dashboard">
+      <ContentLayout title={t("frameworks.section a.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">BRSR Section A</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("frameworks.brsr.section a.BRSR Section A")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">Home</BreadcrumbLink>
+                    <BreadcrumbLink href="/dashboard/">{t("frameworks.brsr.section a.Home")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>

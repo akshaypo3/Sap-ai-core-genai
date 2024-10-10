@@ -67,6 +67,7 @@ import { columns_activity } from "@/components/table/UsersActivityLogsTableColum
 import { AddRoleButton } from "@/components/settings/roles/buttons";
 import { AddGroupButton } from "@/components/settings/groups/buttons";
 import { getTimeZone} from "@/lib/settings/timezone/data";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
   const supabase = createClient();
@@ -92,22 +93,25 @@ export default async function Home() {
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
   // console.log("roleUserCount", rolesData);
+
+  const t = await getTranslations('settings');
+
   return (
     <>
-      <ContentLayout title="User Management">
+      <ContentLayout title={t("users.title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
-            <h1 className="font-bold text-2xl mb-2">User Management</h1>
+            <h1 className="font-bold text-2xl mb-2">{t("users.User Management")}</h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/dashboard">{t("users.Dashboard")}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/settings/users">Users</BreadcrumbLink>
+                  <BreadcrumbLink href="/settings/users">{t("users.Users")}</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -120,11 +124,11 @@ export default async function Home() {
 
         <Tabs defaultValue="users" className="w-full">
           <TabsList>
-            <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="roles">Roles</TabsTrigger>
-            <TabsTrigger value="groups">Groups</TabsTrigger>
-            <TabsTrigger value="portalusers">Portal Users</TabsTrigger>
-            <TabsTrigger value="activitylog">Activity Log</TabsTrigger>
+            <TabsTrigger value="users">{t("users.Users")}</TabsTrigger>
+            <TabsTrigger value="roles">{t("users.Roles")}</TabsTrigger>
+            <TabsTrigger value="groups">{t("users.Groups")}</TabsTrigger>
+            <TabsTrigger value="portalusers">{t("users.Portal Users")}</TabsTrigger>
+            <TabsTrigger value="activitylog">{t("users.Activity Log")}</TabsTrigger>
           </TabsList>
           <div className="bg-white p-5 border rounded">
             <TabsContent value="users">
@@ -136,29 +140,29 @@ export default async function Home() {
                   <TableHeader className="bg-gray-100">
                     <TableRow>
                       <TableHead className="px-6 py-3 text-left">
-                        Name
+                        {t("users.Name")}
                       </TableHead>
                       <TableHead className="px-6 py-3 text-left">
-                        Email
+                        {t("users.Email")}
                       </TableHead>
                       <TableHead className="px-6 py-3 text-left">
-                        Group
+                        {t("users.Group")}
                       </TableHead>
                       <TableHead className="px-6 py-3 text-left">
-                        Role
+                        {t("users.Role")}
                       </TableHead>
                       <TableHead className="px-6 py-3 text-left">
-                        Created
+                        {t("users.Created")}
                       </TableHead>
                       <TableHead className="px-6 py-3 text-left">
-                        Last Sign In
+                        {t("users.Last Sign In")}
                       </TableHead>
-                      <TableHead className="px-6 py-3 text-left">UID</TableHead>
+                      <TableHead className="px-6 py-3 text-left">{t("users.UID")}</TableHead>
                       <TableHead className="px-6 py-3 text-center">
-                        Action
+                        {t("users.Action")}
                       </TableHead>
                       <TableHead className="px-6 py-3 text-center">
-                        Edit
+                        {t("users.Edit")}
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -220,13 +224,13 @@ export default async function Home() {
                   <TableCaption>{/* Roles List */}</TableCaption>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Role</TableHead>
-                      <TableHead>Description</TableHead>
+                      <TableHead>{t("users.Role")}</TableHead>
+                      <TableHead>{t("users.Description")}</TableHead>
                       <TableHead style={{ textAlign: "left" }}>
-                        Users Count
+                        {t("users.Users Count")}
                       </TableHead>
-                      <TableHead>Details</TableHead>
-                      <TableHead>Action</TableHead>
+                      <TableHead>{t("users.Details")}</TableHead>
+                      <TableHead>{t("users.Action")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -256,19 +260,19 @@ export default async function Home() {
                 <DialogTrigger asChild></DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Create New Group</DialogTitle>
+                    <DialogTitle>{t("users.Create New Group")}</DialogTitle>
                   </DialogHeader>
                   <form action={createUser}>
                     <div className="grid w-full items-center gap-1.5 mb-2">
-                      <Label htmlFor="name">Name</Label>
+                      <Label htmlFor="name">{t("users.Name")}</Label>
                       <Input type="text" name="name" />
-                      <Label htmlFor="description">Description</Label>
+                      <Label htmlFor="description">{t("users.Description")}</Label>
                       <Input type="text" name="description" />
                       <div className="flex mt-5">
                         <div className="flex-auto">
                           <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                              Add Group
+                              {t("users.Add Group")}
                             </Button>
                           </DialogClose>
                         </div>
@@ -284,11 +288,11 @@ export default async function Home() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead className="text-center">Users Count</TableHead>
-                    <TableHead>Details</TableHead>
-                    <TableHead>Action</TableHead>
+                    <TableHead>{t("users.Name")}</TableHead>
+                    <TableHead>{t("users.Description")}</TableHead>
+                    <TableHead className="text-center">{t("users.Users Count")}</TableHead>
+                    <TableHead>{t("users.Details")}</TableHead>
+                    <TableHead>{t("users.Action")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -314,7 +318,7 @@ export default async function Home() {
             </TabsContent>
           </div>
 
-          <TabsContent value="portalusers">Portal Users</TabsContent>
+          <TabsContent value="portalusers">{t("users.Portal Users")}</TabsContent>
           <TabsContent value="activitylog">
             <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
             <div className="min-w-full table-auto border-collapse">
@@ -323,10 +327,10 @@ export default async function Home() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Time</TableHead>
-                    <TableHead>User</TableHead>
-                    <TableHead>Activity</TableHead>
+                    <TableHead>{t("users.Date")}</TableHead>
+                    <TableHead>{t("users.Time")}</TableHead>
+                    <TableHead>{t("users.User")}</TableHead>
+                    <TableHead>{t("users.Activity")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

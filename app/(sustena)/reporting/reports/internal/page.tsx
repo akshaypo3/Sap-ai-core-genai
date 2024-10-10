@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
-
+import { getTranslations } from 'next-intl/server'
 
 export default async function Home() {
   const supabase = createClient();
@@ -28,28 +28,30 @@ export default async function Home() {
     return redirect("/login");
   }
 
+  const t = await getTranslations('reporting');
+
   return (
     <>
-      <ContentLayout title="Internal Reporting">
+     <ContentLayout title={t("reports.internal.internalReporting")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Internal Reporting</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("reports.internal.internalReporting")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard/">Dashboard</BreadcrumbLink>
+                    <BreadcrumbLink href="/reporting/dashboard/">{t("reports.internal.dashboard")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard">Reporting</BreadcrumbLink>
+                    <BreadcrumbLink href="/reporting/dashboard">{t("reports.internal.reporting")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/internal">Internal</BreadcrumbLink>
+                    <BreadcrumbLink href="/reporting/internal">{t("reports.internal.internal")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>
