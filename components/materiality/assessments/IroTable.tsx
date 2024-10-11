@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { MarkAsNotMaterialButton } from "@/components/materiality/assessments/buttons";
+// import { MarkAsNotMaterialButton } from "@/components/materiality/assessments/buttons";
 
 type Stakeholder = {
   id: string;
@@ -186,12 +186,12 @@ export default function IroTable({ assessmentData, assessmentId }) {
                       <Button variant="ghost" size="icon" onClick={() => handleEdit(item.id)}>
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      {item.status !== 'Not Material' && (
+                      {/* {item.status !== 'Not Material' && (
                         <MarkAsNotMaterialButton 
                           assessmentId={assessmentId} 
                           iroId={item.id} 
                         />
-                      )}
+                      )} */}
                     </TableCell>
                   </TableRow>
                 ))}
