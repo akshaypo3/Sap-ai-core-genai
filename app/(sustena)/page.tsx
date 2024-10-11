@@ -37,13 +37,26 @@ import { getTranslations } from 'next-intl/server';
 export default async function Home() {
   const supabase = createClient();
 
+  let user;
+try {
   const {
-    data: { user },
+    data: { user: fetchedUser },
+    error,
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (error) {
+    console.error("Error fetching user:", error);
     return redirect("/login");
   }
+  user = fetchedUser;
+} catch (err) {
+  console.error("Unexpected error fetching user:", err);
+  return redirect("/login");
+}
+
+if (!user) {
+  return redirect("/login");
+}
 
   const t = await getTranslations('main-page');
 
