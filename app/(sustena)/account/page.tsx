@@ -1,8 +1,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-import { useTranslations } from 'next-intl';  // Adjusted import for useTranslations
+import { getTranslations } from 'next-intl/server'; 
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -13,12 +12,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react";
-import EditProfileButton  from "@/components/settings/users/editProfileButton";
+import { EditProfileButton }  from "@/components/settings/users/buttons";
 import { getAllUsers, getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
 
 export default async function Home() {
-  const t = useTranslations('account');  // Define the namespace for translations
-
   const supabase = createClient();
   const groups = await getUserGroups();
   const roles = await getRoles();
@@ -32,6 +29,8 @@ export default async function Home() {
 
   const users = await getAllUsers();
   const profile = await getProfile();
+
+  const t = await getTranslations('account'); 
 
   return (
     <>
@@ -88,7 +87,7 @@ export default async function Home() {
 
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
           <div className="flex items-center">
-            <EditProfileButton data1={profile}/>
+            {/* <EditProfileButton data1={profile}/> */}
           </div>
         </div>    
       </ContentLayout>     

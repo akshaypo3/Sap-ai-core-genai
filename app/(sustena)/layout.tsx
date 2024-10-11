@@ -1,81 +1,35 @@
-import type { Metadata } from "next";
 import "@/app/globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
 import { Toaster } from "@/components/ui/toaster"
-import { ThemeProvider } from "@/components/theme-provider"
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
-import { useTheme } from "next-themes"
 import SustenaLayout from "@/components/sustena-layout/sustena-layout";
 import { ChatProvider } from '@/app/contexts/ChatContext';
 import { ChatButton } from '@/components/chats/ChatButton';
 import { ChatInterface } from '@/components/chats/ChatInterface';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: "VASPP Sustena",
-  description: "Sustainability Reporting Platform",
-};
-
-export default function RootLayout({
+export default async function AuthenticatedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const t = await getTranslations('main-layout');
 
-  let maintenance;
-  if(process.env.MAINTENANCE === "true"){
-    maintenance = true;
-  } else if (process.env.MAINTENANCE === "false"){
-    maintenance = false;
-  };
+  const maintenance = process.env.NEXT_PUBLIC_MAINTENANCE === "true";
 
-  const t = useTranslations('main-layout');
+  if (maintenance) {
     return (
-    <>
-    { maintenance == true ? (
-      <html lang="en" className={GeistSans.className}>
-      <body className="min-h-screen flex flex-col items-center bg-gray-100 dark:bg-black">
-      <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-        {/* <MaintenanceHeader /> */}
-          <main className="flex-grow w-full ">
-            <div className="container mx-auto px-4 max-w-7xl  ">
-                {t("maintainance")}
-            </div>
-        </main>
-        {/* <Footer/> */}
-        <Toaster />
-      </ThemeProvider>
-      </body>
-    </html>
-    ):(
-      <>
-      {/* <main className={GeistSans.className}> */}
-      
-      <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ChatProvider>
-              <SustenaLayout>{children}</SustenaLayout>
-            <ChatButton/>
-          <ChatInterface />
-        <Toaster/>
-        </ChatProvider>
-      </ThemeProvider>
-      
-    {/* </main> */}
-    </>
-    )}
-    </>
+      <main className="flex-grow w-full">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {t("maintenance")}
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <ChatProvider>
+      <SustenaLayout>{children}</SustenaLayout>
+      <ChatButton />
+      <ChatInterface />
+    </ChatProvider>
   );
 }
