@@ -4,11 +4,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DeleteUserButton } from "@/components/settings/users/DeleteUserButton";
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import EditUserButton from "../settings/users/editUserButton";
 
 export type User = {
     userId: string;
     name: string;
     email: string;
+    allGroups: Array<{ id: string; group: string }>; // All available groups
+     allRoles: Array<{ id: string; role: string }>;
     group?: { group: string };
     role?: { role: string };
     createdAt: string;
@@ -70,17 +73,19 @@ export type User = {
     },
     {
       header: "Action",
-      cell: ({ row }) => (
-        <div className="flex justify-center space-x-2">
-          <DeleteUserButton id={row.original}/>
-        </div>
-      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex justify-center space-x-2">
+            <DeleteUserButton id={row.original} />
+          </div>
+        );
+      },
     },
     {
       header: "Edit",
       cell: ({ row }) => (
         <div className="flex justify-center space-x-2">
-          {/* <EditUserButton id={row.original} /> */}
+          <EditUserButton id={row.original} />
         </div>
       ),
     },

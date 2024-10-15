@@ -96,58 +96,8 @@ export default async function Home() {
             <TabsContent value="tasks">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
               <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_task} data={tasks} filter={'title'}/>
+                <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned to'}/>
                 </div>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>{t("title")}</TableHead>
-                      <TableHead>{t("Description")}</TableHead>
-                      <TableHead>{t("Assigned to")}</TableHead>
-                      <TableHead>{t("Created by")}</TableHead>
-                      <TableHead>{t("Status")}</TableHead>
-                      <TableHead>{t("Start date")}</TableHead>
-                      <TableHead>{t("Due date")}</TableHead>
-                      <TableHead>{t("Action")}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {tasks?.map((task) => (
-                      <TableRow key={task.id}>
-                        <TableCell className="font-medium">
-                          {task.title}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.description}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.assigned_to_username}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.created_by_username}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {task.status}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {new Date(task.start_date)
-                            .toLocaleDateString("en-GB",{ timeZone:actualTime
-                          })
-                            .replace(/\//g, ".")}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {new Date(task.due_date)
-                            .toLocaleDateString("en-GB",{ timeZone:actualTime
-                            })
-                            .replace(/\//g, ".")}
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          <ViewTaskButton taskId={task.id} />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
               </div>
             </TabsContent>
           </div>

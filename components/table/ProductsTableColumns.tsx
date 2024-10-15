@@ -2,6 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { DeleteProductButton } from "../materiality/company/DeleteProductButton";
+import { Button } from "@/components/ui/button"
+import {  ArrowUpDown } from "lucide-react";
 
 export type Product = {
     id: string;
@@ -29,7 +31,15 @@ export type Product = {
     },
     {
       accessorKey: "turnover_percentage",
-      header: () => <span className="text-center">% of Turnover</span>,
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          % of Turnover
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
       cell: ({ row }) => <span className="text-center">{row.getValue("turnover_percentage") || "NA"}</span>,
     },
     {

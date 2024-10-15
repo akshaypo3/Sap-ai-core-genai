@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { UUID } from "crypto";
+import { ViewTaskButton } from "../task/ViewTaskButton";
 
 export type Task = {
     id: UUID;
@@ -74,7 +75,7 @@ export type Task = {
         const taskid1=row.original.id
         return(
         <div className="flex justify-center">
-          {/* <ViewTaskButton taskId={taskid1} /> */}
+          <ViewTaskButton taskId={taskid1} />
         </div>
       )},
     },
