@@ -78,89 +78,16 @@ export default async function Home() {
         </div>
       </div>
       <div className="min-w-full table-auto border-collapse">
-         <DataTable columns={columns_location} data={locations} filter={'name'}/>
+         <DataTable columns={columns_location} data={locations} filter={'name'} sort={'City'}/>
       </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">{t('company.details.name')}</TableHead>
-              <TableHead>{t('company.details.type')}</TableHead>
-              <TableHead>{t('company.details.street')}</TableHead>
-              <TableHead>{t('company.details.postalCode')}</TableHead>
-              <TableHead>{t('company.details.city')}</TableHead>
-              <TableHead>{t('company.details.country')}</TableHead>
-              <TableHead>{t('company.details.employees')}</TableHead>
-              <TableHead className="text-right">{t('company.details.details')}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {locations && locations.length > 0 ? (
-              locations.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell>{item.address}</TableCell>
-                  <TableCell>{item.postalcode}</TableCell>
-                  <TableCell>{item.city}</TableCell>
-                  <TableCell>{item.country}</TableCell>
-                  <TableCell>{item.employee_count}</TableCell>
-                  <TableCell className="text-right">
-                    <Link href={`/materiality/company/location/${item.id}`}>
-                      <Button className="p-2">
-                        <span className="sr-only">View</span>
-                        <ZoomIn className="w-4" />
-                      </Button>
-                    </Link>
-                    <DeleteLocationButton location={item} />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} className="text-center">{t('locations.noLocations')}</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-        
         {/* Products/Services Section */}
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-md mt-10">
           <h3 className="text-xl font-semibold">{t('company.products.title')}</h3>
           <AddProductButton />
         </div>
         <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_product} data={products} filter={'name'}/>
+                <DataTable columns={columns_product} data={products} filter={'name'} sort={'% of Turnover'}/>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">{t('company.details.name')}</TableHead>
-              <TableHead>{t('company.details.type')}</TableHead>
-              <TableHead>{t('company.details.description')}</TableHead>
-              <TableHead className="text-center">{t('company.details.turnoverPercentage')}</TableHead>
-              <TableHead className="text-right">{t('company.details.details')}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {products && products.length > 0 ? (
-              products.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.type}</TableCell>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell className="text-center">{item.turnover_percentage}</TableCell>
-                  <TableCell className="text-right">
-                    <DeleteProductButton product={item} />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center">{t('company.products.noProducts')}</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
     </ContentLayout>
   );
 }

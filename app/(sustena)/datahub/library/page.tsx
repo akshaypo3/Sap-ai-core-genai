@@ -53,35 +53,9 @@ export default async function Home() {
 
         <p>{t('fileUpload')}</p>
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t('table.id')}</TableHead>
-                <TableHead>{t('table.name')}</TableHead>
-                <TableHead>{t('table.created')}</TableHead>
-                <TableHead>{t('table.action')}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {files?.map((file) => (
-                <TableRow key={file.id}>
-                  <TableCell>{file.id || 'NA'}</TableCell>
-                  <TableCell className="font-medium">{file.name || 'NA'}</TableCell>
-                  <TableCell className="font-medium">
-                    {file.created_at
-                      ? new Date(file.created_at)
-                        .toLocaleDateString('en-GB', { timeZone: actualTime })
-                        .replace(/\//g, '.') +
-                        ' ' +
-                        new Date(file.created_at)
-                          .toLocaleTimeString('en-GB', { timeZone: actualTime, hour12: false })
-                      : 'NA'}
-                  </TableCell>
-                  <TableCell><DownloadFileButton name={file.name} /></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="min-w-full table-auto border-collapse">
+          <DataTable columns={columns_file} data={files} filter={'name'} sort={'Created At'}/>
+        </div>
         </div>
 
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">

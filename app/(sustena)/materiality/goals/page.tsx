@@ -87,76 +87,17 @@ export default async function Home() {
             </div>
 
             <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableCell>{t("goals.name")}</TableCell>
-                    <TableCell>{t("goals.description")}</TableCell>
-                    <TableCell>{t("goals.startDate")}</TableCell>
-                    <TableCell>{t("goals.endDate")}</TableCell>
-                    <TableCell>{t("goals.progress")}</TableCell>
-                    <TableCell>{t("goals.owner")}</TableCell>
-                    <TableCell>{t("goals.status")}</TableCell>
-                    <TableCell>{t("goals.action")}</TableCell>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {goals?.map((goal) => (
-                    <TableRow key={goal.id}>
-                      <TableCell className="font-medium">{goal.name}</TableCell>
-                      <TableCell className="font-medium">{goal.description}</TableCell>
-                      <TableCell className="font-medium">{goal.start_date}</TableCell>
-                      <TableCell className="font-medium">{goal.end_date}</TableCell>
-                      <TableCell className="font-medium">{goal.progress} %</TableCell>
-                      <TableCell className="font-medium">{goal.owner}</TableCell>
-                      <TableCell className="font-medium">
-                        {goal.status ? t("goals.completed") : t("goals.inProgress")}
-                      </TableCell>
-                      <TableCell>
-                        <ViewGoalButton goalId={goal.id} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="min-w-full table-auto border-collapse">
+            <DataTable columns={columns_goal} data={goals} filter={'name'} sort={'Progress'}/>
+            </div>
             </div>
           </TabsContent>
 
           <TabsContent value="activitylog">
             <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableCell>{t("goals.date")}</TableCell>
-                    <TableCell>{t("goals.time")}</TableCell>
-                    <TableCell>{t("goals.user")}</TableCell>
-                    <TableCell>{t("goals.activity")}</TableCell>
-                    <TableCell>{t("goals.action")}</TableCell>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {goalActivityLogs?.map((log) => (
-                    <TableRow key={log.id}>
-                      <TableCell>
-                        {new Date(log.created_at)
-                          .toLocaleDateString("en-GB", { timeZone: actualTime })
-                          .replace(/\//g, ".")}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(log.created_at).toLocaleTimeString("en-GB", {
-                          timeZone: actualTime,
-                          hour12: false,
-                        })}
-                      </TableCell>
-                      <TableCell>{log.user}</TableCell>
-                      <TableCell>{log.activity}</TableCell>
-                      <TableCell>
-                        <ViewGoalActivityButton activityId={log.id} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="min-w-full table-auto border-collapse">
+              <DataTable columns={columns_activity_goal} data={goalActivityLogs} filter={'user'} sort={'Created At'}/> 
+            </div>
             </div>
           </TabsContent>
         </div>
