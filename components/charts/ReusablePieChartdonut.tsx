@@ -18,6 +18,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
+import { AddValue } from "@/components/goals/buttons";
+
 // Define types for the props
 export interface DataPoint {
   [key: string]: string | number;
@@ -61,7 +63,7 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
       "#2E8B57", "#006400"
     ];
     const measure=dataKey;
-    
+    const len=data.length-1;
     const totalScore = data.reduce((sum, item) => {
       const score = typeof item[measure] === 'string'
             ? parseFloat(item[measure])
@@ -111,14 +113,21 @@ const ReusablePieChartdonut: React.FC<ReusablePieChartdonutProps> = ({
   
   return (
     <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardHeader  className="flex justify-between">
+<div className="flex justify space-x-2 mt-1">
+<CardTitle>{title}</CardTitle>
+</div>
+<div className="flex justify-between items-center mt-0 w-full"> {/* Ensure full width */}
+<CardDescription className="mr-1"> {/* Add some margin to separate from the button */}
+    {description}
+</CardDescription>
+  {buttonText === "Goal" && <AddValue className="py-2 px-4" goalId={data[len]} />}
+</div>
+</CardHeader>
+      <CardContent>
         <ChartContainer
           config={config}
-          className="mx-auto aspect-square max-h-[290px]"
+          className="mx-auto aspect-square max-h-[210px]"
         >
           <PieChart>
           {tooltip}
