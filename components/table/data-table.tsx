@@ -27,6 +27,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   filter: string;
+  sort: string;
 }
 
 import { Input } from "@/components/ui/input"
@@ -43,6 +44,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   filter,
+  sort,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -68,6 +70,7 @@ export function DataTable<TData, TValue>({
   })
 console.log(filter);
 const t = useTranslations("table")
+console.log(sort);
   return (
       <><div className="flex items-center py-4">
        <Input
@@ -89,6 +92,8 @@ const t = useTranslations("table")
                 (column) => column.getCanHide()
               )
               .map((column) => {
+                const isHeaderFunction = typeof column.columnDef.header === 'function';
+      const displayName = isHeaderFunction ? sort : (column.columnDef.header || sort);
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
@@ -98,7 +103,7 @@ const t = useTranslations("table")
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                     {displayName}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -111,7 +116,7 @@ const t = useTranslations("table")
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "progress" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
+                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
           {header.isPlaceholder
             ? null
             : flexRender(
@@ -134,7 +139,7 @@ const t = useTranslations("table")
                 >
                   {row.getVisibleCells().map((cell) => (
           <TableCell
-            className={`px-6 py-4 font-medium whitespace-nowrap ${cell.column.id === 'user_count'|| cell.column.id === "progress" || cell.column.id === "turnover_percentage" || cell.column.id === "Details" ? 'text-center' : 'text-left'}`}
+            className={`px-6 py-4 font-medium whitespace-nowrap ${cell.column.id === 'user_count'|| cell.column.id === "progress" || cell.column.id === "Action" || cell.column.id === "turnover_percentage" || cell.column.id === "Details" ? 'text-center' : 'text-left'}`}
             key={cell.id}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}

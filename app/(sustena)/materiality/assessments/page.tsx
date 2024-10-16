@@ -49,7 +49,6 @@ export default async function Home() {
 
   const assessments = await getAssessments();
   
-  // Fetch stats for each assessment
   const assessmentsWithStats = await Promise.all(assessments.map(async (assessment) => {
     const stats = await getEsrsIrosStats(assessment.id);
     return { ...assessment, stats };
@@ -94,7 +93,7 @@ export default async function Home() {
                 <TableCell>{item.stats.under_review}</TableCell>
                 <TableCell>{item.stats.to_be_assessed}</TableCell>
                 <TableCell className="flex justify-center">
-                    <AssessmentsActionsMenu id={item.id}/>
+                    <AssessmentsActionsMenu id={item.id} step={item.step}/>
                   </TableCell>
               </TableRow>
             ))}

@@ -5,11 +5,14 @@ import { DeleteUserButton } from "@/components/settings/users/DeleteUserButton";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl'; // Import the useTranslations hook
+//import EditUserButton from "../settings/users/editUserButton";
 
 export type User = {
     userId: string;
     name: string;
     email: string;
+    allGroups: Array<{ id: string; group: string }>; // All available groups
+    allRoles: Array<{ id: string; role: string }>;
     group?: { group: string };
     role?: { role: string };
     createdAt: string;
@@ -110,7 +113,7 @@ export const columns_user: ColumnDef<User>[] = [
         },
         cell: ({ row }) => (
             <div className="flex justify-center space-x-2">
-                {/* <EditUserButton id={row.original.userId} /> */}
+                {/* <EditUserButton id={row.original} /> */}
             </div>
         ),
     },

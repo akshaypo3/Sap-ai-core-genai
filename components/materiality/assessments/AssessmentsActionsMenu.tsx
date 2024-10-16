@@ -16,9 +16,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'use-intl';
 
-  export function AssessmentsActionsMenu({ id }: { id: string }) {
+  export function AssessmentsActionsMenu({ id,step }: { id: string, step:string }) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const t = useTranslations("materiality-com")
+    console.log("Step:",step)  
     return (
       <>
         <DropdownMenu>
@@ -27,8 +28,8 @@ import { useTranslations } from 'use-intl';
             <DropdownMenuLabel>{t("assessment.Actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/materiality/assessments/${id}`} className="hover:cursor-pointer">
-                {t("assessment.View")}
+              <Link href={`/materiality/assessments/${id}/${step}`} className="hover:cursor-pointer">
+                View
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="hover:cursor-pointer">

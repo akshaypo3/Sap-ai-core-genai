@@ -29,7 +29,7 @@ const t = useTranslations("materiality-com")
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("stakeholders.Add Stakeholder")}</Button>
+        <Button>{t("stakeholders.Add Stakeholder")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

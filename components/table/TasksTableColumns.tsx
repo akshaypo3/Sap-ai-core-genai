@@ -5,6 +5,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import { useTranslations } from 'next-intl'; // Import the useTranslations hook
+import { ViewTaskButton } from "../task/ViewTaskButton";
 
 export type Task = {
     id: UUID;
@@ -100,7 +101,7 @@ export const columns_task: ColumnDef<Task>[] = [
             const taskid1 = row.original.id;
             return (
                 <div className="flex justify-center">
-                    {/* <ViewTaskButton taskId={taskid1} /> */}
+                    <ViewTaskButton taskId={taskid1} />
                 </div>
             );
         },

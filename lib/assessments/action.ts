@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import errorMap from "zod/lib/locales/en";
 
 export async function populateLonglist(assessmentId:string) {
   const supabase = createClient();
@@ -56,7 +57,8 @@ export async function createAssessment(formData: FormData) {
     const { data: newAssessment, error } = await supabase.from('materialityassessments').insert(
       {
         fyear: year,
-        framework_id: framework
+        framework_id: framework,
+        step: 1
       }
     ).select('id');
 
@@ -170,8 +172,8 @@ export async function saveIroEntries(formData: FormData) {
   } catch (error) {
     console.error("Caught error while saving IRO Data:", error);
   } finally {
-    revalidatePath(`/materiality/assessments/${assessment_id}`);
-    redirect(`/materiality/assessments/${assessment_id}`);
+    revalidatePath(`/materiality/assessments/${assessment_id}/5`);
+    redirect(`/materiality/assessments/${assessment_id}/5`);
   }
 }
 
@@ -181,6 +183,9 @@ export async function markIroAsNotMaterial(formData:FormData){
   const assessmentId = formData.get("assessment_id");
   const iroId = formData.get("iro_id");
   const description = formData.get("description");
+
+  console.log("ID IN NOT MATERIAL FUNCTION: ",assessmentId)
+  console.log(`PATH: /materiality/assessments/${assessmentId}/5`)
 
   try {
     const { data: savedData, error } = await supabase.from('esrs_iros').update(
@@ -193,8 +198,8 @@ export async function markIroAsNotMaterial(formData:FormData){
   } catch (error) {
       console.log(error);
   } finally {
-    revalidatePath(`/materiality/assessments/${assessmentId}`);
-    redirect(`/materiality/assessments/`);
+    revalidatePath(`/materiality/assessments/${assessmentId}/5`);
+    redirect(`/materiality/assessments/${assessmentId}/5`);
   }
 }
 
@@ -225,5 +230,74 @@ export async function deleteAssessmentWithId(id:string) {
   } catch (error) {
     console.error("Error deleting assessment:", error.message);
     return { success: false, message: error.message };
+  }
+}
+
+export async function handleNextStep(id,nextStep){
+  let assessmentId = id;
+  const supabase = createClient();
+
+  try {
+    const { data } = await supabase.from('materialityassessments').update({
+      step: nextStep
+    }).eq('id',assessmentId);
+  } catch (error) {
+    console.error("Problem updating next Step: ",error)
+    throw error;
+  } finally {
+    revalidatePath(`/materiality/assessments/${assessmentId}/${nextStep}`);
+    redirect(`/materiality/assessments/${assessmentId}/${nextStep}`);
+  }
+}
+
+
+export async function duplicateIro(assessmentId: string, iroId: string) {
+  const supabase = createClient();
+
+  try {
+    // Fetch the IRO to duplicate
+    const { data: iroData, error } = await supabase
+      .from("esrs_iros")
+      .select("*")
+      .eq("id", iroId)
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to fetch IRO: ${error.message}`);
+    }
+
+    // Remove the id field and get the materiality_type
+    const { id, materiality_type, ...iroToInsert } = iroData;
+
+    // Determine the new materiality_type
+    const newMaterialityType =
+      materiality_type === "impact" ? "financial" : "impact";
+
+    // Insert a new IRO with the same details but new materiality_type
+    const { data: newIroData, error: insertError } = await supabase
+      .from("esrs_iros")
+      .insert({
+        ...iroToInsert,
+        materiality_type: newMaterialityType,
+        is_material: false, // Reset materiality
+        status: "To Be Assessed", // Reset status
+        impact_score: null, // Reset scores
+        financial_score: null,
+        // Include other fields as necessary
+      })
+      .select();
+
+    if (insertError) {
+      throw new Error(`Failed to insert new IRO: ${insertError.message}`);
+    }
+
+    console.log(`Successfully duplicated IRO with new ID: ${newIroData[0].id}`);
+
+    // Revalidate the path to refresh the page
+    revalidatePath(`/materiality/assessments/${assessmentId}/5`);
+    redirect(`/materiality/assessments/${assessmentId}/5`);
+  } catch (error: any) {
+    console.error("Error while duplicating IRO:", error.message);
+    throw error;
   }
 }

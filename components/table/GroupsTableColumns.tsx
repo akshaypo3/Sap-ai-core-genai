@@ -5,6 +5,8 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DeleteGroupButton } from "../settings/groups/DeleteGroupButton";
 import { useTranslations } from "next-intl";
+import { GroupDetailsButton } from "../settings/groups/GroupDetailsButton";
+
 
 export type Group = {
     id: string;
@@ -18,7 +20,7 @@ export const columns_group: ColumnDef<Group>[] = [
         accessorKey: "group",
         header: () => {
             const t = useTranslations("table"); 
-            return t("name");
+            return t("group");
         },
         cell: ({ row }) => <span>{row.getValue("group") || "NA"}</span>,
     },
@@ -54,7 +56,7 @@ export const columns_group: ColumnDef<Group>[] = [
         },
         cell: ({ row }) => (
             <div className="flex justify-center">
-                {/* <GroupDetailsButton groupid={row.getValue("id")} /> */}
+              <GroupDetailsButton groupid={row.original.id} />
             </div>
         ),
     },

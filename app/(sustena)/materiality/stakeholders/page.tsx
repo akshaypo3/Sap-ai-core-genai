@@ -2,7 +2,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -10,17 +10,17 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Slash, Trash2,Pencil } from "lucide-react"
+import { Slash, Trash2, Pencil } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 // import Subheader from "@/components/Subheader";
 import {
   Table,
@@ -32,9 +32,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getStakeholders, getStakeholderGroups } from "@/lib/stakeholders/data";
-import { AddStakeholderButton, AddStakeholderGroupButton, DeleteStakeholderButton } from "@/components/materiality/stakeholders/buttons";
+import {
+  AddStakeholderButton,
+  AddStakeholderGroupButton,
+  DeleteStakeholderButton,
+} from "@/components/materiality/stakeholders/buttons";
 import StakeholderMatrix from "@/components/materiality/stakeholders/StakeholderMatrix";
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
+import StakeholderStatisticCards from "@/components/materiality/assessments/StakeholderStatisticCards";
 
 export default async function Home() {
   const supabase = createClient();
@@ -75,99 +80,57 @@ export default async function Home() {
     }
   };
 
-  const t = await getTranslations('materiality');
+  const t = await getTranslations("materiality");
 
   return (
     <>
       <ContentLayout title={t("stakeholders.title")}>
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
-            <h1 className="font-bold text-2xl mb-2">{t("stakeholders.stakeholder_analysis")}</h1>
+            <h1 className="font-bold text-2xl mb-2">
+              {t("stakeholders.stakeholder_analysis")}
+            </h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard/">{t("stakeholders.dashboard")}</BreadcrumbLink>
+                  <BreadcrumbLink href="/materiality/dashboard/">
+                    {t("stakeholders.dashboard")}
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard">{t("stakeholders.materiality")}</BreadcrumbLink>
+                  <BreadcrumbLink href="/materiality/dashboard">
+                    {t("stakeholders.materiality")}
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/stakeholders">{t("stakeholders.stakeholders")}</BreadcrumbLink>
+                  <BreadcrumbLink href="/materiality/stakeholders">
+                    {t("stakeholders.stakeholders")}
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <AddStakeholderButton/> */}
-          {/* <Button>Group Editor</Button> */}
+          <div className="flex space-x-4">
+            {/* Button Section for Subheader */}
+            {/* <AddStakeholderButton/> */}
+            {/* <Button>Group Editor</Button> */}
+          </div>
         </div>
-      </div>
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-          <Card x-chunk="dashboard-01-chunk-0">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("stakeholders.identified_stakeholders")}</CardTitle>
-              {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2</div>
-              {/* <p className="text-xs text-muted-foreground">
-                -4 from last year
-              </p> */}
-            </CardContent>
-          </Card>
-          <Card x-chunk="dashboard-01-chunk-1">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("stakeholders.stakeholder_groups_engaged")}</CardTitle>
-              {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2</div>
-              {/* <p className="text-xs text-muted-foreground">
-                -1 from last year
-              </p> */}
-            </CardContent>
-          </Card>
-          <Card x-chunk="dashboard-01-chunk-2">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("stakeholders.survey_completion_rate")}</CardTitle>
-              {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0%</div>
-              {/* <p className="text-xs text-muted-foreground">
-                -100% from last year
-              </p> */}
-            </CardContent>
-          </Card>
-          <Card x-chunk="dashboard-01-chunk-3">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("stakeholders.survey_response_rate")}</CardTitle>
-              {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0%</div>
-              {/* <p className="text-xs text-muted-foreground">
-                -0% from last year
-              </p> */}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+        <StakeholderStatisticCards/>
 
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-        <AddStakeholderButton/>
-      <Table>
-      <TableCaption>{t("stakeholders.stakeholders_list")}</TableCaption>
-        <TableHeader>
-        <TableRow>
+
+        <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+          <AddStakeholderButton />
+          <Table>
+            <TableCaption>{t("stakeholders.stakeholders_list")}</TableCaption>
+            <TableHeader>
+              <TableRow>
                 <TableHead>{t("stakeholders.name")}</TableHead>
                 <TableHead>{t("stakeholders.description")}</TableHead>
                 <TableHead>{t("stakeholders.group")}</TableHead>
@@ -177,71 +140,77 @@ export default async function Home() {
                 <TableHead>{t("stakeholders.knowledge")}</TableHead>
                 <TableHead>{t("stakeholders.actions")}</TableHead>
               </TableRow>
-        </TableHeader>
-        <TableBody>
-          {stakeholders?.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>
-                {Array.isArray(item.stakeholder_groups)
-                  ? item.stakeholder_groups[0].group
-                  : item.stakeholder_groups.group}
-              </TableCell>
-              <TableCell>
-                <Badge className={getBadgeProps(item.interest_score).color}>
-                  {getBadgeProps(item.interest_score).label}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Badge className={getBadgeProps(item.influence_score).color}>
-                  {getBadgeProps(item.influence_score).label}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Badge className={getBadgeProps(item.relevance_score, true).color}>
-                  {getBadgeProps(item.relevance_score, true).label}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Badge className={getBadgeProps(item.knowledge_score).color}>
-                  {getBadgeProps(item.knowledge_score).label}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <DeleteStakeholderButton stakeholder={item}/>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {stakeholders?.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.name}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                  <TableCell>
+                    {Array.isArray(item.stakeholder_groups)
+                      ? item.stakeholder_groups[0].group
+                      : item.stakeholder_groups.group}
+                  </TableCell>
+                  <TableCell>
+                    <Badge className={getBadgeProps(item.interest_score).color}>
+                      {getBadgeProps(item.interest_score).label}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      className={getBadgeProps(item.influence_score).color}
+                    >
+                      {getBadgeProps(item.influence_score).label}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      className={
+                        getBadgeProps(item.relevance_score, true).color
+                      }
+                    >
+                      {getBadgeProps(item.relevance_score, true).label}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      className={getBadgeProps(item.knowledge_score).color}
+                    >
+                      {getBadgeProps(item.knowledge_score).label}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <DeleteStakeholderButton stakeholder={item} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-        {/* <Button className="bg-green-600 mb-5">Add Group</Button> */}
-        <AddStakeholderGroupButton/>
-      <Table>
-      <TableCaption>{t("stakeholders.stakeholder_groups")}</TableCaption>
+        <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+          {/* <Button className="bg-green-600 mb-5">Add Group</Button> */}
+          <AddStakeholderGroupButton />
+          <Table>
+            <TableCaption>{t("stakeholders.stakeholder_groups")}</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>{t("stakeholders.name")}</TableHead>
                 <TableHead>{t("stakeholders.description")}</TableHead>
               </TableRow>
             </TableHeader>
-        <TableBody>
-          {stakeholderGroups?.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.group}</TableCell>
-              <TableCell>{item.description}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </div>
-      <StakeholderMatrix/>
-
-
-    </ContentLayout>
+            <TableBody>
+              {stakeholderGroups?.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.group}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <StakeholderMatrix />
+      </ContentLayout>
     </>
   );
 }

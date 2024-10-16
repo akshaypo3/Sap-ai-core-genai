@@ -15,13 +15,24 @@ import {getTranslations} from 'next-intl/server';
 export default async function Home() {
   const supabase = createClient();
 
+  let user;
+try {
   const {
-    data: { user },
+    data: { user: fetchedUser },
+    error,
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (error) {
     return redirect("/login");
   }
+  user = fetchedUser;
+} catch (err) {
+  return redirect("/login");
+}
+
+if (!user) {
+  return redirect("/login");
+}
 
   const t = await getTranslations('dashboard');
   // Initialize translations for the dashboard

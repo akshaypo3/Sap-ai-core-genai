@@ -5,6 +5,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DeleteRoleButton } from "../settings/roles/DeleteRoleButton";
 import { useTranslations } from 'next-intl'; // Import the useTranslations hook
+import { RoleDetailsButton } from "../settings/roles/RoleDetailsButton";
 
 export type Role = {
     id: string;          
@@ -55,7 +56,7 @@ export const columns_role: ColumnDef<Role>[] = [
         },
         cell: ({ row }) => (
             <div className="flex justify-center space-x-2">
-                {/* <RoleDetailsButton roleid={row.getValue("id")} /> */}
+                 <RoleDetailsButton roleid={row.original.id} />
             </div>
         ),
     },

@@ -8,6 +8,7 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
   import AddLocationForm from "@/components/materiality/company/AddLocationForm";
+  import AddLocationFormAssessment from "@/components/materiality/assessments/AddLocationFormAssessment";
   import AddProductForm from "@/components/materiality/company/AddProductForm";
   import { deleteCompanyLocationWithId } from "@/lib/company/action";
   import { useTranslations } from 'next-intl';
@@ -30,6 +31,24 @@ export function AddLocationButton(){
     </Dialog>
         
     )
+}
+
+export function AddLocationButtonAssessment(){
+  return (
+      <Dialog>
+    <DialogTrigger><Button>Add Location</Button></DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add Location</DialogTitle>
+        <DialogDescription>
+          Add all Locations of your company around the world.
+        </DialogDescription>
+      </DialogHeader>
+      <AddLocationFormAssessment/>
+    </DialogContent>
+  </Dialog>
+      
+  )
 }
 
 export function AddProductButton(){

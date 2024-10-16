@@ -49,10 +49,10 @@ export default async function Home({ params }: { params: { iroid: string, id: st
                   <BreadcrumbLink href="/materiality/dashboard/">{t('assessments.iroid.Assessment')}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
-                  <Slash />
+                  {/* <Slash /> */}
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={`/materiality/assessments/${iroid}`}>{t('assessments.iroid.$(FY)')}</BreadcrumbLink>
+                  {/* <BreadcrumbLink href={`/materiality/assessments/${iroid}`}>{t('assessments.iroid.$(FY)')}</BreadcrumbLink> */}
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

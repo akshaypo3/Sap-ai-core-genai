@@ -6,41 +6,61 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getAssessmentData, getAssessmentDataforchart ,getEsrsIrosStatscount} from "@/lib/assessments/data";
+import {
+  getAssessmentData,
+  getAssessmentDataforchart,
+  getEsrsIrosStatscount,
+} from "@/lib/assessments/data";
 import { Slash } from "lucide-react";
 import IroTable from "@/components/materiality/assessments/IroTable";
 import IroScatterchartclient from "@/components/materiality/assessments/IroScatterchartclient";
 import IroBarchart from "@/components/materiality/assessments/IroBarchart";
-import ReusableBarChart, { ReusableBarChartProps } from "@/components/charts/ReusableBarChart";
-import ReusableScatteredChart, { ReusableScatteredChartProps } from "@/components/charts/ReusableScatterChart";
-import ReusablePieChart, { ReusablePieChartProps } from "@/components/charts/ReusablePieChart";
-import ReusablewithlabelPieChart, { ReusablePieChartwithlabelProps } from "@/components/charts/ReusablePieChartwithlabel";
-import ReusablePieChartdonut, { ReusablePieChartdonutProps } from "@/components/charts/ReusablePieChartdonut";
-import ReusableLineChart, { ReusableLineChartProps } from "@/components/charts/ReusableLineChart";
-import ReusableLineChartInteractive, { ReusableLineChartInteractiveProps } from "@/components/charts/ReusableLineChartInteractive";
-import ReusableBarChartInteractive, { ReusableBarChartInteractiveProps } from "@/components/charts/ReusableBarChartInteractive";
-import { 
-  assessmentData, 
+import ReusableBarChart, {
+  ReusableBarChartProps,
+} from "@/components/charts/ReusableBarChart";
+import ReusableScatteredChart, {
+  ReusableScatteredChartProps,
+} from "@/components/charts/ReusableScatterChart";
+import ReusablePieChart, {
+  ReusablePieChartProps,
+} from "@/components/charts/ReusablePieChart";
+import ReusablewithlabelPieChart, {
+  ReusablePieChartwithlabelProps,
+} from "@/components/charts/ReusablePieChartwithlabel";
+import ReusablePieChartdonut, {
+  ReusablePieChartdonutProps,
+} from "@/components/charts/ReusablePieChartdonut";
+import ReusableLineChart, {
+  ReusableLineChartProps,
+} from "@/components/charts/ReusableLineChart";
+import ReusableLineChartInteractive, {
+  ReusableLineChartInteractiveProps,
+} from "@/components/charts/ReusableLineChartInteractive";
+import ReusableBarChartInteractive, {
+  ReusableBarChartInteractiveProps,
+} from "@/components/charts/ReusableBarChartInteractive";
+import {
+  assessmentData,
   assessmentChartConfig,
   ScattaredassessmentChartConfig,
   PieassessmentChartConfig,
-  InteactiveChartConfig
-} from '@/components/charts/ChartData';
+  InteactiveChartConfig,
+} from "@/components/charts/ChartData";
 import { Chart } from "chart.js";
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
+import AssessmentStepsOverview from "@/components/materiality/assessments/AssessmentStepsOverview";
 
 export default async function Home({ params }: { params: { id: string } }) {
-
   const { id } = params;
   const AssessmentData = await getAssessmentDataforchart(id);
   const assessmentData = await getAssessmentData(id);
 
-  const AssessmentData1 =  await getAssessmentDataforchart(id);
+  const AssessmentData1 = await getAssessmentDataforchart(id);
   const AssessmentData2 = await getEsrsIrosStatscount(id);
 
-  const t = await getTranslations('materiality');
+  const t = await getTranslations("materiality");
   //  const AssesmentbarChartProps: ReusableBarChartProps = {
   //    data: AssessmentData1,
   //   config: assessmentChartConfig,
@@ -49,14 +69,14 @@ export default async function Home({ params }: { params: { id: string } }) {
   //   dataKey: "impact_score",
   //  xAxisKey: "code"
   // };
-  
+
   const AssesmentScatteredChart: ReusableScatteredChartProps = {
     data: AssessmentData1,
     config: ScattaredassessmentChartConfig,
-    title: t('assessments.id.title2'), 
-    description: t('assessments.id.description2'), 
-    x_dataKey: t('assessments.id.xDataKey2'), 
-    y_dataKey: t('assessments.id.yDataKey2') 
+    title: t("assessments.id.title2"),
+    description: t("assessments.id.description2"),
+    x_dataKey: t("assessments.id.xDataKey2"),
+    y_dataKey: t("assessments.id.yDataKey2"),
   };
 
   // const AssesmentScatteredChart: ReusableScatteredChartProps = {
@@ -92,13 +112,13 @@ export default async function Home({ params }: { params: { id: string } }) {
   //    dataKey: "impact_score"
   //  };
 
-   const AssesmentPieChartdonut1: ReusablePieChartdonutProps = {
+  const AssesmentPieChartdonut1: ReusablePieChartdonutProps = {
     data: AssessmentData2,
     config: PieassessmentChartConfig,
-    title: t('assessments.id.title1'),
-    description: t('assessments.id.description1'),
-    dataKey: t('assessments.id.xDataKey1'),
-    xAxisKey: t('assessments.id.yDataKey2')
+    title: t("assessments.id.title1"),
+    description: t("assessments.id.description1"),
+    dataKey: t("assessments.id.xDataKey1"),
+    xAxisKey: t("assessments.id.yDataKey2"),
   };
 
   // const AssesmentLineChart: ReusableLineChartProps = {
@@ -130,30 +150,35 @@ export default async function Home({ params }: { params: { id: string } }) {
   //   xAxisKey: "code"
   // };
 
-
   return (
     <>
-      <ContentLayout title={t('assessments.id.dashboard')}>
+      <ContentLayout title={t("assessments.id.dashboard")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
-            <h1 className="font-bold text-2xl mb-2">{t('assessments.id.title')}</h1>
+            <h1 className="font-bold text-2xl mb-2">
+              {t("assessments.id.title")}
+            </h1>
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard/">{t('assessments.id.name')}</BreadcrumbLink>
+                  <BreadcrumbLink href="/materiality/dashboard/">
+                    {t("assessments.id.name")}
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>
                   <Slash />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard">{t('assessments.id.date')}</BreadcrumbLink>
+                  <BreadcrumbLink href="/materiality/dashboard">
+                    {t("assessments.id.date")}
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </div>
 
-      {/* <div className="bg-white p-5 border rounded">
+        {/* <div className="bg-white p-5 border rounded">
       <h1>Assessment Score Distribution Chart</h1>
 
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
@@ -187,29 +212,37 @@ export default async function Home({ params }: { params: { id: string } }) {
       <div className="bg-white dark:bg-neutral-950 mt-8 p-1">
       <ReusableBarChartInteractive {...AssesmentBarChartInteractive} />
       </div> */}
-  <div className="flex flex-wrap justify-between">
-<div className="flex flex-col w-full md:w-2/5 p-2">
-<div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '350px' }}>
-<ReusablePieChartdonut {...AssesmentPieChartdonut1}/>
-</div>
-{/* <div className="mt-2 bg-white dark:bg-neutral-950 rounded-md border flex items-center justify-center" style={{ height: '250px' }}>
+      <AssessmentStepsOverview/>
+        
+        <div className="flex flex-wrap justify-between mt-96">
+          <div className="flex flex-col w-full md:w-2/5 p-2">
+            <div
+              className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950"
+              style={{ height: "350px" }}
+            >
+              <ReusablePieChartdonut {...AssesmentPieChartdonut1} />
+            </div>
+            {/* <div className="mt-2 bg-white dark:bg-neutral-950 rounded-md border flex items-center justify-center" style={{ height: '250px' }}>
 "PlaceHolder"
 </div> */}
-</div>
-<div className="flex-1 w-full md:w-3/5 p-2">
-<div className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950" style={{ height: '650px' }}>
-<ReusableScatteredChart {...AssesmentScatteredChart} />
-</div>
-</div>
-</div>
- 
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-      <IroTable assessmentData={assessmentData} assessmentId={id} />
-      </div>
-      <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-      <IroTable assessmentData={assessmentData} assessmentId={id} />
-      </div>
-    </ContentLayout>
+          </div>
+          <div className="flex-1 w-full md:w-3/5 p-2">
+            <div
+              className="flex-1 flex items-center justify-center bg-white dark:bg-neutral-950"
+              style={{ height: "650px" }}
+            >
+              <ReusableScatteredChart {...AssesmentScatteredChart} />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+          <IroTable assessmentData={assessmentData} assessmentId={id} />
+        </div>
+        <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+          <IroTable assessmentData={assessmentData} assessmentId={id} />
+        </div>
+      </ContentLayout>
     </>
   );
 }

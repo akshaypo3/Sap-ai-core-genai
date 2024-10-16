@@ -3,6 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DeleteProductButton } from "../materiality/company/DeleteProductButton";
 import { useTranslations } from 'next-intl';
+import { Button } from "@/components/ui/button"
+import {  ArrowUpDown } from "lucide-react";
 
 export type Product = {
     id: string;
@@ -39,9 +41,17 @@ export const columns_product: ColumnDef<Product>[] = [
     },
     {
         accessorKey: "turnover_percentage",
-        header: () => {
+        header: ({column}) => {
             const t = useTranslations("table");
-            return t("turnoverPercentage"); 
+            return (
+                <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              >
+                {t("turnoverPercentage")}
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            )
         },
         cell: ({ row }) => <span className="text-center">{row.getValue("turnover_percentage") || "NA"}</span>,
     },

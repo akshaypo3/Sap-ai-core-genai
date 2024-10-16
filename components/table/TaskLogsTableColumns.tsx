@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl'; 
+import { ViewTaskActivityButton } from "../task/ViewTaskActivityButton";
 
 export type TaskLog = {
     id: string;
@@ -63,7 +64,7 @@ export const columns_task_log: ColumnDef<TaskLog>[] = [
         },
         cell: ({ row }) => (
             <div className="flex justify-center">
-                {/* <ViewTaskActivityButton activityId={row.getValue("id")} /> */}
+                 <ViewTaskActivityButton activityId={row.original.id} />
             </div>
         ),
     },
