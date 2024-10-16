@@ -25,7 +25,7 @@ export type Location = {
     },
     {
       accessorKey: "description",
-      header: "Type",
+      header: "Description",
       cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
     },
     {

@@ -15,9 +15,9 @@ import {
   import { DeleteAssessmentDialog } from '@/components/materiality/assessments/DeleteAssessmentDialog';
 import { Button } from '@/components/ui/button';
 
-  export function AssessmentsActionsMenu({ id }: { id: string }) {
+  export function AssessmentsActionsMenu({ id,step }: { id: string, step:string }) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  
+    console.log("Step:",step)  
     return (
       <>
         <DropdownMenu>
@@ -26,7 +26,7 @@ import { Button } from '@/components/ui/button';
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/materiality/assessments/${id}`} className="hover:cursor-pointer">
+              <Link href={`/materiality/assessments/${id}/${step}`} className="hover:cursor-pointer">
                 View
               </Link>
             </DropdownMenuItem>

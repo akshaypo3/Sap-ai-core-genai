@@ -14,22 +14,103 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { saveIroEntries } from "@/lib/assessments/action";
+import { performAIAssessment } from "@/lib/ai/anthropic";
 
 export default function IroFormClient({ initialData, id, stakeholders }) {
   const [formData, setFormData] = useState(initialData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [aiSuggestion, setAiSuggestion] = useState(null);
+
+  console.log("initial data: ", initialData)
 
   const handleChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleAIAssist = async () => {
+    setIsLoading(true);
+    try {
+      const aiResponse = await performAIAssessment(id);
+      if (aiResponse.success) {
+        setAiSuggestion(aiResponse.suggestion);
+      } else {
+        console.error("AI Assist failed:", aiResponse.message);
+        alert("AI Assist failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during AI Assist:", error);
+      alert("An error occurred during AI Assist. Please try again.");
+    }
+    setIsLoading(false);
+  };
+
+  const applySuggestion = () => {
+    if (!aiSuggestion) return;
+
+    const suggestionLines = aiSuggestion.split('\n');
+    let suggestionData = {};
+
+    for (const line of suggestionLines) {
+      const [key, value] = line.split(':').map(s => s.trim());
+      if (key && value) {
+        suggestionData[key] = value;
+      }
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      iro_description: suggestionData.iro_description || prev.iro_description,
+      materiality_type: suggestionData.materiality_type || prev.materiality_type,
+      impact: suggestionData.impact || prev.impact,
+      impact_state: suggestionData.impact_state || prev.impact_state,
+      scale_score: parseInt(suggestionData.scale_score) || prev.scale_score,
+      scale_reason: suggestionData.scale_reason || prev.scale_reason,
+      scope_score: parseInt(suggestionData.scope_score) || prev.scope_score,
+      scope_reason: suggestionData.scope_reason || prev.scope_reason,
+      irremediability_score: parseInt(suggestionData.irremediability_score) || prev.irremediability_score,
+      irremediability_reason: suggestionData.irremediability_reason || prev.irremediability_reason,
+      probability_score: parseFloat(suggestionData.probability_score) || prev.probability_score,
+      probability_reason: suggestionData.probability_reason || prev.probability_reason,
+    }));
+  };
+
   return (
     <div className="">
-      <Card className="rounded-md">
+      <Card className="rounded-md mb-4">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">{formData.code} / {formData.topic}</CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-2xl font-bold">{formData.code} / {formData.topic}</CardTitle>
+            <Button 
+              onClick={handleAIAssist} 
+              disabled={isLoading}
+              className="bg-blue-500 hover:bg-blue-600 text-white"
+            >
+              {isLoading ? "AI Assisting..." : "AI Assist"}
+            </Button>
+          </div>
           <p className="text-l font-semibold">{formData.sub_topic}</p>
           <p className="text-sm text-gray-500">{formData.sub_sub_topic}</p>
         </CardHeader>
+      </Card>
+
+      {aiSuggestion && (
+        <Card className="rounded-md mb-4">
+          <CardHeader>
+            <CardTitle className="text-xl font-bold">AI Suggestion</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <pre className="whitespace-pre-wrap">{aiSuggestion}</pre>
+            <Button 
+              onClick={applySuggestion}
+              className="mt-4 bg-green-500 hover:bg-green-600 text-white"
+            >
+              Apply Suggestion
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card className="rounded-md">
         <CardContent>
           <form action={saveIroEntries} className="space-y-6">
             <input type="hidden" name="iro_id" value={id} />

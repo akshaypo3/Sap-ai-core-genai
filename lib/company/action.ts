@@ -33,6 +33,39 @@ export async function addLocation(formData: FormData) {
     // return { success: true, data };
   }
 
+  export async function addLocationAssessment(formData: FormData) {
+    const supabase = createClient();
+    console.log("INSIDE ADDLOCATION ASSESSMENT FUNCTION WITH ID:");
+
+    const assessmentId = formData.get('assessment_id') as string;
+    
+  
+    const location = {
+      name: formData.get('name') as string,
+      description: formData.get('description') as string,
+      type: formData.get('location_type') as string,
+      address: formData.get('street') as string,
+      postalcode: parseInt(formData.get('postalcode') as string),
+      city: formData.get('city') as string,
+      country: formData.get('country') as string,
+      employee_count: formData.get('employee_count') as string,
+    };
+  
+    const { data, error } = await supabase
+      .from('company_locations')
+      .insert([location])
+      .select();
+  
+    if (error) {
+      console.error('Error inserting location:', error);
+      return { success: false, error: error.message };
+    }
+  
+    revalidatePath(`/materiality/assessments/${assessmentId}/2`);
+    redirect(`/materiality/assessments/${assessmentId}/2`);
+    // return { success: true, data };
+  }
+
   export async function addProductService(formData: FormData) {
     const supabase = createClient();
   
@@ -55,6 +88,32 @@ export async function addLocation(formData: FormData) {
 
     revalidatePath('/materiality/company');
     redirect('/materiality/company')
+    // return { success: true, data };
+  }
+
+  export async function addProductServiceAssessment(formData: FormData) {
+    const supabase = createClient();
+    const assessmentId = formData.get('assessment_id');
+  
+    const productService = {
+      type: formData.get('type') as string,
+      name: formData.get('name') as string,
+      description: formData.get('description') as string,
+      turnover_percentage: parseFloat(formData.get('turnover_percentage') as string),
+    };
+  
+    const { data, error } = await supabase
+      .from('products_services')
+      .insert([productService])
+      .select();
+  
+    if (error) {
+      console.error('Error inserting product/service:', error);
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath(`/materiality/assessments/${assessmentId}/3`);
+    redirect(`/materiality/assessments/${assessmentId}/3`);
     // return { success: true, data };
   }
 
@@ -88,12 +147,61 @@ export async function addLocation(formData: FormData) {
       console.error('Error updating company details:', error);
       throw error;
     }
-    
+   
     revalidatePath('/materiality/company');
     redirect('/materiality/company');
 }
 
-export async function deleteCompanyLocationWithId(id){
+export async function saveCompanyDetailsFromAssessment(formData: FormData) {
+  const supabase = createClient();
+  const companyId = formData.get('company_id');
+  const assessmentId = formData.get('assessment_id');
+
+  if (typeof companyId !== 'string') {
+    throw new Error('Invalid company ID');
+  }
+
+  const companyDetails = {
+    name: formData.get('companyname'),
+    company_strategy: formData.get('company_strategy'),
+    business_model: formData.get('business_model'),
+  };
+
+  for (const [key, value] of Object.entries(companyDetails)) {
+    if (typeof value !== 'string') {
+      throw new Error(`Invalid ${key}`);
+    }
+  }
+
+  const { data, error } = await supabase
+    .from('company_details')
+    .update(companyDetails)
+    .eq('id', companyId)
+    .select();
+
+  if (error) {
+    console.error('Error updating company details:', error);
+    throw error;
+  }
+
+  try {
+    const { data } = await supabase
+    .from('materialityassessments')
+    .update({
+      step: "2"
+    })
+    .eq('id', assessmentId)
+    .select();
+  } catch (error) {
+    console.error('Error updating assessment details:', error);
+    throw error;
+  }
+
+  revalidatePath(`/materiality/assessments/${assessmentId}/2`);
+  redirect(`/materiality/assessments/${assessmentId}/2`);
+}
+
+export async function deleteCompanyLocationWithId(id:any){
   const supabase = createClient();
 
   try {
@@ -111,6 +219,7 @@ export async function deleteCompanyLocationWithId(id){
     redirect('/materiality/company');
   }
 }
+
 
 export async function deleteCompanyProductWithId(id){
   const supabase = createClient();

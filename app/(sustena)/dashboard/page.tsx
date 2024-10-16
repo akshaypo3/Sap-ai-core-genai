@@ -23,12 +23,10 @@ try {
   } = await supabase.auth.getUser();
 
   if (error) {
-    console.error("Error fetching user:", error);
     return redirect("/login");
   }
   user = fetchedUser;
 } catch (err) {
-  console.error("Unexpected error fetching user:", err);
   return redirect("/login");
 }
 

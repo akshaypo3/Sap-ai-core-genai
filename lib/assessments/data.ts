@@ -22,7 +22,8 @@ export async function getAssessments(){
         framework_id,
         frameworks (
             title
-        )
+        ),
+        step
     `);
     return assessments;
 };
@@ -68,7 +69,7 @@ export async function getAssessmentData(materialityassessmentsid) {
         .flat()  
     }));
 
-    //console.log("Processed data:", JSON.stringify(processedData, null, 2));
+    // console.log("Processed data:", JSON.stringify(processedData, null, 2));
 
     return processedData;
 

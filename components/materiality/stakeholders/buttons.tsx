@@ -27,7 +27,7 @@ export async function AddStakeholderButton() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">Add Stakeholder</Button>
+        <Button>Add Stakeholder</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
