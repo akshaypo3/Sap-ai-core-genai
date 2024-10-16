@@ -3,7 +3,6 @@
 import React, { useState, useRef } from 'react';
 import { createClient } from "@/utils/supabase/client";
 import { Button } from '@/components/ui/button';
-import { useTranslations } from 'use-intl';
 
 // Initialize Supabase client
 const supabase = createClient();
@@ -47,7 +46,7 @@ const UploadButton = () => {
       setFile(null);
     }
   };
-  const t = useTranslations("ui")
+
   return (
     <div className="flex flex-col items-center space-y-4">
       <input
@@ -57,10 +56,10 @@ const UploadButton = () => {
         ref={fileInputRef}
       />
       <Button onClick={handleSelectFile} variant="outline">
-        {file ? file.name : t('Select File')}
+        {file ? file.name : 'Select File'}
       </Button>
       <Button onClick={handleUpload} disabled={!file || uploading}>
-        {uploading ? t('Uploading') : t('Upload to Supabase')}
+        {uploading ? 'Uploading...' : 'Upload to Supabase'}
       </Button>
     </div>
   );

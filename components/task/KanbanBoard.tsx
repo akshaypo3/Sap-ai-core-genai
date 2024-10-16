@@ -4,18 +4,16 @@ import React, { useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarIcon } from "lucide-react"
-import { useTranslations } from "use-intl";
 
 export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, timezone }) {
-  const t = useTranslations("tasks-com")
   const [tasks, setTasks] = useState(initialTasks);
   const actualTime = timezone.userWithTimezone.timezone;
 
   const columns = {
-  [t("TODO")]: tasks.filter(task => task.status === "TODO"),
-  [t("IN_PROGRESS")]: tasks.filter(task => task.status === "IN_PROGRESS"),
-  [t("NEEDS_CLARIFICATION")]: tasks.filter(task => task.status === "NEEDS_CLARIFICATION"),
-  [t("DONE")]: tasks.filter(task => task.status === "DONE")
+    TODO: tasks.filter(task => task.status === "TODO"),
+    IN_PROGRESS: tasks.filter(task => task.status === "IN_PROGRESS"),
+    NEEDS_CLARIFICATION: tasks.filter(task => task.status === "NEEDS_CLARIFICATION"),
+    DONE: tasks.filter(task => task.status === "DONE")
   };
 
   const handleDragStart = (e, taskId) => {

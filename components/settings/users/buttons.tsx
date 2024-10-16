@@ -25,20 +25,19 @@ import { Label } from "@/components/ui/label";
 import EditProfileForm from "@/components/settings/users/editProfileButton";
 //import EditUserForm from "@/components/settings/users/editUserButton";
 import { getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
-import { useTranslations } from "next-intl";
 
 export async function AddUserButton() {
   const selectedID = "";
-  const t = useTranslations("settings-com")
+
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add User")}</Button>
+        <Button className="mb-3 bg-green-600">Add User</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("Add User")}</DialogTitle>
-          <DialogDescription>{t("Add User Function Description")}</DialogDescription>
+          <DialogTitle>Add User</DialogTitle>
+          <DialogDescription>Add User Function Description</DialogDescription>
         </DialogHeader>
         <CreateUserForm />
       </DialogContent>
@@ -47,7 +46,6 @@ export async function AddUserButton() {
 }
 
 export async function DeleteUserButton({ id }: { id: string }) {
-  const t = useTranslations("settings-com")
   const deleteUserWithId = deleteUser.bind(null, id.userId);
   //console.log("Delete user", id.userId);
   return (
@@ -62,12 +60,12 @@ export async function DeleteUserButton({ id }: { id: string }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-center">{t("Delete user")}</DialogTitle>
+          <DialogTitle className="text-center">Delete user</DialogTitle>
         </DialogHeader>
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
             <Label htmlFor="name" className="text-center">
-              {t("Are you sure to delete the user:")}
+              Are you sure to delete the user:{" "}
               <b className="font-bold text-lg font-semibold text-red-600">
                 {id.name} <span className="text-black">?</span>
               </b>
@@ -78,12 +76,12 @@ export async function DeleteUserButton({ id }: { id: string }) {
         <DialogFooter className="flex justify-between mt-4">
           <div className="flex justify-end space-x-2 mt-4">
             <DialogTrigger asChild>
-              <Button>{t("Cancel")}</Button>
+              <Button>Cancel</Button>
             </DialogTrigger>
             <form action={deleteUserWithId}>
               <DialogClose asChild>
                 <Button type="submit" variant="destructive">
-                  {t("Delete User")}
+                  Delete User
                 </Button>
               </DialogClose>
             </form>
@@ -116,17 +114,16 @@ export async function DeleteUserButton({ id }: { id: string }) {
 }
 
 export async function EditProfileButton(Profile: string) {
-  const t = useTranslations("settings-com")
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Edit Profile")}</Button>
+        <Button className="mb-3 bg-green-600">Edit Profile</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("Edit Profile")}</DialogTitle>
+          <DialogTitle>Edit Profile</DialogTitle>
           <DialogDescription>
-            {t("Edit Profile Function Description")}
+            Edit Profile Function Description
           </DialogDescription>
         </DialogHeader>
         <EditProfileForm data2={Profile} />
@@ -137,7 +134,6 @@ export async function EditProfileButton(Profile: string) {
 
 //edit the user in profile
 export async function EditUserButton({ id }: { id: string }) {
-  const t = useTranslations("settings-com")
   const editUserWithId = editUserRoleGroup.bind(null, id.userId);
   const groups = await getUserGroups();
   const roles = await getRoles();
@@ -164,25 +160,25 @@ export async function EditUserButton({ id }: { id: string }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-center">{t("Edit User")}</DialogTitle>
+          <DialogTitle className="text-center">Edit User</DialogTitle>
         </DialogHeader>
         <form action={editUserWithId}>
           <div className="grid w-full items-center gap-1.5 mb-2">
             <div className="w-full">
               <div>
-                <Label htmlFor="groupID">{t("Group")}</Label>
+                <Label htmlFor="groupID">Group</Label>
                 {/* Set default value for groupID to user's current group */}
                 <Select name="groupID" defaultValue={userGroupID}>
                   <SelectTrigger>
                     {/* Display the default group name */}
                     <SelectValue
-                      placeholder={userGroupName || t("Default Group")}
+                      placeholder={userGroupName || "Default Group"}
                     />
                   </SelectTrigger>
                   <SelectContent>
                     {groups?.map((group) => (
                       <SelectItem key={group.id} value={group.id}>
-                        {group.group || t("NA")}
+                        {group.group || "NA"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -191,17 +187,17 @@ export async function EditUserButton({ id }: { id: string }) {
             </div>
             <div className="w-full">
               <div>
-                <Label htmlFor="roleID">{t("Role")}</Label>
+                <Label htmlFor="roleID">Role</Label>
                 {/* Set default value for roleID to user's current role */}
                 <Select name="roleID" defaultValue={userRoleID}>
                   <SelectTrigger>
                     {/* Display the default role name */}
-                    <SelectValue placeholder={userRoleName || t("Default Role")} />
+                    <SelectValue placeholder={userRoleName || "Default Role"} />
                   </SelectTrigger>
                   <SelectContent>
                     {roles?.map((role) => (
                       <SelectItem key={role.id} value={role.id}>
-                        {role.role || t("NA")}
+                        {role.role || "NA"}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -212,7 +208,7 @@ export async function EditUserButton({ id }: { id: string }) {
               <div className="flex-auto">
                 <DialogClose asChild>
                   <Button className="w-full" type="submit">
-                    {t("Save User")}
+                    Save User
                   </Button>
                 </DialogClose>
               </div>

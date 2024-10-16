@@ -4,7 +4,6 @@ import { CalendarIcon, UserIcon } from "lucide-react"
 import { getNewsArticles } from "@/lib/news/data"
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
 
 export default async function Component({userId}:{userId:string}) {
   const newsArticles = await getNewsArticles();
@@ -12,12 +11,10 @@ export default async function Component({userId}:{userId:string}) {
   const timezone = await getTimeZone({userId})
   const actualTime = timezone.userWithTimezone.timezone
 
-  const t = await getTranslations("dashboard-component")
-
   return (
     <>
       <div className="mt-10">
-        <h1 className="font-bold text-lg">{t("News and Articles")}</h1>
+        <h1 className="font-bold text-lg">News and Articles</h1>
       </div>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mt-4">
         {newsArticles.map((item) => (
@@ -42,7 +39,7 @@ export default async function Component({userId}:{userId:string}) {
                 </div>
               </div>
               <Link href={`/news/${item.id}`}>
-                <Button variant="outline" size="sm">{t("Read More")}</Button>
+                <Button variant="outline" size="sm">Read More</Button>
               </Link>
             </CardFooter>
           </Card>

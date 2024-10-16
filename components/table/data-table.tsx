@@ -38,7 +38,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTranslations } from "use-intl"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -68,8 +67,6 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     },
   })
-console.log(filter);
-const t = useTranslations("table")
 console.log(sort);
   return (
       <><div className="flex items-center py-4">
@@ -82,7 +79,7 @@ console.log(sort);
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-            {t("Columns")} <ChevronDown className="ml-2 h-4 w-4" />
+            Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -150,7 +147,7 @@ console.log(sort);
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {t("No results.")}
+                  No results.
                 </TableCell>
               </TableRow>
             )}

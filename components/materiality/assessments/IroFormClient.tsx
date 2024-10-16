@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { saveIroEntries } from "@/lib/assessments/action";
-import { useTranslations } from "next-intl";
 import { performAIAssessment } from "@/lib/ai/anthropic";
 
 export default function IroFormClient({ initialData, id, stakeholders }) {
@@ -28,8 +27,6 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const t = useTranslations("materiality-com")
-        
   const handleAIAssist = async () => {
     setIsLoading(true);
     try {
@@ -149,8 +146,8 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <Label htmlFor="iro_description">{t("Description")}</Label>
-                <p className="text-sm text-gray-500 mb-2">{t("Describe how this topic has an impact on your company or how your company has an impact on the environment")}</p>
+                <Label htmlFor="iro_description">Description</Label>
+                <p className="text-sm text-gray-500 mb-2">Describe how this topic has an impact on your company or how your company has an impact on the environment</p>
                 <Input 
                   type="text" 
                   name="iro_description" 
@@ -162,10 +159,10 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
               </div>
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <Label htmlFor="materiality_type">{t("Materiality Type")}</Label>
+                <Label htmlFor="materiality_type">Materiality Type</Label>
                 <p className="text-sm text-gray-500 mb-2">
-                  <span className="font-bold">{t("Impact materiality")}</span> {t("refers to how a particular topic or issue influences the company's impact on the economy, environment, or society.")} 
-                  <span className="font-bold">{t("Financial materiality")}</span> {t("is concerned with how a particular topic or issue affects the financial performance or value of the company.")}
+                  <span className="font-bold">Impact materiality</span> refers to how a particular topic or issue influences the company's impact on the economy, environment, or society. 
+                  <span className="font-bold">Financial materiality</span> is concerned with how a particular topic or issue affects the financial performance or value of the company.
                 </p>
                 <Select 
                   name="materiality_type" 
@@ -173,20 +170,20 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                   onValueChange={(value) => handleChange('materiality_type', value)}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t("Impact Materiality")} />
+                    <SelectValue placeholder="Impact Materiality" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="impact">{t("Impact")}</SelectItem>
-                    <SelectItem value="financial">{t("Financial")}</SelectItem>
+                    <SelectItem value="impact">Impact</SelectItem>
+                    <SelectItem value="financial">Financial</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <Label htmlFor="impact">{t("Impact")}</Label>
+                <Label htmlFor="impact">Impact</Label>
                 <p className="text-sm text-gray-500 mb-2">
-                  <span className="font-bold">"{t("For Impact materiality:")}"</span> {t("Does this topic have a positive or negative impact?")}
-                  <span className="font-bold">{t("For Financial materiality:")}</span> {t("Is this topic a chance or a risk.")}
+                  <span className="font-bold">For Impact materiality:</span> Does this topic have a positive or negative impact?
+                  <span className="font-bold">For Financial materiality:</span> Is this topic a chance or a risk.
                 </p>
                 <Select 
                   name="impact" 
@@ -194,18 +191,18 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                   onValueChange={(value) => handleChange('impact', value)}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t("Impact")} />
+                    <SelectValue placeholder="Impact" />
                   </SelectTrigger>
                   <SelectContent>
                     {formData.materiality_type === 'impact' ? (
                       <>
-                        <SelectItem value="positive">{t("Positive")}</SelectItem>
-                        <SelectItem value="negative">{t("Negative")}</SelectItem>
+                        <SelectItem value="positive">Positive</SelectItem>
+                        <SelectItem value="negative">Negative</SelectItem>
                       </>
                     ) : (
                       <>
-                        <SelectItem value="chance">{t("Chance")}</SelectItem>
-                        <SelectItem value="risk">{t("Risk")}</SelectItem>
+                        <SelectItem value="chance">Chance</SelectItem>
+                        <SelectItem value="risk">Risk</SelectItem>
                       </>
                     )}
                   </SelectContent>
@@ -214,9 +211,9 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.materiality_type === 'impact' && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="impact_state">{t("Impact State")}</Label>
+                  <Label htmlFor="impact_state">Impact State</Label>
                   <p className="text-sm text-gray-500 mb-2">
-                    <span className="font-bold">{t("For Impact materiality:")}</span> {t("Is this an actual or a potential impact?")}
+                    <span className="font-bold">For Impact materiality:</span> Is this an actual or a potential impact?
                   </p>
                   <Select 
                     name="impact_state" 
@@ -224,36 +221,36 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                     onValueChange={(value) => handleChange('impact_state', value)}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={t("Actual Impact")} />
+                      <SelectValue placeholder="Actual Impact" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="actual">{t("Actual Impact")}</SelectItem>
-                      <SelectItem value="potential">{t("Potential Impact")}</SelectItem>
+                      <SelectItem value="actual">Actual Impact</SelectItem>
+                      <SelectItem value="potential">Potential Impact</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <Label htmlFor="scale_score">{t("Scale")}</Label>
-                <p className="text-sm text-gray-500 mb-2">{t("The \"Scale\" field refers to the extent or reach of the impact caused by a specific topic or issue...")}</p>
+                <Label htmlFor="scale_score">Scale</Label>
+                <p className="text-sm text-gray-500 mb-2">The "Scale" field refers to the extent or reach of the impact caused by a specific topic or issue...</p>
                 <Select 
                   name="scale_score" 
                   value={formData.scale_score?.toString() || ''}
                   onValueChange={(value) => handleChange('scale_score', parseInt(value))}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t("Medium")} />
+                    <SelectValue placeholder="Medium" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">{t("Very Low")}</SelectItem>
-                    <SelectItem value="2">{t("Low")}</SelectItem>
-                    <SelectItem value="3">{t("Medium")}</SelectItem>
-                    <SelectItem value="4">{t("High")}</SelectItem>
-                    <SelectItem value="5">{t("Very High")}</SelectItem>
+                    <SelectItem value="1">Very Low</SelectItem>
+                    <SelectItem value="2">Low</SelectItem>
+                    <SelectItem value="3">Medium</SelectItem>
+                    <SelectItem value="4">High</SelectItem>
+                    <SelectItem value="5">Very High</SelectItem>
                   </SelectContent>
                 </Select>
-                <Label htmlFor="scale_reason" className="mt-2">{t("Reason for scale")}</Label>
+                <Label htmlFor="scale_reason" className="mt-2">Reason for scale</Label>
                 <Input 
                   type="text" 
                   name="scale_reason" 
@@ -266,25 +263,25 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.impact_state && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="scope_score">{t("Scope")}</Label>
-                  <p className="text-sm text-gray-500 mb-2">T{t("The \"Scope\" field measures the breadth or range of the impact related to a specific topic or issue...")}</p>
+                  <Label htmlFor="scope_score">Scope</Label>
+                  <p className="text-sm text-gray-500 mb-2">The "Scope" field measures the breadth or range of the impact related to a specific topic or issue...</p>
                   <Select 
                     name="scope_score" 
                     value={formData.scope_score?.toString() || ''}
                     onValueChange={(value) => handleChange('scope_score', parseInt(value))}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={t("Limited")} />
+                      <SelectValue placeholder="Limited" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">{t("Limited")}</SelectItem>
-                      <SelectItem value="2">{t("Moderate")}</SelectItem>
-                      <SelectItem value="3">{t("Extended")}</SelectItem>
-                      <SelectItem value="4">{t("Far-reaching")}</SelectItem>
-                      <SelectItem value="5">{t("Global")}</SelectItem>
+                      <SelectItem value="1">Limited</SelectItem>
+                      <SelectItem value="2">Moderate</SelectItem>
+                      <SelectItem value="3">Extended</SelectItem>
+                      <SelectItem value="4">Far-reaching</SelectItem>
+                      <SelectItem value="5">Global</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Label htmlFor="scope_reason" className="mt-2">{t("Reason for scope")}</Label>
+                  <Label htmlFor="scope_reason" className="mt-2">Reason for scope</Label>
                   <Input 
                     type="text" 
                     name="scope_reason" 
@@ -298,25 +295,25 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.impact === 'negative' && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="irremediability_score">{t("Irremediability")}</Label>
-                  <p className="text-sm text-gray-500 mb-2">{t("The \"Irremediability\" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic...")}</p>
+                  <Label htmlFor="irremediability_score">Irremediability</Label>
+                  <p className="text-sm text-gray-500 mb-2">The "Irremediability" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic...</p>
                   <Select 
                     name="irremediability_score" 
                     value={formData.irremediability_score?.toString() || ''}
                     onValueChange={(value) => handleChange('irremediability_score', parseInt(value))}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={t("Easy")} />
+                      <SelectValue placeholder="Easy" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">{t("Relatively easy / short-term")}</SelectItem>
-                      <SelectItem value="2">{t("Moderately difficult / medium-term")}</SelectItem>
-                      <SelectItem value="3">{t("Difficult / long-term")}</SelectItem>
-                      <SelectItem value="4">{t("Very severe")}</SelectItem>
-                      <SelectItem value="5">{t("Irreversible")}</SelectItem>
+                      <SelectItem value="1">Relatively easy / short-term</SelectItem>
+                      <SelectItem value="2">Moderately difficult / medium-term</SelectItem>
+                      <SelectItem value="3">Difficult / long-term</SelectItem>
+                      <SelectItem value="4">Very severe</SelectItem>
+                      <SelectItem value="5">Irreversible</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Label htmlFor="irremediability_reason" className="mt-2">{t("Reason for irremediability")}</Label>
+                  <Label htmlFor="irremediability_reason" className="mt-2">Reason for irremediability</Label>
                   <Input 
                     type="text" 
                     name="irremediability_reason" 
@@ -330,23 +327,23 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.impact_state === 'potential' && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="probability_score">{t("Probability")}</Label>
-                  <p className="text-sm text-gray-500 mb-2">{t("The \"Probability\" field assesses the likelihood that a particular event, issue, or impact will occur...")}</p>
+                  <Label htmlFor="probability_score">Probability</Label>
+                  <p className="text-sm text-gray-500 mb-2">The "Probability" field assesses the likelihood that a particular event, issue, or impact will occur...</p>
                   <Select 
                     name="probability_score" 
                     value={formData.probability_score?.toString() || ''}
                     onValueChange={(value) => handleChange('probability_score', parseFloat(value))}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={t("Easy")} />
+                      <SelectValue placeholder="Easy" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="0.75">{t("Unlikely")}</SelectItem>
-                      <SelectItem value="0.85">{t("Likely")}</SelectItem>
-                      <SelectItem value="0.90">{t("Very likely")}</SelectItem>
+                      <SelectItem value="0.75">Unlikely</SelectItem>
+                      <SelectItem value="0.85">Likely</SelectItem>
+                      <SelectItem value="0.90">Very likely</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Label htmlFor="probability_reason" className="mt-2">{t("Reason for probability")}</Label>
+                  <Label htmlFor="probability_reason" className="mt-2">Reason for probability</Label>
                   <Input 
                     type="text" 
                     name="probability_reason" 
@@ -360,7 +357,7 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
             </div>
 
             <div className="pt-5">
-              <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white">{t("Save")}</Button>
+              <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white">Save</Button>
             </div>
           </form>
         </CardContent>

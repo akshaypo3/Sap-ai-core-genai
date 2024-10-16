@@ -1,6 +1,5 @@
 import { useState, useTransition } from 'react';
 import { Button } from "@/components/ui/button";
-//import { getTranslations } from "next-intl/server";
 import { Pencil } from 'lucide-react';
 import {
   Dialog,
@@ -36,7 +35,6 @@ export default function EditUserButton({ id }: { id: { userId: string; allGroups
     });
   };
 
- //const t = await getTranslations("settings-com")
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
