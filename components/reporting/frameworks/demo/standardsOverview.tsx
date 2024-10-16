@@ -7,36 +7,34 @@
 import {Button} from "@/components/ui/button";
 import Link from 'next/link';
 import { Progress } from "@/components/ui/progress"
-import { useTranslations } from "next-intl";
 
 
 export default function Component() {
-  const t = useTranslations("reporting-com")
     return (
         <div className="grid gap-12">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">{t("General")}</h3>
+              <h3 className="text-lg font-semibold">General</h3>
               <div className="grid grid-cols-1 gap-4">
               <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-lg dark:border-gray-800 dark:bg-gray-950">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                       <ClipboardCheckIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS 1")}</h4>
+                    <h4 className="text-base font-bold">ESRS 1</h4>
                   </div>
                   
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("General requirements")}
+                    General requirements
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Attention Needed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Attention Needed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrs1" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -46,33 +44,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                       <ClipboardCheckIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS 2")}</h4>
+                    <h4 className="text-base font-bold">ESRS 2</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("General disclosures")}
+                    General disclosures
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">14/19</span>
               </div>
               <div className="py-2">
                     <Progress value={73} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">113/135</span>
               </div>
               <div className="py-2">
                     <Progress value={84} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not Completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrs2" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -81,7 +79,7 @@ export default function Component() {
               </div>
             </div>
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">{t("Environment")}</h3>
+              <h3 className="text-lg font-semibold">Environment</h3>
               <div className="grid grid-cols-1 gap-4">
 
 
@@ -92,33 +90,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <LeafIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS E1")}</h4>
+                    <h4 className="text-base font-bold">ESRS E1</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Climate change")}
+                    Climate change
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">83/134</span>
               </div>
               <div className="py-2">
                     <Progress value={62} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">69/90</span>
               </div>
               <div className="py-2">
                     <Progress value={76} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrse1" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -128,33 +126,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <LeafIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS E2")}</h4>
+                    <h4 className="text-base font-bold">ESRS E2</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Pollution")}
+                    Pollution
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">18/36</span>
               </div>
               <div className="py-2">
                     <Progress value={50} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">31/36</span>
               </div>
               <div className="py-2">
                     <Progress value={86} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not Completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrse2" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -164,33 +162,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <LeafIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS E3")}</h4>
+                    <h4 className="text-base font-bold">ESRS E3</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Water and marine resources")}
+                    Water and marine resources
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">15/18</span>
               </div>
               <div className="py-2">
                     <Progress value={84} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">25/34</span>
               </div>
               <div className="py-2">
                     <Progress value={73} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not Completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrse3" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
                 
@@ -200,33 +198,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <LeafIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS E4")}</h4>
+                    <h4 className="text-base font-bold">ESRS E4</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Biodiversity and eco systems")}
+                    Biodiversity and eco systems
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">15/17</span>
               </div>
               <div className="py-2">
                     <Progress value={88} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">72/107</span>
               </div>
               <div className="py-2">
                     <Progress value={67} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrse4" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
                 
@@ -236,40 +234,40 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <LeafIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS E5")}</h4>
+                    <h4 className="text-base font-bold">ESRS E5</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Resource use and circular economy")}
+                    Resource use and circular economy
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">24/36</span>
               </div>
               <div className="py-2">
                     <Progress value={66} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">33/52</span>
               </div>
               <div className="py-2">
                     <Progress value={63} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrse5" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
             
               </div>
             </div>
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">{t("Social")}</h3>
+              <h3 className="text-lg font-semibold">Social</h3>
               <div className="grid grid-cols-1 gap-4">
 
 
@@ -278,33 +276,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS S1")}</h4>
+                    <h4 className="text-base font-bold">ESRS S1</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Own workforce")}
+                    Own workforce
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">58/83</span>
               </div>
               <div className="py-2">
                     <Progress value={69} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">110/123</span>
               </div>
               <div className="py-2">
                     <Progress value={89} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrss1" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -313,33 +311,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS S2")}</h4>
+                    <h4 className="text-base font-bold">ESRS S2</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Workers in the value chain")}
+                    Workers in the value chain
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">4/7</span>
               </div>
               <div className="py-2">
                     <Progress value={57} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">65/69</span>
               </div>
               <div className="py-2">
                     <Progress value={94} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrss2" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -348,33 +346,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS S3")}</h4>
+                    <h4 className="text-base font-bold">ESRS S3</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Affected communities")}
+                    Affected communities
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">5/7</span>
               </div>
               <div className="py-2">
                     <Progress value={71} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">43/68</span>
               </div>
               <div className="py-2">
                     <Progress value={63} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrss3" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -383,33 +381,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS S4")}</h4>
+                    <h4 className="text-base font-bold">ESRS S4</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Consumers and end-users")}
+                    Consumers and end-users
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">4/8</span>
               </div>
               <div className="py-2">
                     <Progress value={50} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">53/66</span>
               </div>
               <div className="py-2">
                     <Progress value={80} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrss4" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 
@@ -419,7 +417,7 @@ export default function Component() {
               </div>
             </div>
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">{t("Governance")}</h3>
+              <h3 className="text-lg font-semibold">Governance</h3>
               <div className="grid grid-cols-1 gap-4">
                 
               <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-lg dark:border-gray-800 dark:bg-gray-950">
@@ -427,33 +425,33 @@ export default function Component() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                     <BriefcaseIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                     </div>
-                    <h4 className="text-base font-bold">{t("ESRS G1")}</h4>
+                    <h4 className="text-base font-bold">ESRS G1</h4>
                   </div>
                   <p className="my-4 text-sm text-gray-500 dark:text-gray-400">
-                    {t("Business conduct")}
+                    Business conduct
                   </p>
                   <div className="grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("KPIs")}</span>
+                <span className="text-sm font-medium">KPIs</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">14/20</span>
               </div>
               <div className="py-2">
                     <Progress value={70} />
                   </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("Questions")}</span>
+                <span className="text-sm font-medium">Questions</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">19/36</span>
               </div>
               <div className="py-2">
                     <Progress value={52} />
                   </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">{t("Status")}</span>
-                <span className="text-sm text-green-500 dark:text-green-400">{t("Not completed")}</span>
+                <span className="text-sm font-medium">Status</span>
+                <span className="text-sm text-green-500 dark:text-green-400">Not completed</span>
               </div>
             </div>
             <Link href="/dev/reporting/frameworks/esrs/esrsg1" className="w-full">
-                <Button className="block w-full">{t("Start Work")}</Button>
+                <Button className="block w-full">Start Work</Button>
             </Link>
                 </div>
 

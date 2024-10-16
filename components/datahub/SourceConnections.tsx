@@ -8,8 +8,6 @@ import ReactFlow, {
   NodeProps
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { useTranslations } from 'next-intl';
-
 
 interface CustomNodeData {
   label: string;
@@ -18,9 +16,7 @@ interface CustomNodeData {
   type: string;
 }
 
-const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({ data }) => {
-  const t = useTranslations("datahub");
-  return (
+const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({ data }) => (
   <div style={{
     padding: '10px',
     borderRadius: '5px',
@@ -29,16 +25,13 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({ data }) => {
     width: '200px',
   }}>
     <h3>{data.label}</h3>
-    <p>{t("Last Contact:")} {data.lastContact}</p>
-    <p>{t("Status:")} {data.online ? t('Online') : t('Offline')}</p>
-    <p>{t("Type:")} {data.type}</p>
+    <p>Last Contact: {data.lastContact}</p>
+    <p>Status: {data.online ? 'Online' : 'Offline'}</p>
+    <p>Type: {data.type}</p>
   </div>
-  )
-};
+);
 
-const CentralLogo: React.FC = () => {
-  const t = useTranslations("datahub");
-  return (
+const CentralLogo: React.FC = () => (
   <div style={{
     width: '150px',
     height: '150px',
@@ -50,13 +43,11 @@ const CentralLogo: React.FC = () => {
     fontSize: '20px',
     fontWeight: 'bold',
   }}>
-    {t("Your Logo")}
+    Your Logo
   </div>
-  )
-};
+);
 
 const FlowDiagram: React.FC = () => {
-  const t = useTranslations("datahub");
   const nodes: Node[] = [
     {
       id: 'center',
@@ -68,7 +59,7 @@ const FlowDiagram: React.FC = () => {
       id: '1',
       type: 'custom',
       data: { 
-        label: t('Microsoft Dynamics 365'),
+        label: 'Microsoft Dynamics 365',
         lastContact: '2023-08-23 14:30',
         online: true,
         type: 'Cloud'
@@ -79,7 +70,7 @@ const FlowDiagram: React.FC = () => {
       id: '2',
       type: 'custom',
       data: { 
-        label: t('SharePoint'),
+        label: 'SharePoint',
         lastContact: '2023-08-23 15:45',
         online: true,
         type: 'Cloud'
@@ -90,7 +81,7 @@ const FlowDiagram: React.FC = () => {
       id: '3',
       type: 'custom',
       data: { 
-        label: t('Document Management System'),
+        label: 'Document Management System',
         lastContact: '2023-08-23 12:00',
         online: false,
         type: 'On-Premise'

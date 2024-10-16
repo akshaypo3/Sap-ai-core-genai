@@ -13,29 +13,26 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-import { getTranslations } from "next-intl/server";
-
 export default async function CreateUserForm(){
-    const t = await getTranslations("settings-com")
     const groups = await getUserGroups();
     const roles = await getRoles();
     return (
         <form action={createUser}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="name">{t("Email")}</Label>
-                    <Input type="text" name="email" placeholder={t("Email")}/>
-                    <Label htmlFor="description">{t("Password")}</Label>
-                    <Input type="text" name="password" placeholder={t("Password")}/>
+                    <Label htmlFor="name">Email</Label>
+                    <Input type="text" name="email" placeholder="Email"/>
+                    <Label htmlFor="description">Password</Label>
+                    <Input type="text" name="password" placeholder="Password"/>
                     <div className="w-full">
                         <div>
-                            <Label htmlFor="groupID">{t("Group")}</Label>
+                            <Label htmlFor="groupID">Group</Label>
                             <Select name="groupID">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("Default Group")}/>
+                                    <SelectValue placeholder="Default Group"/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {groups?.map((group) =>(
-                                        <SelectItem key={group.id} value={group.id}>{group.group || t('NA')}</SelectItem>
+                                        <SelectItem key={group.id} value={group.id}>{group.group || 'NA'}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -44,14 +41,14 @@ export default async function CreateUserForm(){
 
                     <div className="w-full">
                         <div>
-                            <Label htmlFor="roleID">{t("Role")}</Label>
+                            <Label htmlFor="roleID">Role</Label>
                             <Select name="roleID">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("Default Role")}/>
+                                    <SelectValue placeholder="Default Role"/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {roles?.map((role) =>(
-                                        <SelectItem key={role.id} value={role.id}>{role.role || t('NA')}</SelectItem>
+                                        <SelectItem key={role.id} value={role.id}>{role.role || 'NA'}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -62,7 +59,7 @@ export default async function CreateUserForm(){
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                               {t("Create User")}
+                               Create User
                             </Button>
                             </DialogClose>                        
                         </div>

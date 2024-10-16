@@ -18,7 +18,6 @@ import {
   } from "@/components/ui/popover"  
 import { CircleHelp } from "lucide-react";
 import { createRole } from "@/lib/settings/users/action";
-import { useTranslations } from "next-intl";
 
 interface NewStakeholderGroupFormData {
     role: string;
@@ -28,19 +27,18 @@ interface NewStakeholderGroupFormData {
 
 
 export default async function CreateRoleForm(){
-    const t = useTranslations("settings-com")
     return (
         <form action={createRole}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="name">{t("Role")}</Label>
+                    <Label htmlFor="name">Role</Label>
                     <Input type="text" name="role"/>
-                    <Label htmlFor="description">{t("Description")}</Label>
+                    <Label htmlFor="description">Description</Label>
                     <Input type="text" name="description"/>
                     <div className="flex mt-5">
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                               {t("Add Role")}
+                                Add Role
                             </Button>
                             </DialogClose>                        
                         </div>

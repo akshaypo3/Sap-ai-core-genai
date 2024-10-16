@@ -19,7 +19,6 @@ import {
 import { CircleHelp } from "lucide-react";
 import { getFrameworks } from "@/lib/assessments/data";
 import { createAssessment } from "@/lib/assessments/action";
-import { useTranslations } from "use-intl"
 
 interface NewStakeholderFormData {
     name: string;
@@ -30,19 +29,18 @@ interface NewStakeholderFormData {
 
 
 export default async function CreateAssessmentForm(){
-    const t = useTranslations("materiality-com")
     const frameworks = await getFrameworks();
     return (
         <form action={createAssessment}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="year">{t("Year")}</Label>
+                    <Label htmlFor="year">Year</Label>
                     <Input type="number" name="year" placeholder="2024"/>
                     <div className="w-full">
                         <div>
-                            <Label htmlFor="framework">{t("Framework")}</Label>
+                            <Label htmlFor="framework">Framework</Label>
                             <Select name="framework">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("ESRS")}/>
+                                    <SelectValue placeholder="ESRS"/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {frameworks?.map((item:any) =>(
@@ -57,7 +55,7 @@ export default async function CreateAssessmentForm(){
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                                {t("Create Assessment")}
+                                Create Assessment
                             </Button>
                             </DialogClose>                        
                         </div>

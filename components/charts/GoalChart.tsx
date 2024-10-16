@@ -6,10 +6,9 @@ import ReusablePieChartdonut, { ReusablePieChartdonutProps } from "@/components/
 import {  
   GoalChartConfig
 } from '@/components/charts/ChartData';
-import { useTranslations } from 'next-intl';
 
 export const GoalChart = ({ goal ,Chart,name,desc,unit}) => {
-const t = useTranslations("charts")
+
 
   // Create a new config object based on GoalChartConfig
   const updatedConfig = {
@@ -22,35 +21,35 @@ const t = useTranslations("charts")
 };
     
      const AssesmentbarChartProps: ReusableBarChartProps = {
-    data: goal,
+     data: goal,
     config: updatedConfig,
     title: name,
     description: desc,
-    dataKey:t("current_value"),
-   xAxisKey: t("recorded_at")
+    dataKey: "current_value",
+   xAxisKey: "recorded_at"
   };
   const AssesmentLineChart: ReusableLineChartProps = {
     data: goal,
     config: updatedConfig,
     title: name,
     description: desc,
-    dataKey:t("current_value"),
-    xAxisKey: t("recorded_at")
+    dataKey: "current_value",
+    xAxisKey: "recorded_at"
   };
 const AssesmentPieChart: ReusablePieChartProps = {
     data: goal,
     config: updatedConfig,
     title: name,
     description: desc,
-    dataKey:t("current_value")
+    dataKey: "current_value"
   };
   const AssesmentPieChartdonut1: ReusablePieChartdonutProps = {
     data: goal,
     config: updatedConfig,
     title: name,
     description: desc,
-    dataKey:t("current_value"),
-    xAxisKey: t("Date")
+    dataKey: "current_value",
+    xAxisKey: "Date"
   };
   return (
     <div className="w-full h-full">

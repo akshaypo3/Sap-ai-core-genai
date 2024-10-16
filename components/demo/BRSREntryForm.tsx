@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { useTranslations } from 'next-intl';
 
 type BRSREntryFormProps = {
   id: string;
@@ -34,7 +33,6 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
   const [response, setResponse] = useState('');
   const router = useRouter();
   const { toast } = useToast();
-  const t = useTranslations("demo")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +40,8 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
     console.log('Saving data:', { id, response });
     
     toast({
-      title: t("Success"),
-      description: t("Data saved successfully"),
+      title: "Success",
+      description: "Data saved successfully.",
       duration: 3000,
     });
 
@@ -53,28 +51,28 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
 
   return (
     <div className="container mx-auto py-10 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-6">{t("Edit BRSR Entry")}</h1>
+      <h1 className="text-2xl font-bold mb-6">Edit BRSR Entry</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <Label htmlFor="section">{t("Section")}</Label>
+          <Label htmlFor="section">Section</Label>
           <Input id="section" value={section} readOnly />
         </div>
         <div>
-          <Label htmlFor="principle">{t("Principle")}</Label>
+          <Label htmlFor="principle">Principle</Label>
           <Input id="principle" value={principle} readOnly />
         </div>
         <div>
-          <Label htmlFor="question">{t("Question")}</Label>
+          <Label htmlFor="question">Question</Label>
           <Input id="question" value={question} readOnly />
         </div>
         <div>
-          <Label htmlFor="status">{t("Status")}</Label>
+          <Label htmlFor="status">Status</Label>
           <div>
             <Badge className={getStatusColor(status)}>{status}</Badge>
           </div>
         </div>
         <div>
-          <Label htmlFor="assignedUser">{t("Assigned User")}</Label>
+          <Label htmlFor="assignedUser">Assigned User</Label>
           <div className="flex items-center space-x-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src={assignedUser.avatar} alt={assignedUser.name} />
@@ -84,20 +82,20 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
           </div>
         </div>
         <div>
-          <Label htmlFor="response">{t("Response")}</Label>
+          <Label htmlFor="response">Response</Label>
           <Textarea 
             id="response" 
             value={response} 
             onChange={(e) => setResponse(e.target.value)}
-            placeholder={t("Enter your response here...")}
+            placeholder="Enter your response here..."
             rows={5}
           />
         </div>
         <div className="flex justify-end space-x-4">
           <Button type="button" variant="outline" onClick={() => router.push('/brsr-table')}>
-            {t("Cancel")}
+            Cancel
           </Button>
-          <Button type="submit">{t("Save Changes")}</Button>
+          <Button type="submit">Save Changes</Button>
         </div>
       </form>
     </div>

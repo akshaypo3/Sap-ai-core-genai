@@ -14,18 +14,16 @@ import {
   import { DeleteAssessmentButton } from '@/components/materiality/assessments/DeleteAssessmentButton';
   import { DeleteAssessmentDialog } from '@/components/materiality/assessments/DeleteAssessmentDialog';
 import { Button } from '@/components/ui/button';
-import { useTranslations } from 'use-intl';
 
   export function AssessmentsActionsMenu({ id,step }: { id: string, step:string }) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-    const t = useTranslations("materiality-com")
     console.log("Step:",step)  
     return (
       <>
         <DropdownMenu>
           <DropdownMenuTrigger><Button variant="outline" className="px-3 border-none">...</Button></DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>{t("assessment.Actions")}</DropdownMenuLabel>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href={`/materiality/assessments/${id}/${step}`} className="hover:cursor-pointer">
@@ -33,7 +31,7 @@ import { useTranslations } from 'use-intl';
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="hover:cursor-pointer">
-              {t("assessment.Delete")}
+              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
