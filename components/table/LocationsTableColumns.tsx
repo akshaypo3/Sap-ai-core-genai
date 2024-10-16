@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
-import {  ZoomIn } from "lucide-react";
+import {  ArrowUpDown, ZoomIn } from "lucide-react";
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
 
 export type Location = {
@@ -40,7 +40,15 @@ export type Location = {
     },
     {
       accessorKey: "city",
-      header: "City",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          City
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
       cell: ({ row }) => <span>{row.getValue("city") || "NA"}</span>,
     },
     {

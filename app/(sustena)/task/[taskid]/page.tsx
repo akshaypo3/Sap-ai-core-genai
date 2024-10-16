@@ -42,9 +42,9 @@ export default async function taskPage({
 
   const task = await getTaskById(taskId);
 
-  if (!task) {
-    return notFound();
-  }
+  // if (!task) {
+  //   return notFound();
+  // }
 
   const supabase = createClient();
 
@@ -151,50 +151,9 @@ export default async function taskPage({
 
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
             <h2 className="font-semibold text-xl mb-3">{t("taskId.Activity Logs")}</h2>
-            <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
             <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_task_log} data={taskLogs} filter={'user'}/>
+                <DataTable columns={columns_task_log} data={taskLogs} filter={'user'} sort={'Created At'}/>
             </div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("taskId.Date")}</TableHead>
-                  <TableHead>{t("taskId.Time")}</TableHead>
-                  <TableHead>{t("taskId.User")}</TableHead>
-                  <TableHead>{t("taskId.Activity")}</TableHead>
-                  <TableHead>{t("taskId.Action")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {taskLogs && taskLogs.length > 0 ? (
-                  taskLogs.map((log) => (
-                    <TableRow key={log.id}>
-                      <TableCell>
-                        {new Date(log.created_at)
-                          .toLocaleDateString("en-GB",{ timeZone:actualTime
-                          })
-                          .replace(/\//g, ".")}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(log.created_at).toLocaleTimeString("en-GB", {
-                          timeZone:actualTime,
-                          hour12: false,
-                        })}
-                      </TableCell>
-                      <TableCell>{log.user}</TableCell>
-                      <TableCell>{log.activity}</TableCell>
-                      <TableCell>
-                        <ViewTaskActivityButton activityId={log.id} />
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5}>{t("taskId.No activity")}</TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
           </div>
         </div>
       </ContentLayout>

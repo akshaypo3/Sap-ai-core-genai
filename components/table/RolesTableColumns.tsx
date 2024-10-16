@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DeleteRoleButton } from "../settings/roles/DeleteRoleButton";
+import { RoleDetailsButton } from "../settings/roles/RoleDetailsButton";
 
 export type Role = {
     id: string;          
@@ -40,7 +41,7 @@ export type Role = {
       header: "Details",
       cell: ({ row }) => (
         <div className="flex justify-center space-x-2">
-        {/* <RoleDetailsButton roleid={row.getValue("id")} /> */}
+        <RoleDetailsButton roleid={row.original.id} />
         </div>
       ),
     },

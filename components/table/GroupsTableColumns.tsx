@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DeleteGroupButton } from "../settings/groups/DeleteGroupButton";
+import { GroupDetailsButton } from "../settings/groups/GroupDetailsButton";
 
 
 export type Group = {
@@ -16,7 +17,7 @@ export type Group = {
   export const columns_group: ColumnDef<Group>[] = [
     {
       accessorKey: "group",
-      header: "Name",
+      header: "Group",
       cell: ({ row }) => <span>{row.getValue("group") || "NA"}</span>,
     },
     {
@@ -39,12 +40,15 @@ export type Group = {
     },
     {
       header: "Details",
-      cell: ({ row }) => (
-        <div className="flex justify-center">
-          {/* <GroupDetailsButton groupid={row.getValue("id")} /> */}
-        </div>
-      ),
-    },
+      cell: ({ row }) => {
+        return (
+          <div className="flex justify-center">
+            <GroupDetailsButton groupid={row.original.id} />
+          </div>
+        );
+      },
+    }
+    ,
     {
       header: "Action",
       cell: ({ row }) => (

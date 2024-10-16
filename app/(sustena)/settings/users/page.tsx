@@ -88,6 +88,13 @@ export default async function Home() {
   const AllData = await fetchUsersWithProfilesAndRoles();
   const rolesData = await usercountForRole();
   const groupsData = await usercountForGroups();
+  const enhancedData = AllData.map(user => ({
+    ...user,
+    allGroups: userGroups,
+    allRoles: allRoles,
+    currentGroup: user.group?.group, // Current user's group
+    currentRole: user.role?.role,     // Current user's role
+  }));
 
 
   const timezone = await getTimeZone({ userId: user.id })
@@ -134,79 +141,8 @@ export default async function Home() {
             <TabsContent value="users">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
               <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_user} data={AllData} filter={'email'}/>
+                <DataTable columns={columns_user} data={enhancedData} filter={'name'} sort={'Email'}/>
                 </div>
-                <Table className="min-w-full table-auto border-collapse">
-                  <TableHeader className="bg-gray-100">
-                    <TableRow>
-                      <TableHead className="px-6 py-3 text-left">
-                        {t("users.Name")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-left">
-                        {t("users.Email")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-left">
-                        {t("users.Group")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-left">
-                        {t("users.Role")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-left">
-                        {t("users.Created")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-left">
-                        {t("users.Last Sign In")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-left">{t("users.UID")}</TableHead>
-                      <TableHead className="px-6 py-3 text-center">
-                        {t("users.Action")}
-                      </TableHead>
-                      <TableHead className="px-6 py-3 text-center">
-                        {t("users.Edit")}
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {AllData?.map((user) => (
-                      <TableRow
-                        key={user.userId}
-                        className="border-b hover:bg-gray-50"
-                      >
-                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {user?.name || "NA "}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {user.email}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {user.group?.group || "No Group"}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {user.role?.role || "No Role"}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {new Date(user.createdAt).toLocaleDateString("en-GB",{ timeZone:actualTime
-                          })}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 font-medium whitespace-nowrap">
-                          {user.lastSignInAt
-                            ? new Date(user.lastSignInAt).toLocaleDateString("en-GB",{ timeZone:actualTime
-                            })
-                            : "Never Signed In"}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 font-medium text-left whitespace-nowrap">
-                          {user.userId}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 text-center">
-                          <DeleteUserButton id={user} />{" "}
-                        </TableCell>
-                        <TableCell className="px-6 py-4 text-center">
-                          <EditUserButton id={user} />{" "}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
               </div>
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
                 <div className="flex items-center">
@@ -218,41 +154,8 @@ export default async function Home() {
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
                 <AddRoleButton />
                 <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_role} data={rolesData} filter={'role'}/>
+                <DataTable columns={columns_role} data={rolesData} filter={'role'} sort={'Users Count'}/>
                 </div>
-                <Table>
-                  <TableCaption>{/* Roles List */}</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>{t("users.Role")}</TableHead>
-                      <TableHead>{t("users.Description")}</TableHead>
-                      <TableHead style={{ textAlign: "left" }}>
-                        {t("users.Users Count")}
-                      </TableHead>
-                      <TableHead>{t("users.Details")}</TableHead>
-                      <TableHead>{t("users.Action")}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {rolesData?.map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell className="font-medium">
-                          {item.role}
-                        </TableCell>
-                        <TableCell>{item.description}</TableCell>
-                        <TableCell className="text-center">
-                          {item.user_count}
-                        </TableCell>
-                        <TableCell>
-                          <RoleDetailsButton roleid={item.id} />
-                        </TableCell>
-                        <TableCell>
-                          <DeleteRoleButton id={item} />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
               </div>
             </TabsContent>
             <TabsContent value="groups">
@@ -283,38 +186,8 @@ export default async function Home() {
               </Dialog>
               <AddGroupButton />
               <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_group} data={groupsData} filter={'group'}/>
+                <DataTable columns={columns_group} data={groupsData} filter={'group'} sort={'Users Count'}/>
                 </div>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>{t("users.Name")}</TableHead>
-                    <TableHead>{t("users.Description")}</TableHead>
-                    <TableHead className="text-center">{t("users.Users Count")}</TableHead>
-                    <TableHead>{t("users.Details")}</TableHead>
-                    <TableHead>{t("users.Action")}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {groupsData?.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="font-medium">
-                        {item.group}
-                      </TableCell>
-                      <TableCell>{item.description}</TableCell>
-                      <TableCell className="text-center">
-                        {item.user_count}
-                      </TableCell>
-                      <TableCell>
-                        <GroupDetailsButton groupid={item.id} />
-                      </TableCell>
-                      <TableCell>
-                        <DeleteGroupButton id={item} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
             </TabsContent>
           </div>
 
@@ -322,7 +195,7 @@ export default async function Home() {
           <TabsContent value="activitylog">
             <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
             <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_activity} data={activityLogs} filter={'user'}/>
+                <DataTable columns={columns_activity} data={activityLogs} filter={'user'} sort={'Created At'}/>
                 </div>
               <Table>
                 <TableHeader>
