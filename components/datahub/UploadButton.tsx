@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Button } from '@/components/ui/button';
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { useTranslations } from 'next-intl';
 
 // Initialize Supabase client
 const supabase = createClient();
@@ -14,6 +15,7 @@ const UploadButton = () => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
   const router = useRouter(); // Initialize useRouter
+  const t = useTranslations("datahub")
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -27,7 +29,7 @@ const UploadButton = () => {
 
   const handleUpload = async () => {
     if (!file) {
-      alert('Please select a file first!');
+      alert(t('Please select a file first!'));
       return;
     }
 
@@ -40,14 +42,14 @@ const UploadButton = () => {
       if (error) throw error;      
       toast({
         variant: "success",
-        title: "File Uploaded Successfully!",
-        description: `${file.name} File Uploaded Successfully to Supabase`,
+        title: t("File Uploaded Successfully!"),
+        description: `${file.name} ${t("File Uploaded Successfully to Supabase")}`,
       })
       console.log('File uploaded:', data);
     } catch (error) {
         toast({
             variant: "destructive",
-            title: "Error uploading file:",
+            title: t("Error uploading file:"),
             description: error.message,
           })
       //alert('Error uploading file: ' + error.message);
@@ -72,7 +74,7 @@ const UploadButton = () => {
       {file ? file.name : 'Select File'}
     </Button>
     <Button onClick={handleUpload} disabled={!file || uploading} className="bg-green-600">
-      {uploading ? 'Uploading...' : 'Upload to Supabase'}
+      {uploading ? t('Uploading') : t('Upload to Supabase')}
     </Button>
   </div>
   

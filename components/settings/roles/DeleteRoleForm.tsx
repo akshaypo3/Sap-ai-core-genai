@@ -26,6 +26,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import { deleteRole } from "@/lib/settings/users/action";
 import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface NewStakeholderGroupFormData {
   role: string;
@@ -33,13 +34,14 @@ interface NewStakeholderGroupFormData {
 }
 
 export default async function DeleteRoleForm({ id }: { id }) {
+  const t = useTranslations("settings-com")
   const deleteRolerWithId = deleteRole.bind(null, id.id);
   return (
     <div className="grid w-full items-center gap-1.5 mb-2">
       <div className="grid gap-1 py-1">
         <div className="grid grid-cols-1 items-center gap-4">
           <Label htmlFor="name" className="text-center">
-            Are you sure to delete the role:{" "}
+           {t("Are you sure to delete the role:")}
             <b className="font-bold text-lg font-semibold text-red-600">
               {id.role} <span className="text-black">?</span>
             </b>
@@ -49,12 +51,12 @@ export default async function DeleteRoleForm({ id }: { id }) {
       <DialogFooter className="flex justify-between mt-4">
         <div className="flex justify-end space-x-2 mt-4">
           <DialogTrigger asChild>
-            <Button>Cancel</Button>
+            <Button>{t("Cancel")}</Button>
           </DialogTrigger>
           <form action={deleteRolerWithId}>
             <DialogClose asChild>
               <Button className="w-full" type="submit" variant="destructive">
-                Delete Role
+                {t("Delete Role")}
               </Button>
             </DialogClose>
           </form>

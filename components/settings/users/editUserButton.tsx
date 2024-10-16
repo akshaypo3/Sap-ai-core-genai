@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { editUserRoleGroup} from "@/lib/settings/users/action";
 import { getAllUsers,getUserGroups,getRoles,getProfile,getProfileByID } from "@/lib/settings/users/data";
+import { getTranslations } from "next-intl/server";
 
 interface clickID {
     id: number;
@@ -25,21 +26,22 @@ export default async function EditUserForm(clickID:any){
     //const profile = await getProfile();
     const profilebyID= await getProfileByID(clickID);
     console.log("SelectedID",clickID);
+    const t = await getTranslations("settings-com")
         return (
         <form action={editUserRoleGroup}>
                 <div className="grid w-full items-center gap-1.5 mb-2 ">
-                <Label htmlFor="userEmail">userEmail</Label>
+                <Label htmlFor="userEmail">{t("UserfEmail")}</Label>
                 <Input type="text" name="userEmail" />
                     <div className="w-full">
                         <div>
-                            <Label htmlFor="groupID">Group</Label>
+                            <Label htmlFor="groupID">{t("Group")}</Label>
                             <Select name="groupID">
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Default Group"/>
+                                    <SelectValue placeholder={t("Default Group")}/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {groups?.map((group) =>(
-                                        <SelectItem key={group.id} value={group.id}>{group.group || 'NA'}</SelectItem>
+                                        <SelectItem key={group.id} value={group.id}>{group.group || t('NA')}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -47,14 +49,14 @@ export default async function EditUserForm(clickID:any){
                     </div>
                     <div className="w-full">
                         <div>
-                            <Label htmlFor="roleID">Role</Label>
+                            <Label htmlFor="roleID">{t("Role")}</Label>
                             <Select name="roleID">
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Default Role"/>
+                                    <SelectValue placeholder={t("Default Role")}/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {roles?.map((role) =>(
-                                        <SelectItem key={role.id} value={role.id}>{role.role || 'NA'}</SelectItem>
+                                        <SelectItem key={role.id} value={role.id}>{role.role || t('NA')}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -64,7 +66,7 @@ export default async function EditUserForm(clickID:any){
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                               Save Profile
+                               {t("Save Profile")}
                             </Button>
                             </DialogClose>                        
                         </div>

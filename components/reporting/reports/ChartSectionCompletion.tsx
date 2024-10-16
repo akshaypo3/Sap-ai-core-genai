@@ -17,8 +17,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useTranslations } from "use-intl"
 
-export const description = "A bar chart with a label"
+export const description = (t) => t("A bar chart with a label")
 
 const chartData = [
   { section: "A", done: 65 },
@@ -34,11 +35,13 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function ChartSectionCompletion() {
+  const t = useTranslations("reporting-com")
+  const d = description(t)
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Section Completion</CardTitle>
-        <CardDescription>Report 2023</CardDescription>
+        <CardTitle>{t("Section Completion")}</CardTitle>
+        <CardDescription>{t("Report 2023")}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -77,7 +80,7 @@ export default function ChartSectionCompletion() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}
         <div className="leading-none text-muted-foreground">
-          Percentage of BRSR Section completed for compliance
+          {t("Percentage of BRSR Section completed for compliance")}
         </div>
       </CardFooter>
     </Card>

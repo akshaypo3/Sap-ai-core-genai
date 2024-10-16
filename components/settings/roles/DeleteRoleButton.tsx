@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { deleteRole } from "@/lib/settings/users/action";
+import { useTranslations } from 'next-intl';
 
 export function DeleteRoleButton({ id }: { id: { id: string; role: string } }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export function DeleteRoleButton({ id }: { id: { id: string; role: string } }) {
       setIsOpen(false);
     });
   };
-
+const t = useTranslations("settings-com")
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -38,12 +39,12 @@ export function DeleteRoleButton({ id }: { id: { id: string; role: string } }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Delete Role</DialogTitle>
+          <DialogTitle className="text-center">{t("Delete Role")}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
             <Label htmlFor="name" className="text-center">
-              Are you sure to delete the role:{" "}
+             {t("Are you sure to delete the role:")}
               <b className="font-bold text-lg font-semibold text-red-600">
                 {id.role} <span className="text-black">?</span>
               </b>
@@ -53,13 +54,13 @@ export function DeleteRoleButton({ id }: { id: { id: string; role: string } }) {
 
         <DialogFooter className="flex justify-between mt-4">
           <div className="flex justify-end space-x-2 mt-4">
-            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+            <Button onClick={() => setIsOpen(false)}>{t("Cancel")}</Button>
             <Button
               onClick={handleDelete}
               variant="destructive"
               disabled={isPending}
             >
-              {isPending ? 'Deleting...' : 'Delete Role'}
+              {isPending ? t('Deleting') : t('Delete Role')}
             </Button>
           </div>
         </DialogFooter>

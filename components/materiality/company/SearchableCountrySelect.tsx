@@ -10,6 +10,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from 'next-intl';
 
 interface SearchableCountrySelectProps {
     countries: string[];
@@ -21,17 +22,17 @@ export default function SearchableCountrySelect({ countries }: SearchableCountry
     const filteredCountries = countries.filter(country =>
         country.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
+    const t = useTranslations("materiality-com")
     return (
         <div className="w-full">
-            <Label htmlFor="country">Country</Label>
+            <Label htmlFor="country">{t("company.Country")}</Label>
             <Select name="country">
                 <SelectTrigger>
-                    <SelectValue placeholder="Select a country"/>
+                    <SelectValue placeholder={t("company.Select a country")}/>
                 </SelectTrigger>
                 <SelectContent>
                     <Input
-                        placeholder="Search countries..."
+                        placeholder={t("company.Search countries")}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="mb-2"

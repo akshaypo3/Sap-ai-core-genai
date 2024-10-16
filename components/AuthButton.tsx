@@ -1,9 +1,11 @@
 import { createClient } from "@/utils/supabase/server";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function AuthButton() {
   const supabase = createClient();
+  const t = await getTranslations("ui")
 
   const {
     data: { user },
@@ -19,10 +21,10 @@ export default async function AuthButton() {
 
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      {t("Hey")} {user.email}!
       <form action={signOut}>
         <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-          Logout
+          {t("Logout")}
         </button>
       </form>
     </div>
@@ -31,7 +33,7 @@ export default async function AuthButton() {
       href="/login"
       className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
     >
-      Login
+      {t("Login")}
     </Link>
   );
 }

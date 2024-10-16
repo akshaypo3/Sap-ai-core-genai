@@ -37,6 +37,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTranslations } from "use-intl"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -66,6 +67,7 @@ export function DataTable<TData, TValue>({
     },
   })
 console.log(filter);
+const t = useTranslations("table")
   return (
       <><div className="flex items-center py-4">
        <Input
@@ -77,7 +79,7 @@ console.log(filter);
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-            Columns <ChevronDown className="ml-2 h-4 w-4" />
+            {t("Columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -143,7 +145,7 @@ console.log(filter);
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  {t("No results.")}
                 </TableCell>
               </TableRow>
             )}

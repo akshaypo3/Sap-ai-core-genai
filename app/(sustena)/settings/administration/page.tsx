@@ -75,7 +75,7 @@ export default async function Home() {
       <Tabs defaultValue="general" className="w-full">
         <TabsList>
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
-          <TabsTrigger value="adminusers">{t("administration. Administrative Users")}</TabsTrigger>
+          <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
           <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
           <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
         </TabsList>
@@ -84,7 +84,7 @@ export default async function Home() {
         <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
           </TabsContent>
           <TabsContent value="adminusers">
-          {t("administration. Administrative Users")}
+          {t("administration.Administrative Users")}
             {/* <UserManagement/> */}
           </TabsContent>
           <TabsContent value="smtp">

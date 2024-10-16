@@ -14,6 +14,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function Timezone({
   initialTimezone,
@@ -51,13 +52,13 @@ export default function Timezone({
     setSelectedTimezone(tempTimezone);
     setShowDialog(false); 
   };
-
+const t = useTranslations("settings-com")
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Timezone</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("Select Timezone")}</h1>
       <form className="space-y-4">
         <div className="w-full">
-          <label htmlFor="timezone">Timezone</label>
+          <label htmlFor="timezone">{t("Timezone")}</label>
           <TimezoneSelect
             value={tempTimezone}
             onChange={handleTimezoneChange} 
@@ -66,7 +67,7 @@ export default function Timezone({
       </form>
       {convertedDate && (
         <div className="mt-4">
-          <h2 className="text-lg font-semibold">Converted Date:</h2>
+          <h2 className="text-lg font-semibold">{t("Converted Date:")}</h2>
           <p>{convertedDate}</p>
         </div>
       )}
@@ -74,7 +75,7 @@ export default function Timezone({
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-[450px]">
           <DialogHeader>
-            <DialogTitle className="text-center">Confirm Timezone Change</DialogTitle>
+            <DialogTitle className="text-center">{t("Confirm Timezone Change")}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-1 py-1">
             <div className="grid grid-cols-1 items-center gap-4">
@@ -82,7 +83,7 @@ export default function Timezone({
                 htmlFor="confirm-timezone"
                 className="text-center overflow-hidden max-h-35"
               >
-                Are you sure you want to change the timezone to:{" "}
+                {t("Are you sure you want to change the timezone to:")}
                 <b className="font-bold text-lg font-semibold text-blue-600">
                   {tempTimezone?.label} <span className="text-black">?</span>
                 </b>
@@ -93,11 +94,11 @@ export default function Timezone({
             <div className="flex justify-end space-x-2 mt-4">
               <DialogClose asChild>
                 <Button type="button" onClick={() => setShowDialog(false)}>
-                  Cancel
+                  {t("Cancel")}
                 </Button>
               </DialogClose>
               <Button type="button" onClick={confirmTimezoneChange}>
-                Confirm Change
+                {t("Confirm Change")}
               </Button>
             </div>
           </DialogFooter>

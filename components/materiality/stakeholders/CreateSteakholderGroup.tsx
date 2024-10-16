@@ -18,6 +18,7 @@ import {
   } from "@/components/ui/popover"  
 import { CircleHelp } from "lucide-react";
 import { createStakeholderGroup } from "@/lib/stakeholders/action";
+import { useTranslations } from "use-intl";
 
 interface NewStakeholderGroupFormData {
     name: string;
@@ -27,18 +28,19 @@ interface NewStakeholderGroupFormData {
 
 
 export default async function CreateSteakholderForm(){
+    const t = useTranslations("materiality-com")
     return (
         <form action={createStakeholderGroup}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name">{t("stakeholders.Name")}</Label>
                     <Input type="text" name="name"/>
-                    <Label htmlFor="description">Description</Label>
+                    <Label htmlFor="description">{t("stakeholders.Description")}</Label>
                     <Input type="text" name="description"/>
                     <div className="flex mt-5">
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                                Add Stakeholder Group
+                                {t("stakeholders.Add Stakeholder Group")}
                             </Button>
                             </DialogClose>                        
                         </div>

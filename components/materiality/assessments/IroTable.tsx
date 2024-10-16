@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from "next-intl";
 // import { MarkAsNotMaterialButton } from "@/components/materiality/assessments/buttons";
 
 type Stakeholder = {
@@ -107,7 +108,7 @@ export default function IroTable({ assessmentData, assessmentId }) {
   const handleEdit = (id: string) => {
     router.push(`/materiality/assessments/${assessmentId}/${id}`);
   };
-
+  const t = useTranslations("materiality-com")
   return (
     <div className="container mx-auto py-10 space-y-8">
       {Object.entries(groupedData).map(([code, { items, stats }]) => (
@@ -117,27 +118,27 @@ export default function IroTable({ assessmentData, assessmentId }) {
             onClick={() => toggleSection(code)}
           >
             <div className="flex items-center space-x-2">
-              <h3 className="text-xl font-semibold">ESRS {code}</h3>
+              <h3 className="text-xl font-semibold">{t("assessment.ESRS")} {code}</h3>
               {expandedSections.includes(code) ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
             </div>
             <div className="flex space-x-4">
-              <Badge variant="outline" className="bg-yellow-50">Material: {stats.material}</Badge>
-              <Badge variant="outline" className="bg-green-50">Not Material: {stats.notMaterial}</Badge>
-              <Badge variant="outline" className="bg-blue-50">To Be Assessed: {stats.toBeAssessed}</Badge>
-              <Badge variant="outline" className="bg-red-50">Under Review: {stats.underReview}</Badge>
+              <Badge variant="outline" className="bg-yellow-50">{t("assessment.Material:")} {stats.material}</Badge>
+              <Badge variant="outline" className="bg-green-50">{t("assessment.Not Material:")} {stats.notMaterial}</Badge>
+              <Badge variant="outline" className="bg-blue-50">{t("assessment.To Be Assessed:")} {stats.toBeAssessed}</Badge>
+              <Badge variant="outline" className="bg-red-50">{t("assessment.Under Review:")} {stats.underReview}</Badge>
             </div>
           </div>
           {expandedSections.includes(code) && (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/3">Topic</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Impact Score</TableHead>
-                  <TableHead>Financial Score</TableHead>
-                  <TableHead>Assigned Person</TableHead>
-                  <TableHead>Stakeholders</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="w-1/3">{t("assessment.Topic")}</TableHead>
+                  <TableHead>{t("assessment.Status")}</TableHead>
+                  <TableHead>{t("assessment.Impact Score")}</TableHead>
+                  <TableHead>{t("assessment.Financial Score")}</TableHead>
+                  <TableHead>{t("assessment.Assigned Person")}</TableHead>
+                  <TableHead>{t("assessment.Stakeholders")}</TableHead>
+                  <TableHead className="text-right">{t("assessment.Actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -178,7 +179,7 @@ export default function IroTable({ assessmentData, assessmentId }) {
                             </Badge>
                           ))
                         ) : (
-                          <span className="text-gray-400">No stakeholders assigned</span>
+                          <span className="text-gray-400">{t("assessment.No stakeholders assigned")}</span>
                         )}
                       </div>
                     </TableCell>
@@ -205,18 +206,20 @@ export default function IroTable({ assessmentData, assessmentId }) {
 }
 
 function getStatus(item): AssessmentItem['status'] {
+  const t = useTranslations("materiality-com")
   if (item.status) return item.status as AssessmentItem['status'];
-  if (item.is_material === true) return 'Material';
-  if (item.materiality_type) return 'Under Review';
-  return 'To Be Assessed';
+  if (item.is_material === true) return t('assessment.Material') as AssessmentItem['status']
+  if (item.materiality_type) return t('assessment.Under Review') as AssessmentItem['status']
+  return t('assessment.To Be Assessed') as AssessmentItem['status'];
 }
 
 function getStatusKey(status: AssessmentItem['status']): keyof GroupedData[string]['stats'] {
+  const t = useTranslations("materiality-com")
   switch (status) {
-    case 'Material': return 'material';
-    case 'Not Material': return 'notMaterial';
-    case 'To Be Assessed': return 'toBeAssessed';
-    case 'Under Review': return 'underReview';
+    case 'Material': return t('assessment.material') as keyof GroupedData[string]['stats'];
+    case 'Not Material': return t('assessment.notMaterial') as keyof GroupedData[string]['stats'];
+    case 'To Be Assessed': return t('assessment.toBeAssessed') as keyof GroupedData[string]['stats'];
+    case 'Under Review': return t('assessment.underReview') as keyof GroupedData[string]['stats'];
   }
 }
 

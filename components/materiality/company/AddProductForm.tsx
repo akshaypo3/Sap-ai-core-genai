@@ -11,29 +11,31 @@ import { DialogClose } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addProductService } from '@/lib/company/action';
+import { useTranslations } from 'next-intl';
 
 export default function AddProductForm() {
+    const t = useTranslations("materiality-com")
     return (
         <form action={addProductService}>
             <div className="grid w-full items-center gap-1.5 mb-2">
-                <Label htmlFor="type">Product or Service?</Label>
+                <Label htmlFor="type">{t("company.Product or Service?")}</Label>
                 <Select name="type" required>
                     <SelectTrigger>
-                         <SelectValue placeholder="Select a type"/>
+                         <SelectValue placeholder={t("company.Select a type")}/>
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="Product">Product</SelectItem>
-                        <SelectItem value="Service">Service</SelectItem>
+                        <SelectItem value="Product">{t("company.Product")}</SelectItem>
+                        <SelectItem value="Service">{t("company.Service")}</SelectItem>
                      </SelectContent>
                 </Select>
                 
-                <Label htmlFor="name">Product/Service name</Label>
+                <Label htmlFor="name">{t("company.Product/Service name")}</Label>
                 <Input type="text" id="name" name="name" required/>
 
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">{t("company.Description")}</Label>
                 <Input type="text" id="description" name="description"/>
 
-                <Label htmlFor="turnover_percentage">Percentage of turnover (%)</Label>
+                <Label htmlFor="turnover_percentage">{t("company.Percentage of turnover (%)")}</Label>
                 <Input 
                     type="number" 
                     id="turnover_percentage" 
@@ -47,7 +49,7 @@ export default function AddProductForm() {
                     <div className="flex-auto">
                         <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                                Add Product/Service
+                                {t("company.Add Product/Service")}
                             </Button>
                         </DialogClose>
                     </div>

@@ -20,6 +20,7 @@ import {
 
 import { sendMail } from "@/lib/settings/smtp/action";
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslations } from 'use-intl';
 
 
 interface SMTPSettingsFormData {
@@ -31,7 +32,7 @@ interface SMTPSettingsFormData {
 }
 
 export default function SmtpSettings(smtpSettings:any){
-
+    const t = useTranslations("settings-com")
     console.log("Settings from props: ",smtpSettings);
 
     const settings = {settings:{
@@ -48,9 +49,9 @@ export default function SmtpSettings(smtpSettings:any){
 
         const emailDetails = {
             to: "kevin.renner@vaspp.com",
-            subject: "SMTP Test Mail",
-            text: "SMTP Test Mail",
-            html: "<b>SMTP Test successful</b>"
+            subject: t("SMTP Test Mail"),
+            text: t("SMTP Test Mail"),
+            html: t("<b>SMTP Test successful</b>")
         };
 
         try {
@@ -58,15 +59,15 @@ export default function SmtpSettings(smtpSettings:any){
             if(response==true){
                 toast({
                     variant: "success",
-                    title: "E-Mail sent successfully!",
-                    description: "Your settings seem to be correct!",
+                    title: t("E-Mail sent successfully!"),
+                    description: t("Your settings seem to be correct!"),
                   })
             }
             else{
                 toast({
                     variant: "destructive",
-                    title: "Something went wrong!",
-                    description: "Please check logs for detailed info!",
+                    title: t("Something went wrong!"),
+                    description: t("Please check logs for detailed info!"),
                   })
             };
         } catch (error) {
@@ -78,34 +79,34 @@ export default function SmtpSettings(smtpSettings:any){
         <>
             <form>
                 <div className="grid w-fullitems-center gap-1.5 mb-2">
-                    <Label htmlFor="host">SMTP Host</Label>
-                    <Input type="text" name="host" placeholder={settings?.settings.host || "Host"} defaultValue={settings?.settings.host || "Host"} />
-                    <Label htmlFor="username">Username</Label>
-                    <Input type="text" name="username" placeholder={settings?.settings.username || "User"} defaultValue={settings?.settings.username || "User"}/>
-                    <Label htmlFor="password">Password</Label>
-                    <Input type="password" name="password" placeholder="Password" defaultValue="Password"/>
+                    <Label htmlFor="host">{t("SMTP Host")}</Label>
+                    <Input type="text" name="host" placeholder={settings?.settings.host || t("Host")} defaultValue={settings?.settings.host || "Host"} />
+                    <Label htmlFor="username">{t("Username")}</Label>
+                    <Input type="text" name="username" placeholder={settings?.settings.username || t("User")} defaultValue={settings?.settings.username || "User"}/>
+                    <Label htmlFor="password">{t("Password")}</Label>
+                    <Input type="password" name="password" placeholder={t("Password")} defaultValue="Password"/>
                     <div className="flex">
                         <div>
-                            <Label htmlFor="ssl">Encryption</Label>
+                            <Label htmlFor="ssl">{t("Encryption")}</Label>
                             <Select name="ssl" defaultValue="true">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={settings?.settings.ssl || "ssl" } />
+                                    <SelectValue placeholder={settings?.settings.ssl || t("ssl") } />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="true">SSL/TLS</SelectItem>
-                                    <SelectItem value="false">None</SelectItem>
+                                    <SelectItem value="true">{t("SSL/TLS")}</SelectItem>
+                                    <SelectItem value="false">{t("None")}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="ml-5 w-full">
-                            <Label htmlFor="port">Port</Label>
+                            <Label htmlFor="port">{t("Port")}</Label>
                             <Input type="number" name="port" placeholder={settings?.settings.port || "587"} defaultValue={settings?.settings.port || "587"}/>
                         </div>
                     </div>
                     <div className="flex mt-5">
                         <div className="flex-auto">
                             <Button className="w-full bg-green-500 hover:bg-green-600" type="submit">
-                                <Mail className="mr-2 h-4 w-4" /> Save SMTP Settings
+                                <Mail className="mr-2 h-4 w-4" /> {t("Save SMTP Settings")}
                             </Button>
                         </div>
                     </div>
@@ -113,7 +114,7 @@ export default function SmtpSettings(smtpSettings:any){
             </form>
             <div className="flex">
                 <Button variant="outline" className="flex-auto" onClick={handleClick}>
-                    <Mail className="mr-2 h-4 w-4"/> Send Test Mail
+                    <Mail className="mr-2 h-4 w-4"/> {t("Send Test Mail")}
                 </Button>
             </div>
         </>

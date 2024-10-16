@@ -11,70 +11,74 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 export default function CreateValueForm({ goalId }: { goalId: string }) {
+  const t = useTranslations("goals");
+
   //const goal = await getGoalById(goalId);
-  const goal =goalId;
-  const goalId1= goal.goal_id
+  const goal = goalId;
+  const goalId1 = goal.goal_id;
 
   return (
     <form action={addValue} className="p-4">
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Input type="hidden" name="goalId" value ={goalId1} />
-        <Label htmlFor="target_value">Target Value</Label>
+        <Input type="hidden" name="goalId" value={goalId1} />
+
+        <Label htmlFor="target_value">{t("Target Value")}</Label>
         <Input
           type="number"
           name="target_value"
-          placeholder="Target Value"
+          placeholder={t("Target Value")}
           defaultValue={goal.target_value}
           required
         />
 
-        <Label htmlFor="baseline_value">Baseline Value</Label>
+        <Label htmlFor="baseline_value">{t("Baseline Value")}</Label>
         <Input
           type="number"
           name="baseline_value"
-          placeholder="Baseline Value"
+          placeholder={t("Baseline Value")}
           defaultValue={goal.baseline_value}
           required
         />
 
-        <Label htmlFor="current_value">Current Value</Label>
+        <Label htmlFor="current_value">{t("Current Value")}</Label>
         <Input
           type="number"
           name="current_value"
-          placeholder="Current Value"
+          placeholder={t("Current Value")}
           defaultValue={goal.current_value}
           required
         />
 
         <div className="w-full">
-          <Label htmlFor="status">Status</Label>
+          <Label htmlFor="status">{t("Status")}</Label>
           <Select name="status" defaultValue={goal.status ? "TRUE" : "FALSE"}>
             <SelectTrigger>
-              <SelectValue placeholder="Select Status" />
+              <SelectValue placeholder={t("Select Status")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="TRUE">Completed</SelectItem>
-              <SelectItem value="FALSE">In Progress</SelectItem>
+              <SelectItem value="TRUE">{t("Completed")}</SelectItem>
+              <SelectItem value="FALSE">{t("In Progress")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        <Label htmlFor="unit_of_measure">Unit of Measure</Label>
+        <Label htmlFor="unit_of_measure">{t("Unit of Measure")}</Label>
         <Input
           type="text"
           name="unit_of_measure"
-          placeholder="Unit of Measure"
+          placeholder={t("Unit of Measure")}
           defaultValue={goal.unit_of_measure}
           required
         />
 
-        <Label htmlFor="comments">Comments</Label>
+        <Label htmlFor="comments">{t("Comments")}</Label>
         <Input
           type="text"
           name="comments"
-          placeholder="Comments"
+          placeholder={t("Comments")}
           defaultValue={goal.comments}
           required
         />
@@ -83,7 +87,7 @@ export default function CreateValueForm({ goalId }: { goalId: string }) {
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                Add Values
+                {t("Add Values")}
               </Button>
             </DialogClose>
           </div>

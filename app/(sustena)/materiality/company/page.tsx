@@ -51,7 +51,7 @@ export default async function Home() {
   const products = await getProductsAndServices();
 
   return (
-    <ContentLayout title={t('title')}>
+    <ContentLayout title={t('company.title')}>
       <div className="bg-white dark:bg-neutral-950 rounded-md border p-3">
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-md">
           <h3 className="text-xl font-semibold">{t('company.title')}</h3>

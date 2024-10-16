@@ -10,22 +10,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { assignGroup } from "@/lib/settings/users/action";
+import { useTranslations } from "next-intl";
 
 export default async function GroupAssignUserForm({ id }: { id: string }) {
   const group_id = id;
   const groups = await getUserGroups();
   const otherUsers = await otherGroupusers(group_id);
   const groupAssign = assignGroup.bind(null, id);
+  const t = useTranslations("settings-com")
 
   return (
     <form action={groupAssign}>
       <div className="grid w-full items-center gap-1.5 mb-2">
         <div className="w-full">
           <div>
-            <Label htmlFor="userID">Users</Label>
+            <Label htmlFor="userID">{t("Users")}</Label>
             <Select name="userID">
               <SelectTrigger>
-                <SelectValue placeholder="Default User" />
+                <SelectValue placeholder={t("Default User")} />
               </SelectTrigger>
               <SelectContent>
                 {otherUsers?.some(
@@ -41,7 +43,7 @@ export default async function GroupAssignUserForm({ id }: { id: string }) {
                       : null
                   )
                 ) : (
-                  <div>No users available</div>
+                  <div>{t("No users available")}</div>
                 )}
               </SelectContent>
             </Select>
@@ -50,7 +52,7 @@ export default async function GroupAssignUserForm({ id }: { id: string }) {
 
         <div className="w-full">
           <div>
-            <Label htmlFor="roleID">Group</Label>
+            <Label htmlFor="roleID">{t("Group")}</Label>
             <Select name="roleID" defaultValue={group_id} disabled>
               <SelectTrigger className="bg-gray-200 border rounded-md p-2">
                 <SelectValue
@@ -58,7 +60,7 @@ export default async function GroupAssignUserForm({ id }: { id: string }) {
                   className="text-gray-700 font-semibold"
                   placeholder={
                     groups?.find((group) => group.id === group_id)?.role ||
-                    "Select Role"
+                   t("Select Role")
                   }
                 />
               </SelectTrigger>
@@ -81,7 +83,7 @@ export default async function GroupAssignUserForm({ id }: { id: string }) {
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                Add User to Group
+                {t("Add User to Group")}
               </Button>
             </DialogClose>
           </div>
