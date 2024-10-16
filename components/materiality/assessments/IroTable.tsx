@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+//import { useTranslations } from "next-intl";
 import {
   Avatar,
   AvatarFallback,
@@ -163,7 +164,7 @@ export default function IroTable({ assessmentData, assessmentId }) {
     );
     return !hasOtherIro;
   };
-
+  //const t = useTranslations("materiality-com")
   return (
     <>
       {/* <AIAssessmentButton assessmentId={assessmentId} /> */}

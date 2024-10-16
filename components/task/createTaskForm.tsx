@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getTranslations } from "next-intl/server";
 
 export default async function AddTaskForm({ createdId }: { createdId: any }) {
   const users = await getUserProfiles();
@@ -19,44 +20,44 @@ export default async function AddTaskForm({ createdId }: { createdId: any }) {
   const extractedCreatedId = createdIdObj.createdId;
 
   const createdByUser = users?.find((user) => user.id === extractedCreatedId);
-
+  const t = await getTranslations("tasks-com")
   return (
     <form action={createTask}>
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Label htmlFor="title">Task Title</Label>
-        <Input type="text" name="title" placeholder="Task Title" required />
+        <Label htmlFor="title">{t("Task Title")}</Label>
+        <Input type="text" name="title" placeholder= {t("Task Title")} required />
 
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">{t("Description")}</Label>
         <Input
           type="text"
           name="description"
-          placeholder="Task Description"
+          placeholder={t("Task Description")}
           required
         />
 
         <div className="w-full">
-          <Label htmlFor="assigned_to">Assigned To</Label>
+          <Label htmlFor="assigned_to">{t("Assigned To")}</Label>
           <Select name="assigned_to">
             <SelectTrigger>
-              <SelectValue placeholder="Select user" />
+              <SelectValue placeholder={t("Select user")} />
             </SelectTrigger>
             <SelectContent>
               {users?.map((user) => (
                 <SelectItem key={user.id} value={user.id}>
-                  {user.username || "NA"}
+                  {user.username || t("NA")}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        <Label htmlFor="created_by">Created By</Label>
+        <Label htmlFor="created_by">{t("Created By")}</Label>
         {createdByUser ? (
           <>
           <Input
             type="text"
             name="created_by_display"
-            defaultValue={createdByUser.username || "Unknown"}
+            defaultValue={createdByUser.username || t("Unknown")}
             readOnly
           />
 
@@ -67,27 +68,27 @@ export default async function AddTaskForm({ createdId }: { createdId: any }) {
         />
         </>
         ) : (
-          <p>User not found</p>
+          <p>{t("User not found")}</p>
         )}
 
         <Input type="hidden" name="status" value="TODO" />
 
-        <Label htmlFor="start_date">Start Date</Label>
+        <Label htmlFor="start_date">{t("Start Date")}</Label>
         <Input
           type="date"
           name="start_date"
-          placeholder="Start Date"
+          placeholder={t("Start Date")}
           required
         />
 
-        <Label htmlFor="due_date">Due Date</Label>
-        <Input type="date" name="due_date" placeholder="Due Date" required />
+        <Label htmlFor="due_date">{t("Due Date")}</Label>
+        <Input type="date" name="due_date" placeholder={t("Due Date")} required />
 
         <div className="flex mt-5">
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                Add Task
+                {t("Add Task")}
               </Button>
             </DialogClose>
           </div>

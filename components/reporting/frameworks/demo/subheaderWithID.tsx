@@ -13,6 +13,7 @@ import {
   } from "@/components/ui/breadcrumb"
   import { Slash } from "lucide-react"
   import { MoveOnButton,MoveOnButton2 } from "@/components/reporting/frameworks/demo/buttons";
+import { useTranslations } from "next-intl";
 
 export default function SubheaderFrameworks() {
   
@@ -21,29 +22,30 @@ export default function SubheaderFrameworks() {
   const currentFramework = id.toUpperCase().replace(/(ESRS)(\w+)/, '$1 $2');
   
   console.log(currentFramework); // For debugging purposes
+  const t = useTranslations("reporting-com")
       
 
   return (
     <>
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Frameworks</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("Frameworks")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/internal/">Dashboard</BreadcrumbLink>
+                    <BreadcrumbLink href="/internal/">{t("Dashboard")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dev/reporting/frameworks">Frameworks Overview</BreadcrumbLink>
+                    <BreadcrumbLink href="/dev/reporting/frameworks">{t("Frameworks Overview")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dev/reporting/frameworks/esrs">ESRS</BreadcrumbLink>
+                    <BreadcrumbLink href="/dev/reporting/frameworks/esrs">{t("ESRS")}</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />

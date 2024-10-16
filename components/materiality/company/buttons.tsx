@@ -11,16 +11,19 @@ import {
   import AddLocationFormAssessment from "@/components/materiality/assessments/AddLocationFormAssessment";
   import AddProductForm from "@/components/materiality/company/AddProductForm";
   import { deleteCompanyLocationWithId } from "@/lib/company/action";
+  import { useTranslations } from 'next-intl';
+
 
 export function AddLocationButton(){
+  const t = useTranslations("materiality-com")
     return (
         <Dialog>
-      <DialogTrigger><Button>Add Location</Button></DialogTrigger>
+      <DialogTrigger><Button>{t("company.Add Location")}</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Location</DialogTitle>
+          <DialogTitle>{t("company.Add Location")}</DialogTitle>
           <DialogDescription>
-            Add all Locations of your company around the world.
+            {t("company.Add all Locations of your company around the world.")}
           </DialogDescription>
         </DialogHeader>
         <AddLocationForm/>
@@ -49,14 +52,16 @@ export function AddLocationButtonAssessment(){
 }
 
 export function AddProductButton(){
+  const t = useTranslations("materiality-com")
+
     return (
         <Dialog>
-      <DialogTrigger><Button>Add Product/Service</Button></DialogTrigger>
+      <DialogTrigger><Button>{t("company.Add Product/Service")}</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Product/Service</DialogTitle>
+          <DialogTitle>{t("company.Add Product/Service")}</DialogTitle>
           <DialogDescription>
-            Add the products and services accounting for 90% of the turnover
+            {t("company.Add the products and services accounting for 90% of the turnover")}
           </DialogDescription>
         </DialogHeader>
         <AddProductForm/>
@@ -78,43 +83,44 @@ export function DeleteLocationButton({ location }) {
       // Optionally, you can show an error message to the user here
     }
   };
+  const t = useTranslations("materiality-com")
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        <Button variant="destructive">{t("company.Delete")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Company Location</DialogTitle>
+          <DialogTitle>{t("company.Delete Company Location")}</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete the following location?
+            {t("company.Are you sure you want to delete the following location?")}
           </DialogDescription>
         </DialogHeader>
         <div className="text-sm">
           <div className="font-bold">{location.name}</div>
           <div>
-            <span className="font-bold">Address: </span>
+            <span className="font-bold">{t("company.Address:")}</span>
             {location.address}
           </div>
           <div>
-            <span className="font-bold">Postal Code: </span>
+            <span className="font-bold">{t("company.Postal Code:")}</span>
             {location.postalcode}
           </div>
           <div>
-            <span className="font-bold">City: </span>
+            <span className="font-bold">{t("company.City:")}</span>
             {location.city}
           </div>
           <div>
-            <span className="font-bold">Country: </span>
+            <span className="font-bold">{t("company.Country:")}</span>
             {location.country}
           </div>
         </div>
         <div className="flex justify-end space-x-2 mt-4">
           <DialogTrigger asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">{t("company.Cancel")}</Button>
           </DialogTrigger>
-          <Button variant="destructive" onClick={handleDelete}>Delete Location</Button>
+          <Button variant="destructive" onClick={handleDelete}>{t("company.Delete Location")}</Button>
         </div>
       </DialogContent>
     </Dialog>   

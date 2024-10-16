@@ -1,4 +1,7 @@
+import { useTranslations } from "next-intl";
+
 export default function DeployButton() {
+  const t = useTranslations("ui")
   return (
     <a
       className="py-2 px-3 flex rounded-md no-underline hover:bg-btn-background-hover border"
@@ -17,7 +20,7 @@ export default function DeployButton() {
           fill="currentColor"
         ></path>
       </svg>
-      Deploy to Vercel
+      {t("Deploy to Vercel")}
     </a>
   );
 }

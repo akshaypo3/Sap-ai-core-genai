@@ -18,8 +18,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { useTranslations } from "use-intl"
 
-export const description = "A radial chart with text"
+export const description = (t) => t("A radial chart with text")
 
 const chartData = [
   { browser: "safari", visitors: 27, fill: "var(--color-safari)" },
@@ -36,11 +37,13 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function ChartQuestionCompletion() {
+  const t = useTranslations("reporting-com")
+  const d = description(t)
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Questions answered</CardTitle>
-        <CardDescription>Report 2023</CardDescription>
+        <CardTitle>{t("Questions answered")}</CardTitle>
+        <CardDescription>{t("Report 2023")}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -85,7 +88,7 @@ export default function ChartQuestionCompletion() {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Questions
+                          {t("Questions")}
                         </tspan>
                       </text>
                     )
@@ -101,7 +104,7 @@ export default function ChartQuestionCompletion() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}
         <div className="leading-none text-muted-foreground">
-          Number of mandatory questions completed for compliance
+          {t("Number of mandatory questions completed for compliance")}
         </div>
       </CardFooter>
     </Card>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil, ChevronDown, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type User = {
   id: string;
@@ -34,12 +35,19 @@ const defaultUser: User = {
   avatar: '/avatars/kevin.png',
 };
 
-const sectionOrder = ['Section A: General Disclosures', 'Section B: Management and Process Disclosures', 'Section C: Principle-wise Performance Disclosure'];
+// const sectionOrder = ['Section A: General Disclosures', 'Section B: Management and Process Disclosures', 'Section C: Principle-wise Performance Disclosure'];
 
 const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const [expandedPrinciples, setExpandedPrinciples] = useState<string[]>([]);
+  const t = useTranslations("demo")
 
+  const sectionOrder = [
+    t("SectionAGeneralDisclosures"),
+    t("SectionBManagementAndProcessDisclosures"),
+    t("SectionCPrincipleWisePerformanceDisclosure")
+  ];
+  
   const groupedData: GroupedData = brsrData.reduce((acc, item) => {
     if (!acc[item.section]) {
       acc[item.section] = {};
@@ -112,10 +120,10 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="w-1/2">Question</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead>Assigned To</TableHead>
-                          <TableHead className="text-right">Actions</TableHead>
+                          <TableHead className="w-1/2">{t("Question")}</TableHead>
+                          <TableHead>{t("Status")}</TableHead>
+                          <TableHead>{t("Assigned To")}</TableHead>
+                          <TableHead className="text-right">{t("Actions")}</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>

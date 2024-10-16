@@ -12,21 +12,22 @@ import {
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
   import { Slash } from "lucide-react"
+import { useTranslations } from "next-intl";
   // import { AddEventButton } from "@/app/ui/buttons";
 
 export default function SubheaderDashboard() {
 
     const pathName = usePathname();
-
+    const t = useTranslations("ui")
   return (
     <>
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="font-bold text-2xl mb-2">Dashboard</h1>
+          <h1 className="font-bold text-2xl mb-2">{t("Dashboard")}</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/internal/">Home</BreadcrumbLink>
+                    <BreadcrumbLink href="/internal/">{t("Home")}</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>

@@ -6,6 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { createClient } from "@/utils/supabase/server";
 import { ModeToggle } from "@/components/ThemeToggle";
+import { getTranslations } from 'next-intl/server';
 
 async function Header() {
   const supabase = createClient();
@@ -21,7 +22,7 @@ async function Header() {
     await supabase.auth.signOut();
     return redirect("/login");
   };
-
+  const t = await getTranslations("ui")
   return (
     <>
     <div className="bg-white dark:bg-black h-16 w-full flex justify-center border-b-2 mb-10 border-green-500">
@@ -40,30 +41,30 @@ async function Header() {
             width={250}
             alt="Logo of VASPP Reporting Hub"
             className="hidden dark:block"/>
-          <span className="sr-only">VASPP Technologies</span>
+          <span className="sr-only">{t("VASPP Technologies")}</span>
         </Link>
       </div>
       {user ? (
         <>
         <nav className="flex items-center gap-5">
         <Link href="/dev/reporting/" className="text-sm font-medium hover:underline" prefetch={false}>
-           Dashboard
+           {t("Dashboard")}
          </Link>
          <Link href="/dev/reporting/" className="text-sm font-medium hover:underline" prefetch={false}>
-           Materiality Assesments
+           {t("Materiality Assesments")}
          </Link>
          <Link href="/dev/reporting/" className="text-sm font-medium hover:underline" prefetch={false}>
-           Frameworks
+           {t("Frameworks")}
          </Link>
          <Link href="/dev/reporting/" className="text-sm font-medium hover:underline" prefetch={false}>
-           Reports
+           {t("Reports")}
          </Link>
          <Link href="/dev/reporting/" className="text-sm font-medium hover:underline" prefetch={false}>
-           Data Management
+           {t("Data Management")}
          </Link>
      </nav>
      <ModeToggle/>
-     <div className="flex">Hey, {user.email}!</div>
+     <div className="flex">{t("Hey")} {user.email}!</div>
      <DropdownMenu>
              <DropdownMenuTrigger asChild>
                <Avatar className="h-9 w-9">
@@ -73,12 +74,12 @@ async function Header() {
              </DropdownMenuTrigger>
              <DropdownMenuContent>
                <DropdownMenuItem>
-                   <Link href="/internal/admin">Admin</Link>
+                   <Link href="/internal/admin">{t("Admin")}</Link>
                </DropdownMenuItem>
                <DropdownMenuItem>
                <form action={signOut}>
                  <button>
-                   Logout
+                   {t("Logout")}
                  </button>
                </form>
                </DropdownMenuItem>

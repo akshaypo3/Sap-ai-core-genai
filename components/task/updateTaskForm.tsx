@@ -11,9 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getTranslations } from "next-intl/server";
 
 export default async function UpdateTaskForm({ task }: any) {
   const users = await getUserProfiles();
+  const t = await getTranslations("tasks-com")
 
   const assignedUser = users.find((user) => user.id === task.assigned_to.id);
 
@@ -21,26 +23,26 @@ export default async function UpdateTaskForm({ task }: any) {
     <form action={updateTask}>
       <input type="hidden" name="id" value={task.id} />
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Label htmlFor="title">Task Title</Label>
+        <Label htmlFor="title">{t("Task Title")}</Label>
         <Input
           type="text"
           name="title"
           defaultValue={task.title}
-          placeholder="Task Title"
+          placeholder={t("Task Title")}
           required
         />
 
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">{t("Description")}</Label>
         <Input
           type="text"
           name="description"
           defaultValue={task.description}
-          placeholder="Task Description"
+          placeholder={t("Task Description")}
           required
         />
 
         <div className="w-full">
-          <Label htmlFor="assigned_to">Assigned To</Label>
+          <Label htmlFor="assigned_to">{t("Assigned To")}</Label>
           <Select
             name="assigned_to"
             defaultValue={assignedUser ? assignedUser.id : "Select User"}
@@ -51,29 +53,29 @@ export default async function UpdateTaskForm({ task }: any) {
             <SelectContent>
               {users.map((user) => (
                 <SelectItem key={user.id} value={user.id}>
-                  {user.username || "NA"}
+                  {user.username || t("NA")}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        <Label htmlFor="status">Status</Label>
+        <Label htmlFor="status">{t("Status")}</Label>
         <Select name="status" defaultValue={task.status}>
           <SelectTrigger>
-            <SelectValue placeholder="Select status" />
+            <SelectValue placeholder={t("Select status")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="TODO">TODO</SelectItem>
-            <SelectItem value="IN_PROGRESS">IN PROGRESS</SelectItem>
+            <SelectItem value="TODO">{t("TODO")}</SelectItem>
+            <SelectItem value="IN_PROGRESS">{t("IN PROGRESS")}</SelectItem>
             <SelectItem value="NEEDS_CLARIFICATION">
-              NEEDS CLARIFICATION
+              {t("NEEDS CLARIFICATION")}
             </SelectItem>
-            <SelectItem value="DONE">DONE</SelectItem>
+            <SelectItem value="DONE">{t("DONE")}</SelectItem>
           </SelectContent>
         </Select>
 
-        <Label htmlFor="start_date">Start Date</Label>
+        <Label htmlFor="start_date">{t("Start Date")}</Label>
         <Input
           type="date"
           name="start_date"
@@ -81,7 +83,7 @@ export default async function UpdateTaskForm({ task }: any) {
           required
         />
 
-        <Label htmlFor="due_date">Due Date</Label>
+        <Label htmlFor="due_date">{t("Due Date")}</Label>
         <Input
           type="date"
           name="due_date"
@@ -93,7 +95,7 @@ export default async function UpdateTaskForm({ task }: any) {
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                Update Task
+                {t("Update Task")}
               </Button>
             </DialogClose>
           </div>
