@@ -13,7 +13,7 @@ import {
   } from "@/components/ui/breadcrumb"
   import { Slash } from "lucide-react"
   import { AddEventButton } from "@/app/ui/buttons";
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 export default function SubheaderFrameworks() {
 

@@ -18,7 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 
 export const description = (t) => t("A radial chart with text")
 

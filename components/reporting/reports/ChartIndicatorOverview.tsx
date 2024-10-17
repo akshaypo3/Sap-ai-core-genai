@@ -19,7 +19,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 
 export const description = (t) => t("A stacked bar chart with a legend")
 

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge"
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
   const t = useTranslations("ui")
@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <p className="text-sm text-gray-500 dark:text-gray-400">{t("Version 0.1.9")}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{t("Version 0_1_9")}</p>
         {/* <Link
           href="#"
           className="inline-flex h-8 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"

@@ -54,28 +54,28 @@ export default function Component() {
                 <p>
                   {t("Based on documents IT_Policy_Manual.pdf, System_Architecture_Guide.pdf, and Network_Security_Protocols.pdf from datasource VASPP BREVO - DMS - ID 123e4567-e89b-12d3-a456-426614174000, this is a possible answer:")}
                 </p>
-                <h4 className="font-semibold">{t("1. Issue Tracking System:")}</h4>
+                <h4 className="font-semibold">{t("1_Issue Tracking System:")}</h4>
                 <p>
-                  <strong>{t("IssueTrackPro")}</strong>{t("uses a centralized digital platform where all issues are logged, categorized, and assigned to the appropriate teams for resolution. Each issue is given a unique identifier for easy reference and follow-up.")}
+                  <strong>{t("IssueTrackPro")}</strong>{t("uses a centralized digital platform where all issues are logged, categorized, and assigned to the appropriate teams for resolution_Each issue is given a unique identifier for easy reference and follow-up")}
                 </p>
-                <h4 className="font-semibold">t{t("2. Monitoring and Reporting:")}</h4>
+                <h4 className="font-semibold">t{t("2_Monitoring and Reporting:")}</h4>
                 <p>
-                  {t("Regular monitoring processes are established to review the status of each issue. This includes automated alerts for pending and overdue issues. Detailed reports are generated weekly and monthly to provide insights into issue resolution times, trends, and potential areas for improvement.")}
+                  {t("Regular monitoring processes are established to review the status of each issue_This includes automated alerts for pending and overdue issues_Detailed reports are generated weekly and monthly to provide insights into issue resolution times, trends, and potential areas for improvement")}
                 </p>
-                <h4 className="font-semibold">{t("3. Effectiveness of Channels:")}</h4>
+                <h4 className="font-semibold">{t("3_Effectiveness of Channels:")}</h4>
                 <p>
-                  {t("To ensure the effectiveness of our issue resolution channels,")} <strong>{t("IssueTrackPro")}</strong> {t("regularly collects feedback from stakeholders through surveys and direct feedback mechanisms. This feedback is analyzed to identify any gaps in the process, and necessary improvements are implemented.")}
+                  {t("To ensure the effectiveness of our issue resolution channels,")} <strong>{t("IssueTrackPro")}</strong> {t("regularly collects feedback from stakeholders through surveys and direct feedback mechanisms_This feedback is analyzed to identify any gaps in the process, and necessary improvements are implemented")}
                 </p>
-                <h4 className="font-semibold">{t("4. Continuous Improvement:")}</h4>
+                <h4 className="font-semibold">{t("4_Continuous Improvement:")}</h4>
                 <p>
-                 {t(" The system is designed for continuous improvement, incorporating feedback loops and regular audits to assess the performance of issue resolution channels. Training sessions are conducted for employees to keep them updated on best practices and new features of")} <strong>{t("IssueTrackPro")}</strong>.
+                 {t("The system is designed for continuous improvement, incorporating feedback loops and regular audits to assess the performance of issue resolution channels_Training sessions are conducted for employees to keep them updated on best practices and new features of")} <strong>{t("IssueTrackPro")}</strong>.
                 </p>
-                <h4 className="font-semibold">{t("5. Transparency and Accountability:")}</h4>
+                <h4 className="font-semibold">{t("5_Transparency and Accountability:")}</h4>
                 <p>
-                  {t("Transparency is maintained by providing stakeholders with access to issue status and resolution updates through")} <strong>{t("IssueTrackPro.")}</strong> {t("Accountability is enforced through clear assignment of responsibilities and regular performance reviews.")}
+                  {t("Transparency is maintained by providing stakeholders with access to issue status and resolution updates through")} <strong>{t("IssueTrackPro2")}</strong> {t("Accountability is enforced through clear assignment of responsibilities and regular performance reviews")}
                 </p>
                 <p>
-                  {t("By integrating these measures,")} <strong>{t("IssueTrackPro")}</strong> {t("ensures that all issues are addressed promptly and effectively, maintaining high standards of service and stakeholder satisfaction.")}
+                  {t("By integrating these measures,")} <strong>{t("IssueTrackPro")}</strong> {t("ensures that all issues are addressed promptly and effectively, maintaining high standards of service and stakeholder satisfaction")}
                 </p>
               </div>t
             </div>

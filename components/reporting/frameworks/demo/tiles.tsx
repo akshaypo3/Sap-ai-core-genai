@@ -20,7 +20,7 @@ export default function Component() {
       </div>
       <div className="px-6 pt-4 pb-6 space-y-2">
         <h3 className="text-lg font-semibold">{t("ESRS")}</h3>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">{t("The European Sustainability Reporting Standards provide a framework for companies to report on their sustainability performance in compliance with EU regulations.")}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">{t("The European Sustainability Reporting Standards provide a framework for companies to report on their sustainability performance in compliance with EU regulations")}</p>
       </div>
       <CardContent className="p-6 space-y-4">
         <div className="grid gap-3 mb-4">
@@ -106,7 +106,7 @@ export default function Component() {
       </div>
       <div className="px-6 pt-4 pb-6 space-y-2">
         <h3 className="text-lg font-semibold">{t("GRI")}</h3>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">{t("The Global Reporting Initiative offers international standards for sustainability reporting, enabling organizations to communicate their impacts.")}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">{t("The Global Reporting Initiative offers international standards for sustainability reporting, enabling organizations to communicate their impacts")}</p>
       </div>
       <CardContent className="p-6 space-y-4">
         <div className="grid gap-3">

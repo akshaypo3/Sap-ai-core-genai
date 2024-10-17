@@ -38,7 +38,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -150,7 +150,7 @@ console.log(sort);
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {t("No results.")}
+                  {t("No results")}
                 </TableCell>
               </TableRow>
             )}

@@ -10,7 +10,7 @@ import {
   } from "@/components/ui/table"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
   
 
 export default function ReportsTable(){
@@ -19,7 +19,7 @@ export default function ReportsTable(){
         <>
         <div className="mt-10 px-5 py-3 bg-white rounded-md border">
             <Table>
-                <TableCaption>{t("A list of your reports in progress.")}</TableCaption>
+                <TableCaption>{t("A list of your reports in progress")}</TableCaption>
                 <TableHeader>
                     <TableRow>
                     <TableHead className="w-[100px]">{t("FY")}</TableHead>

@@ -82,18 +82,18 @@ export default function Component() {
                 </table>
                 <h4 className="font-semibold">{t("Role Distribution:")}</h4>
                 <p>
-                  {t("These employees play critical roles in various departments, including IT, project management, human resources, and administrative support. Their contributions are essential to maintaining the efficiency and productivity of our operations.")}
+                  {t("These employees play critical roles in various departments, including IT, project management, human resources, and administrative support_Their contributions are essential to maintaining the efficiency and productivity of our operations")}
                 </p>
                 <h4 className="font-semibold">{t("Tracking and Monitoring:")}</h4>
                 <p>
-                  {t("We utilize the")} <strong>{t("EmployeeManager")}</strong> {t("system to track and monitor the engagement and performance of employees. This system ensures that all employees are adequately onboarded, their roles are clearly defined, and their contributions are regularly reviewed.")}
+                  {t("We utilize the")} <strong>{t("EmployeeManager")}</strong> {t("system to track and monitor the engagement and performance of employees_This system ensures that all employees are adequately onboarded, their roles are clearly defined, and their contributions are regularly reviewed")}
                 </p>
                 <h4 className="font-semibold">{t("Compliance and Reporting:")}</h4>
                 <p>
-                  {t("Our organization adheres to strict compliance guidelines to ensure that the use of employees is transparent and aligns with regulatory requirements. Regular reports are generated to provide insights into the utilization and performance of employees.")}
+                  {t("Our organization adheres to strict compliance guidelines to ensure that the use of employees is transparent and aligns with regulatory requirements_Regular reports are generated to provide insights into the utilization and performance of employees")}
                 </p>
                 <p>
-                  {t("By maintaining detailed records and implementing robust monitoring systems, we ensure that the management of employees in our workforce is effective and compliant with industry standards.")}
+                  {t("By maintaining detailed records and implementing robust monitoring systems, we ensure that the management of employees in our workforce is effective and compliant with industry standards")}
                 </p>
               </div>
             </div>

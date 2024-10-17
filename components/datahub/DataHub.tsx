@@ -15,7 +15,7 @@ import '@xyflow/react/dist/style.css';
 import Image from 'next/image';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 const CustomNode1 = ({ data }) => {
   const t = useTranslations("datahub")

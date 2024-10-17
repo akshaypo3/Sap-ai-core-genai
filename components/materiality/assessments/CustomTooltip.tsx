@@ -1,6 +1,6 @@
 import React from 'react';
 import { TooltipProps } from 'recharts';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 // Custom Tooltip component
 const CustomTooltip: React.FC<TooltipProps<any, any>> = ({ active, payload }) => {

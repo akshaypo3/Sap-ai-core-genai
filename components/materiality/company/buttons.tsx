@@ -23,7 +23,7 @@ export function AddLocationButton(){
         <DialogHeader>
           <DialogTitle>{t("company.Add Location")}</DialogTitle>
           <DialogDescription>
-            {t("company.Add all Locations of your company around the world.")}
+            {t("company.Add all Locations of your company around the world")}
           </DialogDescription>
         </DialogHeader>
         <AddLocationForm/>

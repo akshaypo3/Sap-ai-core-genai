@@ -15,7 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 // Register ChartJS components
 ChartJS.register(

@@ -8,7 +8,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 
 export default function Component() {
   const t = useTranslations("reporting-com")

@@ -17,7 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 
 // export const description = "A line chart with a label"
 export const description = (t) => t("A line chart with a label")
@@ -97,7 +97,7 @@ export default function ChartGoalCompletion() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          {t("Trending up by 5.2% this year")} <TrendingUp className="h-4 w-4" />
+          {t("Trending up by 5_2% this year")} <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           {t("Total goal progress")}

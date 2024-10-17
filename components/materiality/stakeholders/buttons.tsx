@@ -22,7 +22,7 @@ import { Brain } from "lucide-react";
 import CreateStakeholderForm from "@/components/materiality/stakeholders/CreateSteakholderForm";
 import CreateStakeholderGroupForm from "@/components/materiality/stakeholders/CreateSteakholderGroup";
 import { deleteStakeholder } from "@/lib/stakeholders/action";
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 export async function AddStakeholderButton() {
 const t = useTranslations("materiality-com")
@@ -55,7 +55,7 @@ export async function AddStakeholderGroupButton() {
         <DialogHeader>
           <DialogTitle>{t("stakeholders.Add Stakeholder Group")}</DialogTitle>
           <DialogDescription>
-            {t("stakeholders.If certain groups are missing, you can add them here. Just give them a name and a description.")}
+            {t("stakeholders.If certain groups are missing, you can add them here_Just give them a name and a description")}
           </DialogDescription>
         </DialogHeader>
         <CreateStakeholderGroupForm />
@@ -75,7 +75,7 @@ export async function AddLocation() {
         <DialogHeader>
           <DialogTitle>{t("stakeholders.Uncaught error")}</DialogTitle>
           <DialogDescription>
-            {t("stakeholders.Please contact your Sustena administrator for more details.")}
+            {t("stakeholders.Please contact your Sustena administrator for more details")}
           </DialogDescription>
         </DialogHeader>
         {/* <CreateStakeholderGroupForm/> */}

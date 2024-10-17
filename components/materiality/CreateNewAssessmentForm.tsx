@@ -19,7 +19,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import { getFrameworks } from "@/lib/assessments/data";
 import { createAssessment } from "@/lib/assessments/action";
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 
 interface NewStakeholderFormData {
     name: string;

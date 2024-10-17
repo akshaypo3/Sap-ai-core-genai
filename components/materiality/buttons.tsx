@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { Trash2 } from "lucide-react"
 import CreateAssessmentForm from "@/components/materiality/CreateNewAssessmentForm"
-import { useTranslations } from "use-intl"
+import { useTranslations } from "next-intl"
 // import CreateStakeholderForm from "@/components/materiality/stakeholders/CreateSteakholderForm";
 // import CreateStakeholderGroupForm from "@/components/materiality/stakeholders/CreateSteakholderGroup";
 // import { deleteStakeholder } from "@/lib/stakeholders/action";

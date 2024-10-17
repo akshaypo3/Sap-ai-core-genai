@@ -1,5 +1,5 @@
 import { ModeToggle } from "@/components/ThemeToggle";
-import { useTranslations } from "use-intl";
+import { useTranslations } from "next-intl";
 
 export function NavbarLogin() {
   const t = useTranslations("sustena-layout")
