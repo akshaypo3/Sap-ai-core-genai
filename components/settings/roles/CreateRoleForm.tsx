@@ -18,7 +18,7 @@ import {
   } from "@/components/ui/popover"  
 import { CircleHelp } from "lucide-react";
 import { createRole } from "@/lib/settings/users/action";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 interface NewStakeholderGroupFormData {
     role: string;
@@ -28,7 +28,7 @@ interface NewStakeholderGroupFormData {
 
 
 export default async function CreateRoleForm(){
-    const t = useTranslations("settings-com")
+    const t = await getTranslations("settings-com")
     return (
         <form action={createRole}>
                 <div className="grid w-full items-center gap-1.5 mb-2">

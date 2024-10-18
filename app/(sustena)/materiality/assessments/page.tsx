@@ -54,7 +54,7 @@ export default async function Home() {
     return { ...assessment, stats };
   }));
 
-  const t = await getTranslations('materiality'); // Fetch translations for this component
+  const t = await getTranslations('materiality'); 
 
   return (
     <ContentLayout title={t('assessments.title')}>

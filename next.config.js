@@ -15,6 +15,12 @@ const nextConfig = {
       },
     typescript: {
         ignoreBuildErrors: true
+    },
+    reactStrictMode: true,
+    logging: {
+      fetches: {
+        fullUrl: true,
+      },
     }
 };
 

@@ -2,10 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { DeleteUserButton } from "@/components/settings/users/DeleteUserButton";
+import EditUserButton from "@/components/settings/users/editUserButton";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl'; // Import the useTranslations hook
-//import EditUserButton from "../settings/users/editUserButton";
+
 
 export type User = {
     userId: string;
@@ -85,14 +86,14 @@ export const columns_user: ColumnDef<User>[] = [
           )
         },
     },
-    {
-        accessorKey: "userId",
-        header: () => {
-            const t = useTranslations("table");
-            return t("uid");
-        },
-        cell: ({ row }) => <span>{row.getValue("userId")}</span>,
-    },
+    // {
+    //     accessorKey: "userId",
+    //     header: () => {
+    //         const t = useTranslations("table");
+    //         return t("uid");
+    //     },
+    //     cell: ({ row }) => <span>{row.getValue("userId")}</span>,
+    // },
     {
       accessorKey: "action",
         header: () => {
@@ -101,20 +102,9 @@ export const columns_user: ColumnDef<User>[] = [
         },
         cell: ({ row }) => (
             <div className="flex justify-center space-x-2">
+                <EditUserButton id={row.original} />
                 <DeleteUserButton id={row.original} />
             </div>
         ),
-    },
-    {
-      accessorKey: "edit",
-        header: () => {
-            const t = useTranslations("table");
-            return t("edit"); 
-        },
-        cell: ({ row }) => (
-            <div className="flex justify-center space-x-2">
-                {/* <EditUserButton id={row.original} /> */}
-            </div>
-        ),
-    },
+    }
 ];

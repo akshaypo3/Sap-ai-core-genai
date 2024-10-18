@@ -14,6 +14,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"; // Ensure your select components are imported
 import { editUserRoleGroup } from '@/lib/settings/users/action';
+import { useTranslations } from "next-intl";
 
 export default function EditUserButton({ id }: { id: { userId: string; allGroups: any[]; allRoles: any[]; group: { id: string; group: string }; role: { id: string; role: string } } }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,13 +37,12 @@ export default function EditUserButton({ id }: { id: { userId: string; allGroups
     });
   };
 
- //const t = await getTranslations("settings-com")
+ const t = useTranslations("settings-com")
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          type="button"
-          className="px-2 bg-green-600 h-7 hover:bg-green-900 rounded-md"
+          className="px-2 bg-green-600 h-7 hover:bg-green-900 dark:bg-green-500 dark:hover:bg-green-600 rounded-md"
         >
           <Pencil className="w-4 text-white" />
         </Button>

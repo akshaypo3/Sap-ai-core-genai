@@ -19,13 +19,14 @@ import DeleteRoleForm from "@/components/settings/roles/DeleteRoleForm";
 import { idText } from "typescript";
 import RoleAssignUserForm from "@/components/settings/roles/assignUserForm";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export async function AddRoleButton() {
-  const t = useTranslations("settings-com")
+  const t = await getTranslations("settings-com")
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add Role")}</Button>
+        <Button>{t("Add Role")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
