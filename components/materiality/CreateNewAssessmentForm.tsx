@@ -19,7 +19,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import { getFrameworks } from "@/lib/assessments/data";
 import { createAssessment } from "@/lib/assessments/action";
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 
 interface NewStakeholderFormData {
     name: string;
@@ -30,7 +30,7 @@ interface NewStakeholderFormData {
 
 
 export default async function CreateAssessmentForm(){
-    const t = useTranslations("materiality-com")
+    const t = await getTranslations("materiality-com")
     const frameworks = await getFrameworks();
     return (
         <form action={createAssessment}>

@@ -1316,6 +1316,10 @@
       "Uncaught Error": "Uncaught Error",
       "Please contact your Sustena administrator for more details": "Please contact your Sustena administrator for more details.",
       "Edit": "Edit"
-    }
+    },
+    "Roles": "Roles",
+    "Groups": "Groups"
   }
 }
+
+

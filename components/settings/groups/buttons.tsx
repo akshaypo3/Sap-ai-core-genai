@@ -22,7 +22,7 @@ export function AddGroupButton() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add Group")}</Button>
+        <Button>{t("Add Group")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

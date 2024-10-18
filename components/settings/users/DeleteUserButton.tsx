@@ -32,8 +32,7 @@ export function DeleteUserButton({ id }: { id: string }) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          type="button"
-          className="px-2 bg-red-600 h-7 hover:bg-red-900 rounded-md"
+          className="px-2 h-7 rounded-md bg-red-600 hover:bg-red-700 dark:bg-red-800 dark:hover:bg-red-900"
         >
           <Trash2 className="w-4 text-white" />
         </Button>

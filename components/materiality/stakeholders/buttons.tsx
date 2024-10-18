@@ -23,9 +23,10 @@ import CreateStakeholderForm from "@/components/materiality/stakeholders/CreateS
 import CreateStakeholderGroupForm from "@/components/materiality/stakeholders/CreateSteakholderGroup";
 import { deleteStakeholder } from "@/lib/stakeholders/action";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export async function AddStakeholderButton() {
-const t = useTranslations("materiality-com")
+const t = await getTranslations("materiality-com")
   return (
     <Dialog>
       <DialogTrigger>
@@ -90,7 +91,7 @@ export async function DeleteStakeholderButton({
   stakeholder: string;
 }) {
   const deleteStakeholderWithId = deleteStakeholder.bind(null, stakeholder.id);
-  const t = useTranslations("materiality-com")
+  const t = await getTranslations("materiality-com")
   return (
     <Dialog>
       <DialogTrigger asChild>
