@@ -17,10 +17,12 @@ import { addLocation } from '@/lib/company/action';
 export default async function AddLocationForm() {
     const locationTypes = await getLocationTypes();
     const countries = await getCountries();
+    const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
 
     return (
         <form action={addLocation}>
             <div className="grid w-full items-center gap-1.5 mb-2">
+            <Input type="hidden" name="companyid" value ={company_id} />
                 <Label htmlFor="name">Location Name</Label>
                 <Input type="text" id="name" name="name" required/>
                 

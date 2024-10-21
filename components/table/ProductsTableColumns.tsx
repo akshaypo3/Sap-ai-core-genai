@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DeleteProductButton } from "../materiality/company/DeleteProductButton";
 import { Button } from "@/components/ui/button"
 import {  ArrowUpDown } from "lucide-react";
+import Link from "next/link";
+import {ZoomIn } from "lucide-react";
 
 export type Product = {
     id: string;
@@ -46,6 +48,12 @@ export type Product = {
       header: "Details",
       cell: ({ row }) => (
         <div className="flex justify-center">
+          <Link href={`/materiality/company/${row.original.companyid}/product/${row.original.id}`}>
+              <Button className="p-2">
+                <span className="sr-only">View</span>
+                <ZoomIn className="w-4" />
+              </Button>
+            </Link>
           <DeleteProductButton product={row.original} />
         </div>
       ),

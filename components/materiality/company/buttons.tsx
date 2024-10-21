@@ -11,6 +11,8 @@ import {
   import AddLocationFormAssessment from "@/components/materiality/assessments/AddLocationFormAssessment";
   import AddProductForm from "@/components/materiality/company/AddProductForm";
   import { deleteCompanyLocationWithId } from "@/lib/company/action";
+import AddLocationIROForm from "./AddLocationIROForm";
+import AddProductIROForm from "./AddProductIROForm";
 
 export function AddLocationButton(){
     return (
@@ -68,7 +70,6 @@ export function AddProductButton(){
 
 export function DeleteLocationButton({ location }) {
   "use client"
-  console.log("location id",location.id)
   const handleDelete = async () => {
     try {
       await deleteCompanyLocationWithId(location.id);
@@ -118,5 +119,41 @@ export function DeleteLocationButton({ location }) {
         </div>
       </DialogContent>
     </Dialog>   
+  )
+}
+
+export function AddLocationIROButton({ companyId, locationId }){
+  return (
+      <Dialog>
+    <DialogTrigger><Button>Add IRO Location</Button></DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add IRO Location</DialogTitle>
+        <DialogDescription>
+          Add all IRO Locations of your company .
+        </DialogDescription>
+      </DialogHeader>
+      <AddLocationIROForm companyId={companyId} locationId={locationId}/>
+    </DialogContent>
+  </Dialog>
+      
+  )
+}
+
+export function AddProductIROButton({ companyId, productId }){
+  return (
+      <Dialog>
+    <DialogTrigger><Button>Add IRO Product/Service</Button></DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add IRO Product / Service</DialogTitle>
+        <DialogDescription>
+          Add all IRO Product / Service of your company .
+        </DialogDescription>
+      </DialogHeader>
+      <AddProductIROForm companyId={companyId} productId={productId}/>
+    </DialogContent>
+  </Dialog>
+      
   )
 }

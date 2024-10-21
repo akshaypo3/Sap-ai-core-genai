@@ -15,6 +15,7 @@ export type Location = {
     city: string;
     country: string;
     employee_count: string;
+    companyid: string
   };
 
   export const columns_location: ColumnDef<Location>[] = [
@@ -63,16 +64,21 @@ export type Location = {
     },
     {
       header: "Details",
-      cell: ({ row }) => (
-        <div className="flex justify-end">
-          <Link href={`/materiality/company/location/${row.original.id}`}>
-            <Button className="p-2">
-              <span className="sr-only">View</span>
-              <ZoomIn className="w-4" />
-            </Button>
-          </Link>
-          <DeleteLocationButton location={row.original} />
-        </div>
-      ),
-    },
+      cell: ({ row }) => {
+        console.log(row.original.companyid); // Log the ID or any relevant info
+    
+        return (
+          <div className="flex justify-end">
+            <Link href={`/materiality/company/${row.original.companyid}/location/${row.original.id}`}>
+              <Button className="p-2">
+                <span className="sr-only">View</span>
+                <ZoomIn className="w-4" />
+              </Button>
+            </Link>
+            <DeleteLocationButton location={row.original} />
+          </div>
+        );
+      },
+    }
+    ,
   ];

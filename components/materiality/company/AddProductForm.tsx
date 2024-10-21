@@ -13,9 +13,11 @@ import { Button } from "@/components/ui/button";
 import { addProductService } from '@/lib/company/action';
 
 export default function AddProductForm() {
+    const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
     return (
         <form action={addProductService}>
             <div className="grid w-full items-center gap-1.5 mb-2">
+            <Input type="hidden" name="companyid" value ={company_id} />
                 <Label htmlFor="type">Product or Service?</Label>
                 <Select name="type" required>
                     <SelectTrigger>
