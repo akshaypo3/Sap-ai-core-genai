@@ -8,6 +8,7 @@ import { callAnthropic } from '@/lib/ai/anthropic';
 import { useTranslations } from 'next-intl';
 
 export default function AnthropicApiDemo() {
+  const t = useTranslations();
   const [input, setInput] = useState('');
   const [systemPrompt, setSystemPrompt] = useState('');
   const [response, setResponse] = useState('');

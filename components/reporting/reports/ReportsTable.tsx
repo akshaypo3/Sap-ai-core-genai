@@ -14,6 +14,7 @@ import { useTranslations } from 'next-intl';
   
 
 export default function ReportsTable(){
+    const t = useTranslations();
     return(
         <>
         <div className="mt-10 px-5 py-3 bg-white rounded-md border">

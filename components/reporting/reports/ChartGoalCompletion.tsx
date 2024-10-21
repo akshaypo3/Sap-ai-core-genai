@@ -41,6 +41,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function ChartGoalCompletion() {
+  const t = useTranslations();
   return (
     <Card>
       <CardHeader>

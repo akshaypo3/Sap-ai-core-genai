@@ -19,6 +19,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import { getStakeholderGroups } from "@/lib/stakeholders/data";
 import { createStakeholder } from "@/lib/stakeholders/action";
+import { getTranslations } from "next-intl/server";
 
 interface NewStakeholderFormData {
     name: string;
@@ -28,8 +29,10 @@ interface NewStakeholderFormData {
 
 
 
+
 export default async function CreateSteakholderForm(){
     const stakeholderGroups = await getStakeholderGroups();
+    const t = getTranslations();
     return (
         <form action={createStakeholder}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
