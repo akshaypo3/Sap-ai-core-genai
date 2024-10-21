@@ -68,8 +68,6 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     },
   })
-console.log(filter);
-const t = useTranslations("table")
 console.log(sort);
   return (
       <><div className="flex items-center py-4">
@@ -82,7 +80,7 @@ console.log(sort);
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-            {t("Columns")} <ChevronDown className="ml-2 h-4 w-4" />
+            Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

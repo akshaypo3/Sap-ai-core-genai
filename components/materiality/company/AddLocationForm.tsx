@@ -13,37 +13,38 @@ import { Button } from "@/components/ui/button";
 import { getLocationTypes, getCountries } from "@/lib/company/data";
 import SearchableCountrySelect from '@/components/materiality/company/SearchableCountrySelect';
 import { addLocation } from '@/lib/company/action';
-import { getTranslations } from 'next-intl/server';
 
 export default async function AddLocationForm() {
     const locationTypes = await getLocationTypes();
     const countries = await getCountries();
-    const t = await getTranslations("materiality-com")
+    const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
+
     return (
         <form action={addLocation}>
             <div className="grid w-full items-center gap-1.5 mb-2">
-                <Label htmlFor="name">{t("company.Location Name")}</Label>
+            <Input type="hidden" name="companyid" value ={company_id} />
+                <Label htmlFor="name">Location Name</Label>
                 <Input type="text" id="name" name="name" required/>
                 
-                <Label htmlFor="description">{t("company.Description")}</Label>
+                <Label htmlFor="description">Description</Label>
                 <Input type="text" id="description" name="description"/>
 
-                <Label htmlFor="street">{t("company.Street")}</Label>
+                <Label htmlFor="street">Street</Label>
                 <Input type="text" id="street" name="street" required/>
 
-                <Label htmlFor="postalcode">{t("company.Postal Code")}</Label>
+                <Label htmlFor="postalcode">Postal Code</Label>
                 <Input type="number" id="postalcode" name="postalcode" required/>
 
-                <Label htmlFor="city">{t("company.City")}</Label>
+                <Label htmlFor="city">City</Label>
                 <Input type="text" id="city" name="city" required/>
 
                 <SearchableCountrySelect countries={countries}/>
                 
                 <div className="w-full">
-                    <Label htmlFor="location_type">{t("company.Location Type")}</Label>
+                    <Label htmlFor="location_type">Location Type</Label>
                     <Select name="location_type" required>
                         <SelectTrigger>
-                            <SelectValue placeholder={t("company.Select a type")}/>
+                            <SelectValue placeholder="Select a type"/>
                         </SelectTrigger>
                         <SelectContent>
                             {locationTypes && locationTypes.map((type) => (
@@ -56,10 +57,10 @@ export default async function AddLocationForm() {
                 </div>
 
                 <div className="w-full">
-                    <Label htmlFor="employee_count">{t("company.Employee Count")}</Label>
+                    <Label htmlFor="employee_count">Employee Count</Label>
                     <Select name="employee_count" required>
                         <SelectTrigger>
-                            <SelectValue placeholder={t("company.Select a size")}/>
+                            <SelectValue placeholder="Select a size"/>
                         </SelectTrigger>
                         <SelectContent>
                                 <SelectItem value="0-10">
@@ -94,7 +95,7 @@ export default async function AddLocationForm() {
                     <div className="flex-auto">
                         <DialogClose asChild>
                         <Button className="w-full" type="submit">
-                            {t("company.Add Location")}
+                            Add Location
                         </Button>
                         </DialogClose>
                     </div>

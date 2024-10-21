@@ -4,7 +4,6 @@ import { formatDistanceToNow } from "date-fns";
 import { DeleteCommentButton } from "./buttons";
 import { AddCommentButton } from "./AddCommentButton";
 import { getTimeZone } from "@/lib/settings/timezone/data";
-import { getTranslations } from "next-intl/server";
 
 export async function Comments({
   taskId,
@@ -28,10 +27,10 @@ export async function Comments({
 
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
-  const t = await getTranslations("tasks-com")
+
   return (
     <div className="w-full max-w-2xl">
-      <h2 className="font-semibold text-xl">{t("Comments")}</h2>
+      <h2 className="font-semibold text-xl">Comments</h2>
       <AddCommentButton taskId={taskId} />
       <div className="grid">
         {comments?.map((comment) => (

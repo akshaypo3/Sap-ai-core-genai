@@ -4,7 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DownloadFileButton } from "../datahub/downloadButton";
-import { useTranslations } from "next-intl";
 
 export type File = {
     id: string;
@@ -15,36 +14,25 @@ export type File = {
   export const columns_file: ColumnDef<File>[] = [
     {
       accessorKey: "id",
-      header: () => {
-        const t = useTranslations("table");
-        return t("id") || t("NA"); 
-      },
-      // header: "ID",
+      header: "ID",
       cell: ({ row }) => <span>{row.getValue("id") || "NA"}</span>,
     },
     {
       accessorKey: "name",
-      header: () => {
-        const t = useTranslations("table");
-        return t("name") || t("NA");
-      },
-      // header: "Name",
+      header: "Name",
       cell: ({ row }) => <span className="font-medium">{row.getValue("name") || "NA"}</span>,
     },
     {
         accessorKey: "created_at",
-        header: ({ column }) => {
-          const t = useTranslations("table");
-          return(
+        header: ({ column }) => (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            {t("Created At")}
+            Created At
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
-          );
-        },
+        ),
         cell: ({ row }) => (
           <span>
             {new Date(row.getValue("created_at"))
@@ -58,12 +46,7 @@ export type File = {
         ),
       },
     {
-      // header: "Details",
-      accessorKey: "details",
-      header: () => {
-        const t = useTranslations("table");
-        return t("details");
-      },
+      header: "Details",
       cell: ({ row }) => (
         <div className="flex justify-center">
           <DownloadFileButton name={row.getValue("name")} />

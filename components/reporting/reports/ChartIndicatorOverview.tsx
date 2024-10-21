@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/chart"
 import { useTranslations } from "next-intl"
 
-export const description = (t) => t("A stacked bar chart with a legend")
+export const description = "A stacked bar chart with a legend"
 
 const chartData = [
   { month: "A", desktop: 27, mobile: 0 },
@@ -41,13 +41,11 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function ChartIndicatorOverview() {
-  const t = useTranslations("reporting-com")
-  const d = description(t)
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("Question Statistics")}</CardTitle>
-        <CardDescription>{t("Report 2023")}</CardDescription>
+        <CardTitle>Question Statistics</CardTitle>
+        <CardDescription>Report 2023</CardDescription>
       </CardHeader>
       <CardContent className="min-h-[200px]">
         <ChartContainer config={chartConfig}>
@@ -82,7 +80,7 @@ export default function ChartIndicatorOverview() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}
         <div className="leading-none text-muted-foreground">
-          {t("Statistics of total questions answered, including not mandatory leadership indicators")}
+          Statistics of total questions answered, including not mandatory leadership indicators
         </div>
       </CardFooter>
     </Card>

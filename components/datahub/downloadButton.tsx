@@ -8,7 +8,6 @@ import { downloadFile } from "@/lib/datahub/action";
 import { useTranslations } from "next-intl";
 
 export function DownloadFileButton({ name }: { name: string }) {
-  const t = useTranslations("datahub")
   const [isPending, startTransition] = useTransition();
 
   const handleDownload = async () => {
@@ -30,7 +29,7 @@ export function DownloadFileButton({ name }: { name: string }) {
       disabled={isPending}
       className="flex items-center space-x-2 px-4 py-2 bg-gray-400 hover:bg-green-500 rounded-md" >
       <Download className="w-4 h-4 text-black" />
-      <span>{isPending ? t("Downloading") : t("Download")}</span>
+      <span>{isPending ? "Downloading..." : "Download"}</span>
     </Button>
   );
 }

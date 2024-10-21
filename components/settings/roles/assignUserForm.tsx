@@ -10,24 +10,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { assignRole } from "@/lib/settings/users/action";
-import { useTranslations } from "next-intl";
 
 export default async function RoleAssignUserForm({ id }: { id: string }) {
   const role_id = id;
   const roles = await getRoles();
   const otherUsers = await otherRoleusers(role_id);
   const roleAssign = assignRole.bind(null, id);
-  const t = useTranslations("settings-com")
 
   return (
     <form action={roleAssign}>
       <div className="grid w-full items-center gap-1.5 mb-2">
         <div className="w-full">
           <div>
-            <Label htmlFor="userID">{t("Users")}</Label>
+            <Label htmlFor="userID">Users</Label>
             <Select name="userID">
               <SelectTrigger>
-                <SelectValue placeholder={t("Default User" )}/>
+                <SelectValue placeholder="Default User" />
               </SelectTrigger>
               <SelectContent>
                 {otherUsers?.map((role) =>
@@ -46,7 +44,7 @@ export default async function RoleAssignUserForm({ id }: { id: string }) {
 
         <div className="w-full">
           <div>
-            <Label htmlFor="roleID">{t("Role")}</Label>
+            <Label htmlFor="roleID">Role</Label>
             <Select name="roleID" defaultValue={role_id} disabled>
               <SelectTrigger className="bg-gray-200 border rounded-md p-2">
                 <SelectValue
@@ -77,7 +75,7 @@ export default async function RoleAssignUserForm({ id }: { id: string }) {
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                {t("Add User to Role")}
+                Add User to Role
               </Button>
             </DialogClose>
           </div>

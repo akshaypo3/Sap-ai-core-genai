@@ -25,9 +25,9 @@ export async function AddAssessmentButton(){
       <DialogTrigger><Button>{t("New Assessment")}</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("Start new Assessment")}</DialogTitle>
+          <DialogTitle>Start new Assessment</DialogTitle>
           <DialogDescription>
-            {t("New Assessment function description")}
+            New Assessment function description
           </DialogDescription>
         </DialogHeader>
         <CreateAssessmentForm/>

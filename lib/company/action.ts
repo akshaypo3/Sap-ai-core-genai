@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/utils/supabase/server";
+import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -16,6 +17,7 @@ export async function addLocation(formData: FormData) {
       city: formData.get('city') as string,
       country: formData.get('country') as string,
       employee_count: formData.get('employee_count') as string,
+      companyid: formData.get('companyid') as UUID,
     };
   
     const { data, error } = await supabase
@@ -35,7 +37,6 @@ export async function addLocation(formData: FormData) {
 
   export async function addLocationAssessment(formData: FormData) {
     const supabase = createClient();
-    console.log("INSIDE ADDLOCATION ASSESSMENT FUNCTION WITH ID:");
 
     const assessmentId = formData.get('assessment_id') as string;
     
@@ -74,6 +75,7 @@ export async function addLocation(formData: FormData) {
       name: formData.get('name') as string,
       description: formData.get('description') as string,
       turnover_percentage: parseFloat(formData.get('turnover_percentage') as string),
+      companyid:formData.get('companyid') as string
     };
   
     const { data, error } = await supabase
@@ -237,5 +239,141 @@ export async function deleteCompanyProductWithId(id){
   } finally{
     revalidatePath('/materiality/company');
     redirect('/materiality/company');
+  }
+}
+
+export async function addIROLocation(formData: FormData) {
+  const supabase = createClient();
+
+  const location = {
+    name: formData.get('name') as string,
+    description: formData.get('description') as string,
+    type: formData.get('location_type') as string,
+    topic: formData.get('topic') as string,
+    subtopic: formData.get('subtopic') as string,
+    subsubtopic: formData.get('subsubtopic') as string,
+    location_id: formData.get('locationid') as UUID,
+    company_id :formData.get('companyid') as UUID,
+  };
+
+  const { data, error } = await supabase
+    .from('iros_locations')
+    .insert([location])
+    .select();
+
+  if (error) {
+    console.error('Error inserting IRO location:', error);
+    return { success: false, error: error.message };
+  }
+
+  revalidatePath(`/materiality/company/${location.company_id}/location/${location.location_id}`);
+  redirect(`/materiality/company/${location.company_id}/location/${location.location_id}`)
+  // return { success: true, data };
+}
+
+export async function addIROProduct(formData: FormData) {
+  const supabase = createClient();
+
+  const product = {
+    name: formData.get('name') as string,
+    description: formData.get('description') as string,
+    type: formData.get('location_type') as string,
+    topic: formData.get('topic') as string,
+    subtopic: formData.get('subtopic') as string,
+    subsubtopic: formData.get('subsubtopic') as string,
+    product_id: formData.get('productid') as UUID,
+    company_id :formData.get('companyid') as UUID,
+  };
+
+  const { data, error } = await supabase
+    .from('iros_productsservices')
+    .insert([product])
+    .select();
+
+  if (error) {
+    console.error('Error inserting IRO product:', error);
+    return { success: false, error: error.message };
+  }
+
+  revalidatePath(`/materiality/company/${product.company_id}/product/${product.product_id}`);
+  redirect(`/materiality/company/${product.company_id}/product/${product.product_id}`)
+  // return { success: true, data };
+}
+
+export async function editLocationIRO(locationid, companyid, IROid, formData) {
+  const supabase = createClient();
+  const description1 = formData.get("description");
+
+  try {
+    const { data, error } = await supabase
+      .from('iros_locations')
+      .update({
+        description: description1
+      })
+      .eq("id", IROid);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error while updating location:", error.message);
+    return { success: false, message: error.message }; // Return error details
+  } finally {
+    revalidatePath(`/materiality/company/${companyid}/location/${locationid}/${IROid}`);
+    redirect(`/materiality/company/${companyid}/location/${locationid}/${IROid}`);
+  }
+}
+
+export async function editProductIRO(productid, companyid, IROid, formData) {
+  const supabase = createClient();
+  const description1 = formData.get("description");
+
+  try {
+    const { data, error } = await supabase
+      .from('iros_productsservices')
+      .update({
+        description: description1
+      })
+      .eq("id", IROid);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error while updating location:", error.message);
+    return { success: false, message: error.message }; // Return error details
+  } finally {
+    revalidatePath(`/materiality/company/${companyid}/product/${productid}/${IROid}`);
+    redirect(`/materiality/company/${companyid}/product/${productid}/${IROid}`);
+  }
+}
+
+export async function deleteLocationIRO(locationid, companyid, IROid) {
+  const supabase = createClient();
+  try {
+    const { data } = await supabase.from("iros_locations").delete().eq("id", IROid);
+
+  } catch (error) {
+    console.error("Error while deleting Location IRO", error);
+  } finally {
+    revalidatePath(`/materiality/company/${companyid}/location/${locationid}`);
+    redirect(`/materiality/company/${companyid}/location/${locationid}`);
+  }
+}
+
+export async function deleteProductIRO(productid, companyid, IROid) {
+  const supabase = createClient();
+  try {
+    const { data } = await supabase.from("iros_productsservices").delete().eq("id", IROid);
+
+  } catch (error) {
+    console.error("Error while deleting Location IRO", error);
+  } finally {
+    revalidatePath(`/materiality/company/${companyid}/product/${productid}`);
+    redirect(`/materiality/company/${companyid}/product/${productid}`);
   }
 }

@@ -19,22 +19,21 @@ export default function SubheaderFrameworks() {
 
     const pathName = usePathname();
 
-    const t = useTranslations("reporting-com")
   return (
     <>
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="font-bold text-2xl mb-2">{t("Frameworks")}</h1>
+          <h1 className="font-bold text-2xl mb-2">Frameworks</h1>
           <Breadcrumb>
               <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/internal/">{t("Dashboard")}</BreadcrumbLink>
+                    <BreadcrumbLink href="/internal/">Dashboard</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator>
                     <Slash />
                   </BreadcrumbSeparator>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/dev/reporting/frameworks">{t("Frameworks Overview")}</BreadcrumbLink>
+                    <BreadcrumbLink href="/dev/reporting/frameworks">Frameworks Overview</BreadcrumbLink>
                   </BreadcrumbItem>
               </BreadcrumbList>
           </Breadcrumb>

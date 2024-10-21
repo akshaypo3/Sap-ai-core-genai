@@ -13,78 +13,65 @@ export type User = {
     name: string;
     email: string;
     allGroups: Array<{ id: string; group: string }>; // All available groups
-    allRoles: Array<{ id: string; role: string }>;
+     allRoles: Array<{ id: string; role: string }>;
     group?: { group: string };
     role?: { role: string };
     createdAt: string;
     lastSignInAt?: string;
-};
+  };
 
-export const columns_user: ColumnDef<User>[] = [
+  export const columns_user: ColumnDef<User>[] = [
     {
-        accessorKey: "name",
-        header: () => {
-            const t = useTranslations("table");
-            return t("name");
-        },
-        cell: ({ row }) => <span>{row.getValue("name") || "NA"}</span>,
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => <span>{row.getValue("name") || "NA"}</span>,
     },
     {
-        accessorKey: "email",
-        header: ({ column }) => {
-        const t = useTranslations("table");
-          return (
-            <Button
-                variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-                {t("email")}
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-          )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    },
+    ,
+    {
+      accessorKey: "group",
+      header: "Group",
+      cell: ({ row }) => <span>{row.getValue("group")?.group || "No Group"}</span>,
     },
     {
-        accessorKey: "group",
-        header: () => {
-            const t = useTranslations("table");
-            return t("group");
-        },
-        cell: ({ row }) => <span>{row.getValue("group")?.group || "No Group"}</span>,
+      accessorKey: "role",
+      header: "Role",
+      cell: ({ row }) => <span>{row.getValue("role")?.role || "No Role"}</span>,
     },
     {
-        accessorKey: "role",
-        header: () => {
-            const t = useTranslations("table");
-            return t("role");
-        },
-        cell: ({ row }) => <span>{row.getValue("role")?.role || "No Role"}</span>,
+      accessorKey: "createdAt",
+      header: "Created",
+      cell: ({ row }) => <span>{new Date(row.getValue("createdAt")).toLocaleDateString()}</span>,
     },
     {
-        accessorKey: "createdAt",
-        header: () => {
-            const t = useTranslations("table");
-            return t("Created At");
-        },
-        cell: ({ row }) => <span>{new Date(row.getValue("createdAt")).toLocaleDateString()}</span>,
+      accessorKey: "lastSignInAt",
+      header: "Last Sign In",
+      cell: ({ row }) => (
+        <span>
+          {row.getValue("lastSignInAt")
+            ? new Date(row.getValue("lastSignInAt")).toLocaleDateString()
+            : "Never Signed In"}
+        </span>
+      ),
     },
     {
-        accessorKey: "lastSignInAt",
-        header: () => {
-            const t = useTranslations("table");
-            return t("lastSignIn"); 
-        },
-        cell: ({ row }) => {
-          const t = useTranslations("table");
-          return (
-            <span>
-                {row.getValue("lastSignInAt")
-                    ? new Date(row.getValue("lastSignInAt")).toLocaleDateString()
-                    : t("Never Signed In")}
-            </span>
-          )
-        },
+      accessorKey: "userId",
+      header: "UID",
+      cell: ({ row }) => <span>{row.getValue("userId")}</span>,
     },
     // {
     //     accessorKey: "userId",

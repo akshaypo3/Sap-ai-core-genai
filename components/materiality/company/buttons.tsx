@@ -11,17 +11,16 @@ import {
   import AddLocationFormAssessment from "@/components/materiality/assessments/AddLocationFormAssessment";
   import AddProductForm from "@/components/materiality/company/AddProductForm";
   import { deleteCompanyLocationWithId } from "@/lib/company/action";
-  import { useTranslations } from 'next-intl';
-
+import AddLocationIROForm from "./AddLocationIROForm";
+import AddProductIROForm from "./AddProductIROForm";
 
 export function AddLocationButton(){
-  const t = useTranslations("materiality-com")
     return (
         <Dialog>
-      <DialogTrigger><Button>{t("company.Add Location")}</Button></DialogTrigger>
+      <DialogTrigger><Button>Add Location</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("company.Add Location")}</DialogTitle>
+          <DialogTitle>Add Location</DialogTitle>
           <DialogDescription>
             {t("company.Add all Locations of your company around the world")}
           </DialogDescription>
@@ -52,16 +51,14 @@ export function AddLocationButtonAssessment(){
 }
 
 export function AddProductButton(){
-  const t = useTranslations("materiality-com")
-
     return (
         <Dialog>
-      <DialogTrigger><Button>{t("company.Add Product/Service")}</Button></DialogTrigger>
+      <DialogTrigger><Button>Add Product/Service</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("company.Add Product/Service")}</DialogTitle>
+          <DialogTitle>Add Product/Service</DialogTitle>
           <DialogDescription>
-            {t("company.Add the products and services accounting for 90% of the turnover")}
+            Add the products and services accounting for 90% of the turnover
           </DialogDescription>
         </DialogHeader>
         <AddProductForm/>
@@ -73,7 +70,6 @@ export function AddProductButton(){
 
 export function DeleteLocationButton({ location }) {
   "use client"
-  console.log("location id",location.id)
   const handleDelete = async () => {
     try {
       await deleteCompanyLocationWithId(location.id);
@@ -83,46 +79,81 @@ export function DeleteLocationButton({ location }) {
       // Optionally, you can show an error message to the user here
     }
   };
-  const t = useTranslations("materiality-com")
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive">{t("company.Delete")}</Button>
+        <Button variant="destructive">Delete</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("company.Delete Company Location")}</DialogTitle>
+          <DialogTitle>Delete Company Location</DialogTitle>
           <DialogDescription>
-            {t("company.Are you sure you want to delete the following location?")}
+            Are you sure you want to delete the following location?
           </DialogDescription>
         </DialogHeader>
         <div className="text-sm">
           <div className="font-bold">{location.name}</div>
           <div>
-            <span className="font-bold">{t("company.Address:")}</span>
+            <span className="font-bold">Address: </span>
             {location.address}
           </div>
           <div>
-            <span className="font-bold">{t("company.Postal Code:")}</span>
+            <span className="font-bold">Postal Code: </span>
             {location.postalcode}
           </div>
           <div>
-            <span className="font-bold">{t("company.City:")}</span>
+            <span className="font-bold">City: </span>
             {location.city}
           </div>
           <div>
-            <span className="font-bold">{t("company.Country:")}</span>
+            <span className="font-bold">Country: </span>
             {location.country}
           </div>
         </div>
         <div className="flex justify-end space-x-2 mt-4">
           <DialogTrigger asChild>
-            <Button variant="outline">{t("company.Cancel")}</Button>
+            <Button variant="outline">Cancel</Button>
           </DialogTrigger>
-          <Button variant="destructive" onClick={handleDelete}>{t("company.Delete Location")}</Button>
+          <Button variant="destructive" onClick={handleDelete}>Delete Location</Button>
         </div>
       </DialogContent>
     </Dialog>   
+  )
+}
+
+export function AddLocationIROButton({ companyId, locationId }){
+  return (
+      <Dialog>
+    <DialogTrigger><Button>Add IRO Location</Button></DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add IRO Location</DialogTitle>
+        <DialogDescription>
+          Add all IRO Locations of your company .
+        </DialogDescription>
+      </DialogHeader>
+      <AddLocationIROForm companyId={companyId} locationId={locationId}/>
+    </DialogContent>
+  </Dialog>
+      
+  )
+}
+
+export function AddProductIROButton({ companyId, productId }){
+  return (
+      <Dialog>
+    <DialogTrigger><Button>Add IRO Product/Service</Button></DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Add IRO Product / Service</DialogTitle>
+        <DialogDescription>
+          Add all IRO Product / Service of your company .
+        </DialogDescription>
+      </DialogHeader>
+      <AddProductIROForm companyId={companyId} productId={productId}/>
+    </DialogContent>
+  </Dialog>
+      
   )
 }
