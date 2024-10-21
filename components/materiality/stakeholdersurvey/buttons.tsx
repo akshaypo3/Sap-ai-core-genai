@@ -12,8 +12,8 @@ export function StakeholderSurveyEditButton(){
         <button onClick={() => {
         toast({
           variant: "destructive",
-          title: "Uncaught Error",
-          description: "Please contact your Sustena administrator for more details.",
+          title: t("stakeholderSurvey.Uncaught Error"),
+          description: t("stakeholderSurvey.Please contact your Sustena administrator for more details"),
         })
       }} className="rounded-md border p-2 hover:bg-gray-100">
                   <span className="sr-only">Edit</span>

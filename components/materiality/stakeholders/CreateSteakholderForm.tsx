@@ -58,7 +58,7 @@ export default async function CreateSteakholderForm(){
                                 Stakeholder Interest
                                 <Popover>
                                     <PopoverTrigger className="inline-flex ml-2 h-4 w-4 items-center"><CircleHelp/></PopoverTrigger>
-                                    <PopoverContent className="text-sm">The level of concern or dependency a stakeholder has on the company or its activities.</PopoverContent>
+                                    <PopoverContent className="text-sm">{t("stakeholders.The level of concern or dependency a stakeholder has on the company or its activities")}</PopoverContent>
                                 </Popover>
                             </Label>
                             <Select name="stakeholderInterest">
@@ -79,7 +79,7 @@ export default async function CreateSteakholderForm(){
                                 Stakeholder Influence
                                 <Popover>
                                     <PopoverTrigger className="inline-flex ml-2 h-4 w-4 items-center"><CircleHelp/></PopoverTrigger>
-                                    <PopoverContent className="text-sm">The degree to which a stakeholder can impact the company’s decisions, operations, or outcomes.</PopoverContent>
+                                    <PopoverContent className="text-sm">{t("stakeholders.The degree to which a stakeholder can impact the company’s decisions, operations, or outcomes")}</PopoverContent>
                                 </Popover>
                             </Label>
                             <Select name="stakeholderInfluence">
@@ -100,7 +100,7 @@ export default async function CreateSteakholderForm(){
                                 Stakeholder Knowledge
                                 <Popover>
                                     <PopoverTrigger className="inline-flex ml-2 h-4 w-4 items-center"><CircleHelp/></PopoverTrigger>
-                                    <PopoverContent className="text-sm">The extent of relevant information or expertise a stakeholder holds that the company depends on.</PopoverContent>
+                                    <PopoverContent className="text-sm">{t("stakeholders.The extent of relevant information or expertise a stakeholder holds that the company depends on")}</PopoverContent>
                                 </Popover>
                             </Label>
                             <Select name="stakeholderKnowledge">

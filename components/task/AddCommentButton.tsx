@@ -6,6 +6,7 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { createComment } from "@/lib/task/action";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 
 
 export function AddCommentButton({ taskId }: { taskId: string }) {

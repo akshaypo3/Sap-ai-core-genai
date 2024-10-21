@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { createClient } from "@/utils/supabase/client";
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 // Initialize Supabase client
 const supabase = createClient();

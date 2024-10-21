@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Leaf, Droplets, Recycle } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export default function Component() {
   return (
@@ -39,7 +40,7 @@ export default function Component() {
             <Droplets className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2.5M</div>
+            <div className="text-2xl font-bold">{t("2_5M")}</div>
             <Progress value={62} className="h-2 mt-2" />
             <p className="text-xs text-muted-foreground mt-1">62% of goal achieved</p>
           </CardContent>
@@ -51,7 +52,7 @@ export default function Component() {
             <Recycle className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">n.a %</div>
+            <div className="text-2xl font-bold">{t("n_a %")}</div>
             <Progress value={85} className="h-2 mt-2" />
             <p className="text-xs text-muted-foreground mt-1">Datapoint not filled out</p>
           </CardContent>

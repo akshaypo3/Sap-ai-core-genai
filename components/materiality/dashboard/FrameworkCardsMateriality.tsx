@@ -7,16 +7,16 @@ export default function FrameworkCardsMateriality() {
   const newsItems = [
     {
       image: "/esrs_banner.png?height=200&width=300",
-      headline: "ESRS for CSRD",
-      description: "Identify and prioritize sustainability topics that are most relevant to stakeholders and business impact.",
-      author: "VASPP Deutschland",
+      headline: t("ESRS for CSRD"),
+      description: t("Identify and prioritize sustainability topics that are most relevant to stakeholders and business impact"),
+      author: t("VASPP Deutschland"),
       date: "",
     },
     {
       image: "/brsr_banner.png?height=200&width=300",
-      headline: "BRSR",
-      description: " You will be directly guided to the framework for streamlined reporting and compliance.",
-      author: "VASPP Technologies",
+      headline: t("BRSR"),
+      description: t("You will be directly guided to the framework for streamlined reporting and compliance"),
+      author: t("VASPP Technologies"),
       date: "",
     }
   ]

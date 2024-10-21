@@ -85,7 +85,7 @@ export default async function AddLocationForm() {
                                     5.000-10.000
                                 </SelectItem>
                                 <SelectItem value="> 10.000">
-                                    more than 10.000
+                                    {t("company.more than 10_000")}
                                 </SelectItem>
                         </SelectContent>
                     </Select>

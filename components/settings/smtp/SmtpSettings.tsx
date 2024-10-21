@@ -20,6 +20,7 @@ import {
 
 import { sendMail } from "@/lib/settings/smtp/action";
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslations } from "next-intl";
 
 
 interface SMTPSettingsFormData {

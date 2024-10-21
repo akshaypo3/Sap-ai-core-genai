@@ -37,9 +37,9 @@ export default async function IroForm(iroId: any) {
 
                     <div className="w-full pt-5">
                         <div>
-                            <Label htmlFor="materiality_type">Materiality Type</Label>
-                            <p className="text-sm"><span className="font-bold">Impact materiality</span> refers to how a particular topic or issue influences the company's impact on the economy, environment, or society. This type of materiality considers the extent to which the company's activities or decisions contribute to or alleviate broader environmental, social, or economic challenges. In this context, the significance is determined by the potential consequences of the company's actions on external stakeholders, ecosystems, or societal structures.</p>
-                            <p className="text-sm mt-2 mb-2"><span className="font-bold">Financial materiality</span> is concerned with how a particular topic or issue affects the financial performance or value of the company. This includes factors that could impact the company's revenue, costs, assets, liabilities, or overall market value. The focus is on identifying issues that are significant enough to influence the financial decisions of investors, shareholders, and other financial stakeholders.</p>
+                            <Label htmlFor="materiality_type">{t("assessment.Materiality Type")}</Label>
+                            <p className="text-sm"><span className="font-bold">{t("assessment.Impact materiality")}</span>{t("assessment.refers to how a particular topic or issue influences the company's impact on the economy, environment, or society_This type of materiality considers the extent to which the company's activities or decisions contribute to or alleviate broader environmental, social, or economic challenges_In this context, the significance is determined by the potential consequences of the company's actions on external stakeholders, ecosystems, or societal structures")}</p>
+                            <p className="text-sm mt-2 mb-2"><span className="font-bold">{t("assessment.Financial materiality")}</span>{t("assessment.is concerned with how a particular topic or issue affects the financial performance or value of the company_This includes factors that could impact the company's revenue, costs, assets, liabilities, or overall market value_The focus is on identifying issues that are significant enough to influence the financial decisions of investors, shareholders, and other financial stakeholders")}</p>
 
                             <Select name="materiality_type" defaultValue={iroData[0].materiality_type || ''}>
                                 <SelectTrigger>
@@ -55,9 +55,9 @@ export default async function IroForm(iroId: any) {
 
                     <div className="w-full pt-5">
                         <div>
-                            <Label htmlFor="impact">Impact</Label>
-                            <p className="text-sm"><span className="font-bold">For Impact materiality:</span> Does this topic have a positive or negative impact?</p>
-                            <p className="text-sm"><span className="font-bold">For Financial materiality:</span> Is this topic a chance or a risk.</p>
+                            <Label htmlFor="impact">{t("assessment.Impact")}</Label>
+                            <p className="text-sm"><span className="font-bold">{t("assessment.For Impact materiality:")}</span> {t("assessment.Does this topic have a positive or negative impact?")}</p>
+                            <p className="text-sm"><span className="font-bold">{t("assessment.For Financial materiality:")}</span> {t("assessment.Is this topic a chance or a risk")}</p>
                             <Select name="impact" defaultValue={iroData[0].impact || ''}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Impact" />
@@ -92,8 +92,8 @@ export default async function IroForm(iroId: any) {
 
                     <div className="w-full pt-5">
                         <div>
-                            <Label htmlFor="scale_score">Scale</Label>
-                            <p className="text-sm">The "Scale" field refers to the extent or reach of the impact caused by a specific topic or issue. It evaluates how widespread the consequences of this issue are, considering both the geographical coverage (e.g., local, national, global) and the number of stakeholders or resources affected. The scale helps in understanding the magnitude of the impact, whether it affects a small group within a localized area or has broader implications across multiple regions or sectors.</p>
+                            <Label htmlFor="scale_score">{t("assessment.Scale")}</Label>
+                            <p className="text-sm">{t("assessment.The \"Scale\" field refers to the extent or reach of the impact caused by a specific topic or issue_It evaluates how widespread the consequences of this issue are, considering both the geographical coverage (e_g_, local, national, global) and the number of stakeholders or resources affected_The scale helps in understanding the magnitude of the impact, whether it affects a small group within a localized area or has broader implications across multiple regions or sectors")}</p>
                             <Select name="scale_score" defaultValue={iroData[0].scale_score?.toString() || ''}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Medium" />
@@ -114,8 +114,8 @@ export default async function IroForm(iroId: any) {
                     {iroData[0].impact_state && (
                         <div className="w-full pt-5">
                             <div>
-                                <Label htmlFor="scope_score">Scope</Label>
-                                <p className="text-sm">The "Scope" field measures the breadth or range of the impact related to a specific topic or issue. It assesses how many areas of the company's operations, stakeholders, or activities are affected.</p>
+                                <Label htmlFor="scope_score">{t("assessment.Scope")}</Label>
+                                <p className="text-sm">{t("assessment.The \"Scope\" field measures the breadth or range of the impact related to a specific topic or issue_It assesses how many areas of the company's operations, stakeholders, or activities are affected")}</p>
                                 <Select name="scope_score" defaultValue={iroData[0].scope_score?.toString() || ''}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Limited" />
@@ -137,8 +137,8 @@ export default async function IroForm(iroId: any) {
                     {iroData[0].impact === 'negative' && (
                         <div className="w-full pt-5">
                             <div>
-                                <Label htmlFor="irremediability_score">Irremediability</Label>
-                                <p className="text-sm">The "Irremediability" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic. It considers how permanent or long-lasting the consequences are if the issue is not adequately addressed. </p>
+                                <Label htmlFor="irremediability_score">{t("assessment.Irremediability")}</Label>
+                                <p className="text-sm">{t("assessment.The \"Irremediability\" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic_It considers how permanent or long-lasting the consequences are if the issue is not adequately addressed")} </p>
                                 <Select name="irremediability_score" defaultValue={iroData[0].irremediability_score?.toString() || ''}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Easy" />
@@ -160,8 +160,8 @@ export default async function IroForm(iroId: any) {
                     {iroData[0].impact_state === 'potential' && (
                         <div className="w-full pt-5">
                             <div>
-                                <Label htmlFor="probability_score">Probability</Label>
-                                <p className="text-sm">The "Probability" field assesses the likelihood that a particular event, issue, or impact will occur. It helps to gauge the risk associated with the issue based on its anticipated frequency or likelihood. </p>
+                                <Label htmlFor="probability_score">{t("assessment.Probability")}</Label>
+                                <p className="text-sm">{t("assessment.The \"Probability\" field assesses the likelihood that a particular event, issue, or impact will occur_It helps to gauge the risk associated with the issue based on its anticipated frequency or likelihood")} </p>
                                 <Select name="probability_score" defaultValue={iroData[0].probability_score?.toString() || ''}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Easy" />

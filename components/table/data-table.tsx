@@ -38,6 +38,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTranslations } from "next-intl"
 
 export function DataTable<TData, TValue>({
   columns,
@@ -106,9 +107,9 @@ console.log(sort);
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-    </div><div className="rounded-md border">
+    </div><div className="rounded-md border border-neutral-200 dark:border-neutral-800">
         <Table>
-          <TableHeader className="bg-gray-100">
+          <TableHeader className="bg-gray-100 dark:bg-neutral-800 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -130,13 +131,13 @@ console.log(sort);
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                className="border-b hover:bg-gray-50"
+                className="border-b hover:bg-gray-50 border-neutral-200 dark:border-neutral-800"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
           <TableCell
-            className={`px-6 py-4 font-medium whitespace-nowrap ${cell.column.id === 'user_count'|| cell.column.id === "progress" || cell.column.id === "Action" || cell.column.id === "turnover_percentage" || cell.column.id === "Details" ? 'text-center' : 'text-left'}`}
+            className={`px-6 py-4 dark:text-neutral-50 font-medium whitespace-nowrap ${cell.column.id === 'user_count'|| cell.column.id === "progress" || cell.column.id === "Action" || cell.column.id === "turnover_percentage" || cell.column.id === "Details" ? 'text-center' : 'text-left'}`}
             key={cell.id}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -147,7 +148,7 @@ console.log(sort);
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  {t("No results")}
                 </TableCell>
               </TableRow>
             )}

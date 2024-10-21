@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarIcon } from "lucide-react"
+import { useTranslations } from "next-intl";
 
 export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, timezone }) {
   const [tasks, setTasks] = useState(initialTasks);

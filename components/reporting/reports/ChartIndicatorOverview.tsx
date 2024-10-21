@@ -19,6 +19,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useTranslations } from "next-intl"
 
 export const description = "A stacked bar chart with a legend"
 

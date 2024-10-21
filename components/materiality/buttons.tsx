@@ -13,14 +13,16 @@ import {
 } from "@/components/ui/dialog"
 import { Trash2 } from "lucide-react"
 import CreateAssessmentForm from "@/components/materiality/CreateNewAssessmentForm"
+import { getTranslations } from "next-intl/server"
 // import CreateStakeholderForm from "@/components/materiality/stakeholders/CreateSteakholderForm";
 // import CreateStakeholderGroupForm from "@/components/materiality/stakeholders/CreateSteakholderGroup";
 // import { deleteStakeholder } from "@/lib/stakeholders/action";
 
 export async function AddAssessmentButton(){
+  const t = await getTranslations("materiality-com")
     return (
       <Dialog>
-      <DialogTrigger><Button className="w-full mb-3 bg-green-500 hover:bg-green-600">New Assessment</Button></DialogTrigger>
+      <DialogTrigger><Button>{t("New Assessment")}</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Start new Assessment</DialogTitle>

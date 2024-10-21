@@ -87,7 +87,7 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
             id="response" 
             value={response} 
             onChange={(e) => setResponse(e.target.value)}
-            placeholder="Enter your response here..."
+            placeholder={t("Enter your response here")}
             rows={5}
           />
         </div>

@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,16 +24,16 @@ import CreateUserForm from "@/components/settings/users/CreateUserForm";
 import { deleteUser, editUserRoleGroup } from "@/lib/settings/users/action";
 import { Label } from "@/components/ui/label";
 import EditProfileForm from "@/components/settings/users/editProfileButton";
-//import EditUserForm from "@/components/settings/users/editUserButton";
 import { getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
+import { useTranslations } from "next-intl";
+import { getTranslations } from 'next-intl/server';
 
 export async function AddUserButton() {
-  const selectedID = "";
-
+  let t = await getTranslations("settings-com")
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">Add User</Button>
+        <Button className="bg-black dark:bg-green-600 dark:text-neutral-50">{t("Add User")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -113,7 +114,8 @@ export async function DeleteUserButton({ id }: { id: string }) {
   );
 }
 
-export async function EditProfileButton(Profile: string) {
+export async function EditProfileButton(Profile: any) {
+  const t = await getTranslations("settings-com")
   return (
     <Dialog>
       <DialogTrigger>

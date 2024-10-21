@@ -15,6 +15,7 @@ import '@xyflow/react/dist/style.css';
 import Image from 'next/image';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
+import { useTranslations } from 'next-intl';
 
 const CustomNode1 = ({ data }) => (
   <div className="p-4 border rounded-md bg-white">

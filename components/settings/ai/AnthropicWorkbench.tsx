@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { callAnthropic } from '@/lib/ai/anthropic';
+import { useTranslations } from 'next-intl';
 
 export default function AnthropicApiDemo() {
   const [input, setInput] = useState('');
@@ -55,7 +56,7 @@ export default function AnthropicApiDemo() {
           </CardContent>
         </Card>
         <Button type="submit" disabled={loading}>
-          {loading ? 'Sending...' : 'Send'}
+          {loading ? t('Sending') : t('Send')}
         </Button>
       </form>
       {response && (

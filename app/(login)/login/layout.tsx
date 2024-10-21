@@ -12,7 +12,7 @@ import { NavbarLogin } from "@/components/sustena-layout/navbar-login";
 import { useTranslations } from 'next-intl'; 
 
 export const metadata: Metadata = {
-  title: "VASPP Sutena",
+  title: "VASPP Sustena",
   description: "Development Version",
 };
 

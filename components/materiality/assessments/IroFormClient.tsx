@@ -232,8 +232,8 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
               )}
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <Label htmlFor="scale_score">Scale</Label>
-                <p className="text-sm text-gray-500 mb-2">The "Scale" field refers to the extent or reach of the impact caused by a specific topic or issue...</p>
+                <Label htmlFor="scale_score">{t("Scale")}</Label>
+                <p className="text-sm text-gray-500 mb-2">{t("The \"Scale\" field refers to the extent or reach of the impact caused by a specific topic or issue")}</p>
                 <Select 
                   name="scale_score" 
                   value={formData.scale_score?.toString() || ''}
@@ -263,8 +263,8 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.impact_state && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="scope_score">Scope</Label>
-                  <p className="text-sm text-gray-500 mb-2">The "Scope" field measures the breadth or range of the impact related to a specific topic or issue...</p>
+                  <Label htmlFor="scope_score">{t("Scope")}</Label>
+                  <p className="text-sm text-gray-500 mb-2">T{t("The \"Scope\" field measures the breadth or range of the impact related to a specific topic or issue")}</p>
                   <Select 
                     name="scope_score" 
                     value={formData.scope_score?.toString() || ''}
@@ -295,8 +295,8 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.impact === 'negative' && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="irremediability_score">Irremediability</Label>
-                  <p className="text-sm text-gray-500 mb-2">The "Irremediability" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic...</p>
+                  <Label htmlFor="irremediability_score">{t("Irremediability")}</Label>
+                  <p className="text-sm text-gray-500 mb-2">{t("The \"Irremediability\" field evaluates the difficulty in reversing or mitigating the impact of a particular issue or topic")}</p>
                   <Select 
                     name="irremediability_score" 
                     value={formData.irremediability_score?.toString() || ''}
@@ -327,8 +327,8 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
 
               {formData.impact_state === 'potential' && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <Label htmlFor="probability_score">Probability</Label>
-                  <p className="text-sm text-gray-500 mb-2">The "Probability" field assesses the likelihood that a particular event, issue, or impact will occur...</p>
+                  <Label htmlFor="probability_score">{t("Probability")}</Label>
+                  <p className="text-sm text-gray-500 mb-2">{t("The \"Probability\" field assesses the likelihood that a particular event, issue, or impact will occur")}</p>
                   <Select 
                     name="probability_score" 
                     value={formData.probability_score?.toString() || ''}

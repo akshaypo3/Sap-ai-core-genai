@@ -32,7 +32,7 @@ export const ChatInterface: React.FC = () => {
       console.error('Error calling Anthropic API:', error);
       addMessage({
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.'
+        content: t('Sorry, I encountered an error_Please try again')
       });
     } finally {
       setIsLoading(false);

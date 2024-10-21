@@ -53,7 +53,7 @@ export default function Component() {
                   Based on HR contracts from datasource "VASPP BREVO - DMS - ID 123e4567-e89b-12d3-a456-426614174000", this is a possible answer:
                 </p>
                 <p>
-                  As of the latest reporting period, the number of non-employees in our organization's own workforce is approximately <strong>150</strong>. This includes contractors, consultants, and temporary staff who are integrated into our daily operations but are not directly employed by the organization.
+                  {t("As of the latest reporting period, the number of non-employees in our organization's own workforce is approximately")} <strong>150</strong>. {t("This includes contractors, consultants, and temporary staff who are integrated into our daily operations but are not directly employed by the organization")}
                 </p>
                 <h4 className="font-semibold">Classification of Non-Employees:</h4>
                 <p>
@@ -66,18 +66,18 @@ export default function Component() {
                 </ul>
                 <h4 className="font-semibold">Role Integration:</h4>
                 <p>
-                  These non-employees play critical roles in various departments, including IT, project management, and administrative support. Their contributions are essential to maintaining the efficiency and productivity of our operations.
+                  {t("These non-employees play critical roles in various departments, including IT, project management, and administrative support_Their contributions are essential to maintaining the efficiency and productivity of our operations")}
                 </p>
                 <h4 className="font-semibold">Tracking and Monitoring:</h4>
                 <p>
-                  We utilize the <strong>WorkforceManager</strong> system to track and monitor the engagement and performance of non-employees. This system ensures that all non-employees are adequately onboarded, their roles are clearly defined, and their contributions are regularly reviewed.
+                  {t("We utilize the")} <strong>{t("WorkforceManager")}</strong> {t("system to track and monitor the engagement and performance of non-employees_This system ensures that all non-employees are adequately onboarded, their roles are clearly defined, and their contributions are regularly reviewed")}
                 </p>
                 <h4 className="font-semibold">Compliance and Reporting:</h4>
                 <p>
-                  Our organization adheres to strict compliance guidelines to ensure that the use of non-employees is transparent and aligns with regulatory requirements. Regular reports are generated to provide insights into the utilization and performance of non-employees.
+                  {t("Our organization adheres to strict compliance guidelines to ensure that the use of non-employees is transparent and aligns with regulatory requirements_Regular reports are generated to provide insights into the utilization and performance of non-employees")}
                 </p>
-                <p>
-                  By maintaining detailed records and implementing robust monitoring systems, we ensure that the integration of non-employees into our workforce is effective and compliant with industry standards.
+                <p>t
+                  {t("By maintaining detailed records and implementing robust monitoring systems, we ensure that the integration of non-employees into our workforce is effective and compliant with industry standards")}
                 </p>
               </div>
             </div>

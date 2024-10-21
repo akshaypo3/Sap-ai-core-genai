@@ -14,6 +14,7 @@ import {
   import { DeleteAssessmentButton } from '@/components/materiality/assessments/DeleteAssessmentButton';
   import { DeleteAssessmentDialog } from '@/components/materiality/assessments/DeleteAssessmentDialog';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
   export function AssessmentsActionsMenu({ id,step }: { id: string, step:string }) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);

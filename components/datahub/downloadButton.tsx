@@ -5,6 +5,7 @@ import { useTransition } from "react";
 
 // We will use the server action for downloading the file
 import { downloadFile } from "@/lib/datahub/action";
+import { useTranslations } from "next-intl";
 
 export function DownloadFileButton({ name }: { name: string }) {
   const [isPending, startTransition] = useTransition();

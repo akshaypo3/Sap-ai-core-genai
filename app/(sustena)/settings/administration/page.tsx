@@ -49,31 +49,8 @@ export default async function Home() {
   return (
     <>
       <ContentLayout title="Administration">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("administration.title")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard">{t("administration.Dashboard")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/settings/administration">{t("administration.Administration")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
-      </div>
-
       <Tabs defaultValue="general" className="w-full">
-        <TabsList>
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
           <TabsTrigger value="adminusers">{t("administration. Administrative Users")}</TabsTrigger>
           <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>

@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { useTranslations } from "next-intl"
 
 export const description = "A radial chart with text"
 

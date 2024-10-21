@@ -36,8 +36,8 @@ export default function Component() {
         
         </div>
         <div className="grid w-full gap-1.5 mt-5">
-      <Label htmlFor="message-2">Your answer</Label>
-      <Textarea placeholder="Type you answer here." id="message-2" />
+      <Label htmlFor="message-2">{t("Your answer")}</Label>
+      <Textarea placeholder="Type you answer here" id="message-2" />
       </div>
       <div className="w-full">
             <Link href="/reporting/frameworks/esrs/s1/s1-77">

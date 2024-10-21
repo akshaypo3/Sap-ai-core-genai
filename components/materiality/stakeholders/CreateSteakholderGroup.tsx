@@ -18,6 +18,7 @@ import {
   } from "@/components/ui/popover"  
 import { CircleHelp } from "lucide-react";
 import { createStakeholderGroup } from "@/lib/stakeholders/action";
+import { useTranslations } from "next-intl";
 
 interface NewStakeholderGroupFormData {
     name: string;

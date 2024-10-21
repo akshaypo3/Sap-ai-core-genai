@@ -17,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useTranslations } from "next-intl"
 
 export const description = "A bar chart with a label"
 

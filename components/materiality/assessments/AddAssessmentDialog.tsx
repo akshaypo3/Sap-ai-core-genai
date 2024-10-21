@@ -8,6 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import CreateAssessmentForm from "@/components/materiality/CreateNewAssessmentForm"
+import { useTranslations } from "next-intl"
 
 export async function AddAssessmentButton(){
     return (

@@ -1,4 +1,5 @@
 import { ModeToggle } from "@/components/ThemeToggle";
+import { useTranslations } from "next-intl";
 
 export function NavbarLogin() {
   return (
