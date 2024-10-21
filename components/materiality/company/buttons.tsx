@@ -13,8 +13,10 @@ import {
   import { deleteCompanyLocationWithId } from "@/lib/company/action";
 import AddLocationIROForm from "./AddLocationIROForm";
 import AddProductIROForm from "./AddProductIROForm";
+import { useTranslations } from "next-intl";
 
 export function AddLocationButton(){
+  const t = useTranslations();
     return (
         <Dialog>
       <DialogTrigger><Button>Add Location</Button></DialogTrigger>

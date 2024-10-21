@@ -15,8 +15,11 @@ import CreateGroupForm from "@/components/settings/groups/CreateGroupForm";
 import Link from "next/link";
 import { Trash2, ZoomIn } from "lucide-react";
 import GroupAssignUserForm from "@/components/settings/groups/assignGroupUserForm";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export function AddGroupButton() {
+  const t = useTranslations();
   return (
     <Dialog>
       <DialogTrigger>
