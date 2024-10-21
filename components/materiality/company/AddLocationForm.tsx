@@ -13,11 +13,13 @@ import { Button } from "@/components/ui/button";
 import { getLocationTypes, getCountries } from "@/lib/company/data";
 import SearchableCountrySelect from '@/components/materiality/company/SearchableCountrySelect';
 import { addLocation } from '@/lib/company/action';
+import { getTranslations } from 'next-intl/server';
 
 export default async function AddLocationForm() {
     const locationTypes = await getLocationTypes();
     const countries = await getCountries();
     const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
+    const t = await getTranslations();
 
     return (
         <form action={addLocation}>

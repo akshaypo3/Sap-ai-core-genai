@@ -39,6 +39,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
+
 
 export function DataTable<TData, TValue>({
   columns,
@@ -69,6 +71,8 @@ export function DataTable<TData, TValue>({
     },
   })
 console.log(sort);
+
+const t = useTranslations();
   return (
       <><div className="flex items-center py-4">
        <Input

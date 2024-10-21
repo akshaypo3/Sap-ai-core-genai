@@ -15,11 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getIroData } from "@/lib/assessments/data";
 import { saveIroEntries } from "@/lib/assessments/action";
+import { getTranslations } from "next-intl/server";
 
 export default async function IroForm(iroId: any) {
     const id = iroId.id;
     let iroData = await getIroData(id);
     const iroDataString = JSON.stringify(iroData);
+    const t = await getTranslations();
 
     return (
         <>

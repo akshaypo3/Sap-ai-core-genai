@@ -15,11 +15,13 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { saveIroEntries } from "@/lib/assessments/action";
 import { performAIAssessment } from "@/lib/ai/anthropic";
+import { useTranslations } from "next-intl";
 
 export default function IroFormClient({ initialData, id, stakeholders }) {
   const [formData, setFormData] = useState(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [aiSuggestion, setAiSuggestion] = useState(null);
+  const t = useTranslations();
 
   console.log("initial data: ", initialData)
 
