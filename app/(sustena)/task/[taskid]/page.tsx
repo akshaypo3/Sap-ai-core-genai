@@ -32,6 +32,8 @@ import { DataTable } from "@/components/table/data-table";
 import { columns_task_log } from "@/components/table/TaskLogsTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function taskPage({
   params,
@@ -68,27 +70,16 @@ export default async function taskPage({
   const actualTime = timezone.userWithTimezone.timezone
 
   const t = await getTranslations('task');
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("taskId.Dashboard") },
+    { href: "/task", text: t("taskId.Tasks") }
+  ];
 
   return (
     <>
       <ContentLayout title={t("taskId.title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{task.title}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t("taskId.Dashboard")}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/task">{t("taskId.Tasks")}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={task.title} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>

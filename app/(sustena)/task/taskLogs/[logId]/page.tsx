@@ -25,6 +25,8 @@ import { Slash } from "lucide-react";
 import { getTaskActivityLogById, getCommentsByTaskId } from "@/lib/task/data";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function ActivityPage({
   params,
@@ -138,27 +140,15 @@ export default async function ActivityPage({
   );
 
   const t = await getTranslations('task');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("logDetails.Dashboard") },
+    { href: "/task", text: t("logDetails.Tasks") }
+  ];
   return (
     <>
       <ContentLayout title={t("logDetails.title")}>
         <div className="mb-5 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{activity.user}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t("logDetails.Dashboard")}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/task">{t("logDetails.Tasks")}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={activity.user} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
 
         {userUpdate && commentLogsExist ? null : (

@@ -33,6 +33,8 @@ import {
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import NewsCards from "@/components/dashboard/NewsCards";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -57,21 +59,14 @@ if (!user) {
 }
 
   const t = await getTranslations('main-page');
-
+  const breadcrumbs = [
+    { href: "/internal/", text: t("Home") }
+  ];
   return (
     <>
       <ContentLayout title={t("title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("Dashboard")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/internal/">{t("Home")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+        <BreadCrumbCom title={t("Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <Button variant="outline">Add new</Button> <*/}

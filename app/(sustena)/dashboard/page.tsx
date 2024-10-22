@@ -1,16 +1,17 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-} from "@/components/ui/breadcrumb";
+// import {
+//   Breadcrumb,
+//   BreadcrumbItem,
+//   BreadcrumbLink,
+//   BreadcrumbList,
+// } from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import NewsCards from "@/components/dashboard/NewsCards";
 import {getTranslations} from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
 
 export default async function Home() {
   const supabase = createClient();
@@ -37,20 +38,15 @@ if (!user) {
   const t = await getTranslations('dashboard');
   // Initialize translations for the dashboard
 
+  const breadcrumbs = [
+    { href: "/dashboard", text: t("home") },
+  ];
+
   return (
     <ContentLayout title={t("title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("title")}</h1>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/internal/">{t("home")}</BreadcrumbLink>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </div>
+        <BreadCrumbCom title={t("title")} breadcrumbs={breadcrumbs}/>
+      </div> 
 
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">

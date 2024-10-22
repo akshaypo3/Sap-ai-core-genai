@@ -23,6 +23,8 @@ import TimeZone from "@/components/settings/timezone/Timezone";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { changeTimezone } from "@/lib/settings/timezone/action";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -45,31 +47,19 @@ export default async function Home() {
   };
 
   const t = await getTranslations('settings');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("administration.Dashboard") },
+    { href: "/settings/administration", text: t("administration.Administration") }
+  ];
   return (
     <>
       <ContentLayout title="Administration">
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("administration.title")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard">{t("administration.Dashboard")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/settings/administration">{t("administration.Administration")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
+        <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        {/* <div className="flex space-x-4">
+          Button Section for Subheader
+          <Button variant="outline">Add new</Button>
+        </div>  */}
       </div>
 
       <Tabs defaultValue="general" className="w-full">

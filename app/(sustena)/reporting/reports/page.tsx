@@ -18,6 +18,8 @@ import { Slash } from "lucide-react"
 import DashboardTopChartSection from "@/components/reporting/reports/DashboardTopChartSection";
 import ReportsTable from "@/components/reporting/reports/ReportsTable";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -30,31 +32,19 @@ export default async function Home() {
     return redirect("/login");
   }
   const t = await getTranslations('reporting');
-
+  const breadcrumbs = [
+    { href: "/reporting/dashboard/", text: t("reports.Dashboard") },
+    { href: "/reporting/dashboard/", text: t("reports.Reporting") }
+  ];
   return (
     <>
       <ContentLayout title={t("reports.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("reports.Reports")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard/">{t("reports.Dashboard")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/reporting/dashboard">{t("reports.Reporting")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
+        <BreadCrumbCom title={t("reports.Reports")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        {/* <div className="flex space-x-4">
+          Button Section for Subheader
+          <Button variant="outline">Add new</Button>
+        </div> */}
       </div>
       {/* <DashboardTopChartSection/> */}
       <ReportsTable/>

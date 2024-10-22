@@ -40,6 +40,8 @@ import {
 import StakeholderMatrix from "@/components/materiality/stakeholders/StakeholderMatrix";
 import { getTranslations } from "next-intl/server";
 import StakeholderStatisticCards from "@/components/materiality/assessments/StakeholderStatisticCards";
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -81,41 +83,17 @@ export default async function Home() {
   };
 
   const t = await getTranslations("materiality");
+  const breadcrumbs = [
+    { href: "/materiality/dashboard/", text: t("stakeholders.dashboard") },
+    { href: "/materiality/dashboard/", text: t("stakeholders.materiality") },
+    { href: "/materiality/stakeholders", text: t("stakeholders.stakeholders") }
+  ];
 
   return (
     <>
       <ContentLayout title={t("stakeholders.title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">
-              {t("stakeholders.stakeholder_analysis")}
-            </h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard/">
-                    {t("stakeholders.dashboard")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard">
-                    {t("stakeholders.materiality")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/stakeholders">
-                    {t("stakeholders.stakeholders")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={t("stakeholders.stakeholder_analysis")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
           <div className="flex space-x-4">
             {/* Button Section for Subheader */}
             {/* <AddStakeholderButton/> */}

@@ -28,6 +28,8 @@ import { Badge } from "@/components/ui/badge";
 import IroFormWrapper from "@/components/materiality/assessments/IroFormWrapper";
 import { Progress } from "@/components/ui/progress";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home({ params }: { params: { iroid: string, id: string } }) {
   const { id } = params;
@@ -36,27 +38,16 @@ export default async function Home({ params }: { params: { iroid: string, id: st
   const percentage = (((assessmentData.material + assessmentData.not_material + assessmentData.under_review) / assessmentData.total_count) * 100);
 
   const t = await getTranslations('materiality'); // Fetch translations
+  const breadcrumbs = [
+    { href: "/materiality/dashboard/", text: t('assessments.iroid.Assessment') },
+    // { href: `/materiality/assessments/${iroid}`, text: t('assessments.iroid.$(FY)') }
+  ];
 
   return (
     <>
       <ContentLayout title={t('assessments.iroid.Dashboard')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{t('assessments.iroid.Materiality')}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard/">{t('assessments.iroid.Assessment')}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  {/* <Slash /> */}
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  {/* <BreadcrumbLink href={`/materiality/assessments/${iroid}`}>{t('assessments.iroid.$(FY)')}</BreadcrumbLink> */}
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={t('assessments.iroid.Materiality')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-6">
               <h2 className="text-lg font-semibold">{t('assessments.iroid.Assessment Progress Overview')}</h2>

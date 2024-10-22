@@ -68,6 +68,8 @@ import { AddRoleButton } from "@/components/settings/roles/buttons";
 import { AddGroupButton } from "@/components/settings/groups/buttons";
 import { getTimeZone} from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -95,38 +97,26 @@ export default async function Home() {
     currentGroup: user.group?.group, // Current user's group
     currentRole: user.role?.role,     // Current user's role
   }));
-
-
+  
+  
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
   // console.log("roleUserCount", rolesData);
-
+  
   const t = await getTranslations('settings');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("users.Dashboard") },
+    { href: "/settings/users", text: t("users.Users") }
+  ];
   return (
     <>
       <ContentLayout title={t("users.title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{t("users.User Management")}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t("users.Dashboard")}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/settings/users">{t("users.Users")}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div className="flex space-x-4">
-            {/* Button Section for Subheader */}
-            {/* <Button variant="outline">Add new</Button> */}
-          </div>
+          <BreadCrumbCom title={t("users.User Management")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+          {/* <div className="flex space-x-4">
+            Button Section for Subheader
+            <Button variant="outline">Add new</Button>
+          </div> */}
         </div>
 
         <Tabs defaultValue="users" className="w-full">

@@ -18,6 +18,8 @@ import { getGoalById } from "@/lib/goals/data";
 import { DeleteGoalButton, UpdateGoalButton } from "@/components/goals/buttons";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function GoalPage({
   params,
@@ -44,29 +46,16 @@ export default async function GoalPage({
 
   const timezone = await getTimeZone({ userId: user.id });
   const actualTime = timezone.userWithTimezone.timezone;
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t('goalDetails.dashboard') },
+    { href: "/materiality/goals", text: t('goalDetails.goals') }
+  ];
 
   return (
     <>
       <ContentLayout title={t('goalDetails.title')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{goal.name}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t('goalDetails.dashboard')}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/goals">
-                  {t('goalDetails.goals')}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={goal.name} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
 
         <div className="bg-white dark:bg-neutral-950 rounded-md">

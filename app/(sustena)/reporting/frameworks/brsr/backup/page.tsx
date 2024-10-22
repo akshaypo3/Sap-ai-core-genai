@@ -33,6 +33,8 @@ import {
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import SectionCards from "@/components/reporting/frameworks/brsr/SectionCards";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -46,21 +48,14 @@ export default async function Home() {
   }
 
   const t = await getTranslations('reporting');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("frameworks.brsr.backup.Home") }
+  ];
   return (
     <>
         <ContentLayout title={t("frameworks.brsr.backup.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("frameworks.brsr.backup.BRSR")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">{t("frameworks.brsr.backup.Home")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+        <BreadCrumbCom title={t("frameworks.brsr.backup.BRSR")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <Button variant="outline">Add new</Button> <*/}

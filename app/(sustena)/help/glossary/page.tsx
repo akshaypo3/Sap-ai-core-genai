@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/accordion";
 import { getTranslations } from 'next-intl/server'; // Updated import
 import { Slash } from "lucide-react";
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -34,37 +36,22 @@ export default async function Home() {
   // Use getTranslations to fetch translations
   const t = await getTranslations('glossary');
 
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t('breadcrumb.dashboard') },
+    { href: "/help/glossary", text: t('breadcrumb.help') },
+    { href: "/help/glossary", text: t('breadcrumb.glossary')}
+  ];
+
   return (
     <>
       <ContentLayout title={t('title')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{t('title')}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard/">{t('breadcrumb.dashboard')}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/help/glossary">{t('breadcrumb.help')}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/help/glossary">{t('breadcrumb.glossary')}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div className="flex space-x-4">
-            {/* Button Section for Subheader */}
-            {/* <Button variant="outline">Add new</Button> */}
-          </div>
-        </div>
+            <BreadCrumbCom title={t('title')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+          {/* <div className="flex space-x-4">
+            Button Section for Subheader
+            <Button variant="outline">Add new</Button>
+          </div> */}
+        </div> 
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
           <Accordion type="multiple">
             {glossaryItems.map((item) => (

@@ -20,6 +20,8 @@ import { columns_goal } from "@/components/table/GoalsTableColumns";
 import { columns_activity_goal } from "@/components/table/GoalActivityLogsTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from "next-intl/server";
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -40,20 +42,13 @@ export default async function Home() {
   
   const timezone = await getTimeZone({ userId: user.id });
   const actualTime = timezone.userWithTimezone.timezone;
-
+  const breadcrumbs = [
+    { href: "/dashboard", text: t("goals.dashboard") }
+  ];
   return (
     <ContentLayout title={t("goals.companyGoals")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("goals.goalsTitle")}</h1>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard">{t("goals.dashboard")}</BreadcrumbLink>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+        <BreadCrumbCom title={t("goals.goalsTitle")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
       </div>
 
       <div className="flex flex-wrap">

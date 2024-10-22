@@ -1,11 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import {  ArrowUpDown, ZoomIn } from "lucide-react";
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
-import { useTranslations } from 'next-intl'; // Import the useTranslations hook
 
 export type Location = {
     id: string;
@@ -16,90 +15,70 @@ export type Location = {
     city: string;
     country: string;
     employee_count: string;
-};
+    companyid: string
+  };
 
-export const columns_location: ColumnDef<Location>[] = [
+  export const columns_location: ColumnDef<Location>[] = [
     {
-        accessorKey: "name",
-        header: () => {
-            const t = useTranslations("table"); 
-            return t("name");
-        },
-        cell: ({ row }) => <span className="font-medium">{row.getValue("name") || "NA"}</span>,
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => <span className="font-medium">{row.getValue("name") || "NA"}</span>,
     },
     {
-        accessorKey: "description",
-        header: () => {
-            const t = useTranslations("table");
-            return t("description");
-        },
-        cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
     },
     {
-        accessorKey: "address",
-        header: () => {
-            const t = useTranslations("table");
-            return t("address");
-        },
-        cell: ({ row }) => <span>{row.getValue("address") || "NA"}</span>,
+      accessorKey: "address",
+      header: "Street",
+      cell: ({ row }) => <span>{row.getValue("address") || "NA"}</span>,
     },
     {
-        accessorKey: "postalcode",
-        header: () => {
-            const t = useTranslations("table");
-            return t("postalCode");
-        },
-        cell: ({ row }) => <span>{row.getValue("postalcode") || "NA"}</span>,
+      accessorKey: "postalcode",
+      header: "Postal Code",
+      cell: ({ row }) => <span>{row.getValue("postalcode") || "NA"}</span>,
     },
     {
-        accessorKey: "city",
-        header: ({ column }) => {
-            const t = useTranslations("table");
-            return (
-            <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            {t("city")}
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-            )
-        },
-        cell: ({ row }) => <span>{row.getValue("city") || "NA"}</span>,
+      accessorKey: "city",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          City
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => <span>{row.getValue("city") || "NA"}</span>,
     },
     {
-        accessorKey: "country",
-        header: () => {
-            const t = useTranslations("table");
-            return t("country");
-        },
-        cell: ({ row }) => <span>{row.getValue("country") || "NA"}</span>,
+      accessorKey: "country",
+      header: "Country",
+      cell: ({ row }) => <span>{row.getValue("country") || "NA"}</span>,
     },
     {
-        accessorKey: "employee_count",
-        header: () => {
-            const t = useTranslations("table");
-            return t("employees");
-        },
-        cell: ({ row }) => <span>{row.getValue("employee_count") || "NA"}</span>,
+      accessorKey: "employee_count",
+      header: "Employees",
+      cell: ({ row }) => <span>{row.getValue("employee_count") || "NA"}</span>,
     },
     {
-      accessorKey: "details",
-        header: () => {
-          const t = useTranslations("table");
-          return t("details");
+      header: "Details",
+      cell: ({ row }) => {
+        console.log(row.original.companyid); // Log the ID or any relevant info
+    
+        return (
+          <div className="flex justify-end">
+            <Link href={`/materiality/company/${row.original.companyid}/location/${row.original.id}`}>
+              <Button className="p-2">
+                <span className="sr-only">View</span>
+                <ZoomIn className="w-4" />
+              </Button>
+            </Link>
+            <DeleteLocationButton location={row.original} />
+          </div>
+        );
       },
-        cell: ({ row }) => {
-          const t = useTranslations("table");
-            <div className="flex justify-end">
-                <Link href={`/materiality/company/location/${row.original.id}`}>
-                    <Button className="p-2">
-                        <span className="sr-only">{t("View")}</span>
-                        <ZoomIn className="w-4" />
-                    </Button>
-                </Link>
-                <DeleteLocationButton location={row.original} />
-            </div>
-        },
-    },
-];
+    }
+    ,
+  ];

@@ -41,16 +41,19 @@ import ReusableLineChartInteractive, {
 import ReusableBarChartInteractive, {
   ReusableBarChartInteractiveProps,
 } from "@/components/charts/ReusableBarChartInteractive";
-import {
-  assessmentData,
-  assessmentChartConfig,
-  ScattaredassessmentChartConfig,
-  PieassessmentChartConfig,
-  InteactiveChartConfig,
-} from "@/components/charts/ChartData";
+// import {
+//   assessmentData,
+//   assessmentChartConfig,
+//   ScattaredassessmentChartConfig,
+//   PieassessmentChartConfig,
+//   InteactiveChartConfig,
+// } from "@/components/charts/ChartData";
+import { useTranslatedChartConfig } from '@/components/charts/ChartData';
 import { Chart } from "chart.js";
 import { getTranslations } from "next-intl/server";
 import AssessmentStepsOverview from "@/components/materiality/assessments/AssessmentStepsOverview";
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -60,6 +63,11 @@ export default async function Home({ params }: { params: { id: string } }) {
   const AssessmentData1 = await getAssessmentDataforchart(id);
   const AssessmentData2 = await getEsrsIrosStatscount(id);
 
+  const {
+    assessmentChartConfig,
+    ScattaredassessmentChartConfig,
+    PieassessmentChartConfig,
+    InteactiveChartConfig,} = useTranslatedChartConfig()
   const t = await getTranslations("materiality");
   //  const AssesmentbarChartProps: ReusableBarChartProps = {
   //    data: AssessmentData1,
@@ -75,8 +83,8 @@ export default async function Home({ params }: { params: { id: string } }) {
     config: ScattaredassessmentChartConfig,
     title: t("assessments.id.title2"),
     description: t("assessments.id.description2"),
-    x_dataKey: t("assessments.id.xDataKey2"),
-    y_dataKey: t("assessments.id.yDataKey2"),
+    x_dataKey: "impact_score",
+    y_dataKey: "financial_score"
   };
 
   // const AssesmentScatteredChart: ReusableScatteredChartProps = {
@@ -117,8 +125,8 @@ export default async function Home({ params }: { params: { id: string } }) {
     config: PieassessmentChartConfig,
     title: t("assessments.id.title1"),
     description: t("assessments.id.description1"),
-    dataKey: t("assessments.id.xDataKey1"),
-    xAxisKey: t("assessments.id.yDataKey2"),
+    dataKey: "count",
+    xAxisKey: "status"
   };
 
   // const AssesmentLineChart: ReusableLineChartProps = {
@@ -150,33 +158,17 @@ export default async function Home({ params }: { params: { id: string } }) {
   //   xAxisKey: "code"
   // };
 
+  const breadcrumbs = [
+    { href: "/materiality/dashboard/", text: t("assessments.id.name") },
+    { href: "/materiality/dashboard/", text: t("assessments.id.date") }
+  ];
+
   return (
     <>
       <ContentLayout title={t("assessments.id.dashboard")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">
-              {t("assessments.id.title")}
-            </h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard/">
-                    {t("assessments.id.name")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/dashboard">
-                    {t("assessments.id.date")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </div>
+          <BreadCrumbCom title={t("assessments.id.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        </div> 
 
         {/* <div className="bg-white p-5 border rounded">
       <h1>Assessment Score Distribution Chart</h1>
