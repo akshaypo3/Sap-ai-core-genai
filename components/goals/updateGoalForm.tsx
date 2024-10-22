@@ -12,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslations } from "next-intl";
 
 export default function UpdateGoalForm({ goal }: { goal: any }) {
   async function handleSubmit(formData: FormData) {
@@ -64,7 +63,6 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
   //   }
   // };
 
-  const t = useTranslations("goals")
   return (
     <form
       onSubmit={(event) => {
@@ -75,7 +73,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
       className="p-4"
     >
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Label htmlFor="name">{t("Goal Name")}</Label>
+        <Label htmlFor="name">Goal Name</Label>
         <Input
           type="text"
           name="name"
@@ -84,7 +82,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         />
 
-        <Label htmlFor="description">{t("Description")}</Label>
+        <Label htmlFor="description">Description</Label>
         <Input
           type="text"
           name="description"
@@ -102,7 +100,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         /> */}
 
-        <Label htmlFor="unit_of_measure">{t("Unit of Measure")}</Label>
+        <Label htmlFor="unit_of_measure">Unit of Measure</Label>
         <Input
           type="text"
           name="unit_of_measure"
@@ -111,7 +109,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         />
 
-        <Label htmlFor="start_date">{t("Start Date")}</Label>
+        <Label htmlFor="start_date">Start Date</Label>
         <Input
           type="date"
           name="start_date"
@@ -120,7 +118,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         />
 
-        <Label htmlFor="end_date">{t("End Date")}</Label>
+        <Label htmlFor="end_date">End Date</Label>
         <Input
           type="date"
           name="end_date"
@@ -157,7 +155,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           )}
         /> */}
 
-        <Label htmlFor="owner">{t("Owner")}</Label>
+        <Label htmlFor="owner">Owner</Label>
         <Input
           type="text"
           name="owner"
@@ -167,19 +165,19 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
         />
 
         <div className="w-full">
-          <Label htmlFor="status">{t("Status")}</Label>
+          <Label htmlFor="status">Status</Label>
           <Select name="status" defaultValue={goal.status ? "TRUE" : "FALSE"}>
             <SelectTrigger>
               <SelectValue placeholder="Select Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="TRUE">"{t("Completed")}"</SelectItem>
-              <SelectItem value="FALSE">{("In Progress")}</SelectItem>
+              <SelectItem value="TRUE">Completed</SelectItem>
+              <SelectItem value="FALSE">In Progress</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        <Label htmlFor="key_actions">{t("Key Actions")}</Label>
+        <Label htmlFor="key_actions">Key Actions</Label>
         <Input
           type="text"
           name="key_actions"
@@ -189,7 +187,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
         />
 
         <Label htmlFor="frequency_of_measurement">
-          {t("Frequency of Measurement")}
+          Frequency of Measurement
         </Label>
         <Input
           type="text"
@@ -199,7 +197,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         />
 
-        <Label htmlFor="completion_date">{t("Completion Date")}</Label>
+        <Label htmlFor="completion_date">Completion Date</Label>
         <Input
           type="date"
           name="completion_date"
@@ -208,7 +206,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         />
 
-        <Label htmlFor="risks">{t("Risks")}</Label>
+        <Label htmlFor="risks">Risks</Label>
         <Input
           type="text"
           name="risks"
@@ -217,7 +215,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           required
         />
 
-        <Label htmlFor="comments">{t("Comments")}</Label>
+        <Label htmlFor="comments">Comments</Label>
         <Input
           type="text"
           name="comments"
@@ -230,7 +228,7 @@ export default function UpdateGoalForm({ goal }: { goal: any }) {
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                {t("Update Goal")}
+                Update Goal
               </Button>
             </DialogClose>
           </div>

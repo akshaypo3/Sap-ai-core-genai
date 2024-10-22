@@ -22,14 +22,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import SignOutButton from "@/components/general/SignOutButton";
 import { getUserInfo } from "@/lib/settings/users/data";
-import { getTranslations } from "next-intl/server";
 
 export async function UserNav() {
   const userData = await getUserInfo(); 
   const userEmail= userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf('@'));
   const userInitial = userName.substring(0,2);
-  const t = await getTranslations("sustena-layout")
 
   return (
     <DropdownMenu>
@@ -48,7 +46,7 @@ export async function UserNav() {
               </Button>
             </DropdownMenuTrigger>
           </TooltipTrigger>
-          <TooltipContent side="bottom">{t("Profile")}</TooltipContent>
+          <TooltipContent side="bottom">Profile</TooltipContent>
         </Tooltip>
       </TooltipProvider>
 
@@ -66,13 +64,13 @@ export async function UserNav() {
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/dashboard" className="flex items-center">
               <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
-              {t("Dashboard")}
+              Dashboard
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/account" className="flex items-center">
               <User className="w-4 h-4 mr-3 text-muted-foreground" />
-              {t("Account")}
+              Account
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

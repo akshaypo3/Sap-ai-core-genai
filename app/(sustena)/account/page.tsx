@@ -16,6 +16,7 @@ import { EditProfileButton }  from "@/components/settings/users/buttons";
 import { getAllUsers, getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import UserProfile from "@/components/account/UserProfile"
 
 export default async function Home() {
   const supabase = createClient();
@@ -45,7 +46,6 @@ export default async function Home() {
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <BreadCrumbCom title={t("title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>     
         </div> 
-
         <div className="mb-8 p-10 bg-white dark:bg-neutral-950 rounded-md border">
           <div className="space-y-0.5">
             <h2 className="text-2xl font-bold tracking-tight">{t("profile.title")}</h2>
@@ -80,7 +80,7 @@ export default async function Home() {
 
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
           <div className="flex items-center">
-            {/* <EditProfileButton data1={profile}/> */}
+            <EditProfileButton data1={profile}/>
           </div>
         </div>    
       </ContentLayout>     

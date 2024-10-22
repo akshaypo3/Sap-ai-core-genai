@@ -6,10 +6,8 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
-import { useTranslations } from "next-intl";
 
 export default function Component() {
-  const t = useTranslations("reporting-com")
   return (
     <>
     <div className="grid grid-cols-4 gap-4">
@@ -29,8 +27,8 @@ export default function Component() {
               <BarChartIcon className="w-5 h-5 text-green-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("Data mapped")}</div>
-              <div className="text-xs text-green-500">{t("All data sources connected")}</div>
+              <div className="text-sm font-medium">Data mapped</div>
+              <div className="text-xs text-green-500">All data sources connected</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -38,8 +36,8 @@ export default function Component() {
               <GaugeIcon className="w-5 h-5 text-yellow-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("641/1242 KPIs")}</div>
-              <div className="text-xs text-yellow-500">{t("KPIs defined and tracked")}</div>
+              <div className="text-sm font-medium">641/1242 KPIs</div>
+              <div className="text-xs text-yellow-500">KPIs defined and tracked</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -47,13 +45,13 @@ export default function Component() {
               <ActivityIcon className="w-5 h-5 text-green-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("Active")}</div>
-              <div className="text-xs text-green-500">{t("Framework status")}</div>
+              <div className="text-sm font-medium">Active</div>
+              <div className="text-xs text-green-500">Framework status</div>
             </div>
           </div>
         </div>
         <Link href="/dev/reporting/frameworks/esrs">
-            <Button className="w-full bg-green-500 hover:bg-green-600 text-white">{t("Configure Framework")}</Button>
+            <Button className="w-full bg-green-500 hover:bg-green-600 text-white">Configure Framework</Button>
         </Link>
       </CardContent>
     </Card>
@@ -63,8 +61,8 @@ export default function Component() {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
       </div>
       <div className="px-6 pt-4 pb-6 space-y-2">
-        <h3 className="text-lg font-semibold">{t("BRSR")}</h3>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">{t("The Business Responsibility and Sustainability Reporting framework is used by Indian companies to disclose their environmental, social, and governance performance")}.</p>
+        <h3 className="text-lg font-semibold">BRSR</h3>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">The Business Responsibility and Sustainability Reporting framework is used by Indian companies to disclose their environmental, social, and governance performance.</p>
       </div>
       <CardContent className="p-6 space-y-4">
         <div className="grid gap-3">
@@ -73,8 +71,8 @@ export default function Component() {
               <BarChartIcon className="w-5 h-5 text-red-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("Data not mapped")}</div>
-              <div className="text-xs text-red-500">{t("No data sources connected")}</div>
+              <div className="text-sm font-medium">Data not mapped</div>
+              <div className="text-xs text-red-500">No data sources connected</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -82,8 +80,8 @@ export default function Component() {
               <GaugeIcon className="w-5 h-5 text-red-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("0 KPIs")}</div>
-              <div className="text-xs text-red-500">{t("KPIs defined and tracke")}d</div>
+              <div className="text-sm font-medium">0 KPIs</div>
+              <div className="text-xs text-red-500">KPIs defined and tracked</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -91,12 +89,12 @@ export default function Component() {
               <ActivityIcon className="w-5 h-5 text-red-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("Inactive")}</div>
-              <div className="text-xs text-red-500">{t("Framework status")}</div>
+              <div className="text-sm font-medium">Inactive</div>
+              <div className="text-xs text-red-500">Framework status</div>
             </div>
           </div>
         </div>
-        <Button className="w-full bg-slate-500 hover:bg-slate-600 text-white">{t("Configure Framework")}</Button>
+        <Button className="w-full bg-slate-500 hover:bg-slate-600 text-white">Configure Framework</Button>
       </CardContent>
     </Card>
     <Card className="max-w-xs gap-5">
@@ -115,8 +113,8 @@ export default function Component() {
               <BarChartIcon className="w-5 h-5 text-slate-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("Data not mapped")}</div>
-              <div className="text-xs text-slate-500">{t("No data sources connected")}</div>
+              <div className="text-sm font-medium">Data not mapped</div>
+              <div className="text-xs text-slate-500">No data sources connected</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -124,8 +122,8 @@ export default function Component() {
               <GaugeIcon className="w-5 h-5 text-slate-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("0 KPIs")}</div>
-              <div className="text-xs text-slate-500">{t("KPIs defined and tracked")}</div>
+              <div className="text-sm font-medium">0 KPIs</div>
+              <div className="text-xs text-slate-500">KPIs defined and tracked</div>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -133,12 +131,12 @@ export default function Component() {
               <ActivityIcon className="w-5 h-5 text-slate-500" />
             </div>
             <div className="space-y-1">
-              <div className="text-sm font-medium">{t("Not available")}</div>
-              <div className="text-xs text-slate-500">{t("Framework status")}</div>
+              <div className="text-sm font-medium">Not available</div>
+              <div className="text-xs text-slate-500">Framework status</div>
             </div>
           </div>
         </div>
-        <Button className="w-full bg-slate-500 hover:bg-slate-600 text-white">{t("Buy license")}</Button>
+        <Button className="w-full bg-slate-500 hover:bg-slate-600 text-white">Buy license</Button>
       </CardContent>
     </Card>
     </div>

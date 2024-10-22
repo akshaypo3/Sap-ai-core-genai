@@ -154,7 +154,7 @@
       "To Be Assessed": "To Be Assessed",
       "actions": "Actions",
       "noFramework": "No Frameworks",
-      "view": "View",
+      "view":"View",
       "id": {
         "dashboard": "Dashboard",
         "title": "Materiality",
@@ -177,14 +177,14 @@
         "To Be Assessed:": "To Be Assessed:",
         "Under Review:": "Under Review:"
       },
-      "new": {
-        "title": "New Assessment",
-        "New Assessment": "New Assessment",
-        "Dashboard": "Dashboard",
-        "Materiality": "Materiality",
-        "Assessments": "Assessments",
-        "New": "New",
-        "Home": "Home"
+      "new":{
+        "title":"New Assessment",
+        "New Assessment":"New Assessment",
+        "Dashboard":"Dashboard",
+        "Materiality":"Materiality",
+        "Assessments":"Assessments",
+        "New":"New",
+        "Home":"Home"
       }
     },
     "company": {
@@ -1322,6 +1322,10 @@
       "Uncaught Error": "Uncaught Error",
       "Please contact your Sustena administrator for more details": "Please contact your Sustena administrator for more details.",
       "Edit": "Edit"
-    }
+    },
+    "Roles": "Roles",
+    "Groups": "Groups"
   }
 }
+
+

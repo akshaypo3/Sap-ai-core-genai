@@ -8,6 +8,7 @@ import { callAnthropic } from '@/lib/ai/anthropic';
 import { useTranslations } from 'next-intl';
 
 export default function AnthropicApiDemo() {
+  const t = useTranslations();
   const [input, setInput] = useState('');
   const [systemPrompt, setSystemPrompt] = useState('');
   const [response, setResponse] = useState('');
@@ -24,33 +25,33 @@ export default function AnthropicApiDemo() {
     }
     setLoading(false);
   };
-const t = useTranslations("settings-com")
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">{t("Anthropic API Demo")}</h1>
+      <h1 className="text-2xl font-bold mb-4">Anthropic API Demo</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle>{t("System Prompt")}</CardTitle>
+            <CardTitle>System Prompt</CardTitle>
           </CardHeader>
           <CardContent>
             <Textarea
               value={systemPrompt}
               onChange={(e) => setSystemPrompt(e.target.value)}
-              placeholder= {t("Enter system prompt here")}
+              placeholder="Enter system prompt here..."
               className="w-full"
             />
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t("User Input")}</CardTitle>
+            <CardTitle>User Input</CardTitle>
           </CardHeader>
           <CardContent>
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder= {t("Enter your message here")}
+              placeholder="Enter your message here..."
               className="w-full"
             />
           </CardContent>
@@ -62,7 +63,7 @@ const t = useTranslations("settings-com")
       {response && (
         <Card className="mt-4">
           <CardHeader>
-            <CardTitle>{t("Response")}</CardTitle>
+            <CardTitle>Response</CardTitle>
           </CardHeader>
           <CardContent>
             <pre className="whitespace-pre-wrap">{response}</pre>

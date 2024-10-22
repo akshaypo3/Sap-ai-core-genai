@@ -10,23 +10,22 @@ import { useTranslations } from "next-intl";
 
 
 export function AddCommentButton({ taskId }: { taskId: string }) {
-  const t = useTranslations("tasks-com")
   const ref = useRef<HTMLFormElement>(null);
   ref.current?.reset();
 
   return (
     <form ref={ref} action={createComment} className="grid gap-6 mb-3">
       <div className="w-full gap-1.5">
-        <Label htmlFor="comment">{t("Add a comment")}</Label>
+        <Label htmlFor="comment">Add a comment</Label>
         <Textarea
-          placeholder= {t("Type your comment here")}
+          placeholder="Type your comment here."
           id="comment"
           name="comment"
           required
         />
         <Input type="hidden" value={taskId} name="taskID" />
         <Button size="sm" className="mt-3" type="submit">
-          {t("Add Comment")}
+          Add Comment
         </Button>
       </div>
     </form>

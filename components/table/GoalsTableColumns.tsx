@@ -5,8 +5,7 @@ import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ViewGoalButton} from "@/components/goals/buttons";
 import { UUID } from "crypto";
- 
- 
+
 export type Goal = {
     id: UUID;
     name: string;
@@ -17,7 +16,7 @@ export type Goal = {
     owner: string;
     status: string;
   };
- 
+
   export const columns_goal: ColumnDef<Goal>[] = [
     {
       accessorKey: "name",

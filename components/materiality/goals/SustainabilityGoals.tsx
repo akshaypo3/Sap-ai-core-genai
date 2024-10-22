@@ -4,7 +4,6 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { useTranslations } from 'next-intl';
 
 const WaterConsumptionChart = () => {
   const data = [
@@ -14,12 +13,12 @@ const WaterConsumptionChart = () => {
     { year: 2022, consumption: 92 },
     { year: 2023, consumption: 90 },
   ];
-  const t = useTranslations("materiality-com")
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("goals.Water Consumption Reduction")}</CardTitle>
-        <CardDescription>{t("goals.Goal: 50% reduction by 2030")}</CardDescription>
+        <CardTitle>Water Consumption Reduction</CardTitle>
+        <CardDescription>Goal: 50% reduction by 2030</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -33,7 +32,7 @@ const WaterConsumptionChart = () => {
         </ResponsiveContainer>
       </CardContent>
       <CardFooter>
-        <p>{t("goals.Current progress: 10% reduction achieved")}</p>
+        <p>Current progress: 10% reduction achieved</p>
       </CardFooter>
     </Card>
   );
@@ -47,12 +46,12 @@ const RenewableEnergyChart = () => {
     { year: 2022, percentage: 28 },
     { year: 2023, percentage: 35 },
   ];
-  const t = useTranslations("materiality-com")
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("goals.Renewable Energy Usage")}</CardTitle>
-        <CardDescription>{t("goals.Goal: 100% renewable energy by 2035")}</CardDescription>
+        <CardTitle>Renewable Energy Usage</CardTitle>
+        <CardDescription>Goal: 100% renewable energy by 2035</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -66,7 +65,7 @@ const RenewableEnergyChart = () => {
         </ResponsiveContainer>
       </CardContent>
       <CardFooter>
-        <p>{t("goals.Current progress: 35% renewable energy achieved")}</p>
+        <p>Current progress: 35% renewable energy achieved</p>
       </CardFooter>
     </Card>
   );
@@ -80,12 +79,12 @@ const CarbonEmissionsChart = () => {
     { year: 2022, emissions: 95 },
     { year: 2023, emissions: 93 },
   ];
-  const t = useTranslations("materiality-com")
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("goals.Carbon Emissions Reduction")}</CardTitle>
-        <CardDescription>{t("goals.Goal: 40% reduction from 2020 levels by 2040")}</CardDescription>
+        <CardTitle>Carbon Emissions Reduction</CardTitle>
+        <CardDescription>Goal: 40% reduction from 2020 levels by 2040</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -99,7 +98,7 @@ const CarbonEmissionsChart = () => {
         </ResponsiveContainer>
       </CardContent>
       <CardFooter>
-        <p>{t("goals.Current progress: 7% reduction achieved")}</p>
+        <p>Current progress: 7% reduction achieved</p>
       </CardFooter>
     </Card>
   );

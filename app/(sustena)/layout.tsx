@@ -18,7 +18,7 @@ export default async function AuthenticatedLayout({
   if (maintenance) {
     return (
       <main className="flex-grow w-full">
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className=" px-4">
           {t("maintenance")}
         </div>
       </main>

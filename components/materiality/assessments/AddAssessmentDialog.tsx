@@ -10,16 +10,15 @@ import {
 import CreateAssessmentForm from "@/components/materiality/CreateNewAssessmentForm"
 import { useTranslations } from "next-intl"
 
-export function AddAssessmentButton(){
-  const t = useTranslations("materiality-com")
+export async function AddAssessmentButton(){
     return (
       <Dialog>
-      <DialogTrigger><Button className="w-full mb-3 bg-green-500 hover:bg-green-600">{t("assessment.New Assessment")}</Button></DialogTrigger>
+      <DialogTrigger><Button className="w-full mb-3 bg-green-500 hover:bg-green-600">New Assessment</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("assessment.Start new Assessment")}</DialogTitle>
+          <DialogTitle>Start new Assessment</DialogTitle>
           <DialogDescription>
-            {t("assessment.New Assessment function description")}
+            New Assessment function description
           </DialogDescription>
         </DialogHeader>
         <CreateAssessmentForm/>

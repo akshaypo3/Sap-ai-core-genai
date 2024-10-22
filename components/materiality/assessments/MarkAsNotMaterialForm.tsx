@@ -18,27 +18,27 @@ import {
   } from "@/components/ui/popover"  
 import { CircleHelp } from "lucide-react";
 import { markIroAsNotMaterial } from "@/lib/assessments/action";
-import { useTranslations } from "next-intl";
 
 interface NewStakeholderGroupFormData {
     name: string;
     description: string;
 }
 
+
+
 export default function MarkIroAsNotMaterialForm({assId, iroId}){
-    const t = useTranslations("materiality-com")
     return (
         <form action={markIroAsNotMaterial}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
                     <input type="hidden" name="assessment_id" value={assId}/>
                     <input type="hidden" name="iro_id" value={iroId}/>
-                    <Label htmlFor="description">{t("assessment.Description")}</Label>
+                    <Label htmlFor="description">Description</Label>
                     <Input type="text" name="description"/>
                     <div className="flex mt-5">
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                                {t("assessment.Mark as \"Not Material\"")}
+                                Mark as "Not Material"
                             </Button>
                             </DialogClose>                        
                         </div>

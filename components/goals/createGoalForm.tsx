@@ -10,10 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslations } from "next-intl";
 
 export default function CreateGoalForm() {
-  const t = useTranslations("goals")
   return (
 
     <form
@@ -22,57 +20,57 @@ export default function CreateGoalForm() {
     >
 
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Label htmlFor="name">{t("Goal Name")}</Label>
-        <Input type="text" name="name" placeholder={t("Goal Name")} required />
+        <Label htmlFor="name">Goal Name</Label>
+        <Input type="text" name="name" placeholder="Goal Name" required />
 
-        <Label htmlFor="description">{t("Description")}</Label>
+        <Label htmlFor="description">Description</Label>
         <Input
           type="text"
           name="description"
-          placeholder={t("Description")}
+          placeholder="Description"
           required
         />
 
-        <Label htmlFor="target_value">{t("Target Value")}</Label>
+        <Label htmlFor="target_value">Target Value</Label>
         <Input
           type="number"
           name="target_value"
-          placeholder={t("Target Value")}
+          placeholder="Target Value"
           required
         />
 
-        <Label htmlFor="unit_of_measure">{t("Unit of Measure")}</Label>
+        <Label htmlFor="unit_of_measure">Unit of Measure</Label>
         <Input
           type="text"
           name="unit_of_measure"
-          placeholder={t("Unit of Measure")}
+          placeholder="Unit of Measure"
           required
         />
 
-        <Label htmlFor="start_date">{t("Start Date")}</Label>
+        <Label htmlFor="start_date">Start Date</Label>
         <Input
           type="date"
           name="start_date"
-          placeholder={t("Start Date")}
+          placeholder="Start Date"
           required
         />
 
-        <Label htmlFor="end_date">{t("End Date")}</Label>
-        <Input type="date" name="end_date" placeholder={t("End Date")} required />
+        <Label htmlFor="end_date">End Date</Label>
+        <Input type="date" name="end_date" placeholder="End Date" required />
 
-        <Label htmlFor="baseline_value">{t("Baseline Value")}</Label>
+        <Label htmlFor="baseline_value">Baseline Value</Label>
         <Input
           type="number"
           name="baseline_value"
-          placeholder={t("Baseline Value")}
+          placeholder="Baseline Value"
           required
         />
 
-        <Label htmlFor="current_value">{t("Current Value")}</Label>
+        <Label htmlFor="current_value">Current Value</Label>
         <Input
           type="number"
           name="current_value"
-          placeholder={t("Current Value")}
+          placeholder="Current Value"
           required
         />
 
@@ -84,63 +82,63 @@ export default function CreateGoalForm() {
           required
         /> */}
 
-        <Label htmlFor="owner">{t("Owner")}</Label>
-        <Input type="text" name="owner" placeholder={t("Owner")} required />
+        <Label htmlFor="owner">Owner</Label>
+        <Input type="text" name="owner" placeholder="Owner" required />
 
 
         <div className="w-full">
-          <Label htmlFor="status">{("Status")}</Label>
+          <Label htmlFor="status">Status</Label>
           <Input type="hidden" name="status" defaultValue="FALSE"/>
           <Input defaultValue="In Progress" readOnly />
         </div>
 
-        <Label htmlFor="key_actions">{t("Key Actions")}</Label>
+        <Label htmlFor="key_actions">Key Actions</Label>
         <Input
           type="text"
           name="key_actions"
-          placeholder={t("Key Actions")}
+          placeholder="Key Actions"
           required
         />
 
         <Label htmlFor="frequency_of_measurement">
-          {t("Frequency of Measurement")}
+          Frequency of Measurement
         </Label>
         <Input
           type="text"
           name="frequency_of_measurement"
-          placeholder={t("Frequency of Measurement")}
+          placeholder="Frequency of Measurement"
           required
         />
 
-        <Label htmlFor="completion_date">{t("Completion Date")}</Label>
+        <Label htmlFor="completion_date">Completion Date</Label>
         <Input
           type="date"
           name="completion_date"
-          placeholder={t("Completion Date")}
+          placeholder="Completion Date"
           required
         />
 
-        <Label htmlFor="risks">{t("Risks")}</Label>
-        <Input type="text" name="risks" placeholder={t("Risks")} required />
+        <Label htmlFor="risks">Risks</Label>
+        <Input type="text" name="risks" placeholder="Risks" required />
 
-        <Label htmlFor="comments">{("Comments")}</Label>
-        <Input type="text" name="comments" placeholder={t("Comments")} required />
+        <Label htmlFor="comments">Comments</Label>
+        <Input type="text" name="comments" placeholder="Comments" required />
 
         <div className="w-full">
-          <Label htmlFor="visualization">{t("Status")}</Label>
+          <Label htmlFor="visualization">Status</Label>
           <Select
             name="visualization"
           >
             <SelectTrigger>
               <SelectValue
-                placeholder={t("Select Chart")}
+                placeholder="Select Chart"
               />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Bar Graph">{t("Bar Graph")}</SelectItem>
-              <SelectItem value="Line Graph">{t("Line Graph")}</SelectItem>
-              <SelectItem value="Pie Graph">{t("Pie Graph")}</SelectItem>
-              <SelectItem value="Donut Graph">{t("Donut Graph")}</SelectItem>
+              <SelectItem value="Bar Graph">Bar Graph</SelectItem>
+              <SelectItem value="Line Graph">Line Graph</SelectItem>
+              <SelectItem value="Pie Graph">Pie Graph</SelectItem>
+              <SelectItem value="Donut Graph">Donut Graph</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -148,7 +146,7 @@ export default function CreateGoalForm() {
           <div className="flex-auto">
             <DialogClose asChild>
               <Button className="w-full" type="submit">
-                {t("Create Goal")}
+                Create Goal
               </Button>
             </DialogClose>
           </div>

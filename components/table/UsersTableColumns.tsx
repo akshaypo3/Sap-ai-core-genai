@@ -2,16 +2,17 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { DeleteUserButton } from "@/components/settings/users/DeleteUserButton";
-import { ArrowUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import EditUserButton from "../settings/users/editUserButton";
+import EditUserButton from "@/components/settings/users/editUserButton";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 
 export type User = {
     userId: string;
     name: string;
     email: string;
     allGroups: Array<{ id: string; group: string }>; // All available groups
-    allRoles: Array<{ id: string; role: string }>;
+     allRoles: Array<{ id: string; role: string }>;
     group?: { group: string };
     role?: { role: string };
     createdAt: string;
@@ -71,6 +72,14 @@ export type User = {
       header: "UID",
       cell: ({ row }) => <span>{row.getValue("userId")}</span>,
     },
+    // {
+    //     accessorKey: "userId",
+    //     header: () => {
+    //         const t = useTranslations("table");
+    //         return t("uid");
+    //     },
+    //     cell: ({ row }) => <span>{row.getValue("userId")}</span>,
+    // },
     {
       header: "Action",
       cell: ({ row }) => {

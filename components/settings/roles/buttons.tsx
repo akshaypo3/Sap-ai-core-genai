@@ -19,18 +19,19 @@ import DeleteRoleForm from "@/components/settings/roles/DeleteRoleForm";
 import { idText } from "typescript";
 import RoleAssignUserForm from "@/components/settings/roles/assignUserForm";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export async function AddRoleButton() {
-  const t = useTranslations("settings-com")
+  const t = await getTranslations("settings-com")
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add Role")}</Button>
+        <Button>{t("Add Role")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("Add Role")}</DialogTitle>
-          <DialogDescription>{t("Add Role Function Description")}</DialogDescription>
+          <DialogTitle>Add Role</DialogTitle>
+          <DialogDescription>Add Role Function Description</DialogDescription>
         </DialogHeader>
         <CreateRoleForm />
       </DialogContent>
@@ -39,7 +40,6 @@ export async function AddRoleButton() {
 }
 
 export async function DeleteRoleButton({ id }: { id:string }) {
-  const t = useTranslations("settings-com")
   return (
     <Dialog>
       <DialogTrigger>
@@ -52,7 +52,7 @@ export async function DeleteRoleButton({ id }: { id:string }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">{t("Delete Role")}</DialogTitle>
+          <DialogTitle className="text-center">Delete Role</DialogTitle>
         </DialogHeader>
         <DeleteRoleForm id={id} />
       </DialogContent>
@@ -61,11 +61,10 @@ export async function DeleteRoleButton({ id }: { id:string }) {
 }
 
 export async function RoleDetailsButton({ roleid }: { roleid: string }) {
-  const t = useTranslations("settings-com")
   return (
     <Link href={`/settings/roles/${roleid}`}>
       <Button className="p-2" type="submit">
-        <span className="sr-only">{t("View")}</span>
+        <span className="sr-only">View</span>
         <ZoomIn className="w-4" />
       </Button>
     </Link>
@@ -73,17 +72,16 @@ export async function RoleDetailsButton({ roleid }: { roleid: string }) {
 }
 
 export async function ChangeRoleButton({ id }: { id: string }) {
-  const t = useTranslations("settings-com")
   const roleID = id;
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add User to Role")}</Button>
+        <Button className="mb-3 bg-green-600">Add User to Role</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("Add User to this Role")}</DialogTitle>
-          <DialogDescription>{t("Add User Function Description")}</DialogDescription>
+          <DialogTitle>Add User to this Role</DialogTitle>
+          <DialogDescription>Add User Function Description</DialogDescription>
         </DialogHeader>
         <RoleAssignUserForm id={roleID} />
       </DialogContent>

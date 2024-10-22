@@ -14,7 +14,6 @@ import {
   DialogClose
 } from "@/components/ui/dialog";
 import { deleteAssessmentWithId } from '@/lib/assessments/action'; 
-import { useTranslations } from 'next-intl';
 
 export function DeleteAssessmentButton({ assessmentId }: { assessmentId: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,30 +26,28 @@ export function DeleteAssessmentButton({ assessmentId }: { assessmentId: string 
     });
   };
 
-  const t = useTranslations("materiality-com")
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <p className="hover:cursor-pointer">{("assessment.Delete")}</p>
+        <p className="hover:cursor-pointer">Delete</p>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{("assessment.Delete Assessment")}</DialogTitle>
+          <DialogTitle>Delete Assessment</DialogTitle>
           <DialogDescription>
-            {("assessment.Are you sure you want to delete the assessment?")}
+            Are you sure you want to delete the assessment?
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end space-x-2 mt-4">
           <Button onClick={() => setIsOpen(false)} className="bg-green-500 hover:bg-green-600">
-            {("assessment.Cancel")}
+            Cancel
           </Button>
           <Button 
             onClick={handleDelete} 
             className="bg-red-500 hover:bg-red-600"
             disabled={isPending}
           >
-            {isPending ? t('assessment.Deleting') : t('assessment.Delete')}
+            {isPending ? 'Deleting...' : 'Delete'}
           </Button>
         </div>
       </DialogContent>

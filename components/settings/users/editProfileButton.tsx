@@ -13,8 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { editProfile} from "@/lib/settings/users/action";
 import { getAllUsers,getUserGroups,getRoles,getProfile } from "@/lib/settings/users/data";
-import { useTimeZone } from "next-intl";
-import { getTranslations } from "next-intl/server";
 
 interface ProfileData {
     username: string;
@@ -26,16 +24,16 @@ export default async function EditProfileForm(Data){
     const roles = await getRoles();
     const profile = await getProfile();
     const fetchData=Data.data2.data1[0];
-    const t = await getTranslations("settings-com")
+
         return (
         <form action={editProfile}>
                 <div className="grid w-full items-center gap-1.5 mb-2 ">
                 <div className="w-full">
                         <div>
-                            <Label htmlFor="userEmail">{t("User Email List")}</Label>
+                            <Label htmlFor="userEmail">User Email List</Label>
                             <Select name="userEmail" defaultValue={fetchData?.userEmail || ""}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("Default Email" )}defaultValue={fetchData?.userEmail || ""}/>
+                                    <SelectValue placeholder="Default Email" defaultValue={fetchData?.userEmail || ""}/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {users?.map((user) =>(
@@ -46,13 +44,13 @@ export default async function EditProfileForm(Data){
                             </Select>
                         </div>
                     </div>
-                    <Label htmlFor="name" className="space-y-2 m-2">{t("User Name")}</Label>
-                    <Input type="text" name="username" placeholder={t("Username")} defaultValue={fetchData?.username || ""}/>
+                    <Label htmlFor="name" className="space-y-2 m-2">User Name</Label>
+                    <Input type="text" name="username" placeholder="Username" defaultValue={fetchData?.username || ""}/>
                      <div className="flex mt-5">
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                               {t("Save Profile")}
+                               Save Profile
                             </Button>
                             </DialogClose>                        
                         </div>

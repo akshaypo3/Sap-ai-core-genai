@@ -21,11 +21,11 @@ export const GoalChart = ({ goal ,Chart,name,desc,unit}) => {
 };
     
      const AssesmentbarChartProps: ReusableBarChartProps = {
-    data: goal,
+     data: goal,
     config: updatedConfig,
     title: name,
     description: desc,
-    dataKey:"current_value",
+    dataKey: "current_value",
    xAxisKey: "recorded_at"
   };
   const AssesmentLineChart: ReusableLineChartProps = {

@@ -29,22 +29,23 @@ interface NewStakeholderFormData {
 
 
 
+
 export default async function CreateSteakholderForm(){
-    const t = await getTranslations("materiality-com")
     const stakeholderGroups = await getStakeholderGroups();
+    const t = getTranslations();
     return (
         <form action={createStakeholder}>
                 <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="name">{t("stakeholders.Name")}</Label>
-                    <Input type="text" name="name" placeholder={t("stakeholders.Max Mustermann")}/>
-                    <Label htmlFor="description">{t("stakeholders.Description")}</Label>
-                    <Input type="text" name="description" placeholder={t("stakeholders.Kreditgeber")}/>
+                    <Label htmlFor="name">Name</Label>
+                    <Input type="text" name="name" placeholder="Max Mustermann"/>
+                    <Label htmlFor="description">Description</Label>
+                    <Input type="text" name="description" placeholder="Kreditgeber"/>
                     <div className="w-full">
                         <div>
-                            <Label htmlFor="groupId">{t("stakeholders.Stakeholder Group")}</Label>
+                            <Label htmlFor="groupId">Stakeholder Group</Label>
                             <Select name="groupId">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("stakeholders.Default Group")}/>
+                                    <SelectValue placeholder="Default Group"/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     {stakeholderGroups?.map((item) =>(
@@ -57,7 +58,7 @@ export default async function CreateSteakholderForm(){
                     <div className="w-full">
                         <div>
                             <Label htmlFor="stakeholderInterest" className="flex items-center">
-                                {t("stakeholders.Stakeholder Interest")}
+                                Stakeholder Interest
                                 <Popover>
                                     <PopoverTrigger className="inline-flex ml-2 h-4 w-4 items-center"><CircleHelp/></PopoverTrigger>
                                     <PopoverContent className="text-sm">{t("stakeholders.The level of concern or dependency a stakeholder has on the company or its activities")}</PopoverContent>
@@ -65,12 +66,12 @@ export default async function CreateSteakholderForm(){
                             </Label>
                             <Select name="stakeholderInterest">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("stakeholders.Interest")}/>
+                                    <SelectValue placeholder="Interest"/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                        <SelectItem value="1">{t("stakeholders.Low")}</SelectItem>
-                                        <SelectItem value="2">{t("stakeholders.Medium")}</SelectItem>
-                                        <SelectItem value="3">{t("stakeholders.High")}</SelectItem>
+                                        <SelectItem value="1">Low</SelectItem>
+                                        <SelectItem value="2">Medium</SelectItem>
+                                        <SelectItem value="3">High</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -78,7 +79,7 @@ export default async function CreateSteakholderForm(){
                     <div className="w-full">
                         <div>
                             <Label htmlFor="stakeholderInfluence" className="flex items-center">
-                                {t("stakeholders.Stakeholder Influence")}
+                                Stakeholder Influence
                                 <Popover>
                                     <PopoverTrigger className="inline-flex ml-2 h-4 w-4 items-center"><CircleHelp/></PopoverTrigger>
                                     <PopoverContent className="text-sm">{t("stakeholders.The degree to which a stakeholder can impact the company’s decisions, operations, or outcomes")}</PopoverContent>
@@ -89,9 +90,9 @@ export default async function CreateSteakholderForm(){
                                     <SelectValue placeholder="Influence"/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                        <SelectItem value="1">{t("stakeholders.Low")}</SelectItem>
-                                        <SelectItem value="2">{t("stakeholders.Medium")}</SelectItem>
-                                        <SelectItem value="3">{t("stakeholders.High")}</SelectItem>
+                                        <SelectItem value="1">Low</SelectItem>
+                                        <SelectItem value="2">Medium</SelectItem>
+                                        <SelectItem value="3">High</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -99,7 +100,7 @@ export default async function CreateSteakholderForm(){
                     <div className="w-full">
                         <div>
                             <Label htmlFor="stakeholderKnowledge" className="flex items-center">
-                                {t("stakeholders.Stakeholder Knowledge")}
+                                Stakeholder Knowledge
                                 <Popover>
                                     <PopoverTrigger className="inline-flex ml-2 h-4 w-4 items-center"><CircleHelp/></PopoverTrigger>
                                     <PopoverContent className="text-sm">{t("stakeholders.The extent of relevant information or expertise a stakeholder holds that the company depends on")}</PopoverContent>
@@ -107,12 +108,12 @@ export default async function CreateSteakholderForm(){
                             </Label>
                             <Select name="stakeholderKnowledge">
                                 <SelectTrigger>
-                                    <SelectValue placeholder={t("stakeholders.Knowledge")}/>
+                                    <SelectValue placeholder="Knowledge"/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                        <SelectItem value="1">{t("stakeholders.Low")}</SelectItem>
-                                        <SelectItem value="2">{t("stakeholders.Medium")}</SelectItem>
-                                        <SelectItem value="3">{t("stakeholders.High")}</SelectItem>
+                                        <SelectItem value="1">Low</SelectItem>
+                                        <SelectItem value="2">Medium</SelectItem>
+                                        <SelectItem value="3">High</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -121,7 +122,7 @@ export default async function CreateSteakholderForm(){
                         <div className="flex-auto">
                             <DialogClose asChild>
                             <Button className="w-full" type="submit">
-                                {t("stakeholders.Add Stakeholder")}
+                                Add Stakeholder
                             </Button>
                             </DialogClose>                        
                         </div>
