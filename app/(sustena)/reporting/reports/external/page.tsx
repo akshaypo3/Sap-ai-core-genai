@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react"
 // import Subheader from "@/components/Subheader";
 import { getTranslations } from 'next-intl/server'
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -29,37 +31,20 @@ export default async function Home() {
   }
 
   const t = await getTranslations('reporting');
-
+  const breadcrumbs = [
+    { href: "/reporting/dashboard/", text: t("reports.external.dashboard") },
+    { href: "/reporting/dashboard/", text: t("reports.external.reporting") },
+    { href: "/reporting/external/", text: t("reports.external.external") }
+  ];
   return (
     <>
         <ContentLayout title={t("reports.external.externalReporting")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-        <h1 className="font-bold text-2xl mb-2">{t("reports.external.externalReporting")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                  <BreadcrumbLink href="/reporting/dashboard/">{t("reports.external.dashboard")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                  <BreadcrumbLink href="/reporting/dashboard">{t("reports.external.reporting")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                  <BreadcrumbLink href="/reporting/external">{t("reports.external.external")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> */}
-        </div>
+        <BreadCrumbCom title={t("reports.external.externalReporting")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        {/* <div className="flex space-x-4">
+          Button Section for Subheader 
+          <Button variant="outline">Add new</Button>
+        </div> */}
       </div>
       Home
     </ContentLayout>

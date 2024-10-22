@@ -3,13 +3,13 @@ import ReusableBarChart, { ReusableBarChartProps } from "@/components/charts/Reu
 import ReusableLineChart, { ReusableLineChartProps } from "@/components/charts/ReusableLineChart";
 import ReusablePieChart, { ReusablePieChartProps } from "@/components/charts/ReusablePieChart";
 import ReusablePieChartdonut, { ReusablePieChartdonutProps } from "@/components/charts/ReusablePieChartdonut";
-import {  
-  GoalChartConfig
-} from '@/components/charts/ChartData';
+// import {  
+//   GoalChartConfig
+// } from '@/components/charts/ChartData';
+import { useTranslatedChartConfig } from '@/components/charts/ChartData';
 
 export const GoalChart = ({ goal ,Chart,name,desc,unit}) => {
-
-
+  const {GoalChartConfig} = useTranslatedChartConfig();
   // Create a new config object based on GoalChartConfig
   const updatedConfig = {
     ...GoalChartConfig,

@@ -45,6 +45,7 @@ export default async function CompanyLocations(id:any) {
             columns={columns_location}
             data={locations}
             filter={"name"}
+            sort={'City'}
           />
         </div>
       </div>

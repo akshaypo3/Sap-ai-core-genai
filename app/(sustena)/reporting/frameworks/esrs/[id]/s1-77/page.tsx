@@ -15,28 +15,19 @@ import {
   MoveOnButton2,
 } from "@/components/reporting/frameworks/demo/buttons";
 import { getTranslations } from "next-intl/server";
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Page() {
   const t = await getTranslations("reporting");
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("frameworks.esrs.s1-77.Home") }
+  ];
   return (
     <>
       <ContentLayout title={t("frameworks.esrs.s1-77.title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">
-              {t("frameworks.esrs.s1-77.Materiality Dashboard")}
-            </h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard/">
-                    {t("frameworks.esrs.s1-77.Home")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title= {t("frameworks.esrs.s1-77.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
           <div className="flex space-x-4">
             {/* Button Section for Subheader */}
             <Link href="/reporting/frameworks/esrs/esrss1/s1-44">

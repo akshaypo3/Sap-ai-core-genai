@@ -12,6 +12,8 @@ import {columns_file } from "@/components/table/FIlesTableColumns";
 import { DataTable } from "@/components/table/data-table";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import {getTranslations} from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
  
 export default async function Home() {
   const supabase = createClient();
@@ -29,26 +31,16 @@ export default async function Home() {
   // Use translations from the library namespace
   const t = await getTranslations('library');
 
+  const breadcrumbs = [
+    { href: "/reporting/dashboard", text: t('breadcrumb.dashboard') },
+    { href: "/datahub/library", text: t('breadcrumb.library') }
+  ];
+
   return (
     <>
       <ContentLayout title={t('title')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{t('fileUpload')}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/reporting/dashboard/">{t('breadcrumb.dashboard')}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/datahub/library">{t('breadcrumb.library')}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={t('fileUpload')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
 
         <p>{t('fileUpload')}</p>

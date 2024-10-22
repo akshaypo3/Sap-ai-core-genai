@@ -35,7 +35,7 @@ export type Task = {
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Assigned to
+          Assigned To
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
@@ -43,7 +43,7 @@ export type Task = {
     },
     {
       accessorKey: "created_by_username",
-      header: "Created by",
+      header: "Created By",
       cell: ({ row }) => <span className="font-medium">{row.getValue("created_by_username") || "NA"}</span>,
     },
     {

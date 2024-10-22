@@ -16,6 +16,8 @@ import { Slash } from "lucide-react";
 import { getActivityLogById } from "@/lib/goals/data";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server'; // Importing the next-intl hook
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function ActivityPage({
   params,
@@ -114,27 +116,16 @@ export default async function ActivityPage({
     changeField('created_at'),
     changeField('deleted_at'),
   ].some((field) => field !== 'N/A');
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t('logDetails.dashboard') },
+    { href: "/materiality/goals", text: t('logDetails.goals') }
+  ];
 
   return (
     <>
       <ContentLayout title="changes">
         <div className="mb-5 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{activity.user}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t('logDetails.dashboard')}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/materiality/goals">{t('logDetails.goals')}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={activity.user} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
 
         {userUpdate ? null : (

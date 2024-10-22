@@ -15,6 +15,8 @@ import {
 import { Button } from "@/components/ui/button";
 import SectionATabs  from "@/components/reporting/frameworks/brsr/section/a/SectionATabs"
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 
 export default async function Home() {
@@ -29,21 +31,14 @@ export default async function Home() {
   }
 
   const t = await getTranslations('reporting');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("frameworks.brsr.section a.Home") }
+  ];
   return (
     <>
       <ContentLayout title={t("frameworks.section a.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("frameworks.brsr.section a.BRSR Section A")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">{t("frameworks.brsr.section a.Home")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+        <BreadCrumbCom title={t("frameworks.brsr.section a.BRSR Section A")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           {/* <Button variant="outline">Add new</Button> <*/}

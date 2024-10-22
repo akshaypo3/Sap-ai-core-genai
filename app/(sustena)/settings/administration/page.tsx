@@ -23,6 +23,8 @@ import TimeZone from "@/components/settings/timezone/Timezone";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { changeTimezone } from "@/lib/settings/timezone/action";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -45,10 +47,20 @@ export default async function Home() {
   };
 
   const t = await getTranslations('settings');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("administration.Dashboard") },
+    { href: "/settings/administration", text: t("administration.Administration") }
+  ];
   return (
     <>
       <ContentLayout title="Administration">
+      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+        <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        {/* <div className="flex space-x-4">
+          Button Section for Subheader
+          <Button variant="outline">Add new</Button>
+        </div>  */}
+      </div>
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>

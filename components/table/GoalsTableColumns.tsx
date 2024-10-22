@@ -1,11 +1,10 @@
 "use client";
-
+ 
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {   ViewGoalButton} from "@/components/goals/buttons";
+import { ViewGoalButton} from "@/components/goals/buttons";
 import { UUID } from "crypto";
-
 
 export type Goal = {
     id: UUID;
@@ -41,7 +40,7 @@ export type Goal = {
     },
     {
       accessorKey: "progress",
-      header: ({ column }) => (
+      header: ({ column }) => {
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -49,7 +48,7 @@ export type Goal = {
           Progress
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      ),
+    },
       cell: ({ row }) => <span className="font-medium">{row.getValue("progress") || 0} %</span>,
     },
     {

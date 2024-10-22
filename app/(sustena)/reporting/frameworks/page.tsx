@@ -33,6 +33,8 @@ import {
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import FrameworkCards from "@/components/reporting/frameworks/FrameworkCards";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -46,26 +48,18 @@ export default async function Home() {
   }
 
   const t = await getTranslations('reporting');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("frameworks.esrs.Home") }
+  ];
   return (
     <>
       <ContentLayout title={t("frameworks.esrs.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">{t("frameworks.esrs.Materiality Dashboard")}</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/">{t("frameworks.esrs.Home")}</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          {/* <Button variant="outline">Add new</Button> <*/}
-        </div>
-        
+        <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        {/* <div className="flex space-x-4">
+          Button Section for Subheader
+          <Button variant="outline">Add new</Button> 
+        </div> */}
       </div>
         <FrameworkCards/>
     </ContentLayout>

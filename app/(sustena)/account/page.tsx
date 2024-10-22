@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react";
 import { EditProfileButton }  from "@/components/settings/users/buttons";
 import { getAllUsers, getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 import UserProfile from "@/components/account/UserProfile"
 
 export default async function Home() {
@@ -33,28 +35,17 @@ export default async function Home() {
 
   const t = await getTranslations('account'); 
 
+  const breadcrumbs = [
+    { href: "/dashboard", text: t("breadcrumb.dashboard") },
+    { href: "/account", text: t("breadcrumb.account") }
+  ];
+
   return (
     <>
       <ContentLayout title={t("title")}>
-        {/* <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{t("title")}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t("breadcrumb.dashboard")}</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/account">{t("breadcrumb.account")}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </div> */}
-        {/* <UserProfile/> */}
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <BreadCrumbCom title={t("title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>     
+        </div> 
         <div className="mb-8 p-10 bg-white dark:bg-neutral-950 rounded-md border">
           <div className="space-y-0.5">
             <h2 className="text-2xl font-bold tracking-tight">{t("profile.title")}</h2>

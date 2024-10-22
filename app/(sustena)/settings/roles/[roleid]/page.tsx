@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/table";
 import { ChangeRoleButton } from "@/components/settings/roles/buttons";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function roleDetailsPage({
   params,
@@ -38,37 +40,15 @@ export default async function roleDetailsPage({
     // return notFound();
   }
   const t = await getTranslations('settings');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("roles.Dashboard") },
+    { href: "/settings/users", text: t("roles.Users") }
+  ];
   return (
     <>
       <ContentLayout title={t("roles.title")}>
         <div className="mb-8 p-8 flex flex-col space-y-4 bg-white dark:bg-neutral-950 rounded-md border">
-          <div className="flex flex-col space-y-2">
-          <h1 className="font-bold text-3xl mb-2">{t("roles.Role Details")}</h1>
-            <Breadcrumb>
-              <BreadcrumbList className="flex space-x-1">
-                <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href="/dashboard"
-                    className="text-blue-600 hover:underline"
-                  >
-                    {t("roles.Dashboard")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href="/settings/users"
-                    className="text-blue-600 hover:underline"
-                  >
-                    {t("roles.Users")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={t("roles.Role Details")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
           <Table className="min-w-full">

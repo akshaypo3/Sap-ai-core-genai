@@ -8,6 +8,8 @@ import { Slash } from "lucide-react";
 import { getAllUsers, getUserGroups, getActivityLog, getRoles, fetchUsersWithProfilesAndRoles, usercountForRole, usercountForGroups } from "@/lib/settings/users/data";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 import UsersTable from '@/components/settings/users/UsersTable';
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
@@ -46,13 +48,21 @@ export default async function Home() {
   const actualTime = timezone.userWithTimezone.timezone;
 
   const t = await getTranslations('settings');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("users.Dashboard") },
+    { href: "/settings/users", text: t("users.Users") }
+  ];
   return (
     <>
-    <ContentLayout title={t("users.title")}>
-      {/* ... (breadcrumb and header code remains the same) ... */}
-      
-      <Suspense fallback={<div>Loading...</div>}>
+      <ContentLayout title={t("users.title")}>
+        <Suspense fallback={<div>Loading...</div>}>
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <BreadCrumbCom title={t("users.User Management")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+          {/* <div className="flex space-x-4">
+            Button Section for Subheader
+            <Button variant="outline">Add new</Button>
+          </div> */}
+        </div>
         <Tabs defaultValue="users" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="users">{t("users.Users")}</TabsTrigger>

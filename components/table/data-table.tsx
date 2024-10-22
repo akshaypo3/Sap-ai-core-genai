@@ -21,7 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, ArrowUpDown } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -95,7 +95,7 @@ const t = useTranslations();
               )
               .map((column) => {
                 const isHeaderFunction = typeof column.columnDef.header === 'function';
-      const displayName = isHeaderFunction ? sort : (column.columnDef.header || sort);
+                const displayName = isHeaderFunction ? sort : (column.columnDef.header || sort);
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
@@ -105,7 +105,7 @@ const t = useTranslations();
                       column.toggleVisibility(!!value)
                     }
                   >
-                     {displayName}
+                     {t(displayName)}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -117,12 +117,15 @@ const t = useTranslations();
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                    const isHeaderFunction = typeof header.column.columnDef.header === 'function';
+                    const displayName = isHeaderFunction ? sort : (header.column.columnDef.header || sort);
                   return (
                     <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
           {header.isPlaceholder
             ? null
             : flexRender(
-                header.column.columnDef.header,
+                // t(header.column.columnDef.header as string),
+                [t(displayName)],
                 header.getContext()
               )}
         </TableHead>

@@ -22,6 +22,8 @@ import {
 import { AddUserButton } from "@/components/settings/users/buttons";
 import { ChangeGroupButton } from "@/components/settings/groups/buttons";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 
 export default async function roleDetailsPage({
@@ -39,36 +41,15 @@ export default async function roleDetailsPage({
   }
 
   const t = await getTranslations('settings');
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("groups.Dashboard") },
+    { href: "/settings/users", text: t("groups.Users") }
+  ];
   return (
     <>
       <ContentLayout title={t("groups.Group title")}>
         <div className="mb-8 p-8 flex flex-col space-y-4 bg-white dark:bg-neutral-950 rounded-md border">
-          <div className="flex flex-col space-y-2">
-            <h1 className="font-bold text-3xl mb-2">{t("groups.Group Details")}</h1>
-            <Breadcrumb>
-              <BreadcrumbList className="flex space-x-1">
-                <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href="/dashboard"
-                    className="text-blue-600 hover:underline"
-                  >
-                 {t("groups.Dashboard")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href="/settings/users"
-                    className="text-blue-600 hover:underline"
-                  >
-                  {t("groups.Users")}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
+          <BreadCrumbCom title={t("groups.Group Details")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
           <Table className="min-w-full">

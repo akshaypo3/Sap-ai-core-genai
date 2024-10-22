@@ -5,7 +5,6 @@ import { DeleteUserButton } from "@/components/settings/users/DeleteUserButton";
 import EditUserButton from "@/components/settings/users/editUserButton";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from 'next-intl'; // Import the useTranslations hook
 
 
 export type User = {
@@ -54,7 +53,7 @@ export type User = {
     },
     {
       accessorKey: "createdAt",
-      header: "Created",
+      header: "Created At",
       cell: ({ row }) => <span>{new Date(row.getValue("createdAt")).toLocaleDateString()}</span>,
     },
     {
@@ -82,16 +81,21 @@ export type User = {
     //     cell: ({ row }) => <span>{row.getValue("userId")}</span>,
     // },
     {
-      accessorKey: "action",
-        header: () => {
-            const t = useTranslations("table");
-            return t("action"); 
-        },
-        cell: ({ row }) => (
-            <div className="flex justify-center space-x-2">
-                <EditUserButton id={row.original} />
-                <DeleteUserButton id={row.original} />
-            </div>
-        ),
-    }
-];
+      header: "Action",
+      cell: ({ row }) => {
+        return (
+          <div className="flex justify-center space-x-2">
+            <DeleteUserButton id={row.original} />
+          </div>
+        );
+      },
+    },
+    {
+      header: "Edit",
+      cell: ({ row }) => (
+        <div className="flex justify-center space-x-2">
+          <EditUserButton id={row.original} />
+        </div>
+      ),
+    },
+  ];

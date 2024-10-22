@@ -44,6 +44,8 @@ import { DataTable } from "@/components/table/data-table";
 import { columns_task } from "@/components/table/TasksTableColumns";
 import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
+import { BreadCrumbCom } from "@/components/BredCrumb";
+import { BackButton } from "@/components/BredCrumbButtons";
 
 
 export default async function Home() {
@@ -64,26 +66,19 @@ export default async function Home() {
   const actualTime = timezone.userWithTimezone.timezone
 
   const t = await getTranslations('task');
-
+  const breadcrumbs = [
+    { href: "/dashboard/", text: t("Home") }
+  ];
   return (
     <>
       <ContentLayout title={t("title")}>
         {/* <UploadButton/> */}
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <div>
-            <h1 className="font-bold text-2xl mb-2">{t("Tasks")}</h1>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/dashboard">{t("Home")}</BreadcrumbLink>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div className="flex space-x-4">
-            {/* Button Section for Subheader */}
-            {/* <Button variant="outline">Add new</Button> <*/}
-          </div>
+          <BreadCrumbCom title={t("Tasks")} breadcrumbs={breadcrumbs}backButton={<BackButton/>}/>
+          {/* <div className="flex space-x-4">
+            Button Section for Subheader
+            <Button variant="outline">Add new</Button> 
+          </div> */}
         </div>
 
         <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone}/>
@@ -96,7 +91,7 @@ export default async function Home() {
             <TabsContent value="tasks">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
               <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned to'}/>
+                <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned To'}/>
                 </div>
               </div>
             </TabsContent>

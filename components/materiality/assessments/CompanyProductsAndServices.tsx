@@ -30,6 +30,7 @@ export default async function CompanyProductsAndServices() {
             columns={columns_product}
             data={products}
             filter={"name"}
+            sort={'% of Turnover'}
           />
         </div>
       </div>
