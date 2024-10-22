@@ -20,6 +20,7 @@ import { DataTable } from '@/components/table/data-table';
 import RolesTable from '@/components/settings/users/RolesTable';
 import GrouptsTable from '@/components/settings/users/GroupsTable';
 import ActivityLog from '@/components/settings/users/ActivityLog';
+import { Users } from 'lucide-react';
 
 export default async function Home() {
   const supabase = createClient();
@@ -65,7 +66,7 @@ export default async function Home() {
         </div>
         <Tabs defaultValue="users" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="users">{t("users.Users")}</TabsTrigger>
+            <TabsTrigger value="users"><Users className="h-4 w-4 mr-2"/>{t("users.Users")}</TabsTrigger>
             <TabsTrigger value="roles">{t("users.Roles")}</TabsTrigger>
             <TabsTrigger value="groups">{t("users.Groups")}</TabsTrigger>
             <TabsTrigger value="activitylog">{t("users.Activity Log")}</TabsTrigger>

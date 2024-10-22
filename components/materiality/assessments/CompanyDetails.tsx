@@ -12,6 +12,7 @@ export default async function CompanyDetails() {
   const supabase = createClient();
   const t = await getTranslations("materiality");
   const companyDetails = await getCompanyDetails();
+  console.log("Company ID: ",companyDetails[0].id)
 
   return (
     <>

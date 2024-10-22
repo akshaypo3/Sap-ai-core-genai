@@ -15,7 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
-import { Slash, Trash2, Pencil } from "lucide-react";
+import { Slash, Trash2, Pencil,CalendarIcon,SquareKanban,List,SquareGanttChart,TableProperties  } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -72,176 +72,40 @@ export default async function Home() {
   return (
     <>
       <ContentLayout title={t("title")}>
-        {/* <UploadButton/> */}
-        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <BreadCrumbCom title={t("Tasks")} breadcrumbs={breadcrumbs}backButton={<BackButton/>}/>
-          {/* <div className="flex space-x-4">
-            Button Section for Subheader
-            <Button variant="outline">Add new</Button> 
-          </div> */}
-        </div>
-
-        <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone}/>
-
-        <Tabs defaultValue="tasks" className="w-full">
-          <TabsList>
-            <TabsTrigger value="tasks">{t("Tasks")}</TabsTrigger>
-          </TabsList>
-          <div className="bg-white p-5 border rounded">
-            <TabsContent value="tasks">
-              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-              <div className="min-w-full table-auto border-collapse">
-                <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned To'}/>
-                </div>
-              </div>
-            </TabsContent>
+        <div className="bg-white dark:bg-neutral-950 rounded-md border p-5">
+          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+            <h3 className="text-xl font-semibold">
+              Workspace
+            </h3>
+            <AddTask createdId={user.id} />
           </div>
-        </Tabs>
-        {user && (
-          <Tabs defaultValue="tasks" className="w-full mt-8">
-            <TabsList>
-              <TabsTrigger value="tasks">{t("My Tasks")}</TabsTrigger>
+          <Tabs defaultValue="board" className="mt-2">
+            <TabsList className="grid grid-cols-4">
+              <TabsTrigger value="board"><SquareKanban className="mr-2 h-4 w-4"/>Board</TabsTrigger>
+              <TabsTrigger value="list"><List className="mr-2 h-4 w-4"/>List</TabsTrigger>
+              <TabsTrigger value="gantt"><SquareGanttChart className="mr-2 h-4 w-4"/>Gantt</TabsTrigger>
+              <TabsTrigger value="table"><TableProperties className="mr-2 h-4 w-4"/>Table</TabsTrigger>
             </TabsList>
-            <div className="bg-white p-5 border rounded">
-              <TabsContent value="tasks">
-                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-start">
-                  <div className="flex items-center">
-                    <AddTask createdId={user.id} />
+            <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
+              <TabsContent value="board">
+              <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone}/>
+              </TabsContent>
+              <TabsContent value="list">
+              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                <div className="min-w-full table-auto border-collapse">
+                  <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned to'}/>
                   </div>
                 </div>
-                {/* <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                  <div className="flex flex-col h-full">
-                    <div className="flex-1 grid grid-cols-4 gap-1">
-                      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                        <h2 className="text-sm font-semibold mb-4">TODO</h2>
-                        <div className="space-y-4 text-sm font-medium">
-                          {loggedTasks
-                            ?.filter((task) => task.status === "TODO")
-                            .map((task) => (
-                              <Link
-                                key={task.id}
-                                href={`/task/${task.id}`}
-                                passHref
-                              >
-                                <div
-                                  className="bg-white dark:bg-gray-950 rounded-lg p-3 shadow-sm mb-3"
-                                  draggable="true"
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <div>{task.title}</div>
-                                    <Button variant="ghost" size="icon">
-                                      <Ellipsis className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                  <p className="text-gray-600 dark:text-gray-300">
-                                    {task.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))}
-                        </div>
-                      </div>
-                      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                        <h2 className="text-sm font-semibold mb-4">
-                          IN_PROGRESS
-                        </h2>
-                        <div className="space-y-4 text-sm font-medium">
-                          {loggedTasks
-                            ?.filter((task) => task.status === "IN_PROGRESS")
-                            .map((task) => (
-                              <Link
-                                key={task.id}
-                                href={`/task/${task.id}`}
-                                passHref
-                              >
-                                <div
-                                  className="bg-white dark:bg-gray-950 rounded-lg p-3 shadow-sm mb-3"
-                                  draggable="true"
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <div>{task.title}</div>
-                                    <Button variant="ghost" size="icon">
-                                      <Ellipsis className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                  <p className="text-gray-600 dark:text-gray-300">
-                                    {task.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))}
-                        </div>
-                      </div>
-                      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                        <h2 className="text-sm font-semibold mb-4">CLARIFICATION</h2>
-                        <div className="space-y-4 text-sm font-medium">
-                          {loggedTasks
-                            ?.filter((task) => task.status === "NEEDS_CLARIFICATION")
-                            .map((task) => (
-                              <Link
-                                key={task.id}
-                                href={`/task/${task.id}`}
-                                passHref
-                              >
-                                <div
-                                  key={task.id}
-                                  className="bg-white dark:bg-gray-950 rounded-lg p-3 shadow-sm mb-3"
-                                  draggable="true"
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <div>{task.title}</div>
-                                    <Button variant="ghost" size="icon">
-                                      <Ellipsis className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                  <p className="text-gray-600 dark:text-gray-300">
-                                    {task.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))}
-                        </div>
-                      </div>
-                      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                        <h2 className="text-sm font-semibold mb-4">DONE</h2>
-                        <div className="space-y-4 text-sm font-medium">
-                          {loggedTasks
-                            ?.filter((task) => task.status === "DONE")
-                            .map((task) => (
-                              <Link
-                                key={task.id}
-                                href={`/task/${task.id}`}
-                                passHref
-                              >
-                                <div
-                                  key={task.id}
-                                  className="bg-white dark:bg-gray-950 rounded-lg p-3 shadow-sm mb-3"
-                                  draggable="true"
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <div>{task.title}</div>
-                                    <Button variant="ghost" size="icon">
-                                      <Ellipsis className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                  <p className="text-gray-600 dark:text-gray-300">
-                                    {task.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5">
-                  {/* <MyComponent/> */}
-                </div>
+              </TabsContent>
+              <TabsContent value="gantt">
+
+              </TabsContent>
+              <TabsContent value="table">
+
               </TabsContent>
             </div>
           </Tabs>
-        )}
+        </div>
       </ContentLayout>
     </>
   );

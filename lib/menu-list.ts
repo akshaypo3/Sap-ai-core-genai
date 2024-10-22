@@ -19,6 +19,7 @@ import {
   Goal,
   SquareCheckBig
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Submenu = {
   href: string;
@@ -39,14 +40,17 @@ type Group = {
   menus: Menu[];
 };
 
+
+
 export function getMenuList(pathname: string): Group[] {
+  const t = useTranslations("Menu");
   return [
     {
       groupLabel: "",
       menus: [
         {
           href: "/dashboard",
-          label: "Dashboard",
+          label: t("Dashboard"),
           active: pathname.includes("/dashboard"),
           icon: LayoutGrid,
           submenus: []
@@ -58,7 +62,7 @@ export function getMenuList(pathname: string): Group[] {
       menus: [
         {
           href: "/task",
-          label: "Task",
+          label: t("Task"),
           active: pathname.includes("/task"),
           icon: SquareCheckBig,
           submenus: []
@@ -66,25 +70,25 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Assessment Center",
+      groupLabel: t("Assessment Center"),
       menus: [
         {
           href: "/materiality/company",
-          label: "Company",
+          label: t("Company"),
           active: pathname.includes("/materiality/company"),
           icon: Building2,
           submenus: []
         },
         {
           href: "/materiality/goals",
-          label: "Goals",
+          label: t("Goals"),
           active: pathname.includes("/materiality/goals"),
           icon: Goal,
           submenus: []
         },  
         {
           href: "/materiality/assessments",
-          label: "Materiality",
+          label: t("Materiality"),
           active: pathname.includes("/materiality/dashboard"),
           icon: ScatterChart,
           submenus: []
@@ -92,25 +96,25 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Reporting",
+      groupLabel: t("Reporting"),
       menus: [
         {
           href: "/reporting/dashboard",
-          label: "Dashboard",
+          label: t("Dashboard"),
           active: pathname.includes("/reporting/dashboard"),
           icon: LayoutGrid,
           submenus: []
         },
         {
           href: "/reporting/frameworks",
-          label: "Frameworks",
+          label: t("Frameworks"),
           active: pathname.includes("/reporting/frameworks"),
           icon: BookText,
           submenus: []
         },        
         {
           href: "/reporting/reports",
-          label: "Reports",
+          label: t("Reports"),
           active: pathname.includes("/reporting/reports"),
           icon: FileText,
           submenus: []
@@ -118,25 +122,25 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Help",
+      groupLabel: t("Help"),
       menus: [
         {
           href: "/help/guidance",
-          label: "Guidance",
+          label: t("Guidance"),
           active: pathname.includes("/guidance"),
           icon: FileQuestion,
           submenus: []
         },
         {
           href: "/help/glossary",
-          label: "Glossary",
+          label: t("Glossary"),
           active: pathname.includes("/help/glossary"),
           icon: BookOpenText,
           submenus: []
         },
         {
           href: "/help/support",
-          label: "Support",
+          label: t("Support"),
           active: pathname.includes("/help/support"),
           icon: HeartHandshake,
           submenus: []
@@ -144,18 +148,18 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Data Hub",
+      groupLabel: t("Data Hub"),
       menus: [
         {
           href: "/datahub/connections",
-          label: "Connections",
+          label: t("Connections"),
           active: pathname.includes("/datahub/connections"),
           icon: Share2,
           submenus: []
         },
         {
           href: "/datahub/library",
-          label: "Library",
+          label: t("Library"),
           active: pathname.includes("/datahub/library"),
           icon: Library,
           submenus: []
@@ -163,18 +167,18 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Settings",
+      groupLabel: t("Settings"),
       menus: [
         {
           href: "/settings/users",
-          label: "Users",
+          label: t("Users"),
           active: pathname.includes("/settings/users"),
           icon: Users,
           submenus: []
         },
         {
           href: "/settings/administration",
-          label: "Administration",
+          label: t("Administration"),
           active: pathname.includes("/settings/administration"),
           icon: Settings,
           submenus: []

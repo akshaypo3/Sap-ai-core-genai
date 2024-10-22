@@ -18,17 +18,19 @@ import {
 import AddTaskForm from "@/components/task/createTaskForm";
 import UpdateTaskForm from "./updateTaskForm";
 import { createComment } from "@/lib/task/action";
+import { useTranslations } from "next-intl";
 
 export function AddTask(createdId: any) {
+  const t = useTranslations();
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">Add Task</Button>
+        <Button>{t("Add Task")}</Button>
       </DialogTrigger>
       <DialogContent className="p-4">
         <DialogHeader>
-          <DialogTitle>Add Task</DialogTitle>
-          <DialogDescription>Add Task Function Description</DialogDescription>
+          <DialogTitle>{t("Add Task")}</DialogTitle>
+          {/* <DialogDescription>Description</DialogDescription> */}
         </DialogHeader>
         <AddTaskForm createdId={createdId} />
       </DialogContent>
