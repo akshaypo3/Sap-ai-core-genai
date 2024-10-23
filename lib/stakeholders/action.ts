@@ -135,3 +135,40 @@ export async function createStakeholderGroup(formData: FormData) {
 //     console.log("Error creating or updating E-Mail Settings: ",error)
 //   }
 // }
+export async function createStakeholderQuestions(id:any,formData) {
+  const supabase = createClient();
+  const question1 = formData.get("question");
+  const mandatory1  = formData.get("mandatory");
+
+  
+
+  try {
+    const newStakeholderQuestions = await supabase
+      .from("stakeholder_questions")
+      .insert({
+        question: question1,
+        mandatory: mandatory1,
+      });
+    
+  } catch (error) {
+    console.error("Error while adding stakeholder question");
+  } finally {
+    revalidatePath(`/materiality/assessments/${id}/4`);
+    redirect(`/materiality/assessments/${id}/4`);
+  } 
+}
+export async function deleteStakeholderQuestions(id: any,assessmentId:any) {
+  
+  const supabase = createClient();
+  try {
+    const deletedStakeholder = await supabase
+      .from("stakeholder_questions")
+      .delete()
+      .eq("id", id);
+  } catch (error) {
+    console.error("Error while deleting stakeholder questions");
+  } finally {
+    revalidatePath(`/materiality/assessments/${assessmentId}/4`);
+    redirect(`/materiality/assessments/${assessmentId}/4`);
+  }
+}

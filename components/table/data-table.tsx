@@ -118,7 +118,7 @@ const t = useTranslations();
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
+                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress"  || header.column.id ==="mandatory" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
           {header.isPlaceholder
             ? null
             : flexRender(
@@ -141,7 +141,7 @@ const t = useTranslations();
                 >
                   {row.getVisibleCells().map((cell) => (
           <TableCell
-            className={`px-6 py-4 dark:text-neutral-50 font-medium whitespace-nowrap ${cell.column.id === 'user_count'|| cell.column.id === "progress" || cell.column.id === "Action" || cell.column.id === "turnover_percentage" || cell.column.id === "Details" ? 'text-center' : 'text-left'}`}
+            className={`px-6 py-4 dark:text-neutral-50 font-medium whitespace-nowrap ${cell.column.id === 'user_count'|| cell.column.id === "progress" || cell.column.id === "Action" || cell.column.id === "turnover_percentage" || cell.column.id === "mandatory" || cell.column.id === "Details" ? 'text-center' : 'text-left'}`}
             key={cell.id}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
