@@ -1,4 +1,20 @@
 {
+
+  "light":"Light",
+  "dark":"Dark",
+  "system":"System",
+  "Sign in":"Sign In",
+  "Sign out":"Sign Out",
+  "Add Task": "Add Task",
+  "Add Location": "Add Location",
+
+
+
+
+
+
+
+
   "metadata": {
     "title": "VASPP Sutena",
     "description": "Development Version"
@@ -1325,6 +1341,27 @@
     },
     "Roles": "Roles",
     "Groups": "Groups"
+  },
+  "Menu":{
+    "Assessment Center":"Assessment Center",
+    "Reporting":"Reporting",
+    "Help":"Help",
+    "Data Hub":"Data Hub",
+    "Settings":"Settings",
+    "Dashboard":"Dashboard",
+    "Task":"Task",
+    "Company":"Company",
+    "Goals":"Goals",
+    "Materiality":"Materiality",
+    "Frameworks":"Frameworks",
+    "Reports":"Reports",
+    "Guidance":"Guidance",
+    "Glossary":"Glossary",
+    "Support":"Support",
+    "Connections":"Connections",
+    "Library":"Library",
+    "Users":"Users",
+    "Administration":"Administration"
   }
 }
 
