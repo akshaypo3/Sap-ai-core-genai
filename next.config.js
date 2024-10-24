@@ -17,11 +17,6 @@ const nextConfig = {
         ignoreBuildErrors: true
     },
     reactStrictMode: true,
-    logging: {
-      fetches: {
-        fullUrl: true,
-      },
-    }
 };
 
 module.exports = withNextIntl(nextConfig);

@@ -2,21 +2,23 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CalendarIcon, UserIcon } from "lucide-react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 export default function FrameworkCardsMateriality() {
+  const t = useTranslations("materiality-com")
   const newsItems = [
     {
       image: "/esrs_banner.png?height=200&width=300",
-      headline: t("ESRS for CSRD"),
-      description: t("Identify and prioritize sustainability topics that are most relevant to stakeholders and business impact"),
-      author: t("VASPP Deutschland"),
+      headline: t("dashboard.ESRS for CSRD"),
+      description: t("dashboard.Identify and prioritize sustainability topics that are most relevant to stakeholders and business impact"),
+      author: t("dashboard.VASPP Deutschland"),
       date: "",
     },
     {
       image: "/brsr_banner.png?height=200&width=300",
-      headline: t("BRSR"),
-      description: t("You will be directly guided to the framework for streamlined reporting and compliance"),
-      author: t("VASPP Technologies"),
+      headline: t("dashboard.BRSR"),
+      description: t("dashboard.You will be directly guided to the framework for streamlined reporting and compliance"),
+      author: t("dashboard.VASPP Technologies"),
       date: "",
     }
   ]

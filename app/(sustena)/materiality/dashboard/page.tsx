@@ -31,10 +31,10 @@ export default async function Home() {
       <ContentLayout title={t('dashboard.title')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <BreadCrumbCom title={t('dashboard.dashboard.title')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
-          <div className="flex space-x-4">
-            {/* Button Section for Subheader */}
-            {/* <Button variant="outline">addNew</Button> */}
-          </div>
+          {/* <div className="flex space-x-4">
+            Button Section for Subheader
+            <Button variant="outline">addNew</Button>
+          </div> */}
         </div>
         <FrameworkCardsMateriality />
       </ContentLayout>

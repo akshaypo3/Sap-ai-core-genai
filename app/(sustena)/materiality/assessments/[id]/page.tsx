@@ -67,7 +67,7 @@ export default async function Home({ params }: { params: { id: string } }) {
     assessmentChartConfig,
     ScattaredassessmentChartConfig,
     PieassessmentChartConfig,
-    InteactiveChartConfig,} = useTranslatedChartConfig()
+    InteactiveChartConfig,} = await useTranslatedChartConfig()
   const t = await getTranslations("materiality");
   //  const AssesmentbarChartProps: ReusableBarChartProps = {
   //    data: AssessmentData1,

@@ -19,7 +19,7 @@ export default async function AddLocationForm() {
     const locationTypes = await getLocationTypes();
     const countries = await getCountries();
     const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
-    const t = await getTranslations();
+    const t = await getTranslations("materiality-com");
 
     return (
         <form action={addLocation}>

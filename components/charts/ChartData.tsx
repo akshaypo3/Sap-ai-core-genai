@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 // Define types for our data
 type AssessmentData = {
@@ -33,8 +33,8 @@ const assessmentData: AssessmentData[] = [
 ];
 
 
-const useTranslatedChartConfig = () => {
-  const t = useTranslations('charts'); 
+const useTranslatedChartConfig = async() => {
+  const t = await getTranslations('charts'); 
   const assessmentChartConfig: ChartConfig = {
     assessment: {
       x_label: t('x_label_code'), 
