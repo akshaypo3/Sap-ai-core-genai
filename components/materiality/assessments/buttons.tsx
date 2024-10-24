@@ -13,6 +13,8 @@ import {
 import MarkAsNotMaterialForm from "@/components/materiality/assessments/MarkAsNotMaterialForm";
 import { deleteAssessmentWithId } from "@/lib/assessments/action";
 import { useTranslations } from "next-intl";
+import CustomIRoForm from "./CustomIRoForm";
+import IROCatalog from "./IroCatalog";
 
 export function SaveIroButton(){
   "use client"
@@ -100,6 +102,40 @@ export function DeleteAssessmentButton(assessmentId:any){
         <DialogClose asChild>
         <Button className="bg-green-500 hover:bg-green-600">Discard</Button>
         </DialogClose>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export function CustomIROButton({assesmentId}:{assesmentId:string}){
+  return(
+    <Dialog>
+      <DialogTrigger>
+        <Button className="bg-green-600">Add Custom IRo</Button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
+        <DialogHeader>
+          <DialogTitle>Add Custom IRo</DialogTitle>
+          <DialogDescription>Add Custom IRo Description</DialogDescription>
+        </DialogHeader>
+        <CustomIRoForm assesmentId={assesmentId}/>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export function IRoCatalogButton({data,assesmentId}:{data:any,assesmentId:string}){
+  return(
+    <Dialog>
+      <DialogTrigger>
+        <Button className="bg-green-600">Add IROs From Catalog</Button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[90vh] max-w-[35vw] overflow-y-auto p-4">
+        <DialogHeader>
+          <DialogTitle>IRO Catalog</DialogTitle>
+          <DialogDescription>Catalog For ESRS IROS</DialogDescription>
+        </DialogHeader>
+        <IROCatalog data={data} assesmentId={assesmentId}/>
       </DialogContent>
     </Dialog>
   )

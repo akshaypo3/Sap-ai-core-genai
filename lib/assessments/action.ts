@@ -66,11 +66,11 @@ export async function createAssessment(formData: FormData) {
       throw new Error("Error creating assessment: " + error.message);
     }
 
-    const newAssessmentId = newAssessment[0].id;
+    // const newAssessmentId = newAssessment[0].id;
 
     console.log("Created Assessment: " + JSON.stringify(newAssessment));
 
-    await populateLonglist(newAssessmentId);
+    // await populateLonglist(newAssessmentId);
 
   } catch (error) {
     console.error("Error while adding assessment: ", error.message);
@@ -299,5 +299,99 @@ export async function duplicateIro(assessmentId: string, iroId: string) {
   } catch (error: any) {
     console.error("Error while duplicating IRO:", error.message);
     throw error;
+  }
+}
+
+export async function CreateCustomIRo(formData: FormData) {
+  const supabase = createClient();
+  const topic = formData.get("topic");
+  const sub_topic = formData.get("sub_topic");
+  const sub_sub_topic = formData.get("sub_sub_topic");
+  const assesmentId = formData.get("assesmentId")
+
+  try {
+
+    const { data: currentIds, error: fetchError } = await supabase
+      .from('esrs_iros')
+      .select('esrs_id')
+      .eq('assessment_id', assesmentId)
+      .like('esrs_id', 'c-%')
+      .order('esrs_id', { ascending: false })
+      .limit(1);
+    
+    if (fetchError) {
+      throw new Error("Error fetching current esrs_id: " + fetchError.message);
+    }
+
+    let newEsrsId = "c-1";
+    if (currentIds.length > 0) {
+      const lastId = currentIds[0].esrs_id; 
+
+      const match = lastId.match(/c-(\d+)$/); 
+      if (match) {
+        const lastIdNumber = parseInt(match[1]); 
+        newEsrsId = `c-${lastIdNumber + 1}`;
+      }
+    }
+
+    const { data : customIros, error } = await supabase
+    .from('esrs_iros')
+    .insert({
+      code: "Custom",
+      topic: topic,
+      sub_topic: sub_topic,
+      sub_sub_topic: sub_sub_topic,
+      assessment_id: assesmentId,
+      esrs_id: newEsrsId
+    })
+
+    if (error) {
+      throw new Error("Error inserting custom iros in esrs_iros: " + error.message);
+    }
+
+    revalidatePath(`/materiality/assessments/${assesmentId}/5`);
+    redirect(`/materiality/assessments/${assesmentId}/5`);
+  } catch (error:any) {
+    console.error("Error while inserting custom IRo in esrs_iros: ", error.message);
+  } 
+}
+
+export async function AddCatalogIro({
+  code,
+  topic,
+  sub_topic,
+  sub_sub_topic,
+  esrs_id,
+  assessment_id,
+  }: {
+  code: string;
+  topic: string;
+  sub_topic: string;
+  sub_sub_topic: string;
+  esrs_id: string;
+  assessment_id: string;
+  }){
+  const supabase = createClient();
+
+  try {
+    const { data : catalogIros, error } = await supabase
+    .from('esrs_iros')
+    .insert({
+      code,
+      topic,
+      sub_topic,
+      sub_sub_topic,
+      esrs_id,
+      assessment_id,
+    });
+
+    if (error) {
+      throw new Error("Error inserting catalog iros in esrs_iros: " + error.message);
+    }
+
+    revalidatePath(`/materiality/assessments/${assessment_id}/5`);
+    redirect(`/materiality/assessments/${assessment_id}/5`);
+  } catch (error:any) {
+    console.error("Error while inserting catalog IRo in esrs_iros: ", error.message);
   }
 }

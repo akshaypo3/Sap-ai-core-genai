@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { MarkAsNotMaterialButton } from "@/components/materiality/assessments/buttons";
 import AIAssessmentButton from "@/components/materiality/assessments/AIAssessmentButton";
 import { duplicateIro } from "@/lib/assessments/action"; // Import the server action
+import { CustomIROButton, IRoCatalogButton } from "@/components/materiality/assessments/buttons";
 
 type Stakeholder = {
   id: string;
@@ -55,7 +56,7 @@ type GroupedData = {
   };
 };
 
-export default function IroTable({ assessmentData, assessmentId }) {
+export default function IroTable({ assessmentData, assessmentId, AR16Items }) {
   const router = useRouter();
 
   // Group the assessment data by ESRS source (code)
@@ -168,6 +169,10 @@ export default function IroTable({ assessmentData, assessmentId }) {
     <>
       {/* <AIAssessmentButton assessmentId={assessmentId} /> */}
       <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 space-y-8">
+      <div className="space-x-4 p-3">
+          <CustomIROButton assesmentId={assessmentId}/>
+          <IRoCatalogButton data={AR16Items} assesmentId={assessmentId}/>
+      </div>
         {Object.entries(groupedData).map(([code, { items, stats }]) => (
           <div
             key={code}
