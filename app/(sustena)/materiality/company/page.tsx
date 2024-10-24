@@ -53,7 +53,7 @@ export default async function Home() {
   const products = await getProductsAndServices();
 
   return (
-    <ContentLayout title={t('title')}>
+    <ContentLayout title={t('company.title')}>
       <CompanyDetails/>
       <CompanyLocations/>
       <CompanyProductsAndServices/>

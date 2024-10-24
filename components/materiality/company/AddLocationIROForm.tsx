@@ -27,7 +27,13 @@ export default async function AddLocationIROForm({ companyId, locationId }) {
                 <Input type="text" id="name" name="name" required/>
                 
                 <Label htmlFor="description">Description</Label>
-                <Input type="text" id="description" name="description"/>
+                {/* <Input type="text" id="description" name="description"/> */}
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4" // Set the number of rows as needed
+                    className="flex h-32 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                ></textarea>
 
                 <div className="w-full">
                     <Label htmlFor="location_type">Type</Label>

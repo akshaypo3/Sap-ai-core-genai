@@ -30,11 +30,11 @@ export type ProductIRO = {
       header: "Name",
       cell: ({ row }) => <span className="font-medium">{row.getValue("name") || "NA"}</span>,
     },
-    {
-      accessorKey: "description",
-      header: "Description",
-      cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
-    },
+    // {
+    //   accessorKey: "description",
+    //   header: "Description",
+    //   cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
+    // },
     {
       accessorKey: "type",
       header: "Type",

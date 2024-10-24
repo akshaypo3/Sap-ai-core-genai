@@ -454,7 +454,8 @@
       "Email": "Email",
       "Created": "Created",
       "Group Assigned": "Group Assigned",
-      "No users": "No users found for this Group."
+      "No users": "No users found for this Group.",
+      "Role Assigned":"Role Assigned"
     },
     "users": {
       "title": "User Management",
