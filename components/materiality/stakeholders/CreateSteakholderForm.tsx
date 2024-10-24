@@ -32,7 +32,6 @@ interface NewStakeholderFormData {
 
 export default async function CreateSteakholderForm(){
     const stakeholderGroups = await getStakeholderGroups();
-    const t = getTranslations();
     return (
         <form action={createStakeholder}>
                 <div className="grid w-full items-center gap-1.5 mb-2">

@@ -55,7 +55,7 @@ export async function AddStakeholderGroupButton() {
         <DialogHeader>
           <DialogTitle>Add Stakeholder Group</DialogTitle>
           <DialogDescription>
-            {t("stakeholders.If certain groups are missing, you can add them here_Just give them a name and a description")}
+          
           </DialogDescription>
         </DialogHeader>
         <CreateStakeholderGroupForm />

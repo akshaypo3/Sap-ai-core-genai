@@ -3,8 +3,10 @@
 import React, { useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon,SquareKanban,List,SquareGanttChart,Table } from "lucide-react"
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/tabsKanban";
 
 export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, timezone }) {
   const [tasks, setTasks] = useState(initialTasks);
@@ -46,18 +48,23 @@ export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, ti
   }, [updateTaskStatus]);
   
   return (
-    <div className="grid grid-cols-4 gap-2 mb-5 rounded">
-      {Object.entries(columns).map(([status, tasks]) => (
-        <Column 
-          key={status}
-          title={status.replace(/_/g, " ")}
-          tasks={tasks}
-          onDragOver={handleDragOver}
-          actualTime={actualTime}
-          onDrop={(e) => handleDrop(e, status)}
-        />
-      ))}
-    </div>
+    <>
+
+            <div className="min-w-full table-auto border-collapse">
+              <div className="grid grid-cols-4 gap-2 mb-5 rounded">
+                  {Object.entries(columns).map(([status, tasks]) => (
+                    <Column 
+                      key={status}
+                      title={status.replace(/_/g, " ")}
+                      tasks={tasks}
+                      onDragOver={handleDragOver}
+                      actualTime={actualTime}
+                      onDrop={(e) => handleDrop(e, status)}
+                    />
+                  ))}
+                </div>
+            </div>
+  </>
   );
 }
 

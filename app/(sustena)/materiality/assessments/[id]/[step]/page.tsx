@@ -11,6 +11,10 @@ import IroTable from "@/components/materiality/assessments/IroTable";
 import { getAssessmentData } from "@/lib/assessments/data";
 import SignOffComponent from "@/components/materiality/assessments/SignOffComponent";
 import { getAR16Items } from "@/lib/assessments/data";
+import { DataTable } from "@/components/table/data-table";
+import { columns_Stakeholderquestions } from "@/components/table/stakeholderquestionsColumns";
+import { AddLocationButton } from "@/components/materiality/company/buttons";
+import Stackholderquestions from "@/components/materiality/stakeholders/Stackholdersquestions";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
   const { step, id } = params;
@@ -32,6 +36,7 @@ export default async function Home({ params }: { params: { step: string; id: str
         return  <div>
                     <StakeholderStatisticCards/>
                     <CompanyStakeholdersAssessment id={id}/>
+                     <Stackholderquestions id={id}/>
                 </div>;
       case 5:
         return <div><IroTable assessmentData={assessmentData} assessmentId={id} AR16Items={AR16Items}/></div>;

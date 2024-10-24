@@ -48,7 +48,6 @@ export function AddLocationButtonAssessment(){
       <AddLocationFormAssessment/>
     </DialogContent>
   </Dialog>
-      
   )
 }
 
