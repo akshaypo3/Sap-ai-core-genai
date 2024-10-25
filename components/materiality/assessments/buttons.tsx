@@ -140,3 +140,11 @@ export function IRoCatalogButton({data,assesmentId}:{data:any,assesmentId:string
     </Dialog>
   )
 }
+
+export function AddAssignedUser({ onSubmit, disabled }: { onSubmit: () => void; disabled: boolean }) {
+  return (
+    <div>
+        <Button className="bg-green-600" onClick={onSubmit} disabled={disabled}>Add User</Button>
+    </div>
+  );
+}

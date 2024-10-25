@@ -3,6 +3,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { sendMail } from "@/lib/settings/smtp/action";
+import { getUserInfo } from "@/lib/settings/users/data";
 import errorMap from "zod/lib/locales/en";
 
 export async function populateLonglist(assessmentId:string) {
@@ -394,4 +396,130 @@ export async function AddCatalogIro({
   } catch (error:any) {
     console.error("Error while inserting catalog IRo in esrs_iros: ", error.message);
   }
+}
+
+export async function addIroUserTask(formData: FormData){
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+
+  const title = formData.get("title");
+  const description = formData.get("description");
+  const assigned_to = formData.get("assigned_to");
+  const created_by = formData.get("created_by");
+  const status = formData.get("status") || "TODO";
+  const assessmentId = formData.get("assessmentId");
+  const iroId = formData.get("iroId");
+  // const start_date = formData.get("start_date");
+  // const due_date = formData.get("due_date");
+
+  let due_date: any = new Date(); 
+
+  due_date = new Date(new Date().setDate(new Date().getDate() + 5))
+    .toISOString()
+    .split("T")[0]; 
+
+  try {
+    const { data, error } = await supabase
+      .from("tasks")
+      .insert({
+        title: title,
+        description: description,
+        assigned_to: assigned_to,
+        created_by: created_by,
+        status: status,
+        start_date: new Date().toISOString().split('T')[0],
+        due_date: due_date,
+        link: `/materiality/assessments/${assessmentId}/5/${iroId}`
+      })
+      .select();
+
+    if (error) {
+      console.log("Error while inserting the task in the database :", error.message);
+    }
+
+    if (!error && data) {
+      const taskId = data[0]?.id;
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${title}' created`,
+          user: userName,
+          changes: {
+            user: userName,
+            activity: `Task '${title}' created`,
+            created_at: new Date().toISOString(),
+            title: title,
+            description: description,
+            assigned_to: assigned_to,
+            created_by: created_by,
+            status: status,
+            start_date: new Date().toISOString().split('T')[0],
+            due_date: due_date,
+          },
+          task_id : taskId
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
+
+    const { data: createdUserData, error: createdUserError } = await supabase
+      .from("user_profile")
+      .select("userEmail")
+      .eq("id", created_by)
+      .single();
+
+    if (createdUserError || !createdUserData) {
+      throw new Error("Error fetching created user's email");
+    }
+
+    const createdUserEmail = createdUserData.userEmail;
+
+    const createdEmailDetails = {
+      to: createdUserEmail,
+      subject: "SMTP Test Mail",
+      text: "MTP Test Mail",
+      html: `<p><strong>SMTP Test successful</strong>
+       <p>Click <a href="http://localhost:3000/task" target="_blank">here</a> to go for tasks.</p>`,
+    };
+
+    const createdEmailResponse = await sendMail(createdEmailDetails);
+    if (!createdEmailResponse) {
+      console.error("Error sending email notification to created user");
+    }
+
+    if (created_by !== assigned_to) {
+      const { data: assignedUserData, error: assignedUserError } =
+        await supabase
+          .from("user_profile")
+          .select("userEmail")
+          .eq("id", assigned_to)
+          .single();
+
+      if (assignedUserError || !assignedUserData) {
+        throw new Error("Error fetching assigned user's email");
+      }
+
+      const assignedUserEmail = assignedUserData.userEmail;
+
+      const assignedEmailDetails = {
+        to: assignedUserEmail,
+        subject: "SMTP Test Mail",
+        text: "MTP Test Mail",
+        html: `<p><strong>SMTP Test successful</strong>
+        <p>Click <a href="http://localhost:3000/task" target="_blank">here</a> to go for tasks.</p>`,
+      };
+
+      const assignedEmailResponse = await sendMail(assignedEmailDetails);
+      if (!assignedEmailResponse) {
+        console.error("Error sending email notification to assigned user");
+      }
+    }
+  } catch (error) {
+    console.error("Error while adding task:", error);
+  } 
 }

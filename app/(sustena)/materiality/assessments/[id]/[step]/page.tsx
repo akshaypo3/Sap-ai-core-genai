@@ -1,4 +1,5 @@
 import React from "react";
+import { createClient } from "@/utils/supabase/server";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from 'next-intl/server';
 import AssessmentStepsOverview from "@/components/materiality/assessments/AssessmentStepsOverview";
@@ -15,6 +16,7 @@ import { DataTable } from "@/components/table/data-table";
 import { columns_Stakeholderquestions } from "@/components/table/stakeholderquestionsColumns";
 import { AddLocationButton } from "@/components/materiality/company/buttons";
 import Stackholderquestions from "@/components/materiality/stakeholders/Stackholdersquestions";
+import { getUserProfiles } from "@/lib/task/data";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
   const { step, id } = params;
@@ -22,7 +24,12 @@ export default async function Home({ params }: { params: { step: string; id: str
   const stepNumber = parseInt(step, 10);
   const assessmentData = await getAssessmentData(id);
   const AR16Items = await getAR16Items()
-
+  const users = await getUserProfiles();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userId = user?.id;
 
   const renderStepContent = () => {
     switch (stepNumber) {
@@ -39,7 +46,7 @@ export default async function Home({ params }: { params: { step: string; id: str
                      <Stackholderquestions id={id}/>
                 </div>;
       case 5:
-        return <div><IroTable assessmentData={assessmentData} assessmentId={id} AR16Items={AR16Items}/></div>;
+        return <div><IroTable assessmentData={assessmentData} assessmentId={id} AR16Items={AR16Items} users={users} userId={userId}/></div>;
       case 6:
         return <div><SignOffComponent/></div>;
       default:
