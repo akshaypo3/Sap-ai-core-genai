@@ -3,9 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast"
 import { Pencil } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function StakeholderSurveyEditButton(){
     const { toast } = useToast();
+    const t = useTranslations("materiality-com")
 
     return(
         <>
