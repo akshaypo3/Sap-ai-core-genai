@@ -35,7 +35,7 @@ import {
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import NewsCards from "@/components/dashboard/NewsCards";
 import UploadButton from "@/components/UploadButton";
-import { getTasks, getUserTasks } from "@/lib/task/data";
+import { getTasks, getUserProfiles, getUserTasks } from "@/lib/task/data";
 import { AddTask } from "@/components/task/buttons";
 import { ViewTaskButton } from "@/components/task/buttons";
 import KanbanBoard from "@/components/task/KanbanBoard";
@@ -61,6 +61,7 @@ export default async function Home() {
 
   const tasks = await getTasks();
   const loggedTasks = await getUserTasks(user.id);
+  const users = await getUserProfiles();
 
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
@@ -88,7 +89,7 @@ export default async function Home() {
             </TabsList>
             <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
               <TabsContent value="board">
-              <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone}/>
+              <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone} users={users}/>
               </TabsContent>
               <TabsContent value="list">
               <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">

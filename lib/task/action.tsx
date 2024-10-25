@@ -429,3 +429,96 @@ export const deleteComment = async (commentId: string, taskId: string) => {
   }
 };
 
+export async function deleteTaskWithId(id:string) {
+  let taskId = id;
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from('tasks')
+      .delete()
+      .eq('id', taskId)
+      .select();
+
+    if (error) {
+      throw new Error(`Failed to delete task: ${error.message}`);
+    }
+
+    if (data === null) {
+      console.warn(`No taskId found with id: ${id}`);
+    }
+
+    console.log(`Successfully deleted taskId with id: ${id}`);
+
+    revalidatePath("/task");
+    // return { success: true, message: "taskId deleted successfully" };
+
+  } catch (error) {
+    console.error("Error deleting taskId:", error.message);
+    return { success: false, message: error.message };
+  }
+}
+
+export async function updateTaskDetails(taskId, formData) {
+  console.log("function calling");
+  const supabase = createClient();
+  const description1 = formData.get("description");
+  const assign_to1 = formData.get("assigned_to");
+
+  try {
+    const { data, error } = await supabase
+      .from('tasks')
+      .update({
+        description: description1,
+        assigned_to: assign_to1
+      })
+      .eq("id", taskId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error while updating Task :", error.message);
+    return { success: false, message: error.message }; // Return error details
+  } finally {
+    revalidatePath(`/task`);
+    redirect(`/task`);
+  }
+}
+export async function getComments(taskId:string){
+  const supabase = createClient();
+  console.log("data1");
+
+  const { data: comments, error } = await supabase
+  .from("comments")
+  .select()
+  .order('created_at', { ascending: false })
+  .eq("task_id", taskId);
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return null;
+  }
+  
+console.log(comments);
+  return comments;
+}
+
+export async function getTaskLogs(taskId:string){
+  const supabase = createClient();
+
+  const { data: tasklogs, error } = await supabase
+  .from("task-activitylog")
+  .select()
+  .order('created_at', { ascending: false })
+  .eq("task_id", taskId);
+
+  if (error) {
+    console.error("Error fetching task logs:", error);
+    return null;
+  }
+
+  return tasklogs;
+}

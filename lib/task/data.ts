@@ -1,3 +1,4 @@
+"use server";
 import { createClient } from "@/utils/supabase/server";
 
 export async function getTasks() {
@@ -102,6 +103,24 @@ export async function getComments(taskId:string){
     console.error("Error fetching comments:", error);
     return null;
   }
+  
+
+  return comments;
+}
+
+export async function getallComments(){
+  const supabase = createClient();
+
+  const { data: comments, error } = await supabase
+  .from("comments")
+  .select()
+  .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return null;
+  }
+  
 
   return comments;
 }

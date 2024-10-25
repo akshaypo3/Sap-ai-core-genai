@@ -60,6 +60,8 @@ export default async function taskPage({
 
   const Logs = await getTaskLogs();
 
+
+
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
