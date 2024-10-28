@@ -22,8 +22,8 @@ import { MarkAsNotMaterialButton } from "@/components/materiality/assessments/bu
 import AIAssessmentButton from "@/components/materiality/assessments/AIAssessmentButton";
 import { duplicateIro } from "@/lib/assessments/action"; // Import the server action
 import { CustomIROButton, IRoCatalogButton } from "@/components/materiality/assessments/buttons";
-import { IroUserComponent } from "./IroUserComponent";
 import { useToast } from "@/components/ui/use-toast";
+import AssignedUserDropdown from "./AssignedUserForm";
 
 type Stakeholder = {
   id: string;
@@ -223,7 +223,6 @@ export default function IroTable({ assessmentData, assessmentId, AR16Items, user
                     <TableHead>Status</TableHead>
                     <TableHead>Impact Score</TableHead>
                     <TableHead>Financial Score</TableHead>
-                    <TableHead>Select Assigned Person</TableHead>
                     <TableHead>Add Assigned Person</TableHead>
                     {/* <TableHead>Stakeholders</TableHead> */}
                     <TableHead className="text-right">Actions</TableHead>
@@ -258,7 +257,9 @@ export default function IroTable({ assessmentData, assessmentId, AR16Items, user
                       <TableCell>
                         {item.financial_score?.toFixed(2) || "-"}
                       </TableCell>
-                      <IroUserComponent users={users} items={items[0]} userId={userId} handleUserAdded={handleUserAdded}/>
+                      <TableCell>
+                        <AssignedUserDropdown users={users} items={item} userId={userId} handleUserAdded={handleUserAdded}/>
+                      </TableCell>
                       {/* <TableCell>
                         <div className="flex flex-wrap gap-1">
                           {item.stakeholders && item.stakeholders.length > 0 ? (
