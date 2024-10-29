@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { sendMail } from "@/lib/settings/smtp/action";
 import { getUserInfo } from "@/lib/settings/users/data";
+import { getTimeZone } from "@/lib/settings/timezone/action";
 
 export async function createTask(formData: FormData) {
   const supabase = createClient();
@@ -200,8 +201,8 @@ export async function updateTask(formData: FormData) {
   } catch (error) {
     console.error("Error in updateTask function:", error);
   } finally {
-    revalidatePath("/task");
-    redirect("/task");
+    revalidatePath(`/task/${id}`);
+    redirect(`/task/${id}`);
   }
 }
 
@@ -376,6 +377,59 @@ export const createComment = async (formData: FormData) => {
   }
 };
 
+export const createCommentDialog = async (formData: FormData) => {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+  const userId = userData.id;
+
+  const taskID = formData.get("taskID");
+  const commentText = formData.get("comment");
+
+  if (!commentText) {
+    console.error("Comment cannot be empty");
+    return null;
+  }
+
+  try {
+    const { data: newComment, error } = await supabase.from("comments").insert({
+      comment: commentText,
+      user: userName,
+      task_id: taskID,
+      user_id: userId,
+    });
+
+    if (error) {
+      console.error("Error creating comment:", error);
+      return null;
+    }
+
+    if (!error) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Comment '${commentText}' created`,
+          user: userName,
+          task_id : taskID
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
+
+    return newComment;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/task/`);
+    redirect(`/task/`);
+  }
+};
+
 export const deleteComment = async (commentId: string, taskId: string) => {
   const supabase = createClient();
   const userData = await getUserInfo();
@@ -389,7 +443,7 @@ export const deleteComment = async (commentId: string, taskId: string) => {
       .eq("id", commentId)
       .single();
 
-      console.log("jhxshukx",previousData)
+      
 
     if (fetchError) {
       console.error("Error fetching comment:", fetchError);
@@ -424,8 +478,62 @@ export const deleteComment = async (commentId: string, taskId: string) => {
     console.error("Error deleting comment:", error);
     return null;
   } finally {
+    
     revalidatePath(`/task/${taskId}`);
     redirect(`/task/${taskId}`);
+  }
+};
+
+export const deleteCommentDialog = async (commentId: string, taskId: string) => {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+
+  try {
+    const { data: previousData, error: fetchError } = await supabase
+      .from("comments")
+      .select()
+      .eq("id", commentId)
+      .single();
+
+      
+
+    if (fetchError) {
+      console.error("Error fetching comment:", fetchError);
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from("comments")
+      .delete()
+      .eq("id", commentId);
+
+    if (error) {
+      console.error("Error deleting comment:", error);
+      return null;
+    }
+
+    if (!error) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Comment '${previousData.comment}' deleted`,
+          user: userName,
+          task_id : taskId
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/task/`);
+    redirect(`/task/`);
   }
 };
 
@@ -460,36 +568,89 @@ export async function deleteTaskWithId(id:string) {
 }
 
 export async function updateTaskDetails(taskId, formData) {
-  console.log("function calling");
   const supabase = createClient();
-  const description1 = formData.get("description");
-  const assign_to1 = formData.get("assigned_to");
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+
+  const id = taskId
+  
+
+  const updatedData = {
+    description: formData.get("description"),
+    assigned_to: formData.get("assigned_to"),
+    title: formData.get("title"),
+    updated_at: new Date().toISOString(),
+  };
 
   try {
-    const { data, error } = await supabase
-      .from('tasks')
-      .update({
-        description: description1,
-        assigned_to: assign_to1
-      })
-      .eq("id", taskId);
+    const { data: currentTask, error: fetchError } = await supabase
+      .from("tasks")
+      .select()
+      .eq("id", id)
+      .single();
 
-    if (error) {
-      throw new Error(error.message);
+    if (fetchError) {
+      console.error("Error fetching current task data:", fetchError);
+      return;
     }
 
-    return { success: true, data };
+    const updatedFields: any = {};
+    for (const key in updatedData) {
+      if (String(updatedData[key]) !== String(currentTask[key])) {
+        updatedFields[key] = {
+          previous: currentTask[key] || "N/A",
+          updated: updatedData[key] || "N/A",
+        };
+      }
+    }
+
+    if (Object.keys(updatedFields).length === 0) {
+      console.log("No fields were updated.");
+      return;
+    }
+
+    const { data, error: updateError } = await supabase
+      .from("tasks")
+      .update(updatedData)
+      .eq("id", id);
+
+    if (updateError) {
+      console.error("Error updating task:", updateError);
+      throw new Error("Failed to update task");
+    }
+
+    if (!updateError) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${updatedData?.title}' updated`,
+          user: userName,
+          changes: updatedFields,
+          task_id : id,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
   } catch (error) {
-    console.error("Error while updating Task :", error.message);
-    return { success: false, message: error.message }; // Return error details
+    console.error("Error in updateTask function:", error);
   } finally {
-    revalidatePath(`/task`);
-    redirect(`/task`);
+    revalidatePath("/task");
+    redirect("/task");
   }
 }
+
+
 export async function getComments(taskId:string){
   const supabase = createClient();
-  console.log("data1");
+  const userData = await getUserInfo();
+  const timezone1 = await getTimeZone({ userId: userData.id })
+  const userId=userData.id;
+  const timezone = timezone1.userWithTimezone?.timezone || "UTC";
+
 
   const { data: comments, error } = await supabase
   .from("comments")
@@ -501,9 +662,13 @@ export async function getComments(taskId:string){
     console.error("Error fetching comments:", error);
     return null;
   }
-  
-console.log(comments);
-  return comments;
+  const result = {
+    comments,
+    timezone,
+    userId
+  };
+
+  return result;
 }
 
 export async function getTaskLogs(taskId:string){

@@ -17,6 +17,7 @@ export function UpdateTaskDialogForm({ taskId, title, description1, users, useri
   const assignedUser = users.find((user) => user.id === userid);
   const [isPending, startTransition] = useTransition();
   const [description, setDescription] = useState(description1 || '');
+  const [title1, settitle] = useState(title || '');
   const [assignedTo, setAssignedTo] = useState(assignedUser ? assignedUser.id : '');
   const [isLoadingComments, startLoadingComments] = useTransition();
   const [comments, setComments] = useState([]);
@@ -28,6 +29,7 @@ export function UpdateTaskDialogForm({ taskId, title, description1, users, useri
       const formData = new FormData(event.currentTarget);
       formData.set('description', description);
       formData.set('assigned_to', assignedTo);
+      formData.set('title', title1);
       try {
         await updateTaskDetails(taskId, formData);
         setIsOpen(false);

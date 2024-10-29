@@ -3,8 +3,8 @@ import { useEffect, useState, useTransition } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { getComments } from "@/lib/task/action";
 import { formatDistanceToNow } from "date-fns";
-import { DeleteCommentButton } from "./buttons";
-import { AddCommentButton } from "./AddCommentButton";
+import { DeleteCommentButton, DeleteCommentButtonDialog } from "./buttons";
+import { AddCommentButton, AddCommentButtonDialog } from "./AddCommentButton";
 import { getTimeZone } from "@/lib/settings/timezone/action";
 
 
@@ -12,36 +12,8 @@ export  function Comments({ taskId,isOpen}) {
 
 
   const [isLoadingComments, startLoadingComments] = useTransition();
-  const [comments, setComments] = useState([]);
+  const [comments1, setComments] = useState([]);
   const [timezone, settimezone] = useState([]);
-  const user={
-    id: '2b208744-654a-4be9-a215-6bbfc399d40f',
-    aud: 'authenticated',
-    role: 'authenticated',
-    email: 'sathish.ks@vaspp.com',
-    email_confirmed_at: '2024-09-18T09:03:23.299266Z',
-    phone: '',
-    confirmed_at: '2024-09-18T09:03:23.299266Z',
-    last_sign_in_at: '2024-10-24T10:37:59.715515Z',
-    app_metadata: { provider: 'email', providers: [ 'email' ] },
-    user_metadata: { groups: 'Administrator', roles: 'Administrator' },
-    identities: [
-      {
-        identity_id: '0929e77e-b09d-4ee8-bed4-b421e387cc1a',
-        id: '2b208744-654a-4be9-a215-6bbfc399d40f',
-        user_id: '2b208744-654a-4be9-a215-6bbfc399d40f',
-        identity_data: [Object],
-        provider: 'email',
-        last_sign_in_at: '2024-09-18T09:03:23.293446Z',
-        created_at: '2024-09-18T09:03:23.293527Z',
-        updated_at: '2024-09-18T09:03:23.293527Z',
-        email: 'sathish.ks@vaspp.com'
-      }
-    ],
-    created_at: '2024-09-18T09:03:23.29099Z',
-    updated_at: '2024-10-25T12:37:48.782632Z',
-    is_anonymous: false
-  }
 
   const fetchtherequireddata = async () => {
       startLoadingComments(async () => {
@@ -50,8 +22,8 @@ export  function Comments({ taskId,isOpen}) {
           
           setComments(result);
           //const timezone1 = await getTimeZone({ userId: user.id })
-          //settimezone(timezone1);
-          //console.log("comments"+timezone1);
+          // settimezone(timezone1);
+          // console.log("comments"+timezone1);
         } catch (error) {
           console.error("Failed to fetch comments:", error);
         }
@@ -67,13 +39,17 @@ export  function Comments({ taskId,isOpen}) {
     const dateInUserTimezone = new Date(date.toLocaleString("en-US", { timeZone }));
     return formatDistanceToNow(dateInUserTimezone, { addSuffix: true });
   };
-
   //const timezone = await getTimeZone({ userId: user.id })
-  //const actualTime = timezone.userWithTimezone.timezone
+  
+  const comments=comments1.comments;
+  const timezone1=comments1.timezone
+  const userId=comments1.userId
+  const actualTime = timezone1 || "UTC";
+
   return (
     <div className="w-full max-w-2xl">
       <h2 className="font-semibold text-xl">Comments</h2>
-      <AddCommentButton taskId={taskId} />
+      <AddCommentButtonDialog taskId={taskId} />
       <div className="grid">
         {comments?.map((comment) => (
           <div
@@ -89,14 +65,14 @@ export  function Comments({ taskId,isOpen}) {
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <div className="font-semibold">{comment.user}</div>
-                {/* <div className="text-gray-500 text-xs dark:text-gray-400">
+                <div className="text-gray-500 text-xs dark:text-gray-400">
                   {formatRelativeTime(comment.created_at,actualTime)}
-                </div> */}
+                </div>
               </div>
               <div className="mt-1">{comment.comment}</div>
-              {user.id === comment.user_id && (
+              {userId === comment.user_id && (
                 <div className="flex items-center gap-2">
-                  <DeleteCommentButton commentId={comment} taskId={taskId} />
+                  <DeleteCommentButtonDialog commentId={comment} taskId={taskId} />
                 </div>
               )}
             </div>

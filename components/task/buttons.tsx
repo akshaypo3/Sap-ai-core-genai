@@ -3,7 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { TrashIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { deleteComment } from "@/lib/task/action";
+import { deleteComment, deleteCommentDialog } from "@/lib/task/action";
 
 import {
   Dialog,
@@ -78,6 +78,60 @@ export function DeleteCommentButton({
   taskId: string;
 }) {
   const deleteCommentWithId = deleteComment.bind(null, commentId.id, taskId);
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="sm">
+          <TrashIcon className="w-4 h-4 mr-1" />
+          Delete
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[450px]">
+        <DialogHeader>
+          <DialogTitle className="text-center">Delete comment</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-1 py-1">
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Label
+              htmlFor="name"
+              className="text-center overflow-hidden max-h-32" // Adjust max-h value as needed
+            >
+              Are you sure to delete the comment:{" "}
+              <b className="font-bold text-lg font-semibold text-red-600">
+                {commentId.comment} <span className="text-black">?</span>
+              </b>
+            </Label>
+          </div>
+        </div>
+
+        <DialogFooter className="flex justify-between mt-4">
+          <div className="flex justify-end space-x-2 mt-4">
+            <DialogTrigger asChild>
+              <Button>Cancel</Button>
+            </DialogTrigger>
+            <form action={deleteCommentWithId}>
+              <DialogClose asChild>
+                <Button type="submit" variant="destructive">
+                  Delete Comment
+                </Button>
+              </DialogClose>
+            </form>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function DeleteCommentButtonDialog({
+  commentId,
+  taskId,
+}: {
+  commentId: string;
+  taskId: string;
+}) {
+  const deleteCommentWithId = deleteCommentDialog.bind(null, commentId.id, taskId);
 
   return (
     <Dialog>

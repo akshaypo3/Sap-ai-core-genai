@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { DeleteTaskDialog } from './DeleteTaskDialog';
 import { UpdateTaskDialogForm } from './ViewTaskDialog';
 
-  export function TaskActionsMenu({ id, title, description,users,Logs, comments,assigned_to_username,userid }: { id: string,title: string,description: string,users: string,assigned_to_username: string,userid: string}) {
+  export function TaskActionsMenu({ id, title, description,users,assigned_to_username,userid }: { id: string,title: string,description: string,users: string,assigned_to_username: string,userid: string}) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [showViewDialog, setShowViewDialog] = useState(false);
      
@@ -44,8 +44,6 @@ import { UpdateTaskDialogForm } from './ViewTaskDialog';
          title={title}
          description1={description}
          users={users}
-         Logs={Logs}
-         assigned_to_username={assigned_to_username}
          userid={userid}
          isOpen={showViewDialog} 
           setIsOpen={setShowViewDialog}
