@@ -7,8 +7,9 @@ import { CalendarIcon,SquareKanban,List,SquareGanttChart,Table } from "lucide-re
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/tabsKanban";
+import { TaskActionsMenu } from "./TaskActionsMenu";
 
-export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, timezone }) {
+export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, timezone,users }) {
   const [tasks, setTasks] = useState(initialTasks);
   const actualTime = timezone.userWithTimezone.timezone;
 
@@ -60,6 +61,7 @@ export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, ti
                       onDragOver={handleDragOver}
                       actualTime={actualTime}
                       onDrop={(e) => handleDrop(e, status)}
+                      users={users}
                     />
                   ))}
                 </div>
@@ -68,7 +70,7 @@ export default function KanbanBoard({ initialTasks, updateTaskStatus, userId, ti
   );
 }
 
-function Column({ title, tasks, onDragOver, onDrop, actualTime }) {
+function Column({ title, tasks, onDragOver, onDrop, actualTime, users}) {
   return (
     <div 
       className="bg-white min-h-96 flex flex-col"
@@ -78,7 +80,7 @@ function Column({ title, tasks, onDragOver, onDrop, actualTime }) {
       <div className="pt-2 pl-2 text-sm text-zinc-500">{title}</div>
       <div className="flex-grow space-y-2 p-2">
         {tasks.map((task) => (
-          <TaskCard key={task.id} {...task} actualTime={actualTime} />
+          <TaskCard key={task.id} {...task} userid={task.assigned_to.id} actualTime={actualTime} users={users}/>
         ))}
         {tasks.length === 0 && (
           <div className="h-full min-h-[100px] border-2 border-dashed border-gray-200 rounded-lg"></div>
@@ -88,7 +90,7 @@ function Column({ title, tasks, onDragOver, onDrop, actualTime }) {
   );
 }
 
-function TaskCard({ id, title, description, assigned_to_username, status, start_date, due_date, actualTime }) {
+function TaskCard({ id, title, description, assigned_to_username,userid, status, start_date, due_date, actualTime,users }) {
   return (
     <Card 
       className="w-full mt-2 cursor-move" 
@@ -114,6 +116,9 @@ function TaskCard({ id, title, description, assigned_to_username, status, start_
             <span>{new Date(due_date).toLocaleDateString("en-GB",{ timeZone:actualTime
                           }).replace(/\//g, ".")}</span>
           </div>
+        </div>
+        <div className="flex justify-end mt-2"> {/* Added flex container */}
+          <TaskActionsMenu id={id} title={title} description={description} users={users} userid={userid} assigned_to_username={assigned_to_username}/>
         </div>
       </CardContent>
     </Card>
