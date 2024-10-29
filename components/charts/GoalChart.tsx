@@ -8,8 +8,8 @@ import ReusablePieChartdonut, { ReusablePieChartdonutProps } from "@/components/
 // } from '@/components/charts/ChartData';
 import { useTranslatedChartConfig } from '@/components/charts/ChartData';
 
-export const GoalChart = ({ goal ,Chart,name,desc,unit}) => {
-  const {GoalChartConfig} = useTranslatedChartConfig();
+export const GoalChart = async ({ goal ,Chart,name,desc,unit}) => {
+  const {GoalChartConfig} = await useTranslatedChartConfig();
   // Create a new config object based on GoalChartConfig
   const updatedConfig = {
     ...GoalChartConfig,
