@@ -46,6 +46,7 @@ import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import TaskList from "@/components/task/TaskList";
 
 
 export default async function Home() {
@@ -92,17 +93,19 @@ export default async function Home() {
               <KanbanBoard initialTasks={tasks} updateTaskStatus={updateTaskStatus} userId={user.id} timezone={timezone} users={users}/>
               </TabsContent>
               <TabsContent value="list">
-              <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
-                <div className="min-w-full table-auto border-collapse">
-                  <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned to'}/>
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                  <div className="min-w-full table-auto border-collapse">
+                    <TaskList/>
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="gantt">
-
-              </TabsContent>
+              <TabsContent value="gantt"></TabsContent>
               <TabsContent value="table">
-
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                  <div className="min-w-full table-auto border-collapse">
+                    <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned to'}/>
+                  </div>
+                </div>
               </TabsContent>
             </div>
           </Tabs>

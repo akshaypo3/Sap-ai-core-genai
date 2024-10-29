@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import React from "react";
-import { Mail } from "lucide-react"
+import { Mail, SmilePlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -33,15 +33,8 @@ interface SMTPSettingsFormData {
 
 export default function SmtpSettings(smtpSettings:any){
 
-    console.log("Settings from props: ",smtpSettings);
-
-    const settings = {settings:{
-        host: "Test",
-        username: "Testuser",
-        password: "Testpass",
-        ssl: "ssl",
-        port: "587"
-    }};
+    // console.log("Settings from props: ",smtpSettings);
+    const smtpData = smtpSettings?.settings.data || {};
 
     const { toast } = useToast()
 
@@ -80,17 +73,17 @@ export default function SmtpSettings(smtpSettings:any){
             <form>
                 <div className="grid w-fullitems-center gap-1.5 mb-2">
                     <Label htmlFor="host">SMTP Host</Label>
-                    <Input type="text" name="host" placeholder={settings?.settings.host || "Host"} defaultValue={settings?.settings.host || "Host"} />
+                    <Input type="text" name="host" defaultValue={smtpData.host || "Host"} />
                     <Label htmlFor="username">Username</Label>
-                    <Input type="text" name="username" placeholder={settings?.settings.username || "User"} defaultValue={settings?.settings.username || "User"}/>
+                    <Input type="text" name="username" defaultValue={smtpData.username || "User"}/>
                     <Label htmlFor="password">Password</Label>
-                    <Input type="password" name="password" placeholder="Password" defaultValue="Password"/>
+                    <Input type="password" name="password" defaultValue={smtpData.password || "User"}/>
                     <div className="flex">
                         <div>
                             <Label htmlFor="ssl">Encryption</Label>
-                            <Select name="ssl" defaultValue="true">
+                            <Select name="ssl" defaultValue={smtpData.ssl ? "true" : "false"}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder={settings?.settings.ssl || "ssl" } />
+                                    <SelectValue/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="true">SSL/TLS</SelectItem>
@@ -100,7 +93,7 @@ export default function SmtpSettings(smtpSettings:any){
                         </div>
                         <div className="ml-5 w-full">
                             <Label htmlFor="port">Port</Label>
-                            <Input type="number" name="port" placeholder={settings?.settings.port || "587"} defaultValue={settings?.settings.port || "587"}/>
+                            <Input type="number" name="port" defaultValue={smtpData.port || "587"}/>
                         </div>
                     </div>
                     <div className="flex mt-5">

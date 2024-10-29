@@ -28,7 +28,7 @@ export default async function Page() {
         <div className="flex space-x-4">
           {/* Button Section for Subheader */}
           <Link href="/reporting/frameworks/esrs/esrss1/s1-44">
-           <Button className="bg-green-500 hover:bg-green-600 text-white hover:text-white">{t("esrs.continue")}</Button>
+           <Button className="bg-green-500 hover:bg-green-600 text-white hover:text-white">{t("frameworks.esrs.continue")}</Button>
           </Link>
         </div>
         
