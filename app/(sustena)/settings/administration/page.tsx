@@ -25,7 +25,11 @@ import { changeTimezone } from "@/lib/settings/timezone/action";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+
 import GlossaryDetails from "@/components/settings/glossary/GlossaryDetails";
+
+import Instances from "@/components/settings/intances/instances";
+
 
 export default async function Home() {
   const supabase = createClient();
@@ -88,9 +92,12 @@ export default async function Home() {
           <TabsContent value="anthropicai">
             <AnthropicApiDemo/>
           </TabsContent>
-        </div>
+        </div>  
         </Tabs>
+        {/* <h1>hello</h1> */}
+          <Instances/>
     </ContentLayout>
+    
     </>
   );
 }
