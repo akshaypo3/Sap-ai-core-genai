@@ -12,13 +12,15 @@ export function BreadCrumbCom({
   breadcrumbs,
   title,
   backButton,
+  contineButton,
 }: {
   breadcrumbs: { href: string; text: string }[];
   title: string;
   backButton?: JSX.Element;
+  contineButton?:JSX.Element;
 }) {
   return (
-    <>
+    <div className="flex items-center justify-between w-full">
       <div>
         <h1 className="font-bold text-2xl mb-2">{title}</h1>
         <Breadcrumb>
@@ -39,7 +41,10 @@ export function BreadCrumbCom({
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      {backButton && <div className="flex space-x-4">{backButton}</div>}
-    </>
+      <div className="flex space-x-4 items-center justify-end">
+        {backButton}
+        {contineButton}
+      </div>
+    </div>
   );
 }
