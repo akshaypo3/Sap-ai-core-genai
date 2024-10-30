@@ -70,7 +70,6 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     },
   })
-console.log(sort);
 
 const t = useTranslations();
   return (

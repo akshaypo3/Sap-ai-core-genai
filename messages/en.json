@@ -419,6 +419,11 @@
           "BRSR Section A": "BRSR",
           "Home": "Home"
         }
+      },
+      "cdp":{
+        "title": "CDP Dashboard",
+        "CDP": "CDP",
+        "Home": "Home"
       }
     },
     "reports": {

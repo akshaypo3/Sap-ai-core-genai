@@ -82,6 +82,33 @@ export default function FrameworkCards() {
             </Link>
           </CardFooter>
         </Card>
+        <Card key="1" className="flex flex-col h-full">
+          <img src="/cdp_banner.png?height=200&width=300" alt="CDP" className="w-full h-48 object-cover rounded-t-md" />
+          <CardHeader className="h-24 overflow-hidden">
+            <h3 className="text-lg font-semibold line-clamp-2">CDP</h3>
+          </CardHeader>
+          <CardContent className="flex-grow">
+            <p className="text-sm text-muted-foreground line-clamp-4">Start the reporting process for CDP with CDP standards</p>
+          </CardContent>
+          <CardFooter className="flex justify-between items-end">
+            <div className="flex flex-col text-xs text-muted-foreground">
+              <div className="flex items-center">
+                <UserIcon className="w-3 h-3 mr-1" />
+                <span>VASPP Deutschland</span>
+              </div>
+              <div className="flex items-center mt-1">
+                <Progress value={0}/>
+              </div>
+              {/* <div className="flex items-center mt-1">
+                <CalendarIcon className="w-3 h-3 mr-1" />
+                <span>{item.date}</span>
+              </div> */}
+            </div>
+            <Link href="/reporting/frameworks/cdp">
+              <Button variant="outline" size="sm" className="bg-green-500 hover:bg-green-600 text-white hover:text-white">Select</Button>
+            </Link>
+          </CardFooter>
+        </Card>
     </div>
     </>
   )
