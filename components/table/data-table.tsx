@@ -120,7 +120,7 @@ const t = useTranslations();
                     const isHeaderFunction = typeof header.column.columnDef.header === 'function';
                     const displayName = isHeaderFunction ? sort : (header.column.columnDef.header || sort);
                   return (
-                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress"  || header.column.id ==="mandatory" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
+                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress"  || header.column.id ==="mandatory" || header.column.id === "turnover_percentage" || header.column.id ==="Details" || header.column.id ==="Edit"? "text-center" : "text-left"}`} key={header.id}>
           {header.isPlaceholder
             ? null
             : flexRender(
