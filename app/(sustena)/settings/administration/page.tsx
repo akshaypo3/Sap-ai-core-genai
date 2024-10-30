@@ -25,7 +25,11 @@ import { changeTimezone } from "@/lib/settings/timezone/action";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+
+import GlossaryDetails from "@/components/settings/glossary/GlossaryDetails";
+
 import Instances from "@/components/settings/intances/instances";
+
 
 export default async function Home() {
   const supabase = createClient();
@@ -63,10 +67,11 @@ export default async function Home() {
         </div>  */}
       </div>
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
           <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
           <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
+          <TabsTrigger value="glossary">Glossary</TabsTrigger>
           <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
         </TabsList>
         <div className="bg-white p-5 border rounded">
@@ -80,6 +85,9 @@ export default async function Home() {
           <TabsContent value="smtp">
           <SmtpSettings settings={smtpSettings}/>
             {/* <SMTPSettingsSection settings={smtpsettings}/> */}
+          </TabsContent>
+          <TabsContent value="glossary">
+          <GlossaryDetails/>
           </TabsContent>
           <TabsContent value="anthropicai">
             <AnthropicApiDemo/>
