@@ -13,10 +13,9 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Slash } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import SmtpSettings from "@/components/settings/smtp/SmtpSettings"; 
-// import Subheader from "@/components/Subheader";
+import { Slash } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import SmtpSettings from "@/components/settings/smtp/SmtpSettings";
 import { getSmtpSettings } from "@/lib/settings/smtp/data";
 import AnthropicApiDemo from "@/components/settings/ai/AnthropicWorkbench";
 import TimeZone from "@/components/settings/timezone/Timezone";
@@ -26,6 +25,7 @@ import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import Instances from "@/components/settings/intances/instances";
+import Frameworks from "@/components/settings/frameworks/frameworks";
 
 export default async function Home() {
   const supabase = createClient();
@@ -43,7 +43,7 @@ export default async function Home() {
   const { initialTimezone } = await getTimeZone({ userId: user.id });
 
   const handleTimezoneChange = async (newTimezone: { value: string }) => {
-    "use server"
+    "use server";
     await changeTimezone(user.id, newTimezone.value);
   };
 
@@ -52,44 +52,40 @@ export default async function Home() {
     { href: "/dashboard/", text: t("administration.Dashboard") },
     { href: "/settings/administration", text: t("administration.Administration") }
   ];
+
   return (
     <>
       <ContentLayout title="Administration">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
-        {/* <div className="flex space-x-4">
-          Button Section for Subheader
-          <Button variant="outline">Add new</Button>
-        </div>  */}
-      </div>
-      <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
-          <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
-          <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
-          <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
-        </TabsList>
-        <div className="bg-white p-5 border rounded">
-        <TabsContent value="general">
-        <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
-          </TabsContent>
-          <TabsContent value="adminusers">
-          {t("administration.Administrative Users")}
-            {/* <UserManagement/> */}
-          </TabsContent>
-          <TabsContent value="smtp">
-          <SmtpSettings settings={smtpSettings}/>
-            {/* <SMTPSettingsSection settings={smtpsettings}/> */}
-          </TabsContent>
-          <TabsContent value="anthropicai">
-            <AnthropicApiDemo/>
-          </TabsContent>
-        </div>  
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton />} />
+        </div>
+        <Tabs defaultValue="general" className="w-full">
+          <TabsList className="grid w-full grid-cols-5"> 
+            <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
+            <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger> 
+            <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
+            <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
+            <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
+          </TabsList>
+          <div className="bg-white p-5 border rounded">
+            <TabsContent value="general">
+              <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange} />
+            </TabsContent>
+            <TabsContent value="frameworks"> 
+              <Frameworks /> 
+            </TabsContent>
+            <TabsContent value="adminusers">
+              {t("administration.Administrative Users")}
+            </TabsContent>
+            <TabsContent value="smtp">
+              <SmtpSettings settings={smtpSettings} />
+            </TabsContent>
+            <TabsContent value="anthropicai">
+              <AnthropicApiDemo />
+            </TabsContent>
+          </div>
         </Tabs>
-        {/* <h1>hello</h1> */}
-          <Instances/>
-    </ContentLayout>
-    
+      </ContentLayout>
     </>
   );
 }
