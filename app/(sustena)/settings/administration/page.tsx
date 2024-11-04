@@ -64,7 +64,7 @@ export default async function Home() {
         <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
       </div>
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
           <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger> 
           <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
