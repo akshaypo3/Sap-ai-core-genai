@@ -99,7 +99,13 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
           </div>
           {expandedSections.includes(section) && (
             <div className="p-4">
-              {Object.entries(groupedData[section]).map(([principle, items]) => (
+              {Object.entries(groupedData[section])
+              .sort(([principleA], [principleB]) => {
+                const numA = parseInt(principleA.match(/\d+/)?.[0] || '0', 10);
+                const numB = parseInt(principleB.match(/\d+/)?.[0] || '0', 10);
+                return numA - numB;
+              })
+              .map(([principle, items]) => (
                 <div key={principle} className="mb-4">
                   <div 
                     className="flex items-center justify-between p-2 bg-gray-100 cursor-pointer"
