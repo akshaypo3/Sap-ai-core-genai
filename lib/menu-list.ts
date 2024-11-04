@@ -14,8 +14,12 @@ import {
   FileText,
   FileQuestion,
   BookOpenText,
-  HeartHandshake
+  HeartHandshake,
+  BookText,
+  Goal,
+  SquareCheckBig
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Submenu = {
   href: string;
@@ -36,14 +40,17 @@ type Group = {
   menus: Menu[];
 };
 
+
+
 export function getMenuList(pathname: string): Group[] {
+  const t = useTranslations("Menu");
   return [
     {
       groupLabel: "",
       menus: [
         {
           href: "/dashboard",
-          label: "Dashboard",
+          label: t("Dashboard"),
           active: pathname.includes("/dashboard"),
           icon: LayoutGrid,
           submenus: []
@@ -51,116 +58,89 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Reporting Center",
+      groupLabel: "",
       menus: [
         {
-          href: "/company",
-          label: "Company",
-          active: pathname.includes("/company"),
+          href: "/task",
+          label: t("Task"),
+          active: pathname.includes("/task"),
+          icon: SquareCheckBig,
+          submenus: []
+        }
+      ]
+    },
+    {
+      groupLabel: t("Assessment Center"),
+      menus: [
+        {
+          href: "/materiality/company",
+          label: t("Company"),
+          active: pathname.includes("/materiality/company"),
           icon: Building2,
           submenus: []
         },
         {
-          href: "",
-          label: "Materiality",
-          active: pathname.includes("/materiality"),
+          href: "/materiality/goals",
+          label: t("Goals"),
+          active: pathname.includes("/materiality/goals"),
+          icon: Goal,
+          submenus: []
+        },  
+        {
+          href: "/materiality/assessments",
+          label: t("Materiality"),
+          active: pathname.includes("/materiality/dashboard"),
           icon: ScatterChart,
-          submenus: [
-            {
-              href: "/materiality/dashboard",
-              label: "Dashboard",
-              active: pathname === "/materiality/dashboard"
-            },
-            {
-              href: "/materiality/stakeholders",
-              label: "Stakeholder Analysis",
-              active: pathname === "/materiality/stakeholders"
-            },
-            {
-              href: "/materiality/stakeholdersurvey",
-              label: "Stakeholder Survey",
-              active: pathname === "/materiality/stakeholdersurvey"
-            },
-            {
-              href: "/materiality/assessments",
-              label: "Assessments",
-              active: pathname === "/materiality/assessments"
-            },
-            {
-              href: "/materiality/assessments/new",
-              label: "New Assessment",
-              active: pathname === "/materiality/assessments/new"
-            }
-          ]
-        },
-        {
-          href: "",
-          label: "Frameworks",
-          active: pathname.includes("/frameworks"),
-          icon: ClipboardList,
-          submenus: [
-            {
-              href: "/frameworks/dashboard",
-              label: "Dashboard",
-              active: pathname === "/frameworks/dashboard"
-            },
-            {
-              href: "/frameworks/editor",
-              label: "Framework Editor",
-              active: pathname === "/frameworks/editor"
-            }
-          ]
-        },
-        {
-          href: "",
-          label: "Reporting",
-          active: pathname.includes("/reporting"),
-          icon: FileText,
-          submenus: [
-            {
-              href: "/reporting/dashboard",
-              label: "Dashboard",
-              active: pathname === "/reporting/dashboard"
-            },
-            {
-              href: "/reporting/internal",
-              label: "Internal Reporting",
-              active: pathname === "/reporting/internal"
-            },
-            {
-              href: "/reporting/external",
-              label: "External Reporting",
-              active: pathname === "/reporting/external"
-            },
-            {
-              href: "/reporting/templates",
-              label: "Templates",
-              active: pathname === "/reporting/templates"
-            },
-          ]
-        },
+          submenus: []
+        }
       ]
     },
     {
-      groupLabel: "Help",
+      groupLabel: t("Reporting"),
+      menus: [
+        {
+          href: "/reporting/dashboard",
+          label: t("Dashboard"),
+          active: pathname.includes("/reporting/dashboard"),
+          icon: LayoutGrid,
+          submenus: []
+        },
+        {
+          href: "/reporting/frameworks",
+          label: t("Frameworks"),
+          active: pathname.includes("/reporting/frameworks"),
+          icon: BookText,
+          submenus: []
+        },        
+        {
+          href: "/reporting/reports",
+          label: t("Reports"),
+          active: pathname.includes("/reporting/reports"),
+          icon: FileText,
+          submenus: []
+        }, 
+      ]
+    },
+    {
+      groupLabel: t("Help"),
       menus: [
         {
           href: "/help/guidance",
-          label: "Guidance",
+          label: t("Guidance"),
           active: pathname.includes("/guidance"),
           icon: FileQuestion,
           submenus: []
         },
         {
           href: "/help/glossary",
-          label: "Glossary",
+          label: t("Glossary"),
           active: pathname.includes("/help/glossary"),
           icon: BookOpenText,
           submenus: []
         },
         {
           href: "/help/support",
-          label: "Support",
+          label: t("Support"),
           active: pathname.includes("/help/support"),
           icon: HeartHandshake,
           submenus: []
@@ -168,18 +148,18 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Data Hub",
+      groupLabel: t("Data Hub"),
       menus: [
         {
           href: "/datahub/connections",
-          label: "Connections",
+          label: t("Connections"),
           active: pathname.includes("/datahub/connections"),
           icon: Share2,
           submenus: []
         },
         {
           href: "/datahub/library",
-          label: "Library",
+          label: t("Library"),
           active: pathname.includes("/datahub/library"),
           icon: Library,
           submenus: []
@@ -187,18 +167,18 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Settings",
+      groupLabel: t("Settings"),
       menus: [
         {
           href: "/settings/users",
-          label: "Users",
+          label: t("Users"),
           active: pathname.includes("/settings/users"),
           icon: Users,
           submenus: []
         },
         {
           href: "/settings/administration",
-          label: "Administration",
+          label: t("Administration"),
           active: pathname.includes("/settings/administration"),
           icon: Settings,
           submenus: []

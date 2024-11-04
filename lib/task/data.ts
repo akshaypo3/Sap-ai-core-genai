@@ -1,0 +1,175 @@
+"use server";
+import { createClient } from "@/utils/supabase/server";
+
+export async function getTasks() {
+  const supabase = createClient();
+
+  const { data: tasks, error } = await supabase.from("tasks").select(`
+    *,
+      assigned_to: user_profile!tasks_assigned_to_fkey(id, username),
+      created_by: user_profile!tasks_created_by_fkey(id, username)
+  `);
+
+  if (error) {
+    console.error("Error fetching tasks:", error);
+    return null;
+  }
+
+  const formattedTasks = tasks?.map((task: any) => ({
+    ...task,
+    assigned_to_username: task.assigned_to?.username || null,
+    created_by_username: task.created_by?.username || null,
+  }));
+
+  return formattedTasks;
+}
+
+export async function getUserProfiles() {
+  const supabase = createClient();
+
+  const { data: userProfiles, error } = await supabase
+    .from("user_profile")
+    .select();
+
+  if (error) {
+    console.error("Error fetching user profiles:", error);
+    return [];
+  }
+
+  return userProfiles;
+}
+
+export async function getUserTasks(userId: string) {
+  const supabase = createClient();
+
+  const { data: tasks, error } = await supabase.from("tasks").select(`
+    *,
+      assigned_to: user_profile!tasks_assigned_to_fkey(id, username),
+      created_by: user_profile!tasks_created_by_fkey(id, username)
+    `)
+    .or(`created_by.eq.${userId}`);
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  const formattedTasks = tasks?.map((task: any) => ({
+    ...task,
+    assigned_to_username: task.assigned_to?.username || null,
+    created_by_username: task.created_by?.username || null,
+  }));
+
+  return formattedTasks;
+}
+
+export async function getTaskById(taskId: string) {
+    const supabase = createClient();
+
+    const { data: task, error } = await supabase
+      .from("tasks")
+      .select(`
+    *,
+      assigned_to: user_profile!tasks_assigned_to_fkey(id, username),
+      created_by: user_profile!tasks_created_by_fkey(id, username)
+    `)
+      .eq("id", taskId)
+      .single(); 
+  
+    if (error) {
+      console.error("Error fetching task:", error);
+      return null;
+    }
+  
+    const formattedTasks = {
+        ...task,
+        assigned_to_username: task.assigned_to?.username || null,
+        created_by_username: task.created_by?.username || null,
+      };
+    
+    return formattedTasks;
+}
+
+export async function getComments(taskId:string){
+  const supabase = createClient();
+
+  const { data: comments, error } = await supabase
+  .from("comments")
+  .select()
+  .order('created_at', { ascending: false })
+  .eq("task_id", taskId);
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return null;
+  }
+  
+
+  return comments;
+}
+
+export async function getallComments(){
+  const supabase = createClient();
+
+  const { data: comments, error } = await supabase
+  .from("comments")
+  .select()
+  .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return null;
+  }
+  
+
+  return comments;
+}
+
+export async function getTaskLogs(){
+  const supabase = createClient();
+
+  const { data: tasklogs, error } = await supabase
+  .from("task-activitylog")
+  .select()
+  .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error("Error fetching task logs:", error);
+    return null;
+  }
+
+  return tasklogs;
+}
+
+export async function getTaskActivityLogById(activityId: string) {
+  const supabase = createClient();
+
+  const { data: log, error } = await supabase
+    .from("task-activitylog")
+    .select()
+    .eq("id", activityId)
+    .single(); 
+
+  if (error) {
+    console.error("Error fetching activity logs:", error);
+    return null;
+  }
+
+  return log;
+}
+
+export const getCommentsByTaskId = async (userId : string) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("comments")
+    .select()
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return [];
+  }
+
+  return data;
+};

@@ -1,53 +1,6 @@
-import React from "react";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-
-import { ContentLayout } from "@/components/sustena-layout/content-layout";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-// import Subheader from "@/components/Subheader";
-
 
 export default async function Home() {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
-  }
-
-  return (
-    <>
-      <ContentLayout title="Dashboard">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-zinc-900">
-        <div>
-          <h1 className="font-bold text-2xl mb-2">Dashboard</h1>
-          <Breadcrumb>
-              <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/internal/">Home</BreadcrumbLink>
-                  </BreadcrumbItem>
-              </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex space-x-4">
-          {/* Button Section for Subheader */}
-          <Button variant="outline">Add new</Button>
-        </div>
-      </div>
-      Home
-    </ContentLayout>
-    </>
-  );
+  // Redirect immediately to the /dashboard route
+  return redirect("/dashboard");
 }
