@@ -19,3 +19,18 @@ export async function getGlossaryitems_en(){
     }));
     return glossaryItemsWithLanguage;
   };
+
+  export async function Anthropic(){
+    const supabase = createClient()
+    const { data: Anthropicdata } = await supabase.from('Anthropic').select().single();
+    
+    return Anthropicdata;
+  };
+  
+  
+export async function OpenAI(){
+    const supabase = createClient()
+    const { data: OpenAIdata } = await supabase.from('open_ai').select().single();
+    
+    return OpenAIdata;
+  };
