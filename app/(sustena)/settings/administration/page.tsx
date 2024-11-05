@@ -72,6 +72,7 @@ export default async function Home() {
               <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange} />
             </TabsContent>
             <TabsContent value="frameworks"> 
+              {/* framework tab */}
               <Frameworks /> 
             </TabsContent>
             <TabsContent value="adminusers">

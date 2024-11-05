@@ -450,6 +450,8 @@
       "SMTP": "SMTP",
       "Anthropic AI": "Anthropic AI",
       "Frameworks":"Frameworks"
+
+      
     },
     "groups": {
       "title": "Group Details",
