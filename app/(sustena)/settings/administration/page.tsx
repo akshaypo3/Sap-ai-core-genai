@@ -29,6 +29,7 @@ import GlossaryDetails from "@/components/settings/glossary/GlossaryDetails";
 
 import Instances from "@/components/settings/intances/instances";
 import Frameworks from "@/components/settings/frameworks/frameworks";
+import AnthropicData from "@/components/settings/ai/Anthropic";
 
 
 export default async function Home() {
@@ -64,13 +65,14 @@ export default async function Home() {
         <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
       </div>
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
           <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger> 
           <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
           <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
           <TabsTrigger value="glossary">Glossary</TabsTrigger>
           <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
+          <TabsTrigger value="ai">AI</TabsTrigger>
         </TabsList>
         <div className="bg-white p-5 border rounded">
         <TabsContent value="general">
@@ -92,6 +94,9 @@ export default async function Home() {
           </TabsContent>
           <TabsContent value="anthropicai">
             <AnthropicApiDemo/>
+          </TabsContent>
+          <TabsContent value="ai">
+            <AnthropicData/>
           </TabsContent>
         </div>  
         </Tabs>

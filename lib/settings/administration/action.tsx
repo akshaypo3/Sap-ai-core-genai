@@ -118,3 +118,58 @@ export async function createGlossary(formData: FormData) {
       redirect("/settings/administration");
     }
   }
+
+  export async function editAnthropic(id:any,formData: FormData) {
+    const supabase = createClient();
+    
+   
+    const API_Key = formData.get("API_Key");
+    const Model = formData.get("Model");
+    const Token_Limit_per_Month = formData.get("Token_Limit_per_Month");
+    
+    try {
+      const { data, error } = await supabase
+        .from("Anthropic")
+        .update({
+          API_Key: API_Key,
+      Model: Model,
+      Token_Limit_per_Month: Token_Limit_per_Month,
+        })
+        .eq("id", id);
+  
+      if (error) {
+        throw new Error(`Failed to update Antropic: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Error while update Antropic", error.message);
+    } finally {
+      revalidatePath("/settings/administration");
+        redirect("/settings/administration");
+    }
+  }
+  
+  export async function editOpenAPI(id:any,formData: FormData) {
+    const supabase = createClient();
+    const API_Key = formData.get("API_Key");
+    const Token_Limit_per_Month = formData.get("Token_Limit_per_Month");
+    console.log(id,API_Key,Token_Limit_per_Month);
+    
+    try {
+      const { data, error } = await supabase
+        .from("open_ai")
+        .update({
+          API_Key: API_Key,
+      Token_Limit_per_Month: Token_Limit_per_Month,
+        })
+        .eq("id", id);
+  
+      if (error) {
+        throw new Error(`Failed to update OpenAI: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Error while update OpenAI", error.message);
+    } finally {
+      revalidatePath("/settings/administration");
+        redirect("/settings/administration");
+    }
+  }
