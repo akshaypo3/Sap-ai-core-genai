@@ -421,9 +421,16 @@
         }
       },
       "cdp":{
-        "title": "CDP Dashboard",
+        "title": "CDP Assessment",
         "CDP": "CDP",
-        "Home": "Home"
+        "Home": "Home",
+        "Title":"CDP Assessment",
+        "Fiscal Year":"Fiscal Year",
+        "Total Data Points":"Total Data Points",
+        "Completed":"Completed",
+        "Under Review":"Under Review",
+        "To Be Assessed":"To Be Assessed",
+        "Action":"Action"
       }
     },
     "reports": {
@@ -754,6 +761,24 @@
   },
   "reporting-com": {
     "Sections": "Sections",
+    "cdp":{
+      "Actions":"Actions",
+      "View":"View",
+      "Delete":"Delete",
+      "New Assessment":"New Assessment",
+      "Start new CDP Assessment":"Start new CDP Assessment",
+      "New Assessment function description":"New Assessment function description",
+      "Year":"Year",
+      "Total Data Points":"Total Data Points",
+      "Completed":"Completed",
+      "Under Review":"Under Review",
+      "To Be Assessed":"To Be Assessed",
+      "Create Assessment":"Create Assessment",
+      "Delete CDP Assessment":"Delete CDP Assessment",
+      "Are you sure you want to delete the assessment?":"Are you sure you want to delete the assessment?",
+      "Cancel":"Cancel",
+      "Deleting":"Deleting..."
+    },
     "GENERAL DISCLOSURES": {
       "title": "GENERAL DISCLOSURES",
       "description": "This section focuses on providing an overview of the organization’s general information",
@@ -1048,6 +1073,7 @@
     "Dashboard": "Dashboard"
   },
   "table": {
+    "Filter":"Filter",
     "Columns": "Columns",
     "No results": "No results.",
     "Name": "Name",
