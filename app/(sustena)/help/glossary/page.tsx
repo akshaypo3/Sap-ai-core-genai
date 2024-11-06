@@ -1,7 +1,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { getGlossaryitems } from "@/lib/glossary/data";
+import { getGlossary_de, getGlossary_en, getGlossaryitems } from "@/lib/glossary/data";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -20,11 +20,24 @@ import { getTranslations } from 'next-intl/server'; // Updated import
 import { Slash } from "lucide-react";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { Globallanguagedata } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = createClient();
-  const glossaryItems = await getGlossaryitems();
+  let glossaryItems: any[] = [];
+  //const glossaryItems = await getGlossaryitems();
+  const result = await Globallanguagedata();
+  const language = result?.language || "en";
+  const glossaryItems_en = await getGlossary_en();
+  const glossaryItems_de = await getGlossary_de();
 
+  if(language === "en")
+  {
+    glossaryItems=glossaryItems_en
+  }
+else{
+  glossaryItems=glossaryItems_de
+}
   const {
     data: { user },
   } = await supabase.auth.getUser();

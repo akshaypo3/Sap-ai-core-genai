@@ -30,6 +30,7 @@ import GlossaryDetails from "@/components/settings/glossary/GlossaryDetails";
 import Instances from "@/components/settings/intances/instances";
 import Frameworks from "@/components/settings/frameworks/frameworks";
 import AnthropicData from "@/components/settings/ai/Anthropic";
+import Globallanguage from "@/components/settings/timezone/globallanuage";
 
 
 export default async function Home() {
@@ -77,6 +78,7 @@ export default async function Home() {
         <div className="bg-white p-5 border rounded">
         <TabsContent value="general">
         <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
+        <Globallanguage />
           </TabsContent>
           <TabsContent value="frameworks"> 
               <Frameworks /> 

@@ -41,7 +41,7 @@ if (!user) {
   const breadcrumbs = [
     { href: "/dashboard", text: t("home") },
   ];
-
+  
   return (
     <ContentLayout title={t("title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
