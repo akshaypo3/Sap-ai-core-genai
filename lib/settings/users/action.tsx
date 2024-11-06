@@ -319,3 +319,52 @@ export async function assignGroup(group_ID: any, formData) {
     redirect(`/settings/groups/${groupID}`);
   }
 }
+
+
+export async function changelanguage(language: any) {
+  const supabase = createClient();
+  console.log(language);
+
+  try {
+    
+    const { data, error } = await supabase
+      .from("global_language")
+      .select("*")
+      .single();
+
+    if (error) {
+      throw new Error(`Error checking existing language record: ${error.message}`);
+    }
+
+    if (data) {
+      const { error: updateError } = await supabase
+        .from("global_language")
+        .update({ language: language })
+        .eq("id", data.id); // Update using the existing record's id (assuming single record)
+
+      if (updateError) {
+        throw new Error(`Failed to update language: ${updateError.message}`);
+      }
+
+      console.log("Language updated successfully", data);
+    }
+
+  } catch (error) {
+    console.error("Error while updating language", error.message);
+  } finally {
+    // Revalidate the path and redirect after changing language
+    revalidatePath("/settings/administration");
+    redirect("/settings/administration");
+  }
+}
+
+export async function Globallanguagedata() {
+  const supabase = createClient();
+   
+  const { data, error } = await supabase
+      .from("global_language")
+      .select("*")
+      .single();
+	  
+  return data;
+  }
