@@ -1,6 +1,6 @@
-'use client'; // Ensure this is at the top of the file for client-side rendering
+'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Label } from "@/components/ui/label";
 import {
     Select,
@@ -12,14 +12,16 @@ import {
 import { DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { LoadScript, Autocomplete } from '@react-google-maps/api';
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
 import { addLocation } from '@/lib/company/action';
 
 interface AddLocationFormProps {
-    type: string[];  // Location types passed as a prop
-    api: string;     // Google API key passed as a prop
-    isOpen: boolean; // Dialog open state passed as a prop
+    type: string[];  
+    api: string;    
+    isOpen: boolean; 
 }
+
+const libraries: ("places")[] = ['places'];
 
 export default function AddLocationForm({ type, api, isOpen }: AddLocationFormProps) {
     const [address, setAddress] = useState('');
@@ -33,10 +35,21 @@ export default function AddLocationForm({ type, api, isOpen }: AddLocationFormPr
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
     const googleMapsApiKey = api;
-    const locationTypes=type;
-    const company_id ="cc3de9de-f00b-49b7-ad4e-1db31a49ef11";
+    const locationTypes = type;
+    const company_id = "cc3de9de-f00b-49b7-ad4e-1db31a49ef11";
 
-    // Handle Google Places Autocomplete when a place is selected
+    // Use the useLoadScript hook instead of LoadScript component
+    const { isLoaded, loadError } = useLoadScript({
+        googleMapsApiKey,
+        libraries,
+    });
+
+    useEffect(() => {
+        setTimeout(() => {
+            document.body.style.pointerEvents = "";
+        }, 0);
+    }, []);
+
     const handlePlaceSelect = () => {
         const place = autocompleteRef.current?.getPlace();
         console.log(place);
@@ -73,7 +86,7 @@ export default function AddLocationForm({ type, api, isOpen }: AddLocationFormPr
                 }
             });
 
-            const fullStreetAddress = streetNumber ? `${streetNumber} ${streetName}` : streetName;
+            const fullStreetAddress = streetNumber ? `${streetName} ${streetNumber}` : streetName;
             setStreet(fullStreetAddress);
             setPostalCode(postal);
             setCity(cityName);
@@ -81,170 +94,167 @@ export default function AddLocationForm({ type, api, isOpen }: AddLocationFormPr
         }
     };
 
+    if (loadError) {
+        return <div>Error loading maps</div>;
+    }
+
+    if (!isLoaded) {
+        return <div>Loading maps</div>;
+    }
+
     return (
-        <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={['places']}>
-            <form action={addLocation} className="max-h-[500px] overflow-y-auto p-2">
-                <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Input type="hidden" name="companyid" value={company_id} />
+        <form action={addLocation} className="max-h-[500px] overflow-y-auto p-2">
+            <div className="grid w-full items-center gap-1.5 mb-2">
+                <Input type="hidden" name="companyid" value={company_id} />
 
-                    <Label htmlFor="name">Location Name</Label>
-                    <Input type="text" id="name" name="name" required />
+                <Label htmlFor="name">Location Name</Label>
+                <Input type="text" id="name" name="name" required />
 
-                    <Label htmlFor="description">Description</Label>
-                    <Input type="text" id="description" name="description" />
+                <Label htmlFor="description">Description</Label>
+                <Input type="text" id="description" name="description" />
 
-                    {/* Google Maps Autocomplete */}
-                    <Label htmlFor="autocomplete">Search Location</Label>
-                    <Autocomplete
-                        onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
-                        onPlaceChanged={handlePlaceSelect}
-                        fields={['formatted_address', 'geometry', 'address_components']}
-                    >
-                        <Input
-                            type="text"
-                            id="autocomplete"
-                            name="autocomplete"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            placeholder="Enter a location"
-                            style={{
-                                padding: '10px',
-                                marginBottom: '10px',
-                                border: '1px solid #ccc',
-                                borderRadius: '4px',
-                                width: '100%',
-                                fontSize: '14px',
-                                cursor: 'pointer',  // Change cursor to indicate clickable input
-                                boxSizing: 'border-box',
-                                position: 'relative', // Ensure it's not overlapped
-                                zIndex: '9999', // Ensure the input is above other elements
-                            }}
-                            onFocus={(e) => {
-                                e.target.style.borderColor = '#4B9FFF'; // Highlight on focus
-                            }}
-                            onBlur={(e) => {
-                                e.target.style.borderColor = '#ccc'; // Reset border color
-                            }}
-                        />
-                    </Autocomplete>
-
-                    <Label htmlFor="street">Street</Label>
+                {/* Google Maps Autocomplete */}
+                <Label htmlFor="autocomplete">Search Location</Label>
+                <Autocomplete
+                    onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                    onPlaceChanged={handlePlaceSelect}
+                    fields={['formatted_address', 'geometry', 'address_components']}
+                >
                     <Input
-                        className="bg-gray-200"
                         type="text"
-                        id="street"
-                        name="street"
-                        value={street}
-                        onChange={(e) => setStreet(e.target.value)}
-                        required
-                        readOnly
+                        id="autocomplete"
+                        name="autocomplete"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="Enter a location"
+                        style={{
+                            padding: '10px',
+                            marginBottom: '10px',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                            width: '100%',
+                            fontSize: '14px',
+                            cursor: 'pointer',
+                            boxSizing: 'border-box',
+                            position: 'relative',
+                            zIndex: '9999',
+                        }}
+                        onFocus={(e) => {
+                            e.target.style.borderColor = '#4B9FFF';
+                        }}
+                        onBlur={(e) => {
+                            e.target.style.borderColor = '#ccc';
+                        }}
                     />
+                </Autocomplete>
 
-                    <Label htmlFor="postalcode">Postal Code</Label>
-                    <Input
-                        className="bg-gray-200"
-                        type="text"
-                        id="postalcode"
-                        name="postalcode"
-                        value={postalCode}
-                        onChange={(e) => setPostalCode(e.target.value)}
-                        required
-                        readOnly
-                    />
+                <Input
+                    className="bg-gray-200"
+                    type="hidden"
+                    id="street"
+                    name="street"
+                    value={street}
+                    onChange={(e) => setStreet(e.target.value)}
+                    required
+                    readOnly
+                />
 
-                    <Label htmlFor="city">City</Label>
-                    <Input
-                        className="bg-gray-200"
-                        type="text"
-                        id="city"
-                        name="city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        required
-                        readOnly
-                    />
+                <Input
+                    className="bg-gray-200"
+                    type="hidden"
+                    id="postalcode"
+                    name="postalcode"
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                    required
+                    readOnly
+                />
 
-                    <Label htmlFor="country">Country</Label>
-                    <Input
-                        className="bg-gray-200"
-                        type="text"
-                        id="country"
-                        name="country"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        required
-                        readOnly
-                    />
+                <Input
+                    className="bg-gray-200"
+                    type="hidden"
+                    id="city"
+                    name="city"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    required
+                    readOnly
+                />
 
-                    <Label htmlFor="latitude">Latitude</Label>
-                    <Input
-                        className="bg-gray-200"
-                        type="text"
-                        id="latitude"
-                        name="latitude"
-                        value={latitude ?? ''}
-                        readOnly
-                    />
+                <Input
+                    className="bg-gray-200"
+                    type="hidden"
+                    id="country"
+                    name="country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    required
+                    readOnly
+                />
 
-                    <Label htmlFor="longitude">Longitude</Label>
-                    <Input
-                        className="bg-gray-200"
-                        type="text"
-                        id="longitude"
-                        name="longitude"
-                        value={longitude ?? ''}
-                        readOnly
-                    />
+                <Input
+                    className="bg-gray-200"
+                    type="hidden"
+                    id="latitude"
+                    name="latitude"
+                    value={latitude ?? ''}
+                    readOnly
+                />
 
-                    <div className="w-full">
-                        <Label htmlFor="location_type">Location Type</Label>
+                <Input
+                    className="bg-gray-200"
+                    type="hidden"
+                    id="longitude"
+                    name="longitude"
+                    value={longitude ?? ''}
+                    readOnly
+                />
 
-                        
-                            <Select name="location_type" required>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {locationTypes.map((type) => (
-                                        <SelectItem key={type} value={type}>
-                                            {type}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        
-                    </div>
+                <div className="w-full">
+                    <Label htmlFor="location_type">Location Type</Label>
+                    <Select name="location_type" required>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {locationTypes.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                    {type}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
 
-                    <div className="w-full">
-                        <Label htmlFor="employee_count">Employee Count</Label>
-                        <Select name="employee_count" required>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a size" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="0-10">0-10</SelectItem>
-                                <SelectItem value="11-50">11-50</SelectItem>
-                                <SelectItem value="51-100">51-100</SelectItem>
-                                <SelectItem value="100-500">100-500</SelectItem>
-                                <SelectItem value="500-1000">500-1000</SelectItem>
-                                <SelectItem value="1000-5000">1000-5000</SelectItem>
-                                <SelectItem value="5000-10000">5000-10000</SelectItem>
-                                <SelectItem value=">10000">more than 10000</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                <div className="w-full">
+                    <Label htmlFor="employee_count">Employee Count</Label>
+                    <Select name="employee_count" required>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a size" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="0-10">0-10</SelectItem>
+                            <SelectItem value="11-50">11-50</SelectItem>
+                            <SelectItem value="51-100">51-100</SelectItem>
+                            <SelectItem value="100-500">100-500</SelectItem>
+                            <SelectItem value="500-1000">500-1000</SelectItem>
+                            <SelectItem value="1000-5000">1000-5000</SelectItem>
+                            <SelectItem value="5000-10000">5000-10000</SelectItem>
+                            <SelectItem value=">10000">more than 10000</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
 
-                    <div className="flex mt-5">
-                        <div className="flex-auto">
-                            <DialogClose asChild>
-                                <Button className="w-full" type="submit">
-                                    Add Location
-                                </Button>
-                            </DialogClose>
-                        </div>
+                <div className="flex mt-5">
+                    <div className="flex-auto">
+                        <DialogClose asChild>
+                            <Button className="w-full" type="submit">
+                                Add Location
+                            </Button>
+                        </DialogClose>
                     </div>
                 </div>
-            </form>
-        </LoadScript>
+            </div>
+        </form>
     );
 }

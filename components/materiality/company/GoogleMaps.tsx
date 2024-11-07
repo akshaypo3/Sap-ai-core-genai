@@ -27,7 +27,7 @@ export default function GoogleMaps({ location, apiKey }: LocationProps) {
         <GoogleMap
           mapContainerStyle={{ width: "100%", height: "423px" }}
           center={coordinates}
-          zoom={10}
+          zoom={15}
         >
           <Marker position={coordinates} />
         </GoogleMap>

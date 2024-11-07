@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AddLocationButton } from "@/components/materiality/company/buttons";
+import { AddLocationButton } from "@/components/materiality/company/AddLocationButton";
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
 import { DataTable } from "@/components/table/data-table";
 import { columns_location } from "@/components/table/LocationsTableColumns";
@@ -26,8 +26,8 @@ export default async function CompanyLocations() {
 
   const locations = await getLocations();
   const type = await getLocationTypes();
-  const api1 = await GoogleApikey();
-  const api=api1.key
+  let api = await GoogleApikey();
+  api=api.key
 
   return (
     <>

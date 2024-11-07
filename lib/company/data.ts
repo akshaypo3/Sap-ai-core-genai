@@ -78,7 +78,6 @@ export async function getLocations() {
         .select('*')  
         .single();    
     
-    // If there is an error or no data is found, return null or handle it as needed
     if (error || !data) {
         console.error('Error fetching Google API key:', error);
         return null; 
@@ -86,6 +85,7 @@ export async function getLocations() {
   
     return data;
   }
+
   export async function getCompanyDetails() {
     const supabase = createClient();
     const { data, error } = await supabase
