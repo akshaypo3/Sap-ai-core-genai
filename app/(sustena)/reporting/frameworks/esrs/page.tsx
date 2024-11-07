@@ -25,18 +25,6 @@ export default async function Page() {
   return (
     <>
     <ContentLayout title={t("frameworks.esrs.title")}>
-      {/* <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border"> */}
-        {/* <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/> */}
-        {/* <div className="flex space-x-4"> */}
-          {/* Button Section for Subheader */}
-          {/* <Link href="/reporting/frameworks/esrs/esrss1/s1-44"> */}
-           {/* <Button className="bg-green-500 hover:bg-green-600 text-white hover:text-white">{t("frameworks.esrs.continue")}</Button> */}
-          {/* </Link> */}
-        {/* </div> */}
-        
-      {/* </div> */}
-      {/* <StandardsOverview/> */}
-      {/* <BRSROverview/> */}
       <ESRSOverview/>
     </ContentLayout>
     
