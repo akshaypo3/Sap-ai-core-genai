@@ -71,7 +71,21 @@ export async function getLocations() {
 
     return data || [];
   }
-
+  export async function GoogleApikey() {
+    const supabase = createClient(); 
+    const { data, error } = await supabase
+        .from('googlemapsapi')
+        .select('*')  
+        .single();    
+    
+    // If there is an error or no data is found, return null or handle it as needed
+    if (error || !data) {
+        console.error('Error fetching Google API key:', error);
+        return null; 
+    }
+  
+    return data;
+  }
   export async function getCompanyDetails() {
     const supabase = createClient();
     const { data, error } = await supabase

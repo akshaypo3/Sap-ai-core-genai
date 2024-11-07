@@ -15,7 +15,12 @@ import AddLocationIROForm from "./AddLocationIROForm";
 import AddProductIROForm from "./AddProductIROForm";
 import { useTranslations } from "next-intl";
 
-export function AddLocationButton(){
+interface AddLocationButtonFormProps {
+  type: string[]; 
+  api: string; 
+}
+
+export function AddLocationButton({ type, api }: AddLocationButtonFormProps){
   const t = useTranslations();
     return (
         <Dialog>
@@ -24,10 +29,11 @@ export function AddLocationButton(){
         <DialogHeader>
           <DialogTitle>Add Location</DialogTitle>
           <DialogDescription>
-            {t("company.Add all Locations of your company around the world")}
+            {/* {t("company.Add all Locations of your company around the world")} */}
+            Add all Locations of your company around the world
           </DialogDescription>
         </DialogHeader>
-        <AddLocationForm/>
+        <AddLocationForm type={type} api={api} isOpen={true}/>
       </DialogContent>
     </Dialog>
         
