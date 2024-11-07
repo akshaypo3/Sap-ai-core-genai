@@ -70,13 +70,12 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     },
   })
-console.log(sort);
 
-const t = useTranslations();
+  const t = useTranslations("table");
   return (
       <><div className="flex items-center py-4">
        <Input
-      placeholder={`Filter ${filter}s...`}
+      placeholder={`${t('Filter')} ${filter}s...`}
       value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
       onChange={(event) => table.getColumn(filter)?.setFilterValue(event.target.value)}
       className="max-w-sm"
@@ -84,7 +83,7 @@ const t = useTranslations();
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-            Columns <ChevronDown className="ml-2 h-4 w-4" />
+            {t("Columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -113,23 +112,55 @@ const t = useTranslations();
         </DropdownMenu>
     </div><div className="rounded-md border border-neutral-200 dark:border-neutral-800">
         <Table>
-          <TableHeader className="bg-gray-100 dark:bg-neutral-800 ">
+          {/* <TableHeader className="bg-gray-100 dark:bg-neutral-800 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                     const isHeaderFunction = typeof header.column.columnDef.header === 'function';
                     const displayName = isHeaderFunction ? sort : (header.column.columnDef.header || sort);
                   return (
-                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress"  || header.column.id ==="mandatory" || header.column.id === "turnover_percentage" || header.column.id ==="Details"? "text-center" : "text-left"}`} key={header.id}>
+                    <TableHead className={`px-6 py-3 ${header.column.id === "user_count" || header.column.id === "Action" || header.column.id === "progress"  || header.column.id ==="mandatory" || header.column.id === "turnover_percentage" || header.column.id ==="Details" || header.column.id ==="Edit"? "text-center" : "text-left"}`} key={header.id}>
           {header.isPlaceholder
             ? null
             : flexRender(
                 // t(header.column.columnDef.header as string),
-                [t(displayName)],
+                t(displayName),
                 header.getContext()
               )}
         </TableHead>
                   )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader> */}
+         <TableHeader className="bg-gray-100 dark:bg-neutral-800">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  const columnHeader = header.column.columnDef.header;
+                  const isButtonHeader = typeof columnHeader === 'function';
+
+                  const displayContent = isButtonHeader
+                    ? columnHeader(header.getContext())
+                    : columnHeader || sort;
+
+                  return (
+                    <TableHead
+                      className={`px-6 py-3 ${["user_count", "Action", "progress", "mandatory", "turnover_percentage", "Details", "Edit"].includes(header.column.id) ? "text-center" : "text-left"}`}
+                      key={header.id}
+                    >
+                      {header.isPlaceholder ? null : (
+                        isButtonHeader ? (
+                          displayContent
+                        ) : (
+                          flexRender(
+                            t(displayContent),
+                            header.getContext()
+                          )
+                        )
+                      )}
+                    </TableHead>
+                  );
                 })}
               </TableRow>
             ))}

@@ -13,19 +13,34 @@ import {
 } from "@/components/ui/breadcrumb";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from '@/components/BredCrumb';
-import { BackButton } from '@/components/BredCrumbButtons';
+
 import BRSROverview from '@/components/demo/BRSROverview';
 import ESRSOverview from '@/components/demo/ESRSOverview';
+=======
+import { BackButton, ContinueButton } from '@/components/BredCrumbButtons';
+
  
 export default async function Page() {
   const t = await getTranslations('reporting');
   const breadcrumbs = [
     { href: "/dashboard/", text: t("frameworks.esrs.Home") }
   ];
+
+  const contineButton = [
+    { href: "/reporting/frameworks/esrs/esrss1/s1-44", text: t("frameworks.esrs.continue") }
+  ];
   return (
     <>
     <ContentLayout title={t("frameworks.esrs.title")}>
+
       <ESRSOverview/>
+=======
+      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+        <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>} contineButton={<ContinueButton contineButton={contineButton}/>}/>
+   
+      </div>
+      <StandardsOverview/>
+
     </ContentLayout>
     
     </>

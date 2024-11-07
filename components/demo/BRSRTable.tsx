@@ -95,6 +95,7 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
           </div>
           {expandedSections.includes(section) && (
             <div className="p-4">
+
               {/* Check if it's Section A or Section B to display the table directly */}
               {(section === 'Section A: General Disclosures' || section === 'Section B: Management and Process Disclosures') ? (
                 <Table>
@@ -128,6 +129,31 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
                               <Pencil className="h-4 w-4" />
                             </Button> */}
                           </TableCell>
+
+              {Object.entries(groupedData[section])
+              .sort(([principleA], [principleB]) => {
+                const numA = parseInt(principleA.match(/\d+/)?.[0] || '0', 10);
+                const numB = parseInt(principleB.match(/\d+/)?.[0] || '0', 10);
+                return numA - numB;
+              })
+              .map(([principle, items]) => (
+                <div key={principle} className="mb-4">
+                  <div 
+                    className="flex items-center justify-between p-2 bg-gray-100 cursor-pointer"
+                    onClick={() => togglePrinciple(principle)}
+                  >
+                    <h4 className="text-lg font-medium">{principle !== 'N/A' ? principle : ''}</h4>
+                    {expandedPrinciples.includes(principle) ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                  </div>
+                  {expandedPrinciples.includes(principle) && (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-1/2">Question</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Assigned To</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+
                         </TableRow>
                       ))}
                   </TableBody>
