@@ -38,7 +38,6 @@ export default function AddLocationForm({ type, api, isOpen }: AddLocationFormPr
     const locationTypes = type;
     const company_id = "cc3de9de-f00b-49b7-ad4e-1db31a49ef11";
 
-    // Use the useLoadScript hook instead of LoadScript component
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey,
         libraries,
@@ -113,7 +112,6 @@ export default function AddLocationForm({ type, api, isOpen }: AddLocationFormPr
                 <Label htmlFor="description">Description</Label>
                 <Input type="text" id="description" name="description" />
 
-                {/* Google Maps Autocomplete */}
                 <Label htmlFor="autocomplete">Search Location</Label>
                 <Autocomplete
                     onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
