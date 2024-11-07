@@ -1110,7 +1110,10 @@
     "Last Sign In": "Last Sign In",
     "UID": "UID",
     "Edit": "Edit",
-    "% of Turnover":"% of Turnover"
+    "% of Turnover":"% of Turnover",
+    "Sub Topic":"Sub Topic",
+    "Topic":"Topic",
+    "Sub Sub Topic":"Sub Sub Topic"
   },
   "tasks-com": {
     "Add a comment": "Add a comment",

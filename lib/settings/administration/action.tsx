@@ -173,3 +173,27 @@ export async function createGlossary(formData: FormData) {
         redirect("/settings/administration");
     }
   }
+
+  export async function updateGoogleMapsApi(formData: FormData) {
+    const supabase = createClient();
+    const API_Key = formData.get("API_Key");
+    const apiId = formData.get("apiId")
+
+    try {
+      const { data, error } = await supabase
+        .from("googlemapsapi")
+        .update({
+          key:API_Key
+        })
+        .eq('id', apiId)
+  
+      if (error) {
+        throw new Error(`Failed to updating GoogleMaps Api key: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Error while updating GoogleMaps Api key", error);
+    } finally {
+      revalidatePath("/settings/administration");
+      redirect("/settings/administration");
+    }
+  }

@@ -31,7 +31,8 @@ import Instances from "@/components/settings/intances/instances";
 import Frameworks from "@/components/settings/frameworks/frameworks";
 import AnthropicData from "@/components/settings/ai/Anthropic";
 import Globallanguage from "@/components/settings/timezone/globallanuage";
-
+import GoogleMapsApi from "@/components/settings/timezone/GoogleMapsApi";
+import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -59,6 +60,8 @@ export default async function Home() {
     { href: "/settings/administration", text: t("administration.Administration") }
   ];
 
+  const apiId = await GetGoogleMapsApi()
+
   return (
     <>
       <ContentLayout title="Administration">
@@ -79,6 +82,7 @@ export default async function Home() {
         <TabsContent value="general">
         <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
         <Globallanguage />
+        <GoogleMapsApi data={apiId}/>
           </TabsContent>
           <TabsContent value="frameworks"> 
               <Frameworks /> 
