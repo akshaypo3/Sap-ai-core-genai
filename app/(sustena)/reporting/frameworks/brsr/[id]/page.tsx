@@ -13,7 +13,6 @@ import { getBRSRData } from "@/lib/demo/data"; // You'll need to create this fun
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-import BRSROverview from "@/components/demo/BRSROverview";
 
 export default async function Home() {
   const supabase = createClient();
@@ -30,15 +29,15 @@ export default async function Home() {
 
   const brsrData = await getBRSRData();
   const breadcrumbs = [
+    { href: "/dashboard/", text: t("frameworks.brsr.Home") }
   ];
 
   return (
     <ContentLayout title={t("frameworks.brsr.title")}>
-      {/* <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <BreadCrumbCom title={t("frameworks.brsr.BRSR")} />
-      </div> */}
-      {/* <BRSRTable brsrData={brsrData} /> */}
-      <BRSROverview/>
+      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+        <BreadCrumbCom title={t("frameworks.brsr.BRSR")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+      </div>
+      <BRSRTable brsrData={brsrData} />
     </ContentLayout>
   );
 }

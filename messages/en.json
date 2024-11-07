@@ -375,7 +375,7 @@
       "Materiality Dashboard": "Materiality Dashboard",
       "Home": "Home",
       "esrs": {
-        "title": "Materiality Dashboard",
+        "title": "ESRS Assessment",
         "Materiality Dashboard": "Materiality Dashboard",
         "Home": "Home",
         "continue": "Continue",
@@ -406,7 +406,7 @@
         }
       },
       "brsr": {
-        "title": "BRSR Dashboard",
+        "title": "BRSR Assessment",
         "BRSR": "BRSR",
         "Home": "Home",
         "section a": {

@@ -53,7 +53,6 @@ export default async function CreateAssessmentForm() {
                         </Select>
                     </div>
                 </div>
-
                 <div className="flex mt-5">
                     <div className="flex-auto">
                         <DialogClose asChild>

@@ -14,6 +14,8 @@ import {
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from '@/components/BredCrumb';
 import { BackButton } from '@/components/BredCrumbButtons';
+import BRSROverview from '@/components/demo/BRSROverview';
+import ESRSOverview from '@/components/demo/ESRSOverview';
  
 export default async function Page() {
   const t = await getTranslations('reporting');
@@ -22,18 +24,20 @@ export default async function Page() {
   ];
   return (
     <>
-    <ContentLayout title={t("esrs.title")}>
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
-        <div className="flex space-x-4">
+    <ContentLayout title={t("frameworks.esrs.title")}>
+      {/* <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border"> */}
+        {/* <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/> */}
+        {/* <div className="flex space-x-4"> */}
           {/* Button Section for Subheader */}
-          <Link href="/reporting/frameworks/esrs/esrss1/s1-44">
-           <Button className="bg-green-500 hover:bg-green-600 text-white hover:text-white">{t("frameworks.esrs.continue")}</Button>
-          </Link>
-        </div>
+          {/* <Link href="/reporting/frameworks/esrs/esrss1/s1-44"> */}
+           {/* <Button className="bg-green-500 hover:bg-green-600 text-white hover:text-white">{t("frameworks.esrs.continue")}</Button> */}
+          {/* </Link> */}
+        {/* </div> */}
         
-      </div>
-      <StandardsOverview/>
+      {/* </div> */}
+      {/* <StandardsOverview/> */}
+      {/* <BRSROverview/> */}
+      <ESRSOverview/>
     </ContentLayout>
     
     </>
