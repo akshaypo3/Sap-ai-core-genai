@@ -20,26 +20,6 @@ interface AddLocationButtonFormProps {
   api: string; 
 }
 
-export function AddLocationButton({ type, api }: AddLocationButtonFormProps){
-  const t = useTranslations();
-    return (
-        <Dialog>
-      <DialogTrigger><Button>Add Location</Button></DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Location</DialogTitle>
-          <DialogDescription>
-            {/* {t("company.Add all Locations of your company around the world")} */}
-            Add all Locations of your company around the world
-          </DialogDescription>
-        </DialogHeader>
-        <AddLocationForm type={type} api={api} isOpen={true}/>
-      </DialogContent>
-    </Dialog>
-        
-    )
-}
-
 export function AddLocationButtonAssessment(){
   return (
       <Dialog>
