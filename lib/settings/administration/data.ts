@@ -34,3 +34,10 @@ export async function OpenAI(){
     
     return OpenAIdata;
   };
+
+export async function GetGoogleMapsApi(){
+  const supabase = createClient()
+  const { data: key } = await supabase.from('googlemapsapi').select()
+  
+  return key;
+};

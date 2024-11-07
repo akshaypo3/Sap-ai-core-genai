@@ -101,9 +101,9 @@ export default function Timezone({
   // });
 
   return (
-    <div className="bg-white dark:bg-neutral-950 rounded-md border p-3">
+    <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mb-5">
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4">Timezone</h2>
+        <h3 className="text-xl font-bold mb-3">Timezone</h3>
         <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mt-3">
           <form className="space-y-4 mb-3">
             <div className="w-full">

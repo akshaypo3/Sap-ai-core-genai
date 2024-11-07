@@ -6,13 +6,15 @@ import { Label } from "@/components/ui/label";
 import { AddLocationIROButton } from "@/components/materiality/company/buttons";
 import { DataTable } from "@/components/table/data-table";
 import { columns_location_IRO } from "@/components/table/LocationsIROTableColumns";
+import GoogleMaps from "@/components/materiality/company/GoogleMaps";
+import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 
 export default async function Home({ params }: { params: { companyid: string; locationid: string } }) {
   const { companyid, locationid } = params;
   
 const location = await getLocation(locationid)
 const locationIRO = await getLocationIRO(locationid)
-
+const apiKey = await GetGoogleMapsApi()
 
 
 
@@ -68,8 +70,8 @@ const locationIRO = await getLocationIRO(locationid)
        </AlertDescription>
      </Alert>
      </div>
-     <div className="bg-white dark:bg-neutral-950 rounded-md text-center">
-            Map
+     <div className="bg-white dark:bg-neutral-950 rounded-md border ps-4 pe-4 pb-4">
+          <GoogleMaps location={location} apiKey={apiKey}/>
          </div>
        </div>
        {/* iros loaction details */}
