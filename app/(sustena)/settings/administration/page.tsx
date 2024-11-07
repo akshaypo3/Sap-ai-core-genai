@@ -62,7 +62,26 @@ export default async function Home() {
   return (
     <>
       <ContentLayout title="Administration">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton />} />
+        </div>
+        <Tabs defaultValue="general" className="w-full">
+          <TabsList className="grid w-full grid-cols-5"> 
+            <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
+            <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger> 
+            <TabsTrigger value="adminusers">{t("administration.Administrative Users")}</TabsTrigger>
+            <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
+            <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
+          </TabsList>
+          <div className="bg-white p-5 border rounded">
+            <TabsContent value="general">
+              <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange} />
+            </TabsContent>
+            <TabsContent value="frameworks"> 
+              {/* framework tab */}
+
+<!--       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <BreadCrumbCom title={t("administration.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
       </div>
       <Tabs defaultValue="general" className="w-full">
@@ -80,7 +99,8 @@ export default async function Home() {
         <TimeZone initialTimezone={initialTimezone} onTimezoneChange={handleTimezoneChange}  />
         <Globallanguage />
           </TabsContent>
-          <TabsContent value="frameworks"> 
+          <TabsContent value="frameworks">  -->
+
               <Frameworks /> 
             </TabsContent>
           <TabsContent value="adminusers">

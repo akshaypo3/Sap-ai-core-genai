@@ -1,120 +1,150 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { fetchActiveFrameworks, createFramework, updateFramework } from "@/lib/settings/frameworks/action"; // Adjust the import path based on your project structure
-import image from "@/public/brsr_banner.png"; // Default image
+import { fetchActiveFrameworks, insertFramework, updateFramework } from "@/lib/settings/frameworks/action";
+import { uploadImage } from "@/utils/supabase/client"; 
+import { Button } from "@/components/ui/button";
+import ImageUploader from "./ImagesUploader";
 
 const Frameworks = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [currentFramework, setCurrentFramework] = useState(null);
-    const [newFramework, setNewFramework] = useState({
-        frameworkTitle: "",
-        frameworkDescription: "",
-        materialityAssessmentNeeded: false,
+    const [error, setError] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+        id: "",
+        title: "",
+        description: "",
+        isActive: false,
+        needsAssessment: false,
+        link: "", 
     });
     const [imageFile, setImageFile] = useState(null);
+    const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
     useEffect(() => {
-        const loadData = async () => {
-            const frameworks = await fetchActiveFrameworks();
+        loadFrameworks();
+    }, []);
 
-            const combinedData = frameworks.map((framework) => {
-                return {
+    const loadFrameworks = async () => {
+        setLoading(true);
+        try {
+            const frameworks = await fetchActiveFrameworks();
+            setData(
+                frameworks.map((framework) => ({
                     id: framework.id,
                     frameworkTitle: framework.title,
                     frameworkDescription: framework.description,
-                    instancesStatus: framework.active ? "Active" : "Inactive", // Use active value
-                    materialityAssessmentNeeded: framework.needsAssessment ? "Materiality Assessment needed" : "Not needed", // Use needsAssessment value
-                    image: framework.image || image.src, // Default image if none is provided
-                };
-            });
-
-            setData(combinedData);
+                    instancesStatus: framework.isActive ? "Active" : "Inactive",
+                    materialityAssessmentNeeded: framework.needsAssessment ? "Materiality Assessment needed" : "Not needed",
+                    link: framework.link, 
+                }))
+            );
+        } catch (err) {
+            setError("Failed to load frameworks.");
+            console.error(err);
+        } finally {
             setLoading(false);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        setImageFile(e.target.files[0]);
+    };
+
+    // Client-side image upload
+    const handleImageUpload = async () => {
+        if (imageFile) {
+            try {
+                const uploadResult = await uploadImage(imageFile, `frameworks_img/${imageFile.name}`);
+                if (uploadResult.success) {
+                    setUploadedImageUrl(uploadResult.imageUrl); // Store signed URL for later form submission
+                    console.log("Image uploaded successfully!");
+                } else {
+                    console.error("Failed to upload image:", uploadResult.error);
+                }
+            } catch (error) {
+                console.error("Image upload error:", error);
+            }
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        
+        const newFormData = {
+            ...formData,
+            link: uploadedImageUrl || formData.link, 
         };
 
-        loadData();
-    }, []);
+        if (isEditing) {
+            await updateFramework(formData.id, newFormData);
+        } else {
+            await insertFramework(newFormData);
+        }
 
-    const openEditDialog = (framework) => {
-        setCurrentFramework(framework);
-        setIsDialogOpen(true);
-        setImageFile(null); // Reset image file to ensure no leftover data
+        loadFrameworks();
+        resetForm();
+        setShowModal(false);
     };
 
-    const closeEditDialog = () => {
-        setIsDialogOpen(false);
-        setCurrentFramework(null);
-    };
-
-    const openAddDialog = () => {
-        setNewFramework({
-            frameworkTitle: "",
-            frameworkDescription: "",
-            materialityAssessmentNeeded: false,
+    const resetForm = () => {
+        setFormData({
+            id: "",
+            title: "",
+            description: "",
+            isActive: false,
+            needsAssessment: false,
+            link: "",
         });
-        setImageFile(null); // Reset the image file
-        setIsAddDialogOpen(true);
+        setImageFile(null);
+        setUploadedImageUrl(""); 
+        setIsEditing(false);
     };
 
-    const closeAddDialog = () => {
-        setIsAddDialogOpen(false);
+    const handleEdit = (item) => {
+        setFormData({
+            id: item.id,
+            title: item.frameworkTitle,
+            description: item.frameworkDescription,
+            isActive: item.instancesStatus === "Active",
+            needsAssessment: item.materialityAssessmentNeeded === "Materiality Assessment needed",
+            link: item.link,
+        });
+        setImageFile(null);
+        setUploadedImageUrl(item.link); 
+        setIsEditing(true);
+        setShowModal(true);
     };
 
-    const handleSave = async () => {
-        const updatedFramework = {
-            ...currentFramework,
-            image: imageFile || currentFramework.image, // Use new image if uploaded
-            needsAssessment: currentFramework.materialityAssessmentNeeded === "Materiality Assessment needed" // Map to needsAssessment
-        };
-
-        const { success, error } = await updateFramework(currentFramework.id, updatedFramework);
-
-        if (success) {
-            closeEditDialog();
-            const frameworks = await fetchActiveFrameworks(); // Fetch updated frameworks
-            setData(frameworks);
-        } else {
-            console.error("Failed to update framework:", error);
-        }
+    const openModal = () => {
+        resetForm();
+        setShowModal(true);
     };
 
-    const handleAddFramework = async () => {
-        const newFrameworkData = {
-            title: newFramework.frameworkTitle, // Updated to match your action.ts expectations
-            description: newFramework.frameworkDescription, // Updated to match your action.ts expectations
-            needsAssessment: newFramework.materialityAssessmentNeeded, // Use needsAssessment for backend
-            active: true, // Set instance status to active by default
-            image: imageFile || 'path/to/sample-image.png', // Use sample image if none is uploaded
-        };
-
-        const { success, error } = await createFramework(newFrameworkData);
-
-        if (success) {
-            closeAddDialog();
-            const frameworks = await fetchActiveFrameworks(); // Fetch updated frameworks
-            setData(frameworks);
-        } else {
-            console.error("Failed to add framework:", error);
-        }
+    const closeModal = () => {
+        setShowModal(false);
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    if (loading) return <div>Loading...</div>;
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-lg">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">Frameworks</h2>
-                <button
-                    onClick={openAddDialog}
-                    className="text-white bg-black px-3 py-1 rounded hover:bg-gray-800"
-                    style={{ backgroundColor: "#000000" }}
-                >
+            <ImageUploader/>
+            {error && <div className="text-red-500 mb-4">{error}</div>}
+            <h2 className="text-xl font-semibold text-gray-800">Frameworks</h2>
+            <div className="flex justify-end mb-4">
+                <button onClick={openModal} className="bg-black text-white py-2 px-4 rounded">
                     Add Framework
                 </button>
             </div>
@@ -130,21 +160,21 @@ const Frameworks = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-50 transition-all duration-200 ease-in-out border-b">
+                    {data.map((item) => (
+                        <tr key={item.id} className="hover:bg-gray-50 transition-all duration-200 ease-in-out border-b">
                             <td className="py-3 px-4">
-                                <img src={item.image} alt="" className="w-20 h-10 object-cover" />
+                                {item.link ? (
+                                    <img src={item.link} alt={item.frameworkTitle} className="h-12 w-12 object-cover" />
+                                ) : (
+                                    <div style={{ background: "linear-gradient(to right, #ff7e5f, #feb47b)" }} className="h-12 w-12"></div>
+                                )}
                             </td>
                             <td className="py-3 px-4 text-gray-800 font-medium">{item.frameworkTitle}</td>
                             <td className="py-3 px-4 text-gray-600">{item.frameworkDescription}</td>
                             <td className="py-3 px-4 text-gray-800">{item.instancesStatus}</td>
                             <td className="py-3 px-4 text-gray-800">{item.materialityAssessmentNeeded}</td>
                             <td className="py-3 px-4">
-                                <button
-                                    onClick={() => openEditDialog(item)}
-                                    className="px-4 py-2 text-white bg-black rounded hover:bg-gray-800 transition-colors"
-                                    style={{ backgroundColor: "#000000" }}
-                                >
+                                <button onClick={() => handleEdit(item)} className="bg-black text-white py-1 px-2 rounded">
                                     Edit
                                 </button>
                             </td>
@@ -153,141 +183,71 @@ const Frameworks = () => {
                 </tbody>
             </table>
 
-            {/* Edit Dialog */}
-            {isDialogOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-8 rounded-lg shadow-lg w-3/4 max-w-lg">
-                        <h3 className="text-lg font-semibold mb-4">Edit Framework</h3>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Framework Title</label>
-                            <input
-                                type="text"
-                                value={currentFramework?.frameworkTitle || ""}
-                                onChange={(e) =>
-                                    setCurrentFramework({ ...currentFramework, frameworkTitle: e.target.value })
-                                }
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Framework Description</label>
-                            <textarea
-                                value={currentFramework?.frameworkDescription || ""}
-                                onChange={(e) =>
-                                    setCurrentFramework({ ...currentFramework, frameworkDescription: e.target.value })
-                                }
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            ></textarea>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Upload New Image (350x150px)</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        setImageFile(file);
-                                    }
-                                }}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Materiality Assessment Needed</label>
-                            <select
-                                value={currentFramework?.materialityAssessmentNeeded || ""}
-                                onChange={(e) =>
-                                    setCurrentFramework({
-                                        ...currentFramework,
-                                        materialityAssessmentNeeded: e.target.value,
-                                    })
-                                }
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            >
-                                <option value="Materiality Assessment needed">Materiality Assessment needed</option>
-                                <option value="Not needed">Not needed</option>
-                            </select>
-                        </div>
-                        <div className="flex justify-end space-x-2">
-                            <button
-                                onClick={closeEditDialog}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleSave}
-                                className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-                            >
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Add Dialog */}
-            {isAddDialogOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-8 rounded-lg shadow-lg w-3/4 max-w-lg">
-                        <h3 className="text-lg font-semibold mb-4">Add Framework</h3>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Framework Title</label>
-                            <input
-                                type="text"
-                                value={newFramework.frameworkTitle}
-                                onChange={(e) => setNewFramework({ ...newFramework, frameworkTitle: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Framework Description</label>
-                            <textarea
-                                value={newFramework.frameworkDescription}
-                                onChange={(e) => setNewFramework({ ...newFramework, frameworkDescription: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            ></textarea>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Upload Image (350x150px)</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        setImageFile(file);
-                                    }
-                                }}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700">Materiality Assessment Needed</label>
-                            <select
-                                value={newFramework.materialityAssessmentNeeded}
-                                onChange={(e) => setNewFramework({ ...newFramework, materialityAssessmentNeeded: e.target.value })}
-                                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
-                            >
-                                <option value={false}>Not needed</option>
-                                <option value={true}>Materiality Assessment needed</option>
-                            </select>
-                        </div>
-                        <div className="flex justify-end space-x-2">
-                            <button
-                                onClick={closeAddDialog}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleAddFramework}
-                                className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-                            >
-                                Add Framework
-                            </button>
-                        </div>
+            {showModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded shadow-lg">
+                        <h3 className="text-lg font-semibold mb-4">{isEditing ? "Edit Framework" : "Add Framework"}</h3>
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Title</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    value={formData.title}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="border border-gray-300 p-2 rounded w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Description</label>
+                                <textarea
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="border border-gray-300 p-2 rounded w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Is Active</label>
+                                <input
+                                    type="checkbox"
+                                    name="isActive"
+                                    checked={formData.isActive}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Needs Assessment</label>
+                                <input
+                                    type="checkbox"
+                                    name="needsAssessment"
+                                    checked={formData.needsAssessment}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Upload Image</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-full file:text-sm file:bg-gray-200"
+                                />
+                                <Button type="button" onClick={handleImageUpload} className="bg-black text-white mt-2">
+                                    Upload Image
+                                </Button>
+                            </div>
+                            <div className="flex justify-end mt-4">
+                                <Button type="submit" className="bg-black text-white">
+                                    {isEditing ? "Update" : "Submit"}
+                                </Button>
+                                <Button onClick={closeModal} className="ml-2">
+                                    Cancel
+                                </Button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
