@@ -12,6 +12,7 @@ import {
 import { getStakeholders } from "@/lib/stakeholders/data";
 import {
   AddStakeholderButton,
+  AddUserButton,
   DeleteStakeholderButton,
 } from "@/components/materiality/stakeholders/buttons";
 import { getTranslations } from "next-intl/server";
@@ -74,6 +75,7 @@ export default async function CompanyStakeholdersAssessment(id:any) {
               <TableHead>{t("stakeholders.relevance")}</TableHead>
               <TableHead>{t("stakeholders.knowledge")}</TableHead>
               <TableHead>{t("stakeholders.actions")}</TableHead>
+              <TableHead className="text-center">Add User</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -110,6 +112,9 @@ export default async function CompanyStakeholdersAssessment(id:any) {
                 </TableCell>
                 <TableCell>
                   <DeleteStakeholderButton stakeholder={item} />
+                </TableCell>
+                <TableCell className="text-center">
+                  <AddUserButton assessmentId={assessmentId} stakeHolderId={item.id}/>
                 </TableCell>
               </TableRow>
             ))}

@@ -24,9 +24,10 @@ import CreateStakeholderGroupForm from "@/components/materiality/stakeholders/Cr
 import { deleteStakeholder } from "@/lib/stakeholders/action";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import CreateUserForm from "./AddUserForm";
 
 export async function AddStakeholderButton() {
-const t = await getTranslations("materiality-com")
+  const t = await getTranslations("materiality-com");
   return (
     <Dialog>
       <DialogTrigger>
@@ -54,9 +55,7 @@ export async function AddStakeholderGroupButton() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Stakeholder Group</DialogTitle>
-          <DialogDescription>
-          
-          </DialogDescription>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <CreateStakeholderGroupForm />
       </DialogContent>
@@ -74,7 +73,9 @@ export async function AddLocation() {
         <DialogHeader>
           <DialogTitle>Uncaught error</DialogTitle>
           <DialogDescription>
-            {t("stakeholders.Please contact your Sustena administrator for more details")}
+            {t(
+              "stakeholders.Please contact your Sustena administrator for more details",
+            )}
           </DialogDescription>
         </DialogHeader>
         {/* <CreateStakeholderGroupForm/> */}
@@ -89,7 +90,7 @@ export async function DeleteStakeholderButton({
   stakeholder: string;
 }) {
   const deleteStakeholderWithId = deleteStakeholder.bind(null, stakeholder.id);
-  const t = await getTranslations("materiality-com")
+  const t = await getTranslations("materiality-com");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -138,5 +139,32 @@ export async function DeleteStakeholderButton({
     // <form action={deleteStakeholderWithId}>
     //   <button type="submit" className="px-2 bg-red-600 h-7 hover:bg-red-900 rounded-md"><Trash2 className="w-4 text-white" /></button>
     // </form>
+  );
+}
+
+export async function AddUserButton({
+  assessmentId,
+  stakeHolderId,
+}: {
+  assessmentId: string;
+  stakeHolderId: string;
+}) {
+  const t = await getTranslations("materiality-com");
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button className="bg-green-600">Add User</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add user</DialogTitle>
+          <DialogDescription>Add User Function Description</DialogDescription>
+        </DialogHeader>
+        <CreateUserForm
+          assessmentId={assessmentId}
+          stakeHolderId={stakeHolderId}
+        />
+      </DialogContent>
+    </Dialog>
   );
 }
