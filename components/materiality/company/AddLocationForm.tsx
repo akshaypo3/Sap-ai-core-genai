@@ -51,7 +51,7 @@ export default function AddLocationForm({ type, api, isOpen }: AddLocationFormPr
 
     const handlePlaceSelect = () => {
         const place = autocompleteRef.current?.getPlace();
-        console.log(place);
+        //console.log(place);
 
         if (place?.geometry) {
             const lat = place.geometry.location.lat();
