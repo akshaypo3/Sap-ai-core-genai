@@ -1399,7 +1399,19 @@
     "Connections":"Connections",
     "Library":"Library",
     "Users":"Users",
-    "Administration":"Administration"
+    "Administration":"Administration",
+    "Questions":"Questions",
+    "Stakeholder Portal":"Stakeholder Portal"
+  },
+  "portal":{
+    "dashboard":{
+      "title":"Stakeholders Dashboard",
+      "Home":"Home"
+    },
+    "questions":{
+      "title":"Stakeholders Questions",
+      "Home":"Home"
+    }
   }
 }
 
