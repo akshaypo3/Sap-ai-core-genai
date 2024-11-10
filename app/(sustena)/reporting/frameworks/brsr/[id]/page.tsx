@@ -34,9 +34,9 @@ export default async function Home() {
 
   return (
     <ContentLayout title={t("frameworks.brsr.title")}>
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+      {/* <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <BreadCrumbCom title={t("frameworks.brsr.BRSR")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
-      </div>
+      </div> */}
       <BRSRTable brsrData={brsrData} />
     </ContentLayout>
   );

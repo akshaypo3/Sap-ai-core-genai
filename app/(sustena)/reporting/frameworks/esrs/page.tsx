@@ -31,14 +31,19 @@ export default async function Page() {
   ];
   return (
     <>
-    <ContentLayout title={t("frameworks.esrs.title")}>
+    <ContentLayout title="Materiality Assessments">
 
       <ESRSOverview/>
+
+
+      {/* <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+
         <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>} contineButton={<ContinueButton contineButton={contineButton}/>}/>
    
-      </div>
-      <StandardsOverview/>
+      </div> */}
+      {/* <StandardsOverview/> */}
 
     </ContentLayout>
     
