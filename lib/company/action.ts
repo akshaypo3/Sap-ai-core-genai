@@ -18,6 +18,9 @@ export async function addLocation(formData: FormData) {
       country: formData.get('country') as string,
       employee_count: formData.get('employee_count') as string,
       companyid: formData.get('companyid') as UUID,
+      latitude:formData.get('latitude') as string,
+      longitude :formData.get('longitude') as string,
+      search_location :formData.get('autocomplete') as string,
     };
   
     const { data, error } = await supabase
@@ -376,4 +379,35 @@ export async function deleteProductIRO(productid, companyid, IROid) {
     revalidatePath(`/materiality/company/${companyid}/product/${productid}`);
     redirect(`/materiality/company/${companyid}/product/${productid}`);
   }
+}
+
+export async function getLocationTypes() {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase.rpc('get_location_types');
+    
+    if (error) throw error;
+
+    return data.map(item => item.type_name);
+  } catch (error) {
+    console.error("Error while fetching location types:", error);
+    return [];
+  }
+}
+
+export async function GoogleApikey() {
+  const supabase = createClient(); 
+  const { data, error } = await supabase
+      .from('googlemapsapi')
+      .select('*')  
+      .single();    
+  
+  // If there is an error or no data is found, return null or handle it as needed
+  if (error || !data) {
+      console.error('Error fetching Google API key:', error);
+      return null; 
+  }
+
+  return data;
 }

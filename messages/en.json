@@ -1112,7 +1112,10 @@
     "Last Sign In": "Last Sign In",
     "UID": "UID",
     "Edit": "Edit",
-    "% of Turnover":"% of Turnover"
+    "% of Turnover":"% of Turnover",
+    "Sub Topic":"Sub Topic",
+    "Topic":"Topic",
+    "Sub Sub Topic":"Sub Sub Topic"
   },
   "tasks-com": {
     "Add a comment": "Add a comment",
@@ -1396,7 +1399,19 @@
     "Connections":"Connections",
     "Library":"Library",
     "Users":"Users",
-    "Administration":"Administration"
+    "Administration":"Administration",
+    "Questions":"Questions",
+    "Stakeholder Portal":"Stakeholder Portal"
+  },
+  "portal":{
+    "dashboard":{
+      "title":"Stakeholders Dashboard",
+      "Home":"Home"
+    },
+    "questions":{
+      "title":"Stakeholders Questions",
+      "Home":"Home"
+    }
   }
 }
 

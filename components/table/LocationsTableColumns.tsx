@@ -65,7 +65,7 @@ export type Location = {
     {
       header: "Details",
       cell: ({ row }) => {
-        console.log(row.original.companyid); // Log the ID or any relevant info
+        //console.log(row.original.companyid); // Log the ID or any relevant info
     
         return (
           <div className="flex justify-end">

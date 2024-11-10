@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { sendMail } from "@/lib/settings/smtp/action";
 
 // Create Stakeholder
 
@@ -85,7 +86,7 @@ export async function createStakeholderGroup(formData: FormData) {
         description: groupDesc,
       });
     console.log(
-      "Create Stakeholder Group: " + JSON.stringify(newStakeholderGroup)
+      "Create Stakeholder Group: " + JSON.stringify(newStakeholderGroup),
     );
   } catch (error) {
     console.error("Error while adding stakeholder group");
@@ -135,12 +136,10 @@ export async function createStakeholderGroup(formData: FormData) {
 //     console.log("Error creating or updating E-Mail Settings: ",error)
 //   }
 // }
-export async function createStakeholderQuestions(id:any,formData) {
+export async function createStakeholderQuestions(id: any, formData) {
   const supabase = createClient();
   const question1 = formData.get("question");
-  const mandatory1  = formData.get("mandatory");
-
-  
+  const mandatory1 = formData.get("mandatory");
 
   try {
     const newStakeholderQuestions = await supabase
@@ -149,16 +148,14 @@ export async function createStakeholderQuestions(id:any,formData) {
         question: question1,
         mandatory: mandatory1,
       });
-    
   } catch (error) {
     console.error("Error while adding stakeholder question");
   } finally {
     revalidatePath(`/materiality/assessments/${id}/4`);
     redirect(`/materiality/assessments/${id}/4`);
-  } 
+  }
 }
-export async function deleteStakeholderQuestions(id: any,assessmentId:any) {
-  
+export async function deleteStakeholderQuestions(id: any, assessmentId: any) {
   const supabase = createClient();
   try {
     const deletedStakeholder = await supabase
@@ -167,6 +164,85 @@ export async function deleteStakeholderQuestions(id: any,assessmentId:any) {
       .eq("id", id);
   } catch (error) {
     console.error("Error while deleting stakeholder questions");
+  } finally {
+    revalidatePath(`/materiality/assessments/${assessmentId}/4`);
+    redirect(`/materiality/assessments/${assessmentId}/4`);
+  }
+}
+
+export async function createStakeholderUser(formData: FormData) {
+  const supabase = createClient();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const group = formData.get("group");
+  const assessmentId = formData.get("assessmentId");
+  const stakeHolderId = formData.get("stakeHolderId");
+
+  const profileUserName = email.substring(0, email.indexOf("@"));
+
+  if (!email || typeof email !== "string") {
+    console.error("Invalid or missing email");
+    return;
+  }
+
+  if (!password || typeof password !== "string") {
+    console.error("Invalid or missing password");
+    return;
+  }
+
+  console.log("okok", group)
+  try {
+    const { data, error } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+    });
+
+    if (!error) {
+      await supabase
+      .from("user_profile")
+      .insert({
+        id: data.user.id,
+        username: profileUserName,
+        userEmail: email,
+      });
+    }
+
+    const { data: groupsData, error: groupsError } = await supabase
+      .from("groups")
+      .insert({
+        group: group,
+      });
+
+    if (groupsError) {
+      console.log("error while inserting group details in groups", groupsError);
+    }
+
+    const {data : emailData, error: emailError }= await supabase
+    .from("stakeholders")
+    .update({
+      email: email,
+    })
+    .eq("id",stakeHolderId)
+
+    if (emailError) {
+      console.log("error while updating email details in stakeholders", emailError);
+    }
+
+    const emailDetails = {
+      to: email,
+      subject: "SMTP Test Mail",
+      text: `MTP Test Mail , and the password is ${password}`,
+      html: `<p><strong>SMTP Test successful, and the password is ${password}</strong>
+       <p>Click <a href="http://localhost:3000/materiality/assessments/" target="_blank">here</a> to go for tasks.</p>`,
+    };
+
+    const createdEmailResponse = await sendMail(emailDetails);
+    if (!createdEmailResponse) {
+      console.error("Error sending email notification to created user");
+    }
+  } catch (error) {
+    console.error("Error while adding user");
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/4`);
     redirect(`/materiality/assessments/${assessmentId}/4`);

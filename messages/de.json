@@ -995,7 +995,7 @@
       "Name": "Name",
       "Type": "Typ",
       "Street": "Straße",
-      "PostalCode": "Postleitzahl",
+      "Postal Code": "Postleitzahl",
       "City": "Stadt",
       "Country": "Land",
       "Employees": "Mitarbeiter",
@@ -1025,7 +1025,10 @@
       "Group": "Gruppe",
       "Last Sign In": "Letzte Anmeldung",
       "Uid": "UID",
-      "Edit": "Bearbeiten"  
+      "Edit": "Bearbeiten",  
+      "Topic":"Thema",
+      "Sub Topic":"Unterthema",
+      "Sub Sub Topic":"Unter-Unterthema"
     },
     "tasks-com": {
       "Add a comment": "Einen Kommentar hinzufügen",

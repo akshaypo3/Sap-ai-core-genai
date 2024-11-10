@@ -84,3 +84,16 @@
   .article-content a {
     @apply text-blue-600 hover:underline;
   }
+
+  .pac-container {
+    z-index: 2000 !important;
+    position: fixed !important;
+  }
+  
+  .pac-container:after {
+    display: none !important;
+  }
+  
+  .overflow-visible {
+    overflow: visible !important;
+  }

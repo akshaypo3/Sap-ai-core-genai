@@ -54,11 +54,11 @@ export default function Globallanguage() {
 
   return (
     <>
-      <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mb-2">
-        <div className="flex items-center justify-between p-2 bg-gray-50 rounded-t-md">
-          <h3 className="text-xl font-semibold">Global Language</h3>
-        </div>
+      <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mb-5">
+      <div className="container mx-auto p-4">
+        <h3 className="text-xl font-bold mb-3">Global Language</h3>
         <div>
+        <div className="bg-white dark:bg-neutral-950 rounded-md border p-3">
           <form>
             <Label htmlFor="language">Language</Label>
             {/* Language selection dropdown */}
@@ -75,6 +75,8 @@ export default function Globallanguage() {
             </Select>
           </form>
         </div>
+      </div>
+      </div>
       </div>
 
       {/* Confirmation Dialog */}
