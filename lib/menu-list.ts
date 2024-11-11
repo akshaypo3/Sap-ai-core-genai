@@ -59,25 +59,6 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: t("Stakeholder Portal"),
-      menus: [
-        {
-          href: "/portal/dashboard",
-          label: t("Dashboard"),
-          active: pathname.includes("/portal/dashboard"),
-          icon: LayoutGrid,
-          submenus: []
-        },
-        {
-          href: "/portal/questions",
-          label: t("Questions"),
-          active: pathname.includes("/portal/questions"),
-          icon: CircleHelp,
-          submenus: []
-        }
-      ]
-    },
-    {
       groupLabel: "",
       menus: [
         {
