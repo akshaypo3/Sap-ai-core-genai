@@ -27,7 +27,7 @@ export default async function Home() {
 
   return (
     <>
-      <ContentLayout title={t('dashboard.title')}>
+      <ContentLayout title={t('dashboard.layoutTitle')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <BreadCrumbCom title={t('dashboard.title')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>

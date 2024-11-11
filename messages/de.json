@@ -421,6 +421,18 @@
             "BRSR Section A": "BRSR",
             "Home": "Startseite"
           }
+        },
+        "cdp": {
+          "title": "CDP Bewertung",
+          "CDP": "CDP",
+          "Home": "Startseite",
+          "Title": "CDP Bewertung",
+          "Fiscal Year": "Geschäftsjahr",
+          "Total Data Points": "Gesamtanzahl der Datenpunkte",
+          "Completed": "Abgeschlossen",
+          "Under Review": "In Prüfung",
+          "To Be Assessed": "Zu bewerten",
+          "Action": "Aktion"
         }
       },
       "reports": {
@@ -1028,7 +1040,9 @@
       "Edit": "Bearbeiten",  
       "Topic":"Thema",
       "Sub Topic":"Unterthema",
-      "Sub Sub Topic":"Unter-Unterthema"
+      "Sub Sub Topic":"Unter-Unterthema",
+      "Question":"Frage",
+      "Mandatory":"Obligatorisch"
     },
     "tasks-com": {
       "Add a comment": "Einen Kommentar hinzufügen",

@@ -1115,7 +1115,9 @@
     "% of Turnover":"% of Turnover",
     "Sub Topic":"Sub Topic",
     "Topic":"Topic",
-    "Sub Sub Topic":"Sub Sub Topic"
+    "Sub Sub Topic":"Sub Sub Topic",
+    "Question":"Question",
+    "Mandatory":"Mandatory"
   },
   "tasks-com": {
     "Add a comment": "Add a comment",
@@ -1400,16 +1402,17 @@
     "Library":"Library",
     "Users":"Users",
     "Administration":"Administration",
-    "Questions":"Questions",
-    "Stakeholder Portal":"Stakeholder Portal"
+    "Questions":"Questions"
   },
   "portal":{
     "dashboard":{
-      "title":"Stakeholders Dashboard",
+      "layoutTitle":"Stakeholder Dashboard",
+      "title":"Dashboard",
       "Home":"Home"
     },
     "questions":{
-      "title":"Stakeholders Questions",
+      "layoutTitle":"Stakeholder Questions",
+      "title":"Questions",
       "Home":"Home"
     }
   }

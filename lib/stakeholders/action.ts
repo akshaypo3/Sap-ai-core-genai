@@ -190,43 +190,50 @@ export async function createStakeholderUser(formData: FormData) {
     return;
   }
 
-  console.log("okok", group)
   try {
-    const { data, error } = await supabase.auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
-    });
-
-    if (!error) {
-      await supabase
-      .from("user_profile")
-      .insert({
-        id: data.user.id,
-        username: profileUserName,
-        userEmail: email,
+    const { data: userData, error: createAuthUserError } =
+      await supabase.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
       });
-    }
 
     const { data: groupsData, error: groupsError } = await supabase
       .from("groups")
       .insert({
         group: group,
-      });
+      })
+      .select()
 
     if (groupsError) {
       console.log("error while inserting group details in groups", groupsError);
     }
 
-    const {data : emailData, error: emailError }= await supabase
-    .from("stakeholders")
-    .update({
-      email: email,
-    })
-    .eq("id",stakeHolderId)
+    if (!createAuthUserError && groupsData) {
+      const { data: userProfileData, error: userProfileError } = await supabase
+      .from("user_profile")
+      .insert({
+        id: userData.user.id,
+        username: profileUserName,
+        userEmail: email,
+        user_groupID:groupsData[0].id,
+        user_roleID:"c0c92519-db66-4433-a9e6-f18be52ad05e"
+      });
+      
+      if (userProfileError) {
+        console.log("error while inserting user details in userProfile", userProfileError);
+      }
+    }
+
+    const { data: emailData, error: emailError } = await supabase
+      .from("stakeholders")
+      .update({
+        email: email,
+      })
+      .eq("id", stakeHolderId);
 
     if (emailError) {
-      console.log("error while updating email details in stakeholders", emailError);
+      console.log("error while updating email details in stakeholders",emailError);
     }
 
     const emailDetails = {

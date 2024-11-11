@@ -17,12 +17,14 @@ import {
 } from "@/components/materiality/stakeholders/buttons";
 import { getTranslations } from "next-intl/server";
 import NextStepButton from "@/components/materiality/assessments/NextStepButton";
+import { UserIcon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default async function CompanyStakeholdersAssessment(id:any) {
-    const assessmentId = id.id;
+export default async function CompanyStakeholdersAssessment(id: any) {
+  const assessmentId = id.id;
   const stakeholders = await getStakeholders();
 
-  console.log("ID ON STAKEHOLDERS PAGE: ",assessmentId)
+  console.log("ID ON STAKEHOLDERS PAGE: ", assessmentId);
 
   const getBadgeProps = (score, isRelevance = false) => {
     if (isRelevance) {
@@ -55,12 +57,10 @@ export default async function CompanyStakeholdersAssessment(id:any) {
     <>
       <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mt-5">
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-md">
-          <h3 className="text-xl font-semibold">
-            Stakeholders
-          </h3>
+          <h3 className="text-xl font-semibold">Stakeholders</h3>
           <div>
             <AddStakeholderButton />
-            <NextStepButton id={assessmentId} step={"5"}/>
+            <NextStepButton id={assessmentId} step={"5"} />
           </div>
         </div>
         <Table>
@@ -75,7 +75,7 @@ export default async function CompanyStakeholdersAssessment(id:any) {
               <TableHead>{t("stakeholders.relevance")}</TableHead>
               <TableHead>{t("stakeholders.knowledge")}</TableHead>
               <TableHead>{t("stakeholders.actions")}</TableHead>
-              <TableHead className="text-center">Add User</TableHead>
+              <TableHead className="text-center">User</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -114,7 +114,14 @@ export default async function CompanyStakeholdersAssessment(id:any) {
                   <DeleteStakeholderButton stakeholder={item} />
                 </TableCell>
                 <TableCell className="text-center">
-                  <AddUserButton assessmentId={assessmentId} stakeHolderId={item.id}/>
+                  {item.email === null ? (
+                    <AddUserButton
+                      assessmentId={assessmentId}
+                      stakeHolderId={item.id}
+                    />
+                  ) : (
+                    <UserIcon className="w-6 h-6 mx-auto"/>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
