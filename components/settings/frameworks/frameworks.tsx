@@ -136,11 +136,10 @@ const Frameworks = () => {
         setShowModal(false);
     };
 
-    if (loading) return <div>Loading...</div>;
+   
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-lg">
-            <ImageUploader/>
             {error && <div className="text-red-500 mb-4">{error}</div>}
             <h2 className="text-xl font-semibold text-gray-800">Frameworks</h2>
             <div className="flex justify-end mb-4">
