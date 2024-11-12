@@ -49,13 +49,13 @@ export default async function Home() {
 
   const t = await getTranslations('reporting');
   const breadcrumbs = [
-    { href: "/dashboard/", text: t("frameworks.esrs.Home") }
+    { href: "/dashboard/", text: t("frameworks.Home") }
   ];
   return (
     <>
-      <ContentLayout title={t("frameworks.esrs.title")}>
+      <ContentLayout title={t("frameworks.title")}>
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <BreadCrumbCom title={t("frameworks.esrs.Materiality Dashboard")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+        <BreadCrumbCom title={t("frameworks.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         {/* <div className="flex space-x-4">
           Button Section for Subheader
           <Button variant="outline">Add new</Button> 

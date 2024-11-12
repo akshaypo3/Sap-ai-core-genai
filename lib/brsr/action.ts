@@ -13,7 +13,7 @@ export async function fetchAssessments() {
       .select();
 
     if (error) {
-      throw new Error(error.message); // Throw error for better error handling
+      throw new Error(`Error fetching assessments: ${error.message}`); // More detailed error
     }
 
     console.log("Fetched Assessments Data:", data);
@@ -28,7 +28,7 @@ export async function fetchAssessments() {
 export const updateAssessment = async (assessment) => {
   const supabase = createClient(); // Initialize Supabase client
 
-  const { id, fyear, description, total_data_points, completed, under_review, to_be_assessed ,framework,status,material,non_material} = assessment;
+  const { id, fyear, description, total_data_points, completed, under_review, to_be_assessed, framework, status, material, non_material } = assessment;
 
   try {
     const { data, error } = await supabase
@@ -48,7 +48,11 @@ export const updateAssessment = async (assessment) => {
       .eq("id", id); // Match the ID to update the correct record
 
     if (error) {
-      console.error("Error updating assessment:", error);
+      throw new Error(`Error updating assessment: ${error.message}`);
+    }
+
+    if (!data || data.length === 0) {
+      console.warn(`No assessment found with ID: ${id}`);
       return false;
     }
 
@@ -74,14 +78,14 @@ export const createAssessment = async (newAssessment) => {
         completed: newAssessment.completed,
         under_review: newAssessment.under_review,
         to_be_assessed: newAssessment.to_be_assessed,
-        framework:newAssessment.framework,
-        status:newAssessment.status,
-        material:newAssessment.material,
-        non_material:newAssessment.non_material
+        framework: newAssessment.framework,
+        status: newAssessment.status,
+        material: newAssessment.material,
+        non_material: newAssessment.non_material
       }]);
 
     if (error) {
-      throw new Error(error.message); // Throw error for better error handling
+      throw new Error(`Error creating assessment: ${error.message}`); // More detailed error
     }
 
     console.log("New Assessment Created:", data);
@@ -93,48 +97,37 @@ export const createAssessment = async (newAssessment) => {
 };
 
 // Function to delete an assessment by ID with verification
-export const deleteAssessment = async (id) => {
-  const supabase = createClient(); // Initialize Supabase client
+export const deleteAssessment = async (id, fetchAssessments) => {
+  const supabase = createClient(); 
 
-  console.log("Attempting to delete assessment with ID:", id); // Log the ID being passed
+  console.log("Attempting to delete assessment with ID:", id); 
 
   try {
-    // First, double-check that we can select the record before deleting
-    const { data: fetchData, error: fetchError } = await supabase
-      .from("brsr_assessments")
-      .select("id")
-      .eq("id", id)
-      .single();
-
-    if (fetchError) {
-      console.error("Error fetching assessment before delete:", fetchError.message);
-      return false;
-    }
-
-    if (!fetchData) {
-      console.warn("No assessment found with the specified ID before delete:", id);
-      return false;
-    }
-
-    console.log("Assessment verified before delete:", fetchData);
-
-    // Proceed with the deletion
-    const { data: deleteData, error: deleteError } = await supabase
+    
+    const { data, error } = await supabase
       .from("brsr_assessments")
       .delete()
       .eq("id", id);
 
-    if (deleteError) {
-      console.error("Error deleting assessment:", deleteError.message);
+    
+    if (error) {
+      console.error("Error during deletion:", error.message);
       return false;
     }
 
-    if (!deleteData || deleteData.length === 0) {
+    
+    if (data && data.length === 0) {
       console.warn("No assessment found with the specified ID during delete:", id);
       return false;
     }
 
-    console.log("Assessment Deleted Successfully:", deleteData);
+    console.log("Assessment Deleted Successfully:", data);
+
+    
+    if (fetchAssessments && typeof fetchAssessments === 'function') {
+      fetchAssessments(); // Re-fetch the assessments data
+    }
+
     return true;
   } catch (error) {
     console.error("Unexpected error during deletion:", error);
