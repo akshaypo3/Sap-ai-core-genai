@@ -2,6 +2,7 @@ import { ModeToggle } from "@/components/ThemeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { UserNav } from "@/components/sustena-layout/user-nav";
 import { SheetMenu } from "@/components/sustena-layout/sheet-menu";
+import { Notifications } from "../Notifications";
 
 interface NavbarProps {
   title: string;
@@ -16,6 +17,7 @@ export function Navbar({ title }: NavbarProps) {
           <h1 className="font-bold">{title}</h1>
         </div>
         <div className="flex flex-1 items-center space-x-2 justify-end">
+          <Notifications />
           <LanguageToggle />
           <ModeToggle />
           <UserNav />

@@ -3,21 +3,23 @@ import { DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createStakeholderUser } from "@/lib/stakeholders/action";
-import { getTranslations } from "next-intl/server";
 // import { getUserProfiles } from "@/lib/task/data";
 
-export default async function CreateUserForm({
+export default function CreateUserForm({
   assessmentId,
   stakeHolderId,
+  stakeholderName
 }: {
   assessmentId: string;
   stakeHolderId: string;
+  stakeholderName: string
 }) {
   return (
     <form action={createStakeholderUser}>
       <div className="grid w-full items-center gap-1.5 mb-2">
         <Input type="hidden" value={assessmentId} name="assessmentId" />
         <Input type="hidden" value={stakeHolderId} name="stakeHolderId" />
+        <Input type="hidden" value={stakeholderName} name="stakeholderName" />
         <Label htmlFor="email">Email</Label>
         <Input type="text" name="email" placeholder="youremail@gmail.com"/>
         <Label htmlFor="password">Password</Label>

@@ -17,6 +17,7 @@ import { getAllUsers, getUserGroups, getRoles, getProfile } from "@/lib/settings
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import UserProfile from "@/components/account/UserProfile"
+import NotifiactionSwitch from "@/components/settings/users/NotificationSwitch";
 
 export default async function Home() {
   const supabase = createClient();
@@ -76,6 +77,7 @@ export default async function Home() {
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">{t("profile.id")}</label>
             <input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder={t("profile.placeholder.id")} name="id" value={profile[0]?.id || ""} />      
           </div>
+          <NotifiactionSwitch profile={profile}/>
         </div>
 
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">

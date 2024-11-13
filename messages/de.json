@@ -36,6 +36,9 @@
   },
   "account": {
     "title": "Konto",
+    "Notifications":"Benachrichtigungen",
+    "Enabled":"Aktiviert",
+    "Disabled":"Deaktiviert",
     "breadcrumb": {
       "dashboard": "Dashboard",
       "account": "Konto"
@@ -1103,5 +1106,12 @@
       "Select File": "Datei auswählen",
       "Uploading": "Wird hochgeladen...",
       "Upload to Supabase": "In Supabase hochladen"
+    },
+    "notifications":{
+      "Notifications": "Benachrichtigungen",
+      "Inbox": "Posteingang",
+      "Archive": "Archiv",
+      "New": "Neu",
+      "View": "Anzeigen"
     }
   } 

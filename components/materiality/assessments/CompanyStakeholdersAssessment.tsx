@@ -116,6 +116,7 @@ export default async function CompanyStakeholdersAssessment(id: any) {
                 <TableCell className="text-center">
                   {item.email === null ? (
                     <AddUserButton
+                      stakeholderName={item.name}
                       assessmentId={assessmentId}
                       stakeHolderId={item.id}
                     />

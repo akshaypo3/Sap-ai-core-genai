@@ -145,9 +145,11 @@ export async function DeleteStakeholderButton({
 export async function AddUserButton({
   assessmentId,
   stakeHolderId,
+  stakeholderName
 }: {
   assessmentId: string;
   stakeHolderId: string;
+  stakeholderName:string
 }) {
   const t = await getTranslations("materiality-com");
   return (
@@ -161,6 +163,7 @@ export async function AddUserButton({
           <DialogDescription>Add User Function Description</DialogDescription>
         </DialogHeader>
         <CreateUserForm
+          stakeholderName={stakeholderName}
           assessmentId={assessmentId}
           stakeHolderId={stakeHolderId}
         />

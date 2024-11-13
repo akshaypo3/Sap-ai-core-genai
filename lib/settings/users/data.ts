@@ -82,6 +82,7 @@ export async function getProfile() {
     user_groupID,
     username,
     userEmail,
+    notifications,
     Test_Role(id, role), 
     groups(id, group)  -- Join condition
   `
@@ -440,3 +441,20 @@ export async function otherGroupusers(groupId) {
   return groupsData;
 }
 
+export async function getNotifications() {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+
+  const userId = userData.id
+
+  const { data: notifications, error } = await supabase
+    .from("notifications")
+    .select()
+    .eq("user_id", userId); 
+
+  if (error) {
+    console.error("Error while getting notifications:", error);
+  }
+
+  return notifications;
+}

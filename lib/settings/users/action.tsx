@@ -368,3 +368,16 @@ export async function Globallanguagedata() {
 	  
   return data;
   }
+
+export async function NotificationToggler(newStatus:any, userId:string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_profile")
+    .update({ notifications: newStatus })
+    .eq("id", userId);
+
+  if (error) {
+    console.error("Error updating notification status:", error);
+  }
+  return data;
+}
