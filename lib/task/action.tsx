@@ -567,6 +567,90 @@ export async function deleteTaskWithId(id:string) {
   }
 }
 
+export async function ArchiveTaskWithId(id: string) {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+
+  const taskId = id;
+
+  const updatedData = {
+    archived: true,
+    status: "DONE",
+    updated_at: new Date().toISOString(),
+    completed_date: new Date().toISOString(),
+  };
+
+  try {
+    // Fetch current task data to compare and log changes
+    const { data: currentTask, error: fetchError } = await supabase
+      .from("tasks")
+      .select()
+      .eq("id", taskId)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching current task data:", fetchError);
+      return { success: false, message: fetchError.message };
+    }
+
+    const updatedFields: any = {};
+    for (const key in updatedData) {
+      if (String(updatedData[key]) !== String(currentTask[key])) {
+        updatedFields[key] = {
+          previous: currentTask[key] || "N/A",
+          updated: updatedData[key] || "N/A",
+        };
+      }
+    }
+
+    if (Object.keys(updatedFields).length === 0) {
+      console.log("No changes to update.");
+      return { success: false, message: "No changes to update." };
+    }
+
+    // Update the task status to archived
+    const { data, error: updateError } = await supabase
+      .from("tasks")
+      .update(updatedData)
+      .eq("id", taskId);
+
+    if (updateError) {
+      console.error("Error updating task:", updateError);
+      throw new Error("Failed to update task");
+    }
+
+    // Log the activity in the task-activitylog table
+    if (!updateError) {
+      const { error: logError } = await supabase
+        .from("task-activitylog")
+        .insert({
+          created_at: new Date().toISOString(),
+          activity: `Task '${updatedData?.status}' status and archived`,
+          user: userName,
+          changes: updatedFields,
+          task_id: taskId,
+        });
+
+      if (logError) {
+        console.error("Error inserting into task-activitylog:", logError);
+      }
+    }
+
+    return { success: true, message: "Task archived and updated successfully" };
+
+  } catch (error) {
+    console.error("Error archiving task:", error.message);
+    return { success: false, message: error.message };
+  }
+  finally {
+    revalidatePath("/task");
+    redirect("/task");
+  }
+}
+
+
 export async function updateTaskDetails(taskId, formData) {
   const supabase = createClient();
   const userData = await getUserInfo();

@@ -8,7 +8,32 @@ export async function getTasks() {
     *,
       assigned_to: user_profile!tasks_assigned_to_fkey(id, username),
       created_by: user_profile!tasks_created_by_fkey(id, username)
-  `);
+  `)
+  .neq("archived",true);
+
+  if (error) {
+    console.error("Error fetching tasks:", error);
+    return null;
+  }
+
+  const formattedTasks = tasks?.map((task: any) => ({
+    ...task,
+    assigned_to_username: task.assigned_to?.username || null,
+    created_by_username: task.created_by?.username || null,
+  }));
+
+  return formattedTasks;
+}
+
+export async function getTasks_archieved() {
+  const supabase = createClient();
+
+  const { data: tasks, error } = await supabase.from("tasks").select(`
+    *,
+      assigned_to: user_profile!tasks_assigned_to_fkey(id, username),
+      created_by: user_profile!tasks_created_by_fkey(id, username)
+  `)
+  .eq("archived", true);
 
   if (error) {
     console.error("Error fetching tasks:", error);
