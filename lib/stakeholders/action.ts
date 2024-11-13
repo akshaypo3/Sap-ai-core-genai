@@ -177,8 +177,9 @@ export async function createStakeholderUser(formData: FormData) {
   const group = formData.get("group");
   const assessmentId = formData.get("assessmentId");
   const stakeHolderId = formData.get("stakeHolderId");
+  const stakeholderName = formData.get("stakeholderName")
 
-  const profileUserName = email.substring(0, email.indexOf("@"));
+  // const profileUserName = email.substring(0, email.indexOf("@"));
 
   if (!email || typeof email !== "string") {
     console.error("Invalid or missing email");
@@ -214,7 +215,7 @@ export async function createStakeholderUser(formData: FormData) {
       .from("user_profile")
       .insert({
         id: userData.user.id,
-        username: profileUserName,
+        username: stakeholderName,
         userEmail: email,
         user_groupID:groupsData[0].id,
         user_roleID:"c0c92519-db66-4433-a9e6-f18be52ad05e"
