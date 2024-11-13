@@ -47,6 +47,7 @@ import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import TaskList from "@/components/task/TaskList";
+import TaskListArchive from "@/components/task/TaskListArchive";
 
 
 export default async function Home() {
@@ -63,6 +64,7 @@ export default async function Home() {
   const tasks = await getTasks();
   const loggedTasks = await getUserTasks(user.id);
   const users = await getUserProfiles();
+
 
   const timezone = await getTimeZone({ userId: user.id })
   const actualTime = timezone.userWithTimezone.timezone
@@ -82,11 +84,12 @@ export default async function Home() {
             <AddTask createdId={user.id} />
           </div>
           <Tabs defaultValue="board" className="mt-2">
-            <TabsList className="grid grid-cols-4">
+            <TabsList className="grid grid-cols-5">
               <TabsTrigger value="board"><SquareKanban className="mr-2 h-4 w-4"/>Board</TabsTrigger>
               <TabsTrigger value="list"><List className="mr-2 h-4 w-4"/>List</TabsTrigger>
               <TabsTrigger value="gantt"><SquareGanttChart className="mr-2 h-4 w-4"/>Gantt</TabsTrigger>
               <TabsTrigger value="table"><TableProperties className="mr-2 h-4 w-4"/>Table</TabsTrigger>
+              <TabsTrigger value="archive"><List className="mr-2 h-4 w-4"/>Archive</TabsTrigger>
             </TabsList>
             <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
               <TabsContent value="board">
@@ -104,6 +107,13 @@ export default async function Home() {
                 <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
                   <div className="min-w-full table-auto border-collapse">
                     <DataTable columns={columns_task} data={tasks} filter={'title'} sort={'Assigned to'}/>
+                  </div>
+                </div>
+              </TabsContent>
+              <TabsContent value="archive">
+                <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+                  <div className="min-w-full table-auto border-collapse">
+                    <TaskListArchive/>
                   </div>
                 </div>
               </TabsContent>

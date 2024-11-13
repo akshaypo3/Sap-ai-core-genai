@@ -14,10 +14,18 @@ import {
 import { Button } from '@/components/ui/button';
 import { DeleteTaskDialog } from './DeleteTaskDialog';
 import { UpdateTaskDialogForm } from './ViewTaskDialog';
+import { ArchiveTaskDialog } from './ArchieveTaskDialog';
 
   export function TaskActionsMenu({ id, title, description,users,assigned_to_username,userid }: { id: string,title: string,description: string,users: string,assigned_to_username: string,userid: string}) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [showViewDialog, setShowViewDialog] = useState(false);
+    const [showArchiveDialog, setShowArchiveDialog] = useState(false);
+
+  //   const [isArchiveDialogOpen, setIsArchiveDialogOpen] = useState(false);  // State to open archive dialog
+
+  // const handleArchiveButtonClick = () => {
+  //   setIsArchiveDialogOpen(true);  // Open archive dialog when button is clicked
+  // };
      
     return (
       <>
@@ -29,6 +37,9 @@ import { UpdateTaskDialogForm } from './ViewTaskDialog';
             <DropdownMenuItem onSelect={() => setShowViewDialog(true)} className="hover:cursor-pointer">
               View
             </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setShowArchiveDialog(true)} className="hover:cursor-pointer">
+              Archive
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="hover:cursor-pointer">
               Delete
             </DropdownMenuItem>
@@ -39,6 +50,11 @@ import { UpdateTaskDialogForm } from './ViewTaskDialog';
           isOpen={showDeleteDialog} 
           setIsOpen={setShowDeleteDialog}
         />
+        <ArchiveTaskDialog 
+          taskId={id} 
+          isOpen={showArchiveDialog} 
+          setIsOpen={setShowArchiveDialog}
+        />
         <UpdateTaskDialogForm
          taskId={id}
          title={title}
@@ -48,6 +64,7 @@ import { UpdateTaskDialogForm } from './ViewTaskDialog';
          isOpen={showViewDialog} 
           setIsOpen={setShowViewDialog}
          />
+         
       </>
     );
   }
