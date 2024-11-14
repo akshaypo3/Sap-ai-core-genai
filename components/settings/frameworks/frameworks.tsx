@@ -10,6 +10,7 @@ import {
 } from "@/lib/settings/frameworks/action";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation"; // Import useRouter
+import { DataTable } from "@/components/table/data-table";
 
 const supabase = createClient();
 
