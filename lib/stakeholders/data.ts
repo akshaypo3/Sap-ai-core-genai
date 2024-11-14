@@ -13,7 +13,8 @@ export async function getStakeholders(){
         stakeholder_groups (
           group,
           description
-        )
+        ),
+        email
       `)
     //console.log("Stakeholders: "+JSON.stringify(stakeholders))
     return stakeholders;

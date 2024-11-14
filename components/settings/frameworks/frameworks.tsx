@@ -9,13 +9,12 @@ import {
   updateFramework,
 } from "@/lib/settings/frameworks/action";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
 import { DataTable } from "@/components/table/data-table";
 
 const supabase = createClient();
 
 const Frameworks = () => {
-  //const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const fileInputRef = useRef(null);
   const { toast } = useToast();
   const router = useRouter();
@@ -26,6 +25,7 @@ const Frameworks = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [formData, setFormData] = useState({
     id: "",
     title: "",
@@ -62,16 +62,6 @@ const Frameworks = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleInputChange1 = (e) => {
-    console.log("isActive1", e.target);
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-    console.log("isActive2", e.target);
   };
 
   const handleInputChange = (e) => {
@@ -121,33 +111,6 @@ const Frameworks = () => {
     setIsEditing(false);
   };
 
-  const handleEdit1 = (item) => {
-    console.log(
-      "isActive",
-      item.instancesStatus,
-      item.materialityAssessmentNeeded
-    );
-    setFormData({
-      id: item.id,
-      title: item.frameworkTitle,
-      description: item.frameworkDescription,
-      isActive: item.instancesStatus === "Active",
-      needsAssessment:
-        item.materialityAssessmentNeeded === "Materiality Assessment needed",
-      link: item.link,
-    });
-    setImageFile(null);
-    setUploadedImageUrl(item.link);
-    setIsEditing(true);
-    setShowModal(true);
-    console.log("item.link", item.link);
-    console.log(
-      "isActiveafter",
-      item.instancesStatus,
-      item.materialityAssessmentNeeded
-    );
-  };
-
   const handleEdit = (item) => {
     setFormData({
       id: item.id,
@@ -165,6 +128,7 @@ const Frameworks = () => {
     setIsEditing(true);
     setShowModal(true);
   };
+
   const openModal = () => {
     resetForm();
     setShowModal(true);
@@ -177,15 +141,13 @@ const Frameworks = () => {
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
-      setShowModal(true); // Ensure modal remains open
+      setShowModal(true);
     }
   };
 
   const handleSelectFile = () => {
     fileInputRef.current.click();
   };
-
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
   const handleUpload = async () => {
     if (!file) {
@@ -198,16 +160,13 @@ const Frameworks = () => {
         .from("Framework_Upload")
         .upload(`Images/${file.name}`, file);
       if (error) throw error;
-      // Fetch the public URL of the uploaded file
+
       const { data: publicUrlData, error: publicUrlError } = supabase.storage
         .from("Framework_Upload")
         .getPublicUrl(`Images/${file.name}`);
 
       if (publicUrlError) throw publicUrlError;
-      // const { data1, error1 } = await supabase.storage
-      //   .from("Framework_Upload")
-      //   .createSignedUploadUrl(`Images/${file.name}`);
-      // Set the public URL to a variable
+
       setUploadedImageUrl(publicUrlData.publicUrl);
       toast({
         variant: "success",
@@ -382,7 +341,7 @@ const Frameworks = () => {
                 <img
                   src={uploadedImageUrl}
                   alt="Framework Image"
-                  className="h-32 w-32 my-2 rounded-lg  object-cover"
+                  className="h-32 w-32 my-2 rounded-lg object-cover"
                 />
               )}
 

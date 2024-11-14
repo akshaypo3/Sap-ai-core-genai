@@ -36,6 +36,9 @@
   },
   "account": {
     "title": "Konto",
+    "Notifications":"Benachrichtigungen",
+    "Enabled":"Aktiviert",
+    "Disabled":"Deaktiviert",
     "breadcrumb": {
       "dashboard": "Dashboard",
       "account": "Konto"
@@ -377,10 +380,30 @@
         "Materiality Dashboard": "Wesentlichkeits-Dashboard",
         "Home": "Startseite",
         "esrs": {
-          "title": "Wesentlichkeits-Dashboard",
-          "Materiality Dashboard": "Wesentlichkeits-Dashboard",
-          "Home": "Startseite",
-          "continue": "Fortfahren",
+          "title": "ESRS",
+        "Materiality Dashboard": "Materiality Dashboard",
+        "Home": "Home",
+        "New Assessment":"Neue Beurteilung",
+        "Start ESRS New Assessment":"Starten Sie die neue ESRS-Bewertung",
+        "New Assessment Function description":"Neue Beschreibung der Bewertungsfunktion",
+        "Year":"Jahr",
+        "Fiscal Year":"Geschäftsjahr",
+        "Framework":"Rahmen",
+        "Status":"Status",
+        "Total IORs":"Gesamt-IORs",
+        "Material":"materiell",
+        "Not Material":"Nicht materiell",
+        "Under Review":"Wird überprüft",
+        "To Be Assessed":"Zu beurteilen",
+        "Actions":"Aktionen",
+        "View":"Sicht",
+        "Delete":"Löschen",
+        "Deleting":"Löschen",
+        "Delete ESRS Assessment":"ESRS-Bewertung löschen",
+        "Are you sure you want to delete this assessment?":"Sind Sie sicher, dass Sie diese Bewertung löschen möchten?",
+        "Cancel":"Stornieren",
+        "Create Assesment":"Bewertung erstellen",
+        "continue": "Weitermachen",
           "s1-44": {
             "title": "Wesentlichkeits-Dashboard",
             "Materiality Dashboard": "Wesentlichkeits-Dashboard",
@@ -408,9 +431,29 @@
           }
         },
         "brsr": {
-          "title": "BRSR-Dashboard",
+          "title": "BRSR",
           "BRSR": "BRSR",
-          "Home": "Startseite",
+          "Home": "Home",
+          "New Assessment":"Neue Beurteilung",
+        "Start BSRS New Assessment":"Starten Sie die neue BSRS-Bewertung",
+        "New Assessment Function description":"Neue Beschreibung der Bewertungsfunktion",
+        "Year":"Jahr",
+        "Fiscal Year":"Geschäftsjahr",
+        "Framework":"Rahmen",
+        "Status":"Status",
+        "Total Data Points":"Gesamtdatenpunkte",
+        "Material":"materiell",
+        "Not Material":"Nicht materiell",
+        "Under Review":"Wird überprüft",
+        "To Be Assessed":"Zu beurteilen",
+        "Actions":"Aktionen",
+        "View":"Sicht",
+        "Delete":"Löschen",
+        "Deleting":"Löschen ...",
+        "Delete BRSR Assessment":"BRSR-Bewertung löschen",
+        "Are you sure you want to delete this assessment?":"Sind Sie sicher, dass Sie diese Bewertung löschen möchten?",
+        "Cancel":"Stornieren",
+        "Create Assesment":"Bewertung erstellen",
           "section a": {
             "title": "Wesentlichkeits-Dashboard",
             "BRSR Section A": "BRSR Abschnitt A",
@@ -421,6 +464,18 @@
             "BRSR Section A": "BRSR",
             "Home": "Startseite"
           }
+        },
+        "cdp": {
+          "title": "CDP Bewertung",
+          "CDP": "CDP",
+          "Home": "Startseite",
+          "Title": "CDP Bewertung",
+          "Fiscal Year": "Geschäftsjahr",
+          "Total Data Points": "Gesamtanzahl der Datenpunkte",
+          "Completed": "Abgeschlossen",
+          "Under Review": "In Prüfung",
+          "To Be Assessed": "Zu bewerten",
+          "Action": "Aktion"
         }
       },
       "reports": {
@@ -1028,7 +1083,9 @@
       "Edit": "Bearbeiten",  
       "Topic":"Thema",
       "Sub Topic":"Unterthema",
-      "Sub Sub Topic":"Unter-Unterthema"
+      "Sub Sub Topic":"Unter-Unterthema",
+      "Question":"Frage",
+      "Mandatory":"Obligatorisch"
     },
     "tasks-com": {
       "Add a comment": "Einen Kommentar hinzufügen",
@@ -1089,5 +1146,12 @@
       "Select File": "Datei auswählen",
       "Uploading": "Wird hochgeladen...",
       "Upload to Supabase": "In Supabase hochladen"
+    },
+    "notifications":{
+      "Notifications": "Benachrichtigungen",
+      "Inbox": "Posteingang",
+      "Archive": "Archiv",
+      "New": "Neu",
+      "View": "Anzeigen"
     }
   } 

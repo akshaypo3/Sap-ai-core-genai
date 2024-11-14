@@ -36,7 +36,7 @@ export default function GoogleMapsApi({ data }: { data: any }) {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-950 rounded-md border">
+    <div className="bg-white dark:bg-neutral-950 rounded-md border p-3">
       <div className="container mx-auto p-4">
         <h3 className="text-xl font-bold mb-3">Google Maps API</h3>
         <form id="api-form" action={updateGoogleMapsApi}>
