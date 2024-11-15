@@ -19,6 +19,8 @@ export async function fetchActiveFrameworks() {
 }
 
 export async function insertFramework(newFramework) {
+  console.log("formData Action Insert", newFramework);
+
   let needsAssessmentVal = false; // Initialize as false
   let isActiveVal = false; // Initialize as false
   // Check if the title includes 'ESRS' or 'BRSR'

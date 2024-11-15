@@ -10,7 +10,19 @@ import {
 } from "@/lib/settings/frameworks/action";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { DataTable } from "@/components/table/data-table";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { frameworkSchema } from "@/schemas/FrameworkSchema";
+
 
 const supabase = createClient();
 
@@ -36,7 +48,24 @@ const Frameworks = () => {
   });
   const [imageFile, setImageFile] = useState(null);
 
+  const form = useForm({
+    mode: "onChange",
+    resolver: zodResolver(frameworkSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      isActive: "",
+      needsAssessment: "",
+    },
+  });
   useEffect(() => {
+    form.reset({
+      title: "",
+      description: "",
+      isActive: "",
+      needsAssessment: "",
+      link: "",
+    });
     loadFrameworks();
   }, []);
 
@@ -78,7 +107,70 @@ const Frameworks = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  // const onSubmit = async (data) => {
+  //   console.log("newFormData", data);
+  //   console.log("newFormData", id);
+  //   const formData = new FormData();
+  //   formData.append("title", data.title);
+  //   formData.append("description", data.description);
+  //   formData.append("isActive", data.isActive);
+  //   formData.append("needsAssessment", data.needsAssessment);
+  //   formData.append("link", uploadedImageUrl || data.link);
+
+  //   if (isEditing) {
+  //     console.log("formData Update", formData);
+  //     //await updateFramework(data.id, formData);
+  //   } else {
+  //     console.log("formData Insert", formData);
+  //     await insertFramework(formData);
+  //   }
+
+  //   loadFrameworks();
+  //   resetForm();
+  //   setShowModal(false);
+
+  //   //await createGroup(formData);
+  //   //closeDialoge();
+  // };
+
+  const onSubmit = async (data) => {
+    try {
+      const formDataToSubmit = {
+        id: formData.id, // Use the ID stored in the formData state
+        title: data.title,
+        description: data.description,
+        isActive: data.isActive === "true",
+        needsAssessment: data.needsAssessment === "true",
+        link: uploadedImageUrl || data.link,
+      };
+
+      if (isEditing) {
+        console.log("Updating Framework", formDataToSubmit);
+        await updateFramework(formDataToSubmit.id, formDataToSubmit); // Pass the ID explicitly
+      } else {
+        console.log("Inserting Framework", formDataToSubmit);
+        await insertFramework(formDataToSubmit);
+      }
+
+      loadFrameworks(); // Reload the data
+      resetForm(); // Reset the form
+      setShowModal(false); // Close the modal
+      toast({
+        variant: "success",
+        title: `Framework ${isEditing ? "Updated" : "Added"} Successfully`,
+      });
+    } catch (error) {
+      console.error("Error in form submission:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
+  const onSubmit1 = async (e) => {
+    console.log("newFormData", newFormData);
     e.preventDefault();
 
     const newFormData = {
@@ -87,9 +179,9 @@ const Frameworks = () => {
     };
 
     if (isEditing) {
-      await updateFramework(formData.id, newFormData);
+      //await updateFramework(formData.id, newFormData);
     } else {
-      await insertFramework(newFormData);
+      //await insertFramework(newFormData);
     }
 
     loadFrameworks();
@@ -111,7 +203,27 @@ const Frameworks = () => {
     setIsEditing(false);
   };
 
+  // const handleEdit = (item) => {
+  //   console.log("item", item);
+  //   setFormData({
+  //     id: item.id,
+  //     title: item.frameworkTitle,
+  //     description: item.frameworkDescription,
+  //     isActive: item.instancesStatus === "Active" ? "true" : "false",
+  //     needsAssessment:
+  //       item.materialityAssessmentNeeded === "Materiality Assessment needed"
+  //         ? "true"
+  //         : "false",
+  //     link: item.link,
+  //   });
+  //   setImageFile(null);
+  //   setUploadedImageUrl(item.link);
+  //   setIsEditing(true);
+  //   setShowModal(true);
+  // };
+
   const handleEdit = (item) => {
+    console.log("itemID", item.id);
     setFormData({
       id: item.id,
       title: item.frameworkTitle,
@@ -123,6 +235,18 @@ const Frameworks = () => {
           : "false",
       link: item.link,
     });
+
+    // Update form default values explicitly for React Hook Form
+    form.reset({
+      title: item.frameworkTitle,
+      description: item.frameworkDescription,
+      isActive: item.instancesStatus === "Active" ? "true" : "false",
+      needsAssessment:
+        item.materialityAssessmentNeeded === "Materiality Assessment needed"
+          ? "true"
+          : "false",
+    });
+
     setImageFile(null);
     setUploadedImageUrl(item.link);
     setIsEditing(true);
@@ -131,6 +255,13 @@ const Frameworks = () => {
 
   const openModal = () => {
     resetForm();
+    form.reset({
+      title: "",
+      description: "",
+      isActive: "false", // default value as per your form requirement
+      needsAssessment: "false", // default value as per your form requirement
+      link: "",
+    });
     setShowModal(true);
   };
 
@@ -262,109 +393,213 @@ const Frameworks = () => {
       </table>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center ">
           <div className="bg-white p-6 rounded shadow-lg w-full sm:w-96 md:w-[600px] lg:w-[800px]">
             <h3 className="text-lg font-semibold mb-4">
               {isEditing ? "Edit Framework" : "Add Framework"}
             </h3>
-            <form onSubmit={handleSubmit}>
-              <label className="block mb-2">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded mb-4"
-                required
-              />
 
-              <label className="block mb-2">Description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded mb-4"
-                required
-              />
-
-              <label className="block mb-2">Status</label>
-              <select
-                name="isActive"
-                value={formData.isActive}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded mb-4"
-                required
-              >
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-              </select>
-
-              <label className="block mb-2">
-                Materiality Assessment Needed
-              </label>
-              <select
-                name="needsAssessment"
-                value={formData.needsAssessment}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded mb-4"
-                required
-              >
-                <option value="true">Needed</option>
-                <option value="false">Not Needed</option>
-              </select>
-
-              <label className="block mb-2">Upload Framework Image</label>
-              <Button
-                type="button"
-                variant="outline"
-                className="mb-2"
-                onClick={handleSelectFile}
-              >
-                {imageFile ? "Change Image" : "Select Image"}
-              </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                className="hidden"
-                onChange={(e) => {
-                  handleFileChange(e);
-                  setImageFile(e.target.files[0]);
-                }}
-              />
-              {imageFile && (
-                <p className="text-sm text-gray-600 mt-2">
-                  Selected file: {imageFile.name}
-                </p>
-              )}
-
-              {uploadedImageUrl && (
-                <img
-                  src={uploadedImageUrl}
-                  alt="Framework Image"
-                  className="h-32 w-32 my-2 rounded-lg object-cover"
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="mb-4">
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="title"
+                          autoComplete="off"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              )}
 
-              <Button type="button" onClick={handleUpload}>
-                Upload Image
-              </Button>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="mb-4">
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="description"
+                          autoComplete="off"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <div className="flex justify-end mt-4">
-                <Button
-                  type="submit"
-                  className="bg-black text-white py-2 px-4 rounded"
+                <FormField
+                  control={form.control}
+                  name="isActive"
+                  render={({ field }) => (
+                    <FormItem className="mb-4">
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <select
+                          className="w-full p-2 border rounded mb-4"
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        >
+                          <option value="true">Active</option>
+                          <option value="false">Inactive</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="needsAssessment"
+                  render={({ field }) => (
+                    <FormItem className="mb-4">
+                      <FormLabel>Materiality Assessment Needed</FormLabel>
+                      <FormControl>
+                        <select
+                          className="w-full p-2 border rounded mb-4"
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        >
+                          <option value="true">Needed</option>
+                          <option value="false">Not Needed</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* <FormField
+                  control={form.control}
+                  name="needsAssessment"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Materiality Assessment Needed</FormLabel>
+                      <FormControl>
+                        <select
+                          value={formData.needsAssessment}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded mb-4"
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <option value="true">Needed</option>
+                          <option value="false">Not Needed</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> */}
+
+                {/* <label className="block mb-2">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded mb-4"
+                  required
+                /> */}
+
+                {/* <label className="block mb-2">Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded mb-4"
+                  required
+                /> */}
+
+                {/* <label className="block mb-2">Status</label>
+                <select
+                  name="isActive"
+                  value={formData.isActive}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded mb-4"
+                  required
                 >
-                  Save
-                </Button>
+                  <option value="true">Active</option>
+                  <option value="false">Inactive</option>
+                </select> */}
+
+                {/* <label className="block mb-2">
+                  Materiality Assessment Needed
+                </label>
+                <select
+                  name="needsAssessment"
+                  value={formData.needsAssessment}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded mb-4"
+                  required
+                >
+                  <option value="true">Needed</option>
+                  <option value="false">Not Needed</option>
+                </select> */}
+
+                <label className="block mb-2">Upload Framework Image</label>
                 <Button
                   type="button"
-                  onClick={closeModal}
-                  className="bg-red-500 text-white py-2 px-4 ml-2 rounded"
+                  variant="outline"
+                  className="mb-2"
+                  onClick={handleSelectFile}
                 >
-                  Cancel
+                  {imageFile ? "Change Image" : "Select Image"}
                 </Button>
-              </div>
-            </form>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  className="hidden"
+                  onChange={(e) => {
+                    handleFileChange(e);
+                    setImageFile(e.target.files[0]);
+                  }}
+                />
+                {imageFile && (
+                  <p className="text-sm text-gray-600 mt-2">
+                    Selected file: {imageFile.name}
+                  </p>
+                )}
+
+                {uploadedImageUrl && (
+                  <img
+                    src={uploadedImageUrl}
+                    alt="Framework Image"
+                    className="h-32 w-32 my-2 rounded-lg object-cover"
+                  />
+                )}
+
+                <Button type="button" onClick={handleUpload}>
+                  Upload Image
+                </Button>
+
+                <div className="flex justify-end mt-4">
+                  <Button
+                    type="submit"
+                    className="bg-black text-white py-2 px-4 rounded"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={closeModal}
+                    className="bg-red-500 text-white py-2 px-4 ml-2 rounded"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
           </div>
         </div>
       )}
