@@ -42,7 +42,7 @@ export function AddLocationButton({ type, api }: AddLocationButtonFormProps) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="relative">
-                        <AddLocationForm type={type} api={api} isOpen={open} onClose={() => setOpen(false)} />
+                        <AddLocationForm type={type} api={api} open={open}  setOpen={setOpen} onClose={() => setOpen(false)} />
                 </div>
             </DialogContent>
         </Dialog>

@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
@@ -19,11 +20,13 @@ import AddTaskForm from "@/components/task/createTaskForm";
 import UpdateTaskForm from "./updateTaskForm";
 import { createComment } from "@/lib/task/action";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 export function AddTask(createdId: any) {
-  const t = useTranslations();
+  const t = useTranslations("tasks-com");
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>{t("Add Task")}</Button>
       </DialogTrigger>
@@ -32,7 +35,7 @@ export function AddTask(createdId: any) {
           <DialogTitle>{t("Add Task")}</DialogTitle>
           {/* <DialogDescription>Description</DialogDescription> */}
         </DialogHeader>
-        <AddTaskForm createdId={createdId} />
+        <AddTaskForm createdId={createdId} open={open} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
