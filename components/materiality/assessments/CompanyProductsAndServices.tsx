@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
-import { AddProductButton } from "@/components/materiality/company/buttons";
+import { AddProductButton } from "@/components/materiality/company/AddProductButton";
 import { getProductsAndServices, getLocations, getCompanyDetails } from "@/lib/company/data";
 import { getTranslations } from 'next-intl/server';
 import { DataTable } from "@/components/table/data-table"; 
