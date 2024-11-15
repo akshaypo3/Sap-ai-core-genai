@@ -5,6 +5,24 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { getUserInfo } from "@/lib/settings/users/data";
 
+export async function getUserGroups() {
+  const supabase = createClient();
+
+  const { data: userGroups } = await supabase.from("groups").select();
+
+  return userGroups;
+}
+
+export async function getRoles() {
+  const supabase = createClient();
+  const { data: roles } = await supabase.from("Test_Role").select(`
+      id,
+      role,
+      description
+    `);
+  return roles;
+}
+
 export async function deleteGroup(id: any) {
   const supabase = createClient();
   const userData = await getUserInfo();
@@ -70,11 +88,12 @@ export async function createGroup(formData: FormData) {
 }
 
 export async function createUser(formData: FormData) {
+  console.log("formData", formData);
   const supabase = createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
-  const email = formData.get("email");
+  const email = formData.get("name");
   const password = formData.get("password");
   const userGroupID = formData.get("groupID");
   const userRoleID = formData.get("roleID");
@@ -320,20 +339,20 @@ export async function assignGroup(group_ID: any, formData) {
   }
 }
 
-
 export async function changelanguage(language: any) {
   const supabase = createClient();
   console.log(language);
 
   try {
-    
     const { data, error } = await supabase
       .from("global_language")
       .select("*")
       .single();
 
     if (error) {
-      throw new Error(`Error checking existing language record: ${error.message}`);
+      throw new Error(
+        `Error checking existing language record: ${error.message}`
+      );
     }
 
     if (data) {
@@ -348,7 +367,6 @@ export async function changelanguage(language: any) {
 
       console.log("Language updated successfully", data);
     }
-
   } catch (error) {
     console.error("Error while updating language", error.message);
   } finally {
@@ -360,16 +378,16 @@ export async function changelanguage(language: any) {
 
 export async function Globallanguagedata() {
   const supabase = createClient();
-   
-  const { data, error } = await supabase
-      .from("global_language")
-      .select("*")
-      .single();
-	  
-  return data;
-  }
 
-export async function NotificationToggler(newStatus:any, userId:string) {
+  const { data, error } = await supabase
+    .from("global_language")
+    .select("*")
+    .single();
+
+  return data;
+}
+
+export async function NotificationToggler(newStatus: any, userId: string) {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_profile")

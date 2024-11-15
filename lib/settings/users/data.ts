@@ -445,12 +445,12 @@ export async function getNotifications() {
   const supabase = createClient();
   const userData = await getUserInfo();
 
-  const userId = userData.id
+  const userId = userData.id;
 
   const { data: notifications, error } = await supabase
     .from("notifications")
     .select()
-    .eq("user_id", userId); 
+    .eq("user_id", userId);
 
   if (error) {
     console.error("Error while getting notifications:", error);
