@@ -5,6 +5,18 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { getUserInfo } from "@/lib/settings/users/data";
 
+export async function getAllUsers() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.admin.listUsers();
+
+  if (error) {
+    console.error("Error fetching users:", error);
+    return [];
+  }
+
+  return data.users;
+}
+
 export async function getUserGroups() {
   const supabase = createClient();
 
