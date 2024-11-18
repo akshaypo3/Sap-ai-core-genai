@@ -80,6 +80,9 @@ export default function EditProfileForm({
     }
   }
 
+  // Determine if the Save button should be enabled
+  const isButtonDisabled = !form.formState.isDirty || !form.formState.isValid;
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -172,7 +175,11 @@ export default function EditProfileForm({
           <div className="flex mt-5">
             <div className="flex-auto">
               <DialogClose asChild>
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isButtonDisabled}
+                >
                   Save Profile
                 </Button>
               </DialogClose>
