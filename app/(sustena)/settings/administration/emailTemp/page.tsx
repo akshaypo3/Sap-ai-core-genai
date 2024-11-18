@@ -20,6 +20,8 @@ import Globallanguage from "@/components/settings/timezone/globallanuage";
 import GoogleMapsApi from "@/components/settings/timezone/GoogleMapsApi";
 import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 import EmailTemplatesList from "@/components/settings/emailTemp/EmailTemplatesList";
+import AddEmailButton from "@/components/settings/emailTemp/AddEmailButton";
+import AddEmailTemplate from "@/components/settings/emailTemp/AddEmailTemplate";
 
 export default async function Home() {
   const supabase = createClient();
@@ -48,62 +50,8 @@ export default async function Home() {
   ];
 
   return (
-    <ContentLayout title="Administration">
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <BreadCrumbCom 
-          title={t("administration.title")} 
-          breadcrumbs={breadcrumbs} 
-          backButton={<BackButton />} 
-        />
-      </div>
-
-      <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
-          <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
-          <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger>
-          <TabsTrigger value="emailTempalate">{t("administration.E-mail Templates")}</TabsTrigger>
-          <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
-          <TabsTrigger value="glossary">Glossary</TabsTrigger>
-          <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
-          <TabsTrigger value="ai">AI</TabsTrigger>
-        </TabsList>
-
-        <div className="bg-white p-5 border rounded">
-          <TabsContent value="general">
-            <TimeZone 
-              initialTimezone={initialTimezone} 
-              onTimezoneChange={handleTimezoneChange} 
-            />
-            <Globallanguage />
-            <GoogleMapsApi data={apiId} />
-          </TabsContent>
-
-          <TabsContent value="frameworks">
-            <Frameworks />
-          </TabsContent>
-
-          <TabsContent value="emailTempalate">
-            {/* {t("administration.E-mail Templates")} */}
-            <EmailTemplatesList/>
-          </TabsContent>
-
-          <TabsContent value="smtp">
-            <SmtpSettings settings={smtpSettings} />
-          </TabsContent>
-
-          <TabsContent value="glossary">
-            <GlossaryDetails />
-          </TabsContent>
-
-          <TabsContent value="anthropicai">
-            <AnthropicApiDemo />
-          </TabsContent>
-
-          <TabsContent value="ai">
-            <AnthropicData />
-          </TabsContent>
-        </div>
-      </Tabs>
+    <ContentLayout title={t("administration.title")}>
+     <AddEmailTemplate/>
     </ContentLayout>
   );
 }

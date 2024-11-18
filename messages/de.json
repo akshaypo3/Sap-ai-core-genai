@@ -496,13 +496,26 @@
     },
     "settings": {
       "administration": {
-        "title": "Sustena-Administration",
-        "Dashboard": "Dashboard",
-        "Administration": "Administration",
-        "General": "Allgemein",
-        "Administrative Users": "Administrative Benutzer",
-        "SMTP": "SMTP",
-        "Anthropic AI": "Anthropic AI"
+        "title": "Administration",
+      "E-Mail Template":"E-Mail-Vorlage",
+      "E-Mail Templates":"E-Mail-Vorlages",
+      "Add":"Hinzufügen",
+      "E-mail Templates": "E-Mail-Vorlage",
+      "Columns":"Spalten",
+      "Edit":"Bearbeiten",
+      "Delete":"Löschen",
+      "administration":"Verwaltung",
+      "Description":"Beschreibung",
+      "Template Key":"Vorlagenschlüssel",
+      "Subject":"Thema",
+      "Name":"Name",
+      "Sender Name":"Absendername",
+      "Sender Email":"E-Mail des Absenders",
+      "Reply To":"Beantworten",
+      "Category":"Kategorie",
+      "Body <HTML>":"Textkörper <HTML>",
+      "Body Plain text (fallback)":"Textkörper <HTML>",
+      "Save":"Speichern"
       },
       "groups": {
         "title": "Gruppendetails",
