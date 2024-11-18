@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Trash2, X } from "lucide-react";
@@ -18,10 +20,12 @@ import CreateGoalForm from "@/components/goals/createGoalForm";
 import UpdateGoalForm from "@/components/goals/updateGoalForm";
 import { deleteGoal } from "@/lib/goals/action";
 import CreateValueForm from "@/components/goals/createValueForm";
+import { useState } from "react";
 
 export function AddGoal() {
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button className="mb-3 bg-green-600">Add Goal</Button>
       </DialogTrigger>
@@ -30,7 +34,7 @@ export function AddGoal() {
           <DialogTitle>Add Goal</DialogTitle>
           <DialogDescription>Add Goal Function Description</DialogDescription>
         </DialogHeader>
-        <CreateGoalForm />
+        <CreateGoalForm open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   );

@@ -311,6 +311,8 @@ export async function CreateCustomIRo(formData: FormData) {
   const sub_sub_topic = formData.get("sub_sub_topic");
   const assesmentId = formData.get("assesmentId")
 
+  console.log(topic, sub_topic, sub_sub_topic, assesmentId)
+
   try {
 
     const { data: currentIds, error: fetchError } = await supabase

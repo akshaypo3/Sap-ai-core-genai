@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
-import { getRolesWithUsers, otherRoleusers } from "@/lib/settings/users/data";
+import { getRolesWithUsers, otherRoleusers, getRoles } from "@/lib/settings/users/data";
 import {
   Table,
   TableBody,
@@ -44,6 +44,9 @@ export default async function roleDetailsPage({
     { href: "/dashboard/", text: t("roles.Dashboard") },
     { href: "/settings/users", text: t("roles.Users") }
   ];
+
+  const otherRoleusersInstance = await otherRoleusers(roleid)
+  const getRolesInstance = await getRoles()
   return (
     <>
       <ContentLayout title={t("roles.title")}>
@@ -103,7 +106,7 @@ export default async function roleDetailsPage({
         </div>
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
           <div className="flex items-center">
-            <ChangeRoleButton id={roleid} />
+            <ChangeRoleButton id={roleid} otherRoleusers={otherRoleusersInstance} getRoles={getRolesInstance}/>
           </div>
         </div>
       </ContentLayout>

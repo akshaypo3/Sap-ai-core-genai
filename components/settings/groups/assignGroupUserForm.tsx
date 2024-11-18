@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { getUserGroups, otherGroupusers } from "@/lib/settings/users/data";
+// import { getUserGroups, otherGroupusers } from "@/lib/settings/users/data";
 import {
   Select,
   SelectContent,
@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/select";
 import { assignGroup } from "@/lib/settings/users/action";
 
-export default async function GroupAssignUserForm({ id }: { id: string }) {
+export default function GroupAssignUserForm({ id, otherGroupusers, getUserGroups }: { id: string, otherGroupusers: any,getUserGroups: any }) {
   const group_id = id;
-  const groups = await getUserGroups();
-  const otherUsers = await otherGroupusers(group_id);
+  // const groups = await getUserGroups();
+  // const otherUsers = await otherGroupusers(group_id);
   const groupAssign = assignGroup.bind(null, id);
 
   return (
@@ -28,10 +28,10 @@ export default async function GroupAssignUserForm({ id }: { id: string }) {
                 <SelectValue placeholder="Default User" />
               </SelectTrigger>
               <SelectContent>
-                {otherUsers?.some(
+                {otherGroupusers?.some(
                   (group) => group.users && group.users.length > 0
                 ) ? (
-                  otherUsers.map((group) =>
+                  otherGroupusers.map((group) =>
                     group.users && group.users.length > 0
                       ? group.users.map((user) => (
                           <SelectItem key={user.id} value={user.id}>
@@ -57,13 +57,13 @@ export default async function GroupAssignUserForm({ id }: { id: string }) {
                   value={group_id}
                   className="text-gray-700 font-semibold"
                   placeholder={
-                    groups?.find((group) => group.id === group_id)?.role ||
+                    getUserGroups?.find((group) => group.id === group_id)?.role ||
                     "Select Role"
                   }
                 />
               </SelectTrigger>
               <SelectContent>
-                {groups?.map((group) => (
+                {getUserGroups?.map((group) => (
                   <SelectItem
                     key={group.id}
                     value={group.id}

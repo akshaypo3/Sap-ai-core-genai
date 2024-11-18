@@ -15,6 +15,7 @@ import { deleteAssessmentWithId } from "@/lib/assessments/action";
 import { useTranslations } from "next-intl";
 import CustomIRoForm from "./CustomIRoForm";
 import IROCatalog from "./IroCatalog";
+import { useState } from "react";
 
 export function SaveIroButton(){
   "use client"
@@ -108,8 +109,10 @@ export function DeleteAssessmentButton(assessmentId:any){
 }
 
 export function CustomIROButton({assesmentId}:{assesmentId:string}){
+  "use client"
+  const [open, setOpen] = useState(false);
   return(
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button className="bg-green-600">Add Custom IRo</Button>
       </DialogTrigger>
@@ -118,7 +121,7 @@ export function CustomIROButton({assesmentId}:{assesmentId:string}){
           <DialogTitle>Add Custom IRo</DialogTitle>
           <DialogDescription>Add Custom IRo Description</DialogDescription>
         </DialogHeader>
-        <CustomIRoForm assesmentId={assesmentId}/>
+        <CustomIRoForm assesmentId={assesmentId} open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   )

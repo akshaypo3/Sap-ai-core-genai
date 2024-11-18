@@ -16,10 +16,12 @@ export async function createStakeholder(formData: FormData) {
   const stakeholderDescription = formData.get("description");
   const stakeholderGroupId = formData.get("groupId");
 
-  const stakeholderInterest = parseInt(formData.get("stakeholderInterest"));
-  const stakeholderInfluence = parseInt(formData.get("stakeholderInfluence"));
-  const stakeholderKnowledge = parseInt(formData.get("stakeholderKnowledge"));
+  const stakeholderInterest = parseInt(formData.get("stakeholderInterest") as string || '0');
+  const stakeholderInfluence = parseInt(formData.get("stakeholderInfluence")as string || '0');
+  const stakeholderKnowledge = parseInt(formData.get("stakeholderKnowledge")as string || '0');
 
+  console.log("yes",stakeholderName, stakeholderDescription, stakeholderGroupId, stakeholderInterest, stakeholderInfluence, stakeholderKnowledge)
+  
   const mapLevel = (value: any) => levels[value - 1] || "unknown";
 
   const stakeholderInterestRationale = mapLevel(stakeholderInterest);

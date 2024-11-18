@@ -24,7 +24,7 @@ import { ChangeGroupButton } from "@/components/settings/groups/buttons";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-
+import { getUserGroups, otherGroupusers } from "@/lib/settings/users/data";
 
 export default async function roleDetailsPage({
   params,
@@ -45,6 +45,9 @@ export default async function roleDetailsPage({
     { href: "/dashboard/", text: t("groups.Dashboard") },
     { href: "/settings/users", text: t("groups.Users") }
   ];
+
+  const getUserGroupsInstance = await getUserGroups()
+  const otherGroupusersInstance = await otherGroupusers(groupid)
   return (
     <>
       <ContentLayout title={t("groups.Group title")}>
@@ -104,7 +107,7 @@ export default async function roleDetailsPage({
         </div>
         <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
           <div className="flex items-center">
-            <ChangeGroupButton id={groupid} />
+            <ChangeGroupButton id={groupid} otherGroupusers={otherGroupusersInstance} getUserGroups={getUserGroupsInstance}/>
           </div>
         </div>
       </ContentLayout>

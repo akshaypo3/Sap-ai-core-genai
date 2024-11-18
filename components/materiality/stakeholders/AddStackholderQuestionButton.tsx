@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -8,12 +9,12 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import AddStackholderquestionsForm from "./AddStackholderQuestionForm";
+import { useState } from "react";
 
   export function AddStackholderButton(id:any){
-    
+    const [open, setOpen] = useState(false);
     return (
-      <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger><Button>Add Question</Button></DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -22,9 +23,8 @@ import AddStackholderquestionsForm from "./AddStackholderQuestionForm";
               Add the Question for the Stack Holder
             </DialogDescription>
           </DialogHeader>
-          <AddStackholderquestionsForm id={id}/>
+          <AddStackholderquestionsForm id={id} open={open} setOpen={setOpen}/>
         </DialogContent>
       </Dialog>
-      </>
     )
 }
