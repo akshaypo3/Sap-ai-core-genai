@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getStakeholders } from "@/lib/stakeholders/data";
+import { getStakeholderGroups } from "@/lib/stakeholders/data";
 import {
   AddStakeholderButton,
   AddUserButton,
@@ -23,6 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default async function CompanyStakeholdersAssessment(id: any) {
   const assessmentId = id.id;
   const stakeholders = await getStakeholders();
+  const groups = await getStakeholderGroups()
 
   console.log("ID ON STAKEHOLDERS PAGE: ", assessmentId);
 
@@ -59,7 +61,7 @@ export default async function CompanyStakeholdersAssessment(id: any) {
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-md">
           <h3 className="text-xl font-semibold">Stakeholders</h3>
           <div>
-            <AddStakeholderButton />
+            <AddStakeholderButton stakeholderGroups={groups}/>
             <NextStepButton id={assessmentId} step={"5"} />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { getRoles, otherRoleusers } from "@/lib/settings/users/data";
+// import { getRoles, otherRoleusers } from "@/lib/settings/users/data";
 import {
   Select,
   SelectContent,
@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/select";
 import { assignRole } from "@/lib/settings/users/action";
 
-export default async function RoleAssignUserForm({ id }: { id: string }) {
+export default function RoleAssignUserForm({ id, otherRoleusers, getRoles }: { id: string, otherRoleusers: any, getRoles: any }) {
   const role_id = id;
-  const roles = await getRoles();
-  const otherUsers = await otherRoleusers(role_id);
+  // const roles = await getRoles();
+  // const otherUsers = await otherRoleusers(role_id);
   const roleAssign = assignRole.bind(null, id);
 
   return (
@@ -28,7 +28,7 @@ export default async function RoleAssignUserForm({ id }: { id: string }) {
                 <SelectValue placeholder="Default User" />
               </SelectTrigger>
               <SelectContent>
-                {otherUsers?.map((role) =>
+                {otherRoleusers?.map((role) =>
                   role.users && role.users.length > 0
                     ? role.users.map((user) => (
                         <SelectItem key={user.id} value={user.id}>
@@ -51,13 +51,13 @@ export default async function RoleAssignUserForm({ id }: { id: string }) {
                   value={role_id}
                   className="text-gray-700 font-semibold"
                   placeholder={
-                    roles?.find((role) => role.id === role_id)?.role ||
+                    getRoles?.find((role) => role.id === role_id)?.role ||
                     "Select Role"
                   }
                 />
               </SelectTrigger>
               <SelectContent>
-                {roles?.map((role) => (
+                {getRoles?.map((role) => (
                   <SelectItem
                     key={role.id}
                     value={role.id}

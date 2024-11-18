@@ -35,6 +35,7 @@ import { AddAssessmentButton } from "@/components/materiality/buttons";
 
 import { getTranslations } from 'next-intl/server'; // Import for translations
 import { AssessmentsActionsMenu } from "@/components/materiality/assessments/AssessmentsActionsMenu"; 
+import { getFrameworks } from "@/lib/assessments/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -54,7 +55,8 @@ export default async function Home() {
     return { ...assessment, stats };
   }));
 
-  const t = await getTranslations('materiality'); 
+  const t = await getTranslations('materiality');
+  const getFrameworksInstance = await getFrameworks()
 
   return (
     <ContentLayout title={t('assessments.title')}>
@@ -64,7 +66,7 @@ export default async function Home() {
             <h3 className="text-xl font-semibold">{t('assessments.title')}</h3>
           </div>
           <div className="mt-3">
-            <AddAssessmentButton/>
+            <AddAssessmentButton getFrameworks={getFrameworksInstance}/>
           </div>
         </div>
         <Table>

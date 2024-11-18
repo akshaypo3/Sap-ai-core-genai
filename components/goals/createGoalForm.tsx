@@ -1,3 +1,5 @@
+"use client"
+
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -10,148 +12,346 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { goalFormSchema  } from "@/schemas/goalFormSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-export default function CreateGoalForm() {
+const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
+
+interface goalFormProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function CreateGoalForm({ open, setOpen}: goalFormProps) {
+
+  function closeDialoge(){
+    wait().then(() => setOpen(false));
+}
+
+const form = useForm<z.infer<typeof goalFormSchema>>({
+    resolver: zodResolver(goalFormSchema),
+    defaultValues: {
+    name: "",
+    description: "",
+    // target_value: 0,
+    unit_of_measure: "",
+    start_date: "",
+    end_date: "",
+    // baseline_value: 0,
+    // current_value: 0,
+    owner: "",
+    status: "FALSE",
+    key_actions: "",
+    frequency_of_measurement: "",
+    completion_date: "",
+    risks: "",
+    comments: "",
+    visualization: "Bar Graph",
+    },
+});
+
+const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("target_value", data.target_value.toString());
+    formData.append("unit_of_measure", data.unit_of_measure);
+    formData.append("start_date", data.start_date);
+    formData.append("end_date", data.end_date);
+    formData.append("baseline_value", data.baseline_value.toString());
+    formData.append("current_value", data.current_value.toString());
+    formData.append("owner", data.owner);
+    formData.append("status", data.status);
+    formData.append("key_actions", data.key_actions);
+    formData.append("frequency_of_measurement", data.frequency_of_measurement);
+    formData.append("completion_date", data.completion_date);
+    formData.append("risks", data.risks);
+    formData.append("comments", data.comments);
+    formData.append("visualization", data.visualization || "");
+  
+    await createGoal(formData);
+    closeDialoge()
+};
+
   return (
-
+    <Form {...form}>
     <form
-      action={createGoal}
+      onSubmit={form.handleSubmit(onSubmit)}
       className={`p-4`}
     >
-
       <div className="grid w-full items-center gap-1.5 mb-2">
-        <Label htmlFor="name">Goal Name</Label>
-        <Input type="text" name="name" placeholder="Goal Name" required />
+      <FormField
+      control={form.control}
+      name="name"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Goal Name</FormLabel>
+          <FormControl>
+            <Input placeholder="Goal Name" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="description">Description</Label>
-        <Input
-          type="text"
-          name="description"
-          placeholder="Description"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="description"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Description</FormLabel>
+          <FormControl>
+            <Input placeholder="Description" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="target_value">Target Value</Label>
-        <Input
-          type="number"
-          name="target_value"
-          placeholder="Target Value"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="target_value"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Target Value</FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Target Value"
+              {...field}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="unit_of_measure">Unit of Measure</Label>
-        <Input
-          type="text"
-          name="unit_of_measure"
-          placeholder="Unit of Measure"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="unit_of_measure"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Unit of Measure</FormLabel>
+          <FormControl>
+            <Input placeholder="Unit of Measure" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="start_date">Start Date</Label>
-        <Input
-          type="date"
-          name="start_date"
-          placeholder="Start Date"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="start_date"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Start Date</FormLabel>
+          <FormControl>
+            <Input type="date" {...field}  />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="end_date">End Date</Label>
-        <Input type="date" name="end_date" placeholder="End Date" required />
+    <FormField
+      control={form.control}
+      name="end_date"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>End Date</FormLabel>
+          <FormControl>
+            <Input type="date" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="baseline_value">Baseline Value</Label>
-        <Input
-          type="number"
-          name="baseline_value"
-          placeholder="Baseline Value"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="baseline_value"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Baseline Value</FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Baseline Value"
+              {...field}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="current_value">Current Value</Label>
-        <Input
-          type="number"
-          name="current_value"
-          placeholder="Current Value"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="current_value"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Current Value</FormLabel>
+          <FormControl>
+            <Input
+              placeholder="Current Value"
+              {...field}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        {/* <Label htmlFor="progress">Progress (%)</Label>
-        <Input
-          type="number"
-          name="progress"
-          placeholder="Progress (%)"
-          required
-        /> */}
+    <FormField
+      control={form.control}
+      name="owner"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Owner</FormLabel>
+          <FormControl>
+            <Input placeholder="Owner" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="owner">Owner</Label>
-        <Input type="text" name="owner" placeholder="Owner" required />
+    {/* <FormField
+      control={form.control}
+      name="status"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Status</FormLabel>
+          <FormControl>
+            <Input
+              type="hidden"
+              defaultValue="FALSE"
+              {...field}
+              required
+            />
+            <Input defaultValue="In Progress" readOnly />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    /> */}
+    <div className="w-full">
+      <Label htmlFor="status">Status</Label>
+      <Input type="hidden" name="status" defaultValue="FALSE"/>
+      <Input defaultValue="In Progress" readOnly />
+    </div>
 
+    <FormField
+      control={form.control}
+      name="key_actions"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Key Actions</FormLabel>
+          <FormControl>
+            <Input placeholder="Key Actions" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <div className="w-full">
-          <Label htmlFor="status">Status</Label>
-          <Input type="hidden" name="status" defaultValue="FALSE"/>
-          <Input defaultValue="In Progress" readOnly />
-        </div>
+    <FormField
+      control={form.control}
+      name="frequency_of_measurement"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Frequency of Measurement</FormLabel>
+          <FormControl>
+            <Input placeholder="Frequency of Measurement" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="key_actions">Key Actions</Label>
-        <Input
-          type="text"
-          name="key_actions"
-          placeholder="Key Actions"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="completion_date"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Completion Date</FormLabel>
+          <FormControl>
+            <Input type="date" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="frequency_of_measurement">
-          Frequency of Measurement
-        </Label>
-        <Input
-          type="text"
-          name="frequency_of_measurement"
-          placeholder="Frequency of Measurement"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="risks"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Risks</FormLabel>
+          <FormControl>
+            <Input placeholder="Risks" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="completion_date">Completion Date</Label>
-        <Input
-          type="date"
-          name="completion_date"
-          placeholder="Completion Date"
-          required
-        />
+    <FormField
+      control={form.control}
+      name="comments"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Comments</FormLabel>
+          <FormControl>
+            <Input placeholder="Comments" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
 
-        <Label htmlFor="risks">Risks</Label>
-        <Input type="text" name="risks" placeholder="Risks" required />
-
-        <Label htmlFor="comments">Comments</Label>
-        <Input type="text" name="comments" placeholder="Comments" required />
-
-        <div className="w-full">
-          <Label htmlFor="visualization">Status</Label>
-          <Select
-            name="visualization"
-          >
-            <SelectTrigger>
-              <SelectValue
-                placeholder="Select Chart"
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Bar Graph">Bar Graph</SelectItem>
-              <SelectItem value="Line Graph">Line Graph</SelectItem>
-              <SelectItem value="Pie Graph">Pie Graph</SelectItem>
-              <SelectItem value="Donut Graph">Donut Graph</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+    <FormField
+      control={form.control}
+      name="visualization"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Visualization</FormLabel>
+          <FormControl>
+            <Select {...field}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Chart" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Bar Graph">Bar Graph</SelectItem>
+                <SelectItem value="Line Graph">Line Graph</SelectItem>
+                <SelectItem value="Pie Graph">Pie Graph</SelectItem>
+                <SelectItem value="Donut Graph">Donut Graph</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
         <div className="flex mt-5">
           <div className="flex-auto">
-            <DialogClose asChild>
               <Button className="w-full" type="submit">
                 Create Goal
               </Button>
-            </DialogClose>
           </div>
         </div>
       </div>
     </form>
+    </Form>
   );
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,12 +29,14 @@ import { getUserGroups, getRoles, getProfile } from "@/lib/settings/users/data";
 import { useTranslations } from "next-intl";
 import { getTranslations } from 'next-intl/server';
 import CreateGlossaryForm from "./CreateGlossaryForm";
+import { useState } from "react";
 
 //Add for the Glossary english
-export async function AddGlossaryButton(language) {
-    let t = await getTranslations("settings-com")
+export function AddGlossaryButton(language:any) {
+   const [open, setOpen] = useState(false);
+    let t = useTranslations("settings-com")
     return (
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger>
           <Button className="bg-black dark:bg-green-600 dark:text-neutral-50">Add Glossary</Button>
         </DialogTrigger>
@@ -41,7 +45,7 @@ export async function AddGlossaryButton(language) {
             <DialogTitle>Add Glossary</DialogTitle>
             <DialogDescription>Add Glossary Function Description</DialogDescription>
           </DialogHeader>
-          <CreateGlossaryForm language={language}/>
+          <CreateGlossaryForm language={language} open={open} setOpen={setOpen}/>
         </DialogContent>
       </Dialog>
     );

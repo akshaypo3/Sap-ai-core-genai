@@ -1,3 +1,4 @@
+"use client"
 import { deleteGroup } from "@/lib/settings/users/action";
 import {
   Dialog,
@@ -17,11 +18,13 @@ import { Trash2, ZoomIn } from "lucide-react";
 import GroupAssignUserForm from "@/components/settings/groups/assignGroupUserForm";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { useState } from "react";
 
 export function AddGroupButton() {
+  const [open, setOpen] = useState(false);
   const t = useTranslations();
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>{t("Add Group")}</Button>
       </DialogTrigger>
@@ -30,7 +33,7 @@ export function AddGroupButton() {
           <DialogTitle>Add Group</DialogTitle>
           <DialogDescription>Add Group Function Description</DialogDescription>
         </DialogHeader>
-        <CreateGroupForm />
+        <CreateGroupForm open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   );
@@ -82,7 +85,7 @@ export function DeleteGroupButton({ id }: { id: string }) {
   );
 }
 
-export async function GroupDetailsButton({ groupid }: { groupid: string }) {
+export function GroupDetailsButton({ groupid }: { groupid: string }) {
   return (
     <Link href={`/settings/groups/${groupid}`}>
       <Button className="p-2" type="submit">
@@ -93,7 +96,7 @@ export async function GroupDetailsButton({ groupid }: { groupid: string }) {
   );
 }
 
-export async function ChangeGroupButton({ id }: { id: string }) {
+export function ChangeGroupButton({ id, otherGroupusers, getUserGroups }: { id: string, otherGroupusers: any, getUserGroups: any }) {
   const groupID = id;
   return (
     <Dialog>
@@ -105,7 +108,7 @@ export async function ChangeGroupButton({ id }: { id: string }) {
           <DialogTitle>Add User to this Group</DialogTitle>
           <DialogDescription>Add User Function Description</DialogDescription>
         </DialogHeader>
-        <GroupAssignUserForm id={groupID} />
+        <GroupAssignUserForm id={groupID} otherGroupusers={otherGroupusers} getUserGroups={getUserGroups}/>
       </DialogContent>
     </Dialog>
   );

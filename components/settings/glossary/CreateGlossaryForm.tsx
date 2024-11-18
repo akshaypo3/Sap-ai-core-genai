@@ -1,3 +1,5 @@
+"use client"
+
 import { Label } from "@/components/ui/label";
 import {
     DialogClose
@@ -14,34 +16,94 @@ import {
     SelectValue,
   } from "@/components/ui/select";
 import { createGlossary } from "@/lib/settings/administration/action";
+import { glossaryFormSchema } from "@/schemas/glossaryFormSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 
+const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
 
-export default async function CreateGlossaryForm(language){
+interface CreateGlossaryFormProps {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    language: any
+}
+
+export default function CreateGlossaryForm({ open, setOpen, language }: CreateGlossaryFormProps){
+
+  function closeDialoge(){
+    wait().then(() => setOpen(false));
+  }
+
+  const form = useForm<z.infer<typeof glossaryFormSchema>>({
+    resolver: zodResolver(glossaryFormSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      language: language
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof glossaryFormSchema>) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("language", data.language || "")
+  
+    await createGlossary(formData);
+    closeDialoge()
+  };
+
     const language1=language.language.language
     return (
-        <form action={createGlossary}>
-                <div className="grid w-full items-center gap-1.5 mb-2">
-                    <Label htmlFor="title">Title</Label>
-                    <Input type="text" name="title" placeholder="Title"/>
-                    <Label htmlFor="description">Description</Label>
-                    <textarea
-                    id="description"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid w-full items-center gap-1.5 mb-2">
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <FormControl>
+                        <Input placeholder="title" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
                     name="description"
-                    rows="4" // Set the number of rows as needed
-                    className="flex h-32 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                ></textarea>
-                 {/* Hidden input for language */}
-                 <input type="hidden" name="language" value={language1} />
-                    </div>                                   
-                      <div className="flex mt-5">
-                        <div className="flex-auto">
-                            <DialogClose asChild>
-                            <Button className="w-full" type="submit">
-                               Create Glossary
-                            </Button>
-                            </DialogClose>                        
-                        </div>
-                    </div>
-            </form>
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                        <Textarea placeholder="description" rows={4} {...field}/>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+                <Input type="hidden" name="language" value={language1}/>
+              </div>                                   
+                <div className="flex mt-5">
+                  <div className="flex-auto">
+                      <Button className="w-full" type="submit">
+                          Create Glossary
+                      </Button>
+                  </div>
+              </div>
+        </form>
+      </Form>
     )
 };

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   createStakeholder,
@@ -25,11 +27,17 @@ import { deleteStakeholder } from "@/lib/stakeholders/action";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import CreateUserForm from "./AddUserForm";
+import { useState } from "react";
 
-export async function AddStakeholderButton() {
-  const t = await getTranslations("materiality-com");
+interface addStakeholders{
+  stakeholderGroups? : any
+}
+
+export function AddStakeholderButton({stakeholderGroups}: addStakeholders) {
+  const [open, setOpen] = useState(false);
+  const t = useTranslations("materiality-com");
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>Add Stakeholder</Button>
       </DialogTrigger>
@@ -40,13 +48,13 @@ export async function AddStakeholderButton() {
             Add Stakeholder Function Description
           </DialogDescription>
         </DialogHeader>
-        <CreateStakeholderForm />
+        <CreateStakeholderForm stakeholderGroups={stakeholderGroups} open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   );
 }
 
-export async function AddStakeholderGroupButton() {
+export function AddStakeholderGroupButton() {
   return (
     <Dialog>
       <DialogTrigger>
@@ -63,7 +71,7 @@ export async function AddStakeholderGroupButton() {
   );
 }
 
-export async function AddLocation() {
+export function AddLocation() {
   return (
     <Dialog>
       <DialogTrigger>
@@ -73,9 +81,7 @@ export async function AddLocation() {
         <DialogHeader>
           <DialogTitle>Uncaught error</DialogTitle>
           <DialogDescription>
-            {t(
-              "stakeholders.Please contact your Sustena administrator for more details",
-            )}
+              stakeholders.Please contact your Sustena administrator for more details
           </DialogDescription>
         </DialogHeader>
         {/* <CreateStakeholderGroupForm/> */}
@@ -84,13 +90,13 @@ export async function AddLocation() {
   );
 }
 
-export async function DeleteStakeholderButton({
+export function DeleteStakeholderButton({
   stakeholder,
 }: {
   stakeholder: string;
 }) {
   const deleteStakeholderWithId = deleteStakeholder.bind(null, stakeholder.id);
-  const t = await getTranslations("materiality-com");
+  const t = useTranslations("materiality-com");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -142,7 +148,7 @@ export async function DeleteStakeholderButton({
   );
 }
 
-export async function AddUserButton({
+export function AddUserButton({
   assessmentId,
   stakeHolderId,
   stakeholderName
@@ -151,7 +157,7 @@ export async function AddUserButton({
   stakeHolderId: string;
   stakeholderName:string
 }) {
-  const t = await getTranslations("materiality-com");
+  const t = useTranslations("materiality-com");
   return (
     <Dialog>
       <DialogTrigger>

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   createStakeholder,
@@ -20,11 +22,13 @@ import { idText } from "typescript";
 import RoleAssignUserForm from "@/components/settings/roles/assignUserForm";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { useState } from "react";
 
-export async function AddRoleButton() {
-  const t = await getTranslations("settings-com")
+export function AddRoleButton() {
+  const [open, setOpen] = useState(false);
+  const t = useTranslations("settings-com")
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>{t("Add Role")}</Button>
       </DialogTrigger>
@@ -33,13 +37,13 @@ export async function AddRoleButton() {
           <DialogTitle>Add Role</DialogTitle>
           <DialogDescription>Add Role Function Description</DialogDescription>
         </DialogHeader>
-        <CreateRoleForm />
+        <CreateRoleForm open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   );
 }
 
-export async function DeleteRoleButton({ id }: { id:string }) {
+export function DeleteRoleButton({ id }: { id:string }) {
   return (
     <Dialog>
       <DialogTrigger>
@@ -60,7 +64,7 @@ export async function DeleteRoleButton({ id }: { id:string }) {
   );
 }
 
-export async function RoleDetailsButton({ roleid }: { roleid: string }) {
+export function RoleDetailsButton({ roleid }: { roleid: string }) {
   return (
     <Link href={`/settings/roles/${roleid}`}>
       <Button className="p-2" type="submit">
@@ -71,7 +75,7 @@ export async function RoleDetailsButton({ roleid }: { roleid: string }) {
   );
 }
 
-export async function ChangeRoleButton({ id }: { id: string }) {
+export function ChangeRoleButton({ id, otherRoleusers, getRoles }: { id: string, otherRoleusers: any, getRoles: any }) {
   const roleID = id;
   return (
     <Dialog>
@@ -83,7 +87,7 @@ export async function ChangeRoleButton({ id }: { id: string }) {
           <DialogTitle>Add User to this Role</DialogTitle>
           <DialogDescription>Add User Function Description</DialogDescription>
         </DialogHeader>
-        <RoleAssignUserForm id={roleID} />
+        <RoleAssignUserForm id={roleID} otherRoleusers={otherRoleusers} getRoles={getRoles}/>
       </DialogContent>
     </Dialog>
   );

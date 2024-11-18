@@ -1,4 +1,4 @@
-
+"use client"
 
 import { Button } from "@/components/ui/button"
 import { createStakeholder, createStakeholderGroup } from "@/lib/stakeholders/action"
@@ -14,14 +14,17 @@ import {
 import { Trash2 } from "lucide-react"
 import CreateAssessmentForm from "@/components/materiality/CreateNewAssessmentForm"
 import { getTranslations } from "next-intl/server"
+import { useState } from "react"
+import { useTranslations } from "next-intl"
 // import CreateStakeholderForm from "@/components/materiality/stakeholders/CreateSteakholderForm";
 // import CreateStakeholderGroupForm from "@/components/materiality/stakeholders/CreateSteakholderGroup";
 // import { deleteStakeholder } from "@/lib/stakeholders/action";
 
-export async function AddAssessmentButton(){
-  const t = await getTranslations("materiality-com")
+export function AddAssessmentButton({getFrameworks}:{getFrameworks:any}){
+  const [open, setOpen] = useState(false);
+  const t =  useTranslations("materiality-com")
     return (
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger><Button>{t("New Assessment")}</Button></DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -30,7 +33,7 @@ export async function AddAssessmentButton(){
             New Assessment function description
           </DialogDescription>
         </DialogHeader>
-        <CreateAssessmentForm/>
+        <CreateAssessmentForm getFrameworks={getFrameworks} open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
     )
