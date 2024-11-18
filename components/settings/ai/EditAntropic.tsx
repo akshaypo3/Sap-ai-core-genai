@@ -1,44 +1,51 @@
-'use client';
-import { useState, useTransition } from 'react';
+"use client";
+
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Pencil } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { editAnthropic } from '@/lib/settings/administration/action';
+import { editAnthropic } from "@/lib/settings/administration/action";
+import { editAnthropicSchema } from "@/schemas/editAnthropicSchema"; 
+
 
 export default function EditAnthropicButton({ id }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  
-  // State for editable fields
+  const [errors, setErrors] = useState<any>(null); 
+
   const [apiKey, setApiKey] = useState(id.API_Key || '');
   const [model, setModel] = useState(id.Model || '');
   const [tokenLimit, setTokenLimit] = useState(id.Token_Limit_per_Month || '');
 
+  const models = [
+    { value: 'claude-3-5-sonnet-20241022', label: 'claude-3-5-sonnet-20241022' },
+  ];
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    const result = editAnthropicSchema.safeParse({
+      API_Key: apiKey,
+      Model: model,
+      Token_Limit_per_Month: tokenLimit,
+    });
+
+    if (!result.success) {
+      setErrors(result.error.errors);
+      return; 
+    }
+
+    setErrors(null);
+
     startTransition(async () => {
       const formData = new FormData();
       formData.set('API_Key', apiKey);
       formData.set('Model', model);
       formData.set('Token_Limit_per_Month', tokenLimit);
       await editAnthropic(id.id, formData);
-      setIsOpen(false);
+      setIsOpen(false); 
     });
   };
-
-  // Sample models, adjust as needed
-  const models = [
-    { value: 'claude-3-5-sonnet-20241022', label: 'claude-3-5-sonnet-20241022' },
-    // Add more models as needed
-  ];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -62,8 +69,13 @@ export default function EditAnthropicButton({ id }) {
                 id="API_Key"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                className="flex h-9 w-full rounded-md border border-input  px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="flex h-9 w-full rounded-md border border-input px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               />
+              {errors?.find((error) => error.path[0] === "API_Key") && (
+                <span className="text-red-500 text-xs">
+                  {errors.find((error) => error.path[0] === "API_Key")?.message}
+                </span>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="Model">Model</Label>
@@ -71,7 +83,7 @@ export default function EditAnthropicButton({ id }) {
                 id="Model"
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
-                className="flex h-9 w-full rounded-md border border-input  px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="flex h-9 w-full rounded-md border border-input px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               >
                 <option value="" disabled>Select a model</option>
                 {models.map((m) => (
@@ -80,6 +92,11 @@ export default function EditAnthropicButton({ id }) {
                   </option>
                 ))}
               </select>
+              {errors?.find((error) => error.path[0] === "Model") && (
+                <span className="text-red-500 text-xs">
+                  {errors.find((error) => error.path[0] === "Model")?.message}
+                </span>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="Token_Limit_per_Month">Token Limit per Month</Label>
@@ -87,14 +104,19 @@ export default function EditAnthropicButton({ id }) {
                 id="Token_Limit_per_Month"
                 value={tokenLimit}
                 onChange={(e) => setTokenLimit(e.target.value)}
-                className="flex h-9 w-full rounded-md border border-input  px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="flex h-9 w-full rounded-md border border-input px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               />
+              {errors?.find((error) => error.path[0] === "Token_Limit_per_Month") && (
+                <span className="text-red-500 text-xs">
+                  {errors.find((error) => error.path[0] === "Token_Limit_per_Month")?.message}
+                </span>
+              )}
             </div>
           </div>
           <div className="flex mt-5">
             <div className="flex-auto">
               <DialogClose asChild>
-                <Button className="w-full" type="submit" disabled={isPending}>
+                <Button className="w-full" type="submit">
                   {isPending ? 'Saving...' : 'Save Anthropic'}
                 </Button>
               </DialogClose>
