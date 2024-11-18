@@ -39,9 +39,8 @@ export default function EditProfileForm({
   setOpen,
 }: EditProfileFormProps) {
   const [profileData, setProfile] = useState<any[]>([]);
-  const ediprofileData = data2?.data1?.[0];
 
-  //const ediprofileData = data2?.data1?.[0];
+  const ediprofileData = data2?.data1?.[0];
 
   const form = useForm({
     mode: "onChange",
@@ -60,7 +59,7 @@ export default function EditProfileForm({
     };
 
     fetchData();
-  }, []);
+  }, [data2]);
 
   async function onSubmit(data) {
     try {
@@ -70,11 +69,12 @@ export default function EditProfileForm({
 
       const response = await editProfile(formData);
       // Close dialog box
-      setOpen(false);
+
       form.reset({
         username: "",
         userEmail: "",
       });
+      setOpen(false);
     } catch (error) {
       console.error("Error creating user:", error);
     }
@@ -171,11 +171,11 @@ export default function EditProfileForm({
           /> */}
           <div className="flex mt-5">
             <div className="flex-auto">
-              {/* <DialogClose asChild> */}
-              <Button type="submit" className="w-full">
-                Save Profile
-              </Button>
-              {/* </DialogClose> */}
+              <DialogClose asChild>
+                <Button type="submit" className="w-full">
+                  Save Profile
+                </Button>
+              </DialogClose>
             </div>
           </div>
         </div>
