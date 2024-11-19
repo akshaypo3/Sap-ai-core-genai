@@ -181,7 +181,7 @@ const EmailTemplatesList: React.FC = () => {
         onConfirm={handleConfirmDelete}
         templateName={templateToDelete?.name}
       />
-      <SendMailForm/>
+      {/* <SendMailForm/> */}
     </div>
   );
 };

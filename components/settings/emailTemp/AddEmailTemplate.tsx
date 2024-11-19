@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from "use-intl";
+import { useRouter } from "next/navigation";
 
 const emailTemplateSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -63,12 +64,20 @@ const AddEmailTemplate = () => {
     }
   };
   const t = useTranslations('settings');
-
+  const router = useRouter();
   return (
     <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-6">
       <Breadcrumb className="flex items-center justify-between p-6 bg-gray-50 rounded-t">
-        <BreadcrumbItem className="font-bold text-xl">{t('administration.E-Mail Template')} </BreadcrumbItem>
-      </Breadcrumb>
+      <BreadcrumbItem className="font-bold text-xl">
+        {t("administration.E-Mail Template")}
+      </BreadcrumbItem>
+      <Button
+        onClick={() => router.back()}
+        className="px-4 py-2 bg-green-500"
+      >
+        Back
+      </Button>
+    </Breadcrumb>
 
       <form className="space-y-6 m-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
