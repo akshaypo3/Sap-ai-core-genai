@@ -577,6 +577,11 @@
       "Time": "Time",
       "User": "User",
       "Activity": "Activity"
+    },
+    "frameworkEditor":{
+      "maintitle":"Frameworks",
+      "Home":"Home",
+      "title":"Framework Editor"
     }
   },
   "task": {
@@ -1464,7 +1469,8 @@
     "Library":"Library",
     "Users":"Users",
     "Administration":"Administration",
-    "Questions":"Questions"
+    "Questions":"Questions",
+    "Framework Editor":"Framework Editor"
   },
   "portal":{
     "dashboard":{
