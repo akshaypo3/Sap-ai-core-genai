@@ -8,7 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ViewFrameworkButton } from "../settings/frameworkEditor/Buttons";
 import { DeleteFrameworkEditorButton, DuplicateFrameworkEditorButton, EditFrameworkEditorButton } from "../settings/frameworkEditor/Buttons";
+
 const FETable = ({ frameworksData ,userId}) => {
   const [data, setData] = useState(frameworksData);
   const [filteredData, setFilteredData] = useState(frameworksData);
@@ -219,6 +221,7 @@ const FETable = ({ frameworksData ,userId}) => {
                   <EditFrameworkEditorButton frameworkData={framework} />
                   <DeleteFrameworkEditorButton frameworkId={framework} />
                   <DuplicateFrameworkEditorButton userId={userId} frameworkData={framework} />
+                  <ViewFrameworkButton frameworkId={framework.id}/>
                 </div>
               </td>
               </tr>

@@ -569,6 +569,33 @@
         "Time": "Zeit",
         "User": "Benutzer",
         "Activity": "Aktivität"
+      },
+      "frameworkEditor":{
+        "maintitle": "Frameworks",
+        "Home": "Startseite",
+        "title": "Framework-Editor",
+        "Frameworks": "Frameworks",
+        "Framework": "Framework",
+        "detailsMainTitle": "Framework-Details",
+        "Actions": "Aktionen",
+        "Edit Framework": "Framework bearbeiten",
+        "New Question": "Neue Frage",
+        "Create Assessment": "Bewertung erstellen",
+        "Framework Information": "Framework-Informationen",
+        "Type": "Typ",
+        "Status": "Status",
+        "Version": "Version",
+        "Created": "Erstellt",
+        "Modified": "Geändert",
+        "Description": "Beschreibung",
+        "Statistics": "Statistiken",
+        "Sections": "Abschnitte",
+        "Questions": "Fragen",
+        "Completeness": "Vollständigkeit",
+        "Overview": "Übersicht",
+        "Dependencies": "Abhängigkeiten",
+        "Settings": "Einstellungen",
+        "New Section": "Neuer Abschnitt"
       }
     },
     "task": {

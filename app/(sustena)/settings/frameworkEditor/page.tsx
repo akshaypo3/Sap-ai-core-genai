@@ -75,6 +75,8 @@ export default async function Home() {
           <div className="min-w-full pt-2 table-auto border-collapse">
           <FETable frameworksData={receivedData} userId={userId}/>
         </div>
+        <div className="min-w-full table-auto border-collapse p-10">
+        <FETable frameworksData={receivedData}/>
         </div>
       </ContentLayout>
     </>

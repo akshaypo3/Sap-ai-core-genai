@@ -581,7 +581,29 @@
     "frameworkEditor":{
       "maintitle":"Frameworks",
       "Home":"Home",
-      "title":"Framework Editor"
+      "title":"Framework Editor",
+      "Frameworks":"Frameworks",
+      "Framework":"Framework",
+      "detailsMainTitle":"Framework details",
+      "Actions":"Actions",
+      "Edit Framework":"Edit Framework",
+      "New Question":"New Section",
+      "Create Assessment":"Create Assessment",
+      "Framework Information":"Framework Information",
+      "Type":"Type",
+      "Status":"Status",
+      "Version":"Version",
+      "Created":"Created",
+      "Modified":"Modified",
+      "Description":"Description",
+      "Statistics":"Statistics",
+      "Sections":"Sections",
+      "Questions":"Questions",
+      "Completeness":"Completeness",
+      "Overview":"Overview",
+      "Dependencies":"Dependencies",
+      "Settings":"Settings",
+      "New Section":"New Section"
     }
   },
   "task": {
