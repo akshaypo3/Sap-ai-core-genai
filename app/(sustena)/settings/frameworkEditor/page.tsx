@@ -34,6 +34,8 @@ import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import FETable from "@/components/table/table-fe-framework";
+import { getFEFramework } from "@/lib/frameworks/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -50,13 +52,17 @@ export default async function Home() {
   const breadcrumbs = [
     { href: "/dashboard/", text: t("frameworkEditor.Home") }
   ];
+  const receivedData = await getFEFramework();
   return (
     <>
       <ContentLayout title={t("frameworkEditor.maintitle")}>
-      <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+      <div className=" p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
         <BreadCrumbCom title={t("frameworkEditor.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
       </div>
     </ContentLayout>
+        <div className="min-w-full table-auto border-collapse p-10">
+        <FETable frameworksData={receivedData} />
+        </div>
     </>
   );
 }
