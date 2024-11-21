@@ -10,7 +10,7 @@ export const frameworkEditorformSchema = z.object({
 
   description: z
     .string()
-    .min(50, { message: "Description must not exceed 50 characters." })
+    .min(10, { message: "Description must be atleast 10 characters." })
     .max(200, { message: "Description must not exceed 200 characters." }),
 
   framework_type: z
