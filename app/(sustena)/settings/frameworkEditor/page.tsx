@@ -2,7 +2,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -10,17 +10,17 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Slash, Trash2,Pencil } from "lucide-react"
+import { Slash, Trash2, Pencil } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -31,11 +31,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SustainabilityGoals from "@/components/dashboard/SustainabilityGoals";
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import FETable from "@/components/table/table-fe-framework";
 import { getFEFramework } from "@/lib/frameworks/data";
+import { AddFrameworkEditorButton } from "@/components/settings/frameworkEditor/Buttons";
 
 export default async function Home() {
   const supabase = createClient();
@@ -48,23 +49,31 @@ export default async function Home() {
     return redirect("/login");
   }
 
-  const t = await getTranslations('settings');
+  const t = await getTranslations("settings");
   const breadcrumbs = [
-    { href: "/dashboard/", text: t("frameworkEditor.Home") }
+    { href: "/dashboard/", text: t("frameworkEditor.Home") },
   ];
+  
+  const userId = user.id;
   const receivedData = await getFEFramework();
+
   return (
     <>
       <ContentLayout title={t("frameworkEditor.maintitle")}>
-      <div className=" p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-        <BreadCrumbCom title={t("frameworkEditor.title")} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
-      </div>
-    </ContentLayout>
+        <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
+          <BreadCrumbCom
+            title={t("frameworkEditor.title")}
+            breadcrumbs={breadcrumbs}
+            backButton={<BackButton />}
+          />
+        </div>
+        <div className="mb-8 p-10 flex items-center justify-end bg-white dark:bg-neutral-950 rounded-md border">
+          <AddFrameworkEditorButton userId={userId}/>
+        </div>
         <div className="min-w-full table-auto border-collapse p-10">
         <FETable frameworksData={receivedData} />
         </div>
+      </ContentLayout>
     </>
   );
 }
-
-
