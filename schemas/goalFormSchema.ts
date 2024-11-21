@@ -83,5 +83,4 @@ export const goalFormSchema = z.object({
 
   visualization: z
     .enum(["Bar Graph", "Line Graph", "Pie Graph", "Donut Graph"])
-    .optional(),
 });
