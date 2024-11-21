@@ -8,8 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const FETable = ({ frameworksData }) => {
+import { DeleteFrameworkEditorButton, DuplicateFrameworkEditorButton, EditFrameworkEditorButton } from "../settings/frameworkEditor/Buttons";
+const FETable = ({ frameworksData ,userId}) => {
   const [data, setData] = useState(frameworksData);
   const [filteredData, setFilteredData] = useState(frameworksData);
   const [sortOrder, setSortOrder] = useState({ field: "name", direction: "asc" });
@@ -93,24 +93,9 @@ const FETable = ({ frameworksData }) => {
     setSortOrder({ field, direction: newDirection }); // Update the sort order state
   };
 
-  // Action button handlers
-  const handleEdit = (id) => {
-    console.log(`Edit framework with ID: ${id}`);
-    // Add your edit logic here (e.g., navigate to edit page or open a modal)
-  };
-
-  const handleDelete = (id) => {
-    console.log(`Delete framework with ID: ${id}`);
-    // Add your delete logic here (e.g., call API to delete the item)
-  };
-  const handleClone = (id) => {
-    console.log(`Clone framework with ID: ${id}`);
-    // Add your delete logic here (e.g., call API to delete the item)
-  };
 
   return (
-    <div className="mb-8 p-4 items-center bg-white dark:bg-neutral-950 rounded-md border">
-      {/* Search and Filter section */}
+    <>
       <div className="mb-4 flex items-center gap-4">
         {/* Search bar on the left */}
         <input
@@ -230,16 +215,18 @@ const FETable = ({ frameworksData }) => {
                 <td className="border p-3 text-center">{framework.reporting_year}</td>
                 <td className="border p-3 text-center">{new Date(framework.created_at).toLocaleDateString()}</td>
                 <td className="border p-3 text-center">
-                  <button onClick={() => handleEdit(framework.id)}><Pencil /></button>
-                  <button onClick={() => handleDelete(framework.id)}><Trash2 /></button>
-                  <button onClick={() => handleClone(framework.id)}><Copy /></button>
-                </td>
+                <div className="flex justify-center items-center space-x-2">
+                  <EditFrameworkEditorButton frameworkData={framework} />
+                  <DeleteFrameworkEditorButton frameworkId={framework} />
+                  <DuplicateFrameworkEditorButton userId={userId} frameworkData={framework} />
+                </div>
+              </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 };
 
