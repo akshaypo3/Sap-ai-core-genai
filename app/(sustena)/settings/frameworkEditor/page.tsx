@@ -67,8 +67,13 @@ export default async function Home() {
             backButton={<BackButton />}
           />
         </div>
-        <div className="mb-8 p-10 flex items-center justify-end bg-white dark:bg-neutral-950 rounded-md border">
+        <div className="mb-8 p-4 items-center bg-white dark:bg-neutral-950 rounded-md border">
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+          <h3 className="text-xl font-semibold">Framework</h3>
           <AddFrameworkEditorButton userId={userId}/>
+          </div>
+          <div className="min-w-full pt-2 table-auto border-collapse">
+          <FETable frameworksData={receivedData} userId={userId}/>
         </div>
         <div className="min-w-full table-auto border-collapse p-10">
         <FETable frameworksData={receivedData}/>
