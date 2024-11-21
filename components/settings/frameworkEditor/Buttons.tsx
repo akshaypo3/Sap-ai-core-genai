@@ -15,8 +15,9 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import CreateFrameworkEditorForm from "./CreateFrameworkForm";
 import { deleteFramework } from "@/lib/settings/frameworkEditor/action";
-import { TrashIcon } from "lucide-react";
+import { TrashIcon, Eye } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export function AddFrameworkEditorButton({userId}:{userId:string}) {
   const [open, setOpen] = useState(false);
@@ -87,5 +88,15 @@ export function DeleteFrameworkEditorButton({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+export function ViewFrameworkButton({ frameworkId }: { frameworkId: string }) {
+  return (
+    <>
+      <Link href={`/settings/frameworkEditor/${frameworkId}`}>
+        <Button className="bg-gray-100 hover:bg-gray-400 text-black"><Eye/></Button>
+      </Link>
+    </>
   );
 }

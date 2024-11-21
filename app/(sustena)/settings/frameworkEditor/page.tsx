@@ -71,7 +71,7 @@ export default async function Home() {
           <AddFrameworkEditorButton userId={userId}/>
         </div>
         <div className="min-w-full table-auto border-collapse p-10">
-        <FETable frameworksData={receivedData} />
+        <FETable frameworksData={receivedData}/>
         </div>
       </ContentLayout>
     </>

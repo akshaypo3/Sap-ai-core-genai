@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ViewFrameworkButton } from "../settings/frameworkEditor/Buttons";
 
 const FETable = ({ frameworksData }) => {
   const [data, setData] = useState(frameworksData);
@@ -233,6 +234,7 @@ const FETable = ({ frameworksData }) => {
                   <button onClick={() => handleEdit(framework.id)}><Pencil /></button>
                   <button onClick={() => handleDelete(framework.id)}><Trash2 /></button>
                   <button onClick={() => handleClone(framework.id)}><Copy /></button>
+                  <ViewFrameworkButton frameworkId={framework.id}/>
                 </td>
               </tr>
             ))}
