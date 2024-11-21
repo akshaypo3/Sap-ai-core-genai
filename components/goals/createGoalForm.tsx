@@ -324,23 +324,30 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       control={form.control}
       name="visualization"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Visualization</FormLabel>
-          <FormControl>
-            <Select {...field}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Chart" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Bar Graph">Bar Graph</SelectItem>
-                <SelectItem value="Line Graph">Line Graph</SelectItem>
-                <SelectItem value="Pie Graph">Pie Graph</SelectItem>
-                <SelectItem value="Donut Graph">Donut Graph</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
+    <FormItem>
+    <FormLabel>Visualization</FormLabel>
+    <FormControl>
+    <Select
+      onValueChange={(value) => {
+        field.onChange(value); 
+      }}
+      value={field.value} 
+    >
+    <SelectTrigger>
+    <SelectValue placeholder="Select Chart">
+      {field.value || "Select Chart"}
+    </SelectValue>
+    </SelectTrigger>
+    <SelectContent>
+    <SelectItem value="Bar Graph">Bar Graph</SelectItem>
+    <SelectItem value="Line Graph">Line Graph</SelectItem>
+    <SelectItem value="Pie Graph">Pie Graph</SelectItem>
+    <SelectItem value="Donut Graph">Donut Graph</SelectItem>
+    </SelectContent>
+    </Select>
+    </FormControl>
+    <FormMessage />
+    </FormItem>
       )}
     />
         <div className="flex mt-5">
