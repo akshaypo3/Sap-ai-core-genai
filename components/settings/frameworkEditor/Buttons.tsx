@@ -16,7 +16,7 @@ import { useState } from "react";
 import CreateFrameworkEditorForm from "./CreateFrameworkForm";
 import { deleteFramework } from "@/lib/settings/frameworkEditor/action";
 import Link from "next/link";
-import { Copy, Pencil, Trash2, TrashIcon, TrashIcon, Eye } from "lucide-react";
+import { Copy, Pencil, Trash2, TrashIcon, Eye } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
@@ -106,6 +106,8 @@ export function ViewFrameworkButton({ frameworkId }: { frameworkId: string }) {
         <Button className="bg-gray-100 hover:bg-gray-400 text-black"><Eye/></Button>
       </Link>
     </>
+  )
+}
 
 export function EditFrameworkEditorButton(frameworkData) {
   const [open, setOpen] = useState(false);
