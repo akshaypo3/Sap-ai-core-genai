@@ -235,13 +235,19 @@ export async function addValue(formData:FormData) {
   const supabase = createClient();
 
   const targetValue = parseFloat(formData.get("target_value") as string) || 0;
-  const baselineValue =
-    parseFloat(formData.get("baseline_value") as string) || 0;
+  const baselineValue = parseFloat(formData.get("baseline_value") as string) || 0;
   const currentValue = parseFloat(formData.get("current_value") as string) || 0;
   const comments = formData.get("comments");
   const status = formData.get("status");
   const unitOfMeasure = formData.get("unit_of_measure");
-  const goalId = formData.get("goalId")
+  const goalId = formData.get("goalId");
+  console.log(targetValue);
+  console.log(baselineValue);
+  console.log(currentValue);
+  console.log(status);
+  console.log(unitOfMeasure);
+  console.log(comments);
+  console.log("Goal id from action.ts ",goalId);
 
   const calculateProgress = (
     currentValue: number,

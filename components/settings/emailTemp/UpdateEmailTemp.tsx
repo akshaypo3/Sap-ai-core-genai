@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Breadcrumb, BreadcrumbItem } from '@/components/ui/breadcrumb';
 import { z } from 'zod';
 import { useTranslations } from "use-intl";
-import { useRouter } from "next/navigation";
-
 
 const emailTemplateSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -92,23 +90,28 @@ const UpdateEmailTemp: React.FC<UpdateEmailTempProps> = ({ id, template }) => {
     }
   };
 
+  const handleBack = () => {
+    window.history.back();
+  };
+
   if (!emailTemplate) {
     return <div>Loading...</div>;
   }
   const t = useTranslations('settings');
-  const router = useRouter();
 
   return (
     <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-6">
       <Breadcrumb className="flex items-center justify-between p-6 bg-gray-50 rounded-t">
         <BreadcrumbItem className="font-bold text-xl">{t('administration.E-Mail Template')}</BreadcrumbItem>
         <Button
-        onClick={() => router.back()}
-        className="px-4 py-2 bg-green-500"
+        onClick={handleBack}
+        className="bg-green-500"
       >
-        Back
+      Back
       </Button>
       </Breadcrumb>
+
+     
 
       <form className="space-y-6 m-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
