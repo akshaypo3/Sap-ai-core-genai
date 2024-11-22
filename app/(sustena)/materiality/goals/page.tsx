@@ -22,6 +22,7 @@ import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { getGoalById } from "@/lib/goals/data";
 
 export default async function Home() {
   const supabase = createClient();

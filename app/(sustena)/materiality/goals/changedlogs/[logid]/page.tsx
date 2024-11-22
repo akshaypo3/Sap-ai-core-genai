@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Slash } from "lucide-react";
 import { getActivityLogById } from "@/lib/goals/data";
 import { getTimeZone } from "@/lib/settings/timezone/data";
-import { getTranslations } from 'next-intl/server'; // Importing the next-intl hook
+import { getTranslations } from 'next-intl/server'; 
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 
@@ -24,7 +24,7 @@ export default async function ActivityPage({
 }: {
   params: { logid: string };
 }) {
-  const t = await getTranslations('materiality'); // Hook to access translations
+  const t = await getTranslations('materiality'); 
 
   const { logid: activityId } = params;
   const activity = await getActivityLogById(activityId);

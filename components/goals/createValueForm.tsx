@@ -1,9 +1,8 @@
-import { Label } from "@/components/ui/label";
-import { DialogClose } from "@/components/ui/dialog";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addValue } from "@/lib/goals/action";
-import { getGoalById } from "@/lib/goals/data";
 import {
   Select,
   SelectContent,
@@ -11,84 +10,172 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { createValueSchema } from "@/schemas/createValueSchema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-export default function CreateValueForm({ goalId }: { goalId: string }) {
-  //const goal = await getGoalById(goalId);
-  const goal =goalId;
-  const goalId1= goal.goal_id
+interface goalFormProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function CreateValueForm({
+  goalId,
+  open,
+  setOpen,
+}: {
+  goalId: string;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const goal = goalId;
+  const goalId1 = goal.goal_id;
+  console.log("", goalId1);
+
+  function closeDialog() {
+    setOpen(false);
+  }
+
+  const form = useForm({
+    resolver: zodResolver(createValueSchema),
+    defaultValues: {
+      target_value: goal.target_value,
+      baseline_value: goal.baseline_value,
+      current_value: goal.current_value,
+      unit_of_measure: goal.unit_of_measure,
+      comments: goal.comments,
+      status: goal.status ? "TRUE" : "FALSE", // Map status to TRUE or FALSE
+    },
+  });
+
+  const onSubmit = (data: any) => {
+    const formData = new FormData();
+    formData.append("goalId", goalId1?.toString());
+    formData.append("target_value", data.target_value.toString());
+    formData.append("baseline_value", data.baseline_value.toString());
+    formData.append("current_value", data.current_value.toString());
+    formData.append("unit_of_measure", data.unit_of_measure);
+    formData.append("comments", data.comments);
+    formData.append("status", data.status.toString());
+
+    console.log("FormData:", formData);
+
+    addValue(formData);
+    closeDialog();
+  };
 
   return (
-    <form action={addValue} className="p-4">
-      <div className="grid w-full items-center gap-1.5 mb-2">
-        <Input type="hidden" name="goalId" value ={goalId1} />
-        <Label htmlFor="target_value">Target Value</Label>
-        <Input
-          type="number"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+        <FormField
+          control={form.control}
           name="target_value"
-          placeholder="Target Value"
-          defaultValue={goal.target_value}
-          required
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Target Value</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Target Value" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
-        <Label htmlFor="baseline_value">Baseline Value</Label>
-        <Input
-          type="number"
+        <FormField
+          control={form.control}
           name="baseline_value"
-          placeholder="Baseline Value"
-          defaultValue={goal.baseline_value}
-          required
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Baseline Value</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Baseline Value" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
-        <Label htmlFor="current_value">Current Value</Label>
-        <Input
-          type="number"
+        <FormField
+          control={form.control}
           name="current_value"
-          placeholder="Current Value"
-          defaultValue={goal.current_value}
-          required
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Current Value</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Current Value" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
-        <div className="w-full">
-          <Label htmlFor="status">Status</Label>
-          <Select name="status" defaultValue={goal.status ? "TRUE" : "FALSE"}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="TRUE">Completed</SelectItem>
-              <SelectItem value="FALSE">In Progress</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TRUE">Completed</SelectItem>
+                    <SelectItem value="FALSE">In Progress</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Label htmlFor="unit_of_measure">Unit of Measure</Label>
-        <Input
-          type="text"
+        <FormField
+          control={form.control}
           name="unit_of_measure"
-          placeholder="Unit of Measure"
-          defaultValue={goal.unit_of_measure}
-          required
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Unit of Measure</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Unit of Measure"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
-        <Label htmlFor="comments">Comments</Label>
-        <Input
-          type="text"
+        <FormField
+          control={form.control}
           name="comments"
-          placeholder="Comments"
-          defaultValue={goal.comments}
-          required
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comments</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Comments" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
-        <div className="flex mt-5">
-          <div className="flex-auto">
-            <DialogClose asChild>
-              <Button className="w-full" type="submit">
-                Add Values
-              </Button>
-            </DialogClose>
-          </div>
-        </div>
-      </div>
-    </form>
+        <Button className="w-full mt-4" type="submit">
+          Add Values
+        </Button>
+      </form>
+    </Form>
   );
 }

@@ -90,6 +90,10 @@ const UpdateEmailTemp: React.FC<UpdateEmailTempProps> = ({ id, template }) => {
     }
   };
 
+  const handleBack = () => {
+    window.history.back();
+  };
+
   if (!emailTemplate) {
     return <div>Loading...</div>;
   }
@@ -99,7 +103,15 @@ const UpdateEmailTemp: React.FC<UpdateEmailTempProps> = ({ id, template }) => {
     <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-6">
       <Breadcrumb className="flex items-center justify-between p-6 bg-gray-50 rounded-t">
         <BreadcrumbItem className="font-bold text-xl">{t('administration.E-Mail Template')}</BreadcrumbItem>
+        <Button
+        onClick={handleBack}
+        className="bg-green-500"
+      >
+      Back
+      </Button>
       </Breadcrumb>
+
+     
 
       <form className="space-y-6 m-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from "use-intl";
+import { useRouter } from "next/navigation"; // Import useRouter hook
 
 const emailTemplateSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -55,56 +56,53 @@ const AddEmailTemplate = () => {
         data.replyTo
       );
 
-      setSuccess('');
-      setError('');
-      reset(); 
+      setSuccess(''); // Reset success message
+      setError(''); // Reset error message
+      reset(); // Reset the form
     } catch (err) {
       setError('Failed to save template');
     }
   };
+
   const t = useTranslations('settings');
+  const router = useRouter(); // Initialize the router
+
+  const handleBackClick = () => {
+    router.back(); // Navigate to the previous page
+  };
 
   return (
     <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-6">
       <Breadcrumb className="flex items-center justify-between p-6 bg-gray-50 rounded-t">
-        <BreadcrumbItem className="font-bold text-xl">{t('administration.E-Mail Template')} </BreadcrumbItem>
+        <BreadcrumbItem className="font-bold text-xl">{t('administration.E-Mail Template')}</BreadcrumbItem>
+        <Button className="bg-green-500" onClick={handleBackClick}>
+          Back
+        </Button>
       </Breadcrumb>
 
       <form className="space-y-6 m-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium"> {t('administration.Name')} </label>
-            <Input
-              {...register('name')}
-              className="p-3"
-            />
+            <label className="block text-sm font-medium">{t('administration.Name')}</label>
+            <Input {...register('name')} className="p-3" />
             {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
           </div>
 
           <div>
             <label className="block text-sm font-medium">{t('administration.Description')}</label>
-            <Input
-              {...register('description')}
-              className="p-3"
-            />
+            <Input {...register('description')} className="p-3" />
             {errors.description && <p className="text-red-600 text-sm">{errors.description.message}</p>}
           </div>
 
           <div>
             <label className="block text-sm font-medium">{t('administration.Template Key')}</label>
-            <Input
-              {...register('templateKey')}
-              className="p-3"
-            />
+            <Input {...register('templateKey')} className="p-3" />
             {errors.templateKey && <p className="text-red-600 text-sm">{errors.templateKey.message}</p>}
           </div>
 
           <div>
             <label className="block text-sm font-medium">{t('administration.Subject')}</label>
-            <Input
-              {...register('subject')}
-              className="p-3"
-            />
+            <Input {...register('subject')} className="p-3" />
             {errors.subject && <p className="text-red-600 text-sm">{errors.subject.message}</p>}
           </div>
         </div>
@@ -112,56 +110,38 @@ const AddEmailTemplate = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
           <div>
             <label className="block text-sm font-medium">{t('administration.Sender Name')}</label>
-            <Input
-              {...register('senderName')}
-              className="p-3"
-            />
+            <Input {...register('senderName')} className="p-3" />
             {errors.senderName && <p className="text-red-600 text-sm">{errors.senderName.message}</p>}
           </div>
 
           <div>
             <label className="block text-sm font-medium">{t('administration.Sender Email')}</label>
-            <Input
-              {...register('senderEmail')}
-              className="p-3"
-            />
+            <Input {...register('senderEmail')} className="p-3" />
             {errors.senderEmail && <p className="text-red-600 text-sm">{errors.senderEmail.message}</p>}
           </div>
 
           <div>
             <label className="block text-sm font-medium">{t('administration.Reply To')}</label>
-            <Input
-              {...register('replyTo')}
-              className="p-3"
-            />
+            <Input {...register('replyTo')} className="p-3" />
             {errors.replyTo && <p className="text-red-600 text-sm">{errors.replyTo.message}</p>}
           </div>
         </div>
 
         <div className="mt-6">
           <label className="block text-sm font-medium">{t('administration.Category')}</label>
-          <Input
-            {...register('category')}
-            className="p-3 w-1/2"
-          />
+          <Input {...register('category')} className="p-3 w-1/2" />
           {errors.category && <p className="text-red-600 text-sm">{errors.category.message}</p>}
         </div>
 
         <div className="mt-6">
           <label className="block text-sm font-medium">{t('administration.Body <HTML>')}</label>
-          <textarea
-            {...register('bodyHtml')}
-            className="p-3 border rounded-md w-full h-48"
-          />
+          <textarea {...register('bodyHtml')} className="p-3 border rounded-md w-full h-48" />
           {errors.bodyHtml && <p className="text-red-600 text-sm">{errors.bodyHtml.message}</p>}
         </div>
 
         <div className="mt-6">
           <label className="block text-sm font-medium">{t('administration.Body Plain text (fallback)')}</label>
-          <textarea
-            {...register('bodyText')}
-            className="p-3 border rounded-md w-full h-48"
-          />
+          <textarea {...register('bodyText')} className="p-3 border rounded-md w-full h-48" />
           {errors.bodyText && <p className="text-red-600 text-sm">{errors.bodyText.message}</p>}
         </div>
 

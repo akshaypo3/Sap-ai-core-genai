@@ -40,19 +40,22 @@ export function AddGoal() {
   );
 }
 
-export function AddValue({ goalId }:{ goalId:string}) {
+export function AddValue({ goalId }: { goalId: string }) {
   console.log(goalId);
+ 
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}> 
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">Add Value</Button>
+        <Button className="mb-3 bg-green-600">Add Value</Button> 
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>
           <DialogTitle>Add Value</DialogTitle>
           <DialogDescription>Add Goal Values</DialogDescription>
         </DialogHeader>
-        <CreateValueForm goalId={goalId} />
+        <CreateValueForm goalId={goalId} open={open} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
