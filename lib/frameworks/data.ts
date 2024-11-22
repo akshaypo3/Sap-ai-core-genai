@@ -13,3 +13,11 @@ export async function getCdpAssessments() {
 
   return assessments;
 }
+
+export async function getFEFramework() {
+  const supabase = createClient();
+  
+
+  const { data: frameworks } = await supabase.from("fe_frameworks").select().order("reporting_year", { ascending: true });;
+  return frameworks;
+}

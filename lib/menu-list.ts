@@ -18,7 +18,8 @@ import {
   BookText,
   Goal,
   SquareCheckBig,
-  CircleHelp 
+  CircleHelp,
+  FilePenLine 
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -182,6 +183,13 @@ export function getMenuList(pathname: string): Group[] {
           label: t("Administration"),
           active: pathname.includes("/settings/administration"),
           icon: Settings,
+          submenus: []
+        },
+        {
+          href: "/settings/frameworkEditor",
+          label: t("Framework Editor"),
+          active: pathname.includes("/settings/frameworkEditor"),
+          icon: FilePenLine ,
           submenus: []
         },
       ]
