@@ -6,10 +6,11 @@ import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-import { getFEFrameworkById } from "@/lib/settings/frameworkEditor/data";
+import { getFEFrameworkById, getParentSections } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 
 export default async function DetailFramework({
   params,
@@ -18,6 +19,8 @@ export default async function DetailFramework({
 }) {
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
+  const frame = await getParentSections();
+
 
   if (!framework) {
     return notFound();
@@ -140,7 +143,10 @@ export default async function DetailFramework({
                 <TabsTrigger value="settings">{t("frameworkEditor.Settings")}</TabsTrigger>
               </TabsList>
               <div className="bg-white p-5 border rounded">
-                <TabsContent value="sections"></TabsContent>
+                <TabsContent value="sections">
+                <AddSectionButton parentSections={""} frameworkId={frameworkId}/>
+                <EditSectionButton sectionData={frame}/>
+                </TabsContent>
                 <TabsContent value="questions"></TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
                 <TabsContent value="settings"></TabsContent>
