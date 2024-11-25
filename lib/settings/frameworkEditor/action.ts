@@ -95,3 +95,124 @@ console.log(formData.get("name"))
     redirect("/settings/frameworkEditor");
   }
 }
+
+export async function createSection(formData: FormData) {
+  const supabase = createClient();
+  const section_code = formData.get("section_code");
+  const name = formData.get("name");
+  const description = formData.get("description");
+  let parent_section_id = formData.get("parent_section_id");
+  const is_required = formData.get("is_required") === "true";
+  const framework_id = formData.get("framework_id");
+
+
+  const parentSectionValue = parent_section_id === '' ? null : parent_section_id;
+
+  const metadata = formData.get("metadata")
+    ? { additionalInfo: formData.get("metadata") }
+    : { additionalInfo: "" };
+
+  let newOrderIndex = 0;
+
+  try {
+    if (parentSectionValue) {
+      const { data: parentSections, error: parentError } = await supabase
+        .from("fe_sections")
+        .select("order_index")
+        .eq("parent_section_id", parentSectionValue)
+        .order("order_index", { ascending: false }) 
+        .limit(1);
+
+      if (parentError) {
+        console.error("Error fetching parent section order index:", parentError);
+      }
+
+      if (parentSections && parentSections.length > 0) {
+        newOrderIndex = parentSections[0].order_index + 1;
+      } else {
+        newOrderIndex = 1;
+      }
+    } else {
+      const { data: topLevelSections, error: topLevelError } = await supabase
+  .from("fe_sections")
+  .select("order_index")
+  .is("parent_section_id", null)  // Use .is() to check for NULL values
+  .order("order_index", { ascending: false })  // Get the section with the highest order_index
+  .limit(1);
+
+      if (topLevelError) {
+        console.error("Error fetching top-level section order index:", topLevelError);
+      }
+
+      if (topLevelSections && topLevelSections.length > 0) {
+        newOrderIndex = topLevelSections[0].order_index + 1;
+      } else {
+        newOrderIndex = 1;
+      }
+    }
+
+    const { data, error } = await supabase
+      .from("fe_sections")
+      .insert({
+        section_code: section_code,
+        name: name,
+        description: description,
+        parent_section_id: parentSectionValue,
+        is_required: is_required,
+        order_index: newOrderIndex, 
+        framework_id: framework_id,
+        metadata: metadata,
+      })
+      .select();
+
+    if (error) {
+      console.log("Error inserting section data into the table", error);
+    } else {
+      console.log("Section created successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while adding section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
+
+export async function updateSection(formData: FormData) {
+  const supabase = createClient();
+  const section_code = formData.get("section_code");
+  const name = formData.get("name");
+  const description = formData.get("description");
+  const is_required = formData.get("is_required") === "true";
+  const metadata = formData.get("metadata") || "";
+  const section_id = formData.get("id");
+  const framework_id = formData.get("framework_id");
+
+
+  const updatedMetadata = metadata ? { additionalInfo: metadata } : { additionalInfo: "" };
+
+  try {
+    const { data, error } = await supabase
+      .from("fe_sections")
+      .update({
+        section_code: section_code,
+        name: name,
+        description: description || "",
+        is_required: is_required,
+        metadata: updatedMetadata,
+      })
+      .eq("id", section_id)  // Update by section_id (ensure this is passed in the formData)
+      .select();
+
+    if (error) {
+      console.log("Error updating section data:", error);
+    } else {
+      console.log("Section updated successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while updating section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
