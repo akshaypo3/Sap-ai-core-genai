@@ -20,9 +20,30 @@ import { Copy, Pencil, Trash2, TrashIcon, Eye } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
+import CreateSectionEditorForm from "./CreateSectionForm";
+import { UUID } from "crypto";
+import EditSectionEditorForm from "./EditSectionForm";
 interface DuplicateFrameworkEditorButtonProps {
   userId: string;
-  frameworkData: any; // Define a more specific type if necessary
+  frameworkData: any;
+}
+
+interface AddSectionButtonProps {
+  parentSections: UUID;
+  frameworkId: string;        
+}
+
+interface EditSectionButtonProps {
+  sectionData: {
+    section_code: string;
+    name: string;
+    description: string;
+    is_required: boolean;
+    metadata: string;
+    parent_section_id: UUID | null;
+    framework_id: UUID;
+    id: UUID; 
+  };
 }
 
 export function AddFrameworkEditorButton({userId}:{userId:string}) {
@@ -156,6 +177,51 @@ export function DuplicateFrameworkEditorButton({ userId, frameworkData }: Duplic
           </DialogDescription>
         </DialogHeader>
         <DuplicateFrameworkEditorForm userId={userId} open={open} setOpen={setOpen} frameworkData={frameworkData}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function AddSectionButton({ parentSections, frameworkId }: AddSectionButtonProps) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+        <Button>Add Section</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Section</DialogTitle>
+          <DialogDescription>
+            Add Section Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <CreateSectionEditorForm open={open} setOpen={setOpen} parentSections={parentSections} frameworkId={frameworkId}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function EditSectionButton({ sectionData }: EditSectionButtonProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+        <Button>Edit Section</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Section</DialogTitle>
+          <DialogDescription>
+            Modify the details of the selected section
+          </DialogDescription>
+        </DialogHeader>
+        <EditSectionEditorForm 
+          open={open} 
+          setOpen={setOpen} 
+          sectionData={sectionData}
+        />
       </DialogContent>
     </Dialog>
   );
