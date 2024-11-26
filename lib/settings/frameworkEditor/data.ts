@@ -11,3 +11,24 @@ export async function getFEFrameworkById(frameworkId:string) {
 
     return frameworks;
   }
+
+  export async function getSectionsById(framework_id:any) {
+    const supabase = createClient();
+  
+    const { data: sections, error } = await supabase
+      .from("fe_sections")
+      .select(`
+        *,
+        fe_frameworks(name)  
+      `)
+      .eq("framework_id", framework_id)
+      .order("order_index", { ascending: true }); 
+  
+    if (error) {
+      console.error("Error fetching sections:", error);
+      return [];
+    }
+  
+    return sections;
+  }
+  
