@@ -124,7 +124,9 @@ export function ViewFrameworkButton({ frameworkId }: { frameworkId: string }) {
   return (
     <>
       <Link href={`/settings/frameworkEditor/${frameworkId}`}>
-        <Button className="bg-gray-100 hover:bg-gray-400 text-black"><Eye/></Button>
+        <Button className="px-2 h-7 bg-gray-200 hover:bg-gray-400 text-black">
+          <Eye className="w-4"/>
+        </Button>
       </Link>
     </>
   )

@@ -10,6 +10,8 @@ import { getFEFrameworkById, getParentSections } from "@/lib/settings/frameworkE
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { getSectionsById } from "@/lib/settings/frameworkEditor/data";
+import SectionTable from "@/components/table/fe_sectionsTable";
 import { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 
 export default async function DetailFramework({
@@ -46,6 +48,8 @@ export default async function DetailFramework({
     },
   ];
 
+  const sections = await getSectionsById(frameworkId)
+  
   return (
     <>
       <ContentLayout title={t("frameworkEditor.detailsMainTitle")}>
@@ -142,10 +146,17 @@ export default async function DetailFramework({
                 <TabsTrigger value="dependencies">{t("frameworkEditor.Dependencies")}</TabsTrigger>
                 <TabsTrigger value="settings">{t("frameworkEditor.Settings")}</TabsTrigger>
               </TabsList>
-              <div className="bg-white p-5 border rounded">
+              <div className="bg-white p-5 border rounded"> 
                 <TabsContent value="sections">
-                <AddSectionButton parentSections={""} frameworkId={frameworkId}/>
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+                  <h3 className="text-xl font-semibold">
+                    Sections
+                  </h3>
+                  <Button>Add Section</Button>
+                 <AddSectionButton parentSections={""} frameworkId={frameworkId}/>
                 <EditSectionButton sectionData={frame}/>
+                </div>
+                <SectionTable sections={sections}/>
                 </TabsContent>
                 <TabsContent value="questions"></TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
