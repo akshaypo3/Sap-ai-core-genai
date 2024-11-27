@@ -6,11 +6,13 @@ import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-import { getFEFrameworkById, getParentSections } from "@/lib/settings/frameworkEditor/data";
+import { getFEFrameworkById, getParentSections, getQuestion, getSections } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
-import { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
+import CreateQuestionPage, { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
+import CreateQuestionSectionPage from "@/components/settings/frameworkEditor/QuestionPage";
+import EditQuestionSectionPage from "@/components/settings/frameworkEditor/EditQuestionButton";
 
 export default async function DetailFramework({
   params,
@@ -20,7 +22,8 @@ export default async function DetailFramework({
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
   const frame = await getParentSections();
-
+  const sections = await getSections(frameworkId);
+  const question = await getQuestion();
 
   if (!framework) {
     return notFound();
@@ -68,7 +71,8 @@ export default async function DetailFramework({
               <Button className="w-full bg-green-600">{t("frameworkEditor.New Section")}</Button>
             </div>
             <div className="flex-1 rounded-md border p-7">
-              <Button className="w-full bg-green-600">{t("frameworkEditor.New Question")}</Button>
+              {/* <Button className="w-full bg-green-600">{t("frameworkEditor.New Question")}</Button> */}
+              <CreateQuestionSectionPage framework_id={frameworkId} sections={sections} />
             </div>
             <div className="flex-1 rounded-md border p-7">
               <Button className="w-full bg-green-600">{t("frameworkEditor.Create Assessment")}</Button>
@@ -147,7 +151,10 @@ export default async function DetailFramework({
                 <AddSectionButton parentSections={""} frameworkId={frameworkId}/>
                 <EditSectionButton sectionData={frame}/>
                 </TabsContent>
-                <TabsContent value="questions"></TabsContent>
+                <TabsContent value="questions">
+                <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} />
+                <EditQuestionSectionPage Questiondata={question}/>
+                </TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
                 <TabsContent value="settings"></TabsContent>
               </div>

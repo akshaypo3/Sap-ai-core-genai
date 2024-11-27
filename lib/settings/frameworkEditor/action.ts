@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { json } from "stream/consumers";
 
 export async function createFramework(formData: FormData) {
   const supabase = createClient();
@@ -211,6 +212,120 @@ export async function updateSection(formData: FormData) {
     }
   } catch (error) {
     console.error("Error while updating section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
+
+export async function createQuestion(formData: FormData) {
+  const supabase = createClient();
+  const section_code = formData.get("section_code");
+  const section_id = formData.get("section_id");
+  const question_text=formData.get("questionText");
+  const help_text=formData.get("helpText");
+  const question_type=formData.get("answerType");
+  const is_required=formData.get("isRequired");
+  const is_repeatable="false";
+  const answer_config=formData.get("answerOptions");
+  const min =formData.get("minLength");
+  const max =formData.get("maxLength");
+  const validation_rules=[{"min":min},{"max":max}]
+  const framework_id=formData.get("framework_id");
+  const answers=JSON.parse(answer_config);
+
+  let newOrderIndex = 0;
+
+  try {
+    if (section_id) {
+      const { data: parentSections, error: parentError } = await supabase
+        .from("fe_questions")
+        .select("order_index")
+        .eq("section_id", section_id)
+        .order("order_index", { ascending: false }) 
+        .limit(1);
+
+      if (parentError) {
+        console.error("Error fetching parent section order index:", parentError);
+      }
+
+      if (parentSections && parentSections.length > 0) {
+        newOrderIndex = parentSections[0].order_index + 1;
+      } else {
+        newOrderIndex = 1;
+      }
+    } else {
+      newOrderIndex = 1;
+    }
+
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .insert({
+        section_id:section_id,
+		question_code:section_code+"."+newOrderIndex,
+		question_text:question_text,
+		help_text:help_text,
+		question_type:question_type,
+		is_required:is_required,
+		is_repeatable:is_repeatable,
+		answer_config:answers,
+		validation_rules:validation_rules,
+        order_index: newOrderIndex, 
+        framework_id: framework_id
+      })
+      .select();
+
+    if (error) {
+      console.log("Error inserting questions data into the table", error);
+    } else {
+      console.log("questions created successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while adding section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
+
+export async function updateQuestion(formData: FormData) {
+  const supabase = createClient();
+  const question_text=formData.get("questionText");
+  const help_text=formData.get("helpText");
+  const question_type=formData.get("answerType");
+  const is_required=formData.get("isRequired");
+  const is_repeatable="false";
+  const answer_config=formData.get("answerOptions");
+  const min =formData.get("minLength");
+  const max =formData.get("maxLength");
+  const validation_rules=[{"min":min},{"max":max}]
+  const framework_id=formData.get("framework_id");
+  const id=formData.get("id");
+  const answers=JSON.parse(answer_config);
+
+
+  try {
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .update({
+        question_text: question_text,
+        help_text: help_text,
+        question_type: question_type,
+        is_required: is_required,
+        answer_config: answers,
+		validation_rules:validation_rules
+		
+      })
+      .eq("id", id) 
+      .select();
+
+    if (error) {
+      console.log("Error updating question data:", error);
+    } else {
+      console.log("Question updated successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while updating question:", error);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
     redirect(`/settings/frameworkEditor/${framework_id}`);

@@ -23,9 +23,16 @@ import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
 import CreateSectionEditorForm from "./CreateSectionForm";
 import { UUID } from "crypto";
 import EditSectionEditorForm from "./EditSectionForm";
+import { QuestionFormDialog } from "./CreateQuestionForm";
+import { QuestionFormSectionDialog } from "./CreateQuestionFormSectionArray";
 interface DuplicateFrameworkEditorButtonProps {
   userId: string;
   frameworkData: any;
+}
+interface CreateQuestionFormDialogProps {
+  framework_id: string;
+  section_id: string;
+  section_code: string;
 }
 
 interface AddSectionButtonProps {
@@ -224,3 +231,15 @@ export function EditSectionButton({ sectionData }: EditSectionButtonProps) {
     </Dialog>
   );
 }
+
+
+export default function CreateQuestionPage({ framework_id,section_id,section_code}: CreateQuestionFormDialogProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <QuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code}/>
+    </div>
+  );
+}
+
