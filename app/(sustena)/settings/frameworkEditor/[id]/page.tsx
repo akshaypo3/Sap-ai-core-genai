@@ -6,13 +6,13 @@ import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-import { getFEFrameworkById, getParentSections } from "@/lib/settings/frameworkEditor/data";
+import { getFEFrameworkById } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { getSectionsById } from "@/lib/settings/frameworkEditor/data";
 import SectionTable from "@/components/table/fe_sectionsTable";
-import { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
+import { CoreAddSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 
 export default async function DetailFramework({
   params,
@@ -21,8 +21,6 @@ export default async function DetailFramework({
 }) {
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
-  const frame = await getParentSections();
-
 
   if (!framework) {
     return notFound();
@@ -152,11 +150,9 @@ export default async function DetailFramework({
                   <h3 className="text-xl font-semibold">
                     Sections
                   </h3>
-                  <Button>Add Section</Button>
-                 <AddSectionButton parentSections={""} frameworkId={frameworkId}/>
-                <EditSectionButton sectionData={frame}/>
+                 <CoreAddSectionButton parentSections={""} frameworkId={frameworkId}/> 
                 </div>
-                <SectionTable sections={sections}/>
+                <SectionTable sections={sections} frameworkId={frameworkId}/>
                 </TabsContent>
                 <TabsContent value="questions"></TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
