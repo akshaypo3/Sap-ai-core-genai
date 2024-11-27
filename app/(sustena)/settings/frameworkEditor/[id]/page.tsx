@@ -10,6 +10,7 @@ import { getFEFrameworkById } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import QuestionList from "@/components/settings/frameworkEditor/QuestionList";
 
 export default async function DetailFramework({
   params,
@@ -141,7 +142,9 @@ export default async function DetailFramework({
               </TabsList>
               <div className="bg-white p-5 border rounded">
                 <TabsContent value="sections"></TabsContent>
-                <TabsContent value="questions"></TabsContent>
+                <TabsContent value="questions">
+                  <QuestionList frameworkId={frameworkId}/>
+                </TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
                 <TabsContent value="settings"></TabsContent>
               </div>

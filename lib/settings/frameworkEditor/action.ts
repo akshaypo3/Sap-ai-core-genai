@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { id } from "date-fns/locale";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -95,3 +96,92 @@ console.log(formData.get("name"))
     redirect("/settings/frameworkEditor");
   }
 }
+
+export async function createQuestion(formData: FormData) {
+  const supabase = createClient();
+
+  const assessment_id = formData.get("assessment_id");
+  const section_code = formData.get("section_code");
+  const question_code = formData.get("question_code");
+  const question_text = formData.get("question_text");
+  const question_type = formData.get("question_type");
+  const order_index = formData.get("order_index");
+  const original_question_id = formData.get("original_question_id");
+  const help_text = formData.get("help_text");
+  const is_required = formData.get("is_required") === "true"; 
+  const is_repeatable = formData.get("is_repeatable") === "true"; 
+
+  try {
+    const { data, error } = await supabase
+      .from("fe_assessment_questions")
+      .insert({
+        assessment_id,
+        section_code,
+        question_code,
+        question_text,
+        question_type,
+        order_index,
+        original_question_id,
+        help_text,
+        is_required,
+        is_repeatable,
+      })
+      .select();
+
+    if (error) {
+      console.error("Error inserting question into the table:", error);
+      return { success: false, error };
+    }
+
+    console.log("Question added successfully:", data);
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error while adding question:", error);
+    return { success: false, error };
+  }
+}
+
+
+export const deleteQuestion = async (questionId: string) => {
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase
+      .from("fe_questions")
+      .delete()
+      .eq("id", questionId);
+
+    if (error) {
+      console.error("Error deleting question:", error.message);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error("An error occurred while deleting the question:", err);
+    return { success: false, error: err.message };
+  }
+};
+
+export const duplicateQuestion = async (duplicatedQuestionData: any) => {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .insert([duplicatedQuestionData]);
+
+    if (error) {
+      console.error("Error duplicating question:", error.message);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data: data[0] };
+  } catch (err) {
+    console.error("An error occurred while duplicating the question:", err);
+    return { success: false, error: err.message };
+  }finally {
+    // revalidatePath(`/settings/frameworkEditor${id}`);
+    // redirect(`/settings/frameworkEditor${id}`);
+  }
+};
