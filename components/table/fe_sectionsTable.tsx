@@ -13,8 +13,9 @@ import { SectionActionMenu } from "../settings/frameworkEditor/FeSectionActionMe
 import SectionOverview from "../settings/frameworkEditor/SectionJump";
 import { Button } from "../ui/button";
 import React from "react";
+import { Input } from "../ui/input";
 
-const SectionTable = ({ sections }) => {
+const SectionTable = ({ sections, frameworkId }) => {
   const [data, setData] = useState(sections);
   const [filteredData, setFilteredData] = useState(sections);
   const [sortOrder, setSortOrder] = useState({
@@ -131,7 +132,7 @@ const SectionTable = ({ sections }) => {
       )}
 
       <div className="mb-4 flex items-center gap-4 mt-9">
-        <input
+        <Input
           type="text"
           placeholder="Search sections..."
           className="border p-2 w-1/3"
@@ -171,6 +172,9 @@ const SectionTable = ({ sections }) => {
               <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Sr No.
               </th>
+              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+                Section Code
+              </th>
               <th
                 className="bg-gray-100 dark:bg-neutral-800 p-3 text-center"
                 onClick={() => handleSort("name")}
@@ -198,13 +202,14 @@ const SectionTable = ({ sections }) => {
           </thead>
           <tbody>
             {filteredData
-              .filter((section: any) => {
-                const allIds = filteredData.map((item: any) => item.id);
-                return (
-                  section.parent_section_id === null ||
-                  !allIds.includes(section.parent_section_id)
-                );
-              })
+              // .filter((section: any) => {
+              //   const allIds = filteredData.map((item: any) => item.id);
+              //   return (
+              //     section.parent_section_id === null ||
+              //     !allIds.includes(section.parent_section_id)
+              //   );
+              // })
+              .filter((section: any) => section.parent_section_id === null)
               .map((section: any, sectionIndex: number) => {
                 const subsections = filteredData.filter(
                   (sub_section: any) =>
@@ -216,6 +221,9 @@ const SectionTable = ({ sections }) => {
                     <tr data-section-id={section.id}>
                       <td className="border p-3 text-center">
                         {sectionIndex + 1}
+                      </td>
+                      <td className="border p-3 text-center">
+                        {section.section_code}
                       </td>
                       <td className="border p-3 text-center">{section.name}</td>
                       <td className="border p-3 text-center">
@@ -237,19 +245,26 @@ const SectionTable = ({ sections }) => {
                       </td>
                       <td className="border p-3 text-center">
                         <div className="flex justify-center items-center space-x-2">
-                          <SectionActionMenu />
+                          <SectionActionMenu
+                            sectionData={section}
+                            frameworkId={frameworkId}
+                            parentSections={section.id}
+                          />
                         </div>
                       </td>
                     </tr>
 
                     {subsections.length > 0 && (
                       <tr>
-                        <td colSpan={6} className="border p-3">
+                        <td colSpan={7} className="border p-3">
                           <table className="min-w-full table-auto border-collapse border">
                             <thead>
                               <tr>
                                 <th className="bg-gray-100 dark:bg-neutral-700 p-3 text-center">
                                   Sr No.
+                                </th>
+                                <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+                                  Section Code
                                 </th>
                                 <th className="bg-gray-100 dark:bg-neutral-700 p-3 text-center">
                                   Sub Section
@@ -273,7 +288,6 @@ const SectionTable = ({ sections }) => {
                                       sub_sub.parent_section_id ===
                                       sub_section.id,
                                   );
-
                                   return (
                                     <React.Fragment key={sub_section.id}>
                                       <tr>
@@ -281,6 +295,9 @@ const SectionTable = ({ sections }) => {
                                           {`${sectionIndex + 1}.${
                                             subIndex + 1
                                           }`}
+                                        </td>
+                                        <td className="border p-3 text-center">
+                                          {sub_section.section_code}
                                         </td>
                                         <td className="border p-3 text-center">
                                           {sub_section.name}
@@ -303,7 +320,11 @@ const SectionTable = ({ sections }) => {
                                         </td>
                                         <td className="border p-3 text-center">
                                           <div className="flex justify-center items-center space-x-2">
-                                            <SectionActionMenu />
+                                            <SectionActionMenu
+                                              sectionData={sub_section}
+                                              frameworkId={frameworkId}
+                                              parentSections={sub_section.id}
+                                            />
                                           </div>
                                         </td>
                                       </tr>
@@ -311,7 +332,7 @@ const SectionTable = ({ sections }) => {
                                       {subSubsections.length > 0 && (
                                         <tr>
                                           <td
-                                            colSpan={5}
+                                            colSpan={7}
                                             className="border p-3"
                                           >
                                             <table className="min-w-full table-auto border-collapse border">
@@ -319,6 +340,9 @@ const SectionTable = ({ sections }) => {
                                                 <tr>
                                                   <th className="bg-gray-100 dark:bg-neutral-700 p-3 text-center">
                                                     Sr No.
+                                                  </th>
+                                                  <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+                                                    Section Code
                                                   </th>
                                                   <th className="bg-gray-100 dark:bg-neutral-700 p-3 text-center">
                                                     Sub-sub Section
@@ -347,6 +371,9 @@ const SectionTable = ({ sections }) => {
                                                         }.${subSubIndex + 1}`}
                                                       </td>
                                                       <td className="border p-3 text-center">
+                                                        {sub_sub.section_code}
+                                                      </td>
+                                                      <td className="border p-3 text-center">
                                                         {sub_sub.name}
                                                       </td>
                                                       <td className="border p-3 text-center">
@@ -367,7 +394,17 @@ const SectionTable = ({ sections }) => {
                                                       </td>
                                                       <td className="border p-3 text-center">
                                                         <div className="flex justify-center items-center space-x-2">
-                                                          <SectionActionMenu />
+                                                          <SectionActionMenu
+                                                            sectionData={
+                                                              sub_sub
+                                                            }
+                                                            frameworkId={
+                                                              frameworkId
+                                                            }
+                                                            parentSections={
+                                                              sub_section.id
+                                                            }
+                                                          />
                                                         </div>
                                                       </td>
                                                     </tr>

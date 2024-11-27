@@ -30,7 +30,9 @@ interface DuplicateFrameworkEditorButtonProps {
 
 interface AddSectionButtonProps {
   parentSections: UUID;
-  frameworkId: string;        
+  frameworkId: string;     
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;   
 }
 
 interface EditSectionButtonProps {
@@ -43,7 +45,9 @@ interface EditSectionButtonProps {
     parent_section_id: UUID | null;
     framework_id: UUID;
     id: UUID; 
-  };
+  },
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export function AddFrameworkEditorButton({userId}:{userId:string}) {
@@ -182,10 +186,54 @@ export function DuplicateFrameworkEditorButton({ userId, frameworkData }: Duplic
   );
 }
 
-export function AddSectionButton({ parentSections, frameworkId }: AddSectionButtonProps) {
+export function AddSectionButton({ parentSections, frameworkId, isOpen, setIsOpen }: AddSectionButtonProps) {
+  // const [open, setOpen] = useState(false);
+  return (
+    <Dialog  open={isOpen} onOpenChange={setIsOpen}>
+      {/* <DialogTrigger>
+        <Button>Add Section</Button>
+      </DialogTrigger> */}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Section</DialogTitle>
+          <DialogDescription>
+            Add Section Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <CreateSectionEditorForm open={isOpen} setOpen={setIsOpen} parentSections={parentSections} frameworkId={frameworkId}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function EditSectionButton({ sectionData, isOpen, setIsOpen }: EditSectionButtonProps) {
+ // const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+   {/* <DialogTrigger>
+        <Button>Edit Section</Button>
+      </DialogTrigger> */}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Section</DialogTitle>
+          <DialogDescription>
+            Modify the details of the selected section
+          </DialogDescription>
+        </DialogHeader>
+        <EditSectionEditorForm 
+         open={isOpen}
+         setOpen={setIsOpen}
+         sectionData={sectionData}
+        />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function CoreAddSectionButton({ parentSections, frameworkId}) {
   const [open, setOpen] = useState(false);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>Add Section</Button>
       </DialogTrigger>
@@ -197,31 +245,6 @@ export function AddSectionButton({ parentSections, frameworkId }: AddSectionButt
           </DialogDescription>
         </DialogHeader>
         <CreateSectionEditorForm open={open} setOpen={setOpen} parentSections={parentSections} frameworkId={frameworkId}/>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-export function EditSectionButton({ sectionData }: EditSectionButtonProps) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button>Edit Section</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit Section</DialogTitle>
-          <DialogDescription>
-            Modify the details of the selected section
-          </DialogDescription>
-        </DialogHeader>
-        <EditSectionEditorForm 
-          open={open} 
-          setOpen={setOpen} 
-          sectionData={sectionData}
-        />
       </DialogContent>
     </Dialog>
   );

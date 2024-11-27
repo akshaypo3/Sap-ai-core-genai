@@ -1,6 +1,5 @@
 "use client";
 
-import { useTransition } from "react";
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -10,10 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 import { Button } from "@/components/ui/button";
 
-export function SectionActionMenu({}) {
+export function SectionActionMenu({sectionData, frameworkId, parentSections}) {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
 
@@ -42,6 +41,10 @@ export function SectionActionMenu({}) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <AddSectionButton frameworkId={frameworkId} parentSections={parentSections} isOpen={showCreateDialog}
+        setIsOpen={setShowCreateDialog}/>
+      <EditSectionButton sectionData={sectionData} isOpen={showEditDialog}
+        setIsOpen={setShowEditDialog}/>
     </>
   );
 }
