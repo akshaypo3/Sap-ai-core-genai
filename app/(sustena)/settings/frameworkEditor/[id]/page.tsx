@@ -10,9 +10,7 @@ import { getFEFrameworkById } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
-import { getSectionsById } from "@/lib/settings/frameworkEditor/data";
-import SectionTable from "@/components/table/fe_sectionsTable";
-import { CoreAddSectionButton } from "@/components/settings/frameworkEditor/Buttons";
+import QuestionList from "@/components/settings/frameworkEditor/QuestionList";
 
 export default async function DetailFramework({
   params,
@@ -46,8 +44,6 @@ export default async function DetailFramework({
     },
   ];
 
-  const sections = await getSectionsById(frameworkId)
-  
   return (
     <>
       <ContentLayout title={t("frameworkEditor.detailsMainTitle")}>
@@ -144,17 +140,11 @@ export default async function DetailFramework({
                 <TabsTrigger value="dependencies">{t("frameworkEditor.Dependencies")}</TabsTrigger>
                 <TabsTrigger value="settings">{t("frameworkEditor.Settings")}</TabsTrigger>
               </TabsList>
-              <div className="bg-white p-5 border rounded"> 
-                <TabsContent value="sections">
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
-                  <h3 className="text-xl font-semibold">
-                    Sections
-                  </h3>
-                 <CoreAddSectionButton parentSections={""} frameworkId={frameworkId}/> 
-                </div>
-                <SectionTable sections={sections} frameworkId={frameworkId}/>
+              <div className="bg-white p-5 border rounded">
+                <TabsContent value="sections"></TabsContent>
+                <TabsContent value="questions">
+                  <QuestionList frameworkId={frameworkId}/>
                 </TabsContent>
-                <TabsContent value="questions"></TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
                 <TabsContent value="settings"></TabsContent>
               </div>
