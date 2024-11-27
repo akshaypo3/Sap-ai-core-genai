@@ -51,7 +51,7 @@ export default function UpdateFrameworkEditorForm({
   function closeDialoge() {
     wait().then(() => setOpen(false));
   }
-
+ 
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const form = useForm<z.infer<typeof frameworkEditorformSchema>>({
     resolver: zodResolver(frameworkEditorformSchema),
@@ -77,8 +77,8 @@ export default function UpdateFrameworkEditorForm({
     formData.append("status", data.status);
 
     await updateFramework(frameworkData.id,formData); // Function to handle updating framework data
-    closeDialoge();
     setIsSubmitting(false);
+    closeDialoge();
   };
 
   return (

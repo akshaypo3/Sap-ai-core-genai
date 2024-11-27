@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { ViewFrameworkButton } from "../settings/frameworkEditor/Buttons";
 import { DeleteFrameworkEditorButton, DuplicateFrameworkEditorButton, EditFrameworkEditorButton } from "../settings/frameworkEditor/Buttons";
+import { Input } from "../ui/input";
 
 const FETable = ({ frameworksData ,userId}) => {
   const [data, setData] = useState(frameworksData);
@@ -100,7 +101,7 @@ const FETable = ({ frameworksData ,userId}) => {
     <>
       <div className="mb-4 flex items-center gap-4">
         {/* Search bar on the left */}
-        <input
+        <Input
           type="text"
           placeholder="Search frameworks..."
           className="border p-2 w-1/3"
