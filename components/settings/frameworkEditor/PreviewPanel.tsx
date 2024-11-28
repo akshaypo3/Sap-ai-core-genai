@@ -5,6 +5,7 @@ const PreviewPanel = () => {
   const questionText = watch("questionText");
   const answerType = watch("answerType");
   const answerOptions = watch("answerOptions", []);
+  const answerOptionsTable = watch("answerOptionsTable", []);
   const minLength = watch("minLength");
   const helpText = watch("helpText");
   const maxLength = watch("maxLength");
@@ -12,6 +13,7 @@ const PreviewPanel = () => {
   console.log("isRequired value:", isRequired);
   
   const formattedAnswerOptions = Array.isArray(answerOptions) ? answerOptions : [];
+  const formattedAnswerOptionsTable = Array.isArray(answerOptionsTable) ? answerOptionsTable : [];
 
   console.log("Answer Options:", formattedAnswerOptions); // Debugging
 
@@ -27,6 +29,11 @@ const PreviewPanel = () => {
       {answerType === "MultipleChoice" && formattedAnswerOptions.length > 0 && (
         <div>
           <strong>Answer Options:</strong> {formattedAnswerOptions.join(", ")}
+        </div>
+      )}
+       {answerType === "Table" && formattedAnswerOptionsTable.length > 0 && (
+        <div>
+          <strong>Answer Options:</strong> {formattedAnswerOptionsTable.join(", ")}
         </div>
       )}
       {answerType === "Text" && (
