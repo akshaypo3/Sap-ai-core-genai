@@ -11,6 +11,11 @@ import { getFEFrameworkById, getParentSections, getQuestion, getSections } from 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { getSectionsById } from "@/lib/settings/frameworkEditor/data";
+import SectionTable from "@/components/table/fe_sectionsTable";
+import { CoreAddSectionButton } from "@/components/settings/frameworkEditor/Buttons";
+import AddQuestionColumns from "@/components/settings/frameworkEditor/AddQuestionColumn";
+import { getQuestionColumnById } from "@/lib/settings/frameworkEditor/data";
 import CreateQuestionPage, { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 import CreateQuestionSectionPage from "@/components/settings/frameworkEditor/QuestionPage";
 import EditQuestionSectionPage from "@/components/settings/frameworkEditor/EditQuestionButton";
@@ -54,6 +59,7 @@ export default async function DetailFramework({
     },
   ];
 
+  const sections = await getSectionsById(frameworkId)
   return (
     <>
       <ContentLayout title={t("frameworkEditor.detailsMainTitle")}>
