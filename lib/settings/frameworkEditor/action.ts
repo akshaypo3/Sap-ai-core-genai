@@ -1,13 +1,14 @@
 "use server";
-
+ 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
 import { json } from "stream/consumers";
 
 export async function createFramework(formData: FormData) {
   const supabase = createClient();
-
+ 
   const name = formData.get("name");
   const description = formData.get("description");
   const framework_type = formData.get("framework_type");
@@ -15,7 +16,7 @@ export async function createFramework(formData: FormData) {
   const reporting_year = formData.get("reporting_year");
   const status = formData.get("status");
   const userId = formData.get("userId")
-
+ 
   try {
     const { data, error } = await supabase
       .from("fe_frameworks")
@@ -29,7 +30,7 @@ export async function createFramework(formData: FormData) {
         created_by: userId
       })
       .select();
-
+ 
     if (error) {
       console.log("error inserting framework data in to the table", error);
     }
@@ -40,21 +41,21 @@ export async function createFramework(formData: FormData) {
     redirect("/settings/frameworkEditor");
   }
 }
-
+ 
 export async function deleteFramework(id: string) {
   const supabase = createClient();
-
+ 
   try {
     const { data, error } = await supabase
       .from("fe_frameworks")
       .delete()
       .eq("id", id)
       .select();
-
+ 
     if (data) {
       console.log("Deleted Framework", data);
     }
-
+ 
     if (error) {
       console.log("error deleting framework data from the table", error);
     }
@@ -65,7 +66,7 @@ export async function deleteFramework(id: string) {
     redirect("/settings/frameworkEditor");
   }
 }
-
+ 
 export async function updateFramework(id: string, formData: any) {
   const supabase = createClient();
   const { name, description, framework_type, version, reporting_year, status } =
@@ -84,7 +85,7 @@ console.log(formData.get("name"))
       })
       .eq("id", id)
       .single();
-
+ 
     if (error) {
       console.error("Error while updating framework:", error);
       return;
@@ -96,7 +97,7 @@ console.log(formData.get("name"))
     redirect("/settings/frameworkEditor");
   }
 }
-
+ 
 export async function createSection(formData: FormData) {
   const supabase = createClient();
   const section_code = formData.get("section_code");
@@ -105,29 +106,29 @@ export async function createSection(formData: FormData) {
   let parent_section_id = formData.get("parent_section_id");
   const is_required = formData.get("is_required") === "true";
   const framework_id = formData.get("framework_id");
-
-
+ 
+ 
   const parentSectionValue = parent_section_id === '' ? null : parent_section_id;
-
+ 
   const metadata = formData.get("metadata")
     ? { additionalInfo: formData.get("metadata") }
     : { additionalInfo: "" };
-
+ 
   let newOrderIndex = 0;
-
+ 
   try {
     if (parentSectionValue) {
       const { data: parentSections, error: parentError } = await supabase
         .from("fe_sections")
         .select("order_index")
         .eq("parent_section_id", parentSectionValue)
-        .order("order_index", { ascending: false }) 
+        .order("order_index", { ascending: false })
         .limit(1);
-
+ 
       if (parentError) {
         console.error("Error fetching parent section order index:", parentError);
       }
-
+ 
       if (parentSections && parentSections.length > 0) {
         newOrderIndex = parentSections[0].order_index + 1;
       } else {
@@ -140,18 +141,18 @@ export async function createSection(formData: FormData) {
   .is("parent_section_id", null)  // Use .is() to check for NULL values
   .order("order_index", { ascending: false })  // Get the section with the highest order_index
   .limit(1);
-
+ 
       if (topLevelError) {
         console.error("Error fetching top-level section order index:", topLevelError);
       }
-
+ 
       if (topLevelSections && topLevelSections.length > 0) {
         newOrderIndex = topLevelSections[0].order_index + 1;
       } else {
         newOrderIndex = 1;
       }
     }
-
+ 
     const { data, error } = await supabase
       .from("fe_sections")
       .insert({
@@ -160,12 +161,12 @@ export async function createSection(formData: FormData) {
         description: description,
         parent_section_id: parentSectionValue,
         is_required: is_required,
-        order_index: newOrderIndex, 
+        order_index: newOrderIndex,
         framework_id: framework_id,
         metadata: metadata,
       })
       .select();
-
+ 
     if (error) {
       console.log("Error inserting section data into the table", error);
     } else {
@@ -178,7 +179,7 @@ export async function createSection(formData: FormData) {
     redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
-
+ 
 export async function updateSection(formData: FormData) {
   const supabase = createClient();
   const section_code = formData.get("section_code");
@@ -188,10 +189,10 @@ export async function updateSection(formData: FormData) {
   const metadata = formData.get("metadata") || "";
   const section_id = formData.get("id");
   const framework_id = formData.get("framework_id");
-
-
+ 
+ 
   const updatedMetadata = metadata ? { additionalInfo: metadata } : { additionalInfo: "" };
-
+ 
   try {
     const { data, error } = await supabase
       .from("fe_sections")
@@ -204,7 +205,7 @@ export async function updateSection(formData: FormData) {
       })
       .eq("id", section_id)  // Update by section_id (ensure this is passed in the formData)
       .select();
-
+ 
     if (error) {
       console.log("Error updating section data:", error);
     } else {
@@ -217,6 +218,7 @@ export async function updateSection(formData: FormData) {
     redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
+
 
 export async function createQuestion(formData: FormData) {
   const supabase = createClient();
@@ -303,7 +305,6 @@ export async function updateQuestion(formData: FormData) {
   const id=formData.get("id");
   const answers=JSON.parse(answer_config);
 
-
   try {
     const { data, error } = await supabase
       .from("fe_questions")
@@ -331,3 +332,46 @@ export async function updateQuestion(formData: FormData) {
     redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
+export const deleteQuestion = async (questionId: string) => {
+  const supabase = createClient();
+ 
+  try {
+    const { error } = await supabase
+      .from("fe_questions")
+      .delete()
+      .eq("id", questionId);
+ 
+    if (error) {
+      console.error("Error deleting question:", error.message);
+      return { success: false, error: error.message };
+    }
+ 
+    return { success: true };
+  } catch (err) {
+    console.error("An error occurred while deleting the question:", err);
+    return { success: false, error: err.message };
+  }
+};
+ 
+export const duplicateQuestion = async (duplicatedQuestionData: any) => {
+  const supabase = createClient();
+ 
+  try {
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .insert([duplicatedQuestionData]);
+ 
+    if (error) {
+      console.error("Error duplicating question:", error.message);
+      return { success: false, error: error.message };
+    }
+ 
+    return { success: true, data: data[0] };
+  } catch (err) {
+    console.error("An error occurred while duplicating the question:", err);
+    return { success: false, error: err.message };
+  }finally {
+    revalidatePath(`/settings/frameworkEditor${id}`);
+    redirect(`/settings/frameworkEditor${id}`);
+  }
+};

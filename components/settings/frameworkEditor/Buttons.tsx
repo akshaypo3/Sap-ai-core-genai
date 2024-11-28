@@ -20,11 +20,16 @@ import { Copy, Pencil, Trash2, TrashIcon, Eye } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
+
+import AddQuestionsForm from "./AddQuestionsForm";
+
 import CreateSectionEditorForm from "./CreateSectionForm";
 import { UUID } from "crypto";
 import EditSectionEditorForm from "./EditSectionForm";
+
 import { QuestionFormDialog } from "./CreateQuestionForm";
 import { QuestionFormSectionDialog } from "./CreateQuestionFormSectionArray";
+
 interface DuplicateFrameworkEditorButtonProps {
   userId: string;
   frameworkData: any;
@@ -37,7 +42,9 @@ interface CreateQuestionFormDialogProps {
 
 interface AddSectionButtonProps {
   parentSections: UUID;
-  frameworkId: string;        
+  frameworkId: string;     
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;   
 }
 
 interface EditSectionButtonProps {
@@ -50,7 +57,9 @@ interface EditSectionButtonProps {
     parent_section_id: UUID | null;
     framework_id: UUID;
     id: UUID; 
-  };
+  },
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export function AddFrameworkEditorButton({userId}:{userId:string}) {
@@ -68,6 +77,25 @@ export function AddFrameworkEditorButton({userId}:{userId:string}) {
           </DialogDescription>
         </DialogHeader>
         <CreateFrameworkEditorForm userId={userId} open={open} setOpen={setOpen} />
+      </DialogContent>
+    </Dialog>
+  );
+}
+export function AddQuestion({ userId }: { userId: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>Add Questions</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Questions</DialogTitle>
+          <DialogDescription>
+            Add Questions Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <AddQuestionsForm userId={userId} open={open} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
@@ -131,7 +159,9 @@ export function ViewFrameworkButton({ frameworkId }: { frameworkId: string }) {
   return (
     <>
       <Link href={`/settings/frameworkEditor/${frameworkId}`}>
-        <Button className="bg-gray-100 hover:bg-gray-400 text-black"><Eye/></Button>
+        <Button className="px-2 h-7 bg-gray-200 hover:bg-gray-400 text-black">
+          <Eye className="w-4"/>
+        </Button>
       </Link>
     </>
   )
@@ -187,10 +217,66 @@ export function DuplicateFrameworkEditorButton({ userId, frameworkData }: Duplic
   );
 }
 
-export function AddSectionButton({ parentSections, frameworkId }: AddSectionButtonProps) {
+export function AddSectionButton({ parentSections, frameworkId, isOpen, setIsOpen }: AddSectionButtonProps) {
+  // const [open, setOpen] = useState(false);
+  return (
+    <Dialog  open={isOpen} onOpenChange={setIsOpen}>
+      {/* <DialogTrigger>
+        <Button>Add Section</Button>
+      </DialogTrigger> */}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Section</DialogTitle>
+          <DialogDescription>
+            Add Section Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <CreateSectionEditorForm open={isOpen} setOpen={setIsOpen} parentSections={parentSections} frameworkId={frameworkId}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function EditSectionButton({ sectionData, isOpen, setIsOpen }: EditSectionButtonProps) {
+ // const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+   {/* <DialogTrigger>
+        <Button>Edit Section</Button>
+      </DialogTrigger> */}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Section</DialogTitle>
+          <DialogDescription>
+            Modify the details of the selected section
+          </DialogDescription>
+        </DialogHeader>
+        <EditSectionEditorForm 
+         open={isOpen}
+         setOpen={setIsOpen}
+         sectionData={sectionData}
+        />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+
+
+export default function CreateQuestionPage({ framework_id,section_id,section_code}: CreateQuestionFormDialogProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <QuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code}/>
+    </div>
+  );
+}
+
+export function CoreAddSectionButton({ parentSections, frameworkId}) {
   const [open, setOpen] = useState(false);
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>Add Section</Button>
       </DialogTrigger>
@@ -204,42 +290,6 @@ export function AddSectionButton({ parentSections, frameworkId }: AddSectionButt
         <CreateSectionEditorForm open={open} setOpen={setOpen} parentSections={parentSections} frameworkId={frameworkId}/>
       </DialogContent>
     </Dialog>
-  );
-}
-
-export function EditSectionButton({ sectionData }: EditSectionButtonProps) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button>Edit Section</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Edit Section</DialogTitle>
-          <DialogDescription>
-            Modify the details of the selected section
-          </DialogDescription>
-        </DialogHeader>
-        <EditSectionEditorForm 
-          open={open} 
-          setOpen={setOpen} 
-          sectionData={sectionData}
-        />
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-
-export default function CreateQuestionPage({ framework_id,section_id,section_code}: CreateQuestionFormDialogProps) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-      <QuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code}/>
-    </div>
   );
 }
 
