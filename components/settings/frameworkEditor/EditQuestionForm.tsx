@@ -15,6 +15,7 @@ import QuestionStep from "./QuestionStep";
 import AnswerTypeStep from "./AnswerTypeStep";
 import PreviewPanel from "./PreviewPanel";
 import { updateQuestion } from "@/lib/settings/frameworkEditor/action";
+import { Pencil } from "lucide-react";
 
 interface QuestionFormDialogProps {
   open: boolean;
@@ -44,6 +45,7 @@ export function EditQuestionFormDialog({
   const steps = ["Question", "Answer Type", "Preview"];
 
   const onSubmit = async (data) => {
+    console.log("test");
     try {
       const updateData = {
         ...data,
@@ -118,7 +120,12 @@ export function EditQuestionFormDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Edit Question</Button>
+      <Button
+          type="button"
+          className="px-2 bg-green-600 h-9 hover:bg-green-900 rounded-md"
+        >
+          <Pencil className="w-4 text-white" />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

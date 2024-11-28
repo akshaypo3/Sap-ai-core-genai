@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 
-import { getFEFrameworkById, getParentSections, getQuestion, getSections } from "@/lib/settings/frameworkEditor/data";
+import { getFEFrameworkById, getQuestion, getSections } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
@@ -25,7 +25,7 @@ export default async function DetailFramework({
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
 
-  const frame = await getParentSections();
+  
   const sections = await getSections(frameworkId);
   const question = await getQuestion();
 
@@ -154,11 +154,11 @@ export default async function DetailFramework({
               <div className="bg-white p-5 border rounded">
                 <TabsContent value="sections"></TabsContent>
                 <TabsContent value="questions">
-                  <QuestionList frameworkId={frameworkId}/>
+                  <QuestionList frameworkId={frameworkId} sections={sections}/>
                 </TabsContent>
                 <TabsContent value="questions">
-                <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} />
-                <EditQuestionSectionPage Questiondata={question}/>
+                {/* <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} /> */}
+                {/* <EditQuestionSectionPage Questiondata={question}/> */}
                 </TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
                 <TabsContent value="settings"></TabsContent>

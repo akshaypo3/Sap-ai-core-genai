@@ -327,7 +327,8 @@ export async function updateQuestion(formData: FormData) {
     }
   } catch (error) {
     console.error("Error while updating question:", error);
-  } finally {
+  } 
+  finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
     redirect(`/settings/frameworkEditor/${framework_id}`);
   }
