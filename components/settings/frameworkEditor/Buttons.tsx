@@ -20,13 +20,24 @@ import { Copy, Pencil, Trash2, TrashIcon, Eye } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
+
+import AddQuestionsForm from "./AddQuestionsForm";
+
 import CreateSectionEditorForm from "./CreateSectionForm";
 import { UUID } from "crypto";
 import EditSectionEditorForm from "./EditSectionForm";
 import CreateQuestionColumns from "./CreateQuestionColumn";
+import { QuestionFormDialog } from "./CreateQuestionForm";
+import { QuestionFormSectionDialog } from "./CreateQuestionFormSectionArray";
+
 interface DuplicateFrameworkEditorButtonProps {
   userId: string;
   frameworkData: any;
+}
+interface CreateQuestionFormDialogProps {
+  framework_id: string;
+  section_id: string;
+  section_code: string;
 }
 
 interface AddSectionButtonProps {
@@ -66,6 +77,25 @@ export function AddFrameworkEditorButton({userId}:{userId:string}) {
           </DialogDescription>
         </DialogHeader>
         <CreateFrameworkEditorForm userId={userId} open={open} setOpen={setOpen} />
+      </DialogContent>
+    </Dialog>
+  );
+}
+export function AddQuestion({ userId }: { userId: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>Add Questions</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Questions</DialogTitle>
+          <DialogDescription>
+            Add Questions Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <AddQuestionsForm userId={userId} open={open} setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );
@@ -228,6 +258,18 @@ export function EditSectionButton({ sectionData, isOpen, setIsOpen }: EditSectio
         />
       </DialogContent>
     </Dialog>
+  );
+}
+
+
+
+export default function CreateQuestionPage({ framework_id,section_id,section_code}: CreateQuestionFormDialogProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <QuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code}/>
+    </div>
   );
 }
 
