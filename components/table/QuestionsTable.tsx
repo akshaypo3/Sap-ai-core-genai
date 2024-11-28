@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import { Trash2Icon, CopyIcon } from "lucide-react";
 import { deleteQuestion, duplicateQuestion } from "@/lib/settings/frameworkEditor/action";
+import EditQuestionSectionPage from "../settings/frameworkEditor/EditQuestionButton";
 
 const QuestionsTable = () => {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -50,9 +51,7 @@ const QuestionsTable = () => {
       try {
         const { data, error } = await supabase
           .from("fe_questions")
-          .select(
-            "id, question_code, question_text, question_type, help_text, order_index, section_id, section:section_id(name)"
-          );
+          .select("*,section:section_id(name)");
 
         if (error) {
           setError(error.message);
@@ -220,19 +219,19 @@ const QuestionsTable = () => {
         <Table className="border-collapse table-auto w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="border px-4 py-2 text-left bg-gray-100">
+              <TableHead className="border px-4 py-2 text-center bg-gray-100">
                 Question
               </TableHead>
-              <TableHead className="border px-4 py-2 text-left bg-gray-100">
+              <TableHead className="border px-4 py-2 text-center bg-gray-100">
                 Type
               </TableHead>
-              <TableHead className="border px-4 py-2 text-left bg-gray-100">
+              <TableHead className="border px-4 py-2 text-center bg-gray-100">
                 Question Code
               </TableHead>
-              <TableHead className="border px-4 py-2 text-left bg-gray-100">
+              <TableHead className="border px-4 py-2 text-center bg-gray-100">
                 Section Name
               </TableHead>
-              <TableHead className="border px-4 py-2 text-left bg-gray-100">
+              <TableHead className="border px-4 py-2 text-center bg-gray-100">
                 Actions
               </TableHead>
             </TableRow>
@@ -240,27 +239,30 @@ const QuestionsTable = () => {
           <TableBody>
             {filteredQuestions.map((question) => (
               <TableRow key={question.id}>
-                <TableCell className="border px-4 py-2">{question.question_text}</TableCell>
-                <TableCell className="border px-4 py-2">{question.question_type}</TableCell>
-                <TableCell className="border px-4 py-2">{question.question_code}</TableCell>
-                <TableCell className="border px-4 py-2">{question.section?.name}</TableCell>
-                <TableCell className="border px-4 py-2 space-x-2">
-                  <Button
-                    variant="outline"
-                    color="blue"
-                    onClick={() => handleDuplicate(question)}
-                    className="bg-green-500 text-white hover:bg-green-400 hover:opacity-80"
-                  >
-                    <CopyIcon className="h-4 w-4 text-white hover:text-white" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    color="red"
-                    onClick={() => handleDelete(question)}
-                    className="bg-red-500 text-white hover:bg-red-400 hover:opacity-80"
-                  >
-                    <Trash2Icon className="h-4 w-4 text-white hover:text-white" />
-                  </Button>
+                <TableCell className="border px-4 py-2 text-center">{question.question_text}</TableCell>
+                <TableCell className="border px-4 py-2 text-center">{question.question_type}</TableCell>
+                <TableCell className="border px-4 py-2 text-center">{question.question_code}</TableCell>
+                <TableCell className="border px-4 py-2 text-center">{question.section?.name}</TableCell>
+                <TableCell className="border px-4 py-2 text-center">
+                  <div className="flex items-center justify-center space-x-2">
+                    <Button
+                      variant="outline"
+                      color="blue"
+                      onClick={() => handleDuplicate(question)}
+                      className="px-2 bg-blue-600 h-9 hover:bg-blue-900 rounded-md"
+                    >
+                      <CopyIcon className="w-4 text-white" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      color="red"
+                      onClick={() => handleDelete(question)}
+                      className="px-2 bg-red-600 h-9 hover:bg-red-900 rounded-md"
+                    >
+                      <Trash2Icon className="w-4 text-white" />
+                    </Button>
+                    <EditQuestionSectionPage Questiondata={question} />
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -273,7 +275,7 @@ const QuestionsTable = () => {
             <h3 className="text-lg font-semibold">Are you sure you want to delete this question?</h3>
             <div className="mt-4 flex space-x-4">
               <div className="flex justify-end w-full space-x-4">
-                <Button onClick={handleCancelDelete} className="bg-gray-300">
+                <Button onClick={handleCancelDelete} className="bg-black text-white hover:bg-gray-700">
                   Cancel
                 </Button>
                 <Button onClick={handleConfirmDelete} className="bg-red-500 text-white">

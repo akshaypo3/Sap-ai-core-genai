@@ -29,6 +29,7 @@ export default async function DetailFramework({
 }) {
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
+
   const sections = await getSections(frameworkId);
   const question = await getQuestion();
 
@@ -168,11 +169,11 @@ export default async function DetailFramework({
                 </TabsContent>
                 <TabsContent value="questions">
                   <AddQuestionColumns columnData={columns}/>
-                  <QuestionList frameworkId={frameworkId}/>
+                   <QuestionList frameworkId={frameworkId} sections={sections}/>
                 </TabsContent>
                 <TabsContent value="questions">
-                <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} />
-                <EditQuestionSectionPage Questiondata={question}/>
+                {/* <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} /> */}
+                {/* <EditQuestionSectionPage Questiondata={question}/> */}
                 </TabsContent>
                 <TabsContent value="dependencies"></TabsContent>
                 <TabsContent value="settings"></TabsContent>
