@@ -2,9 +2,10 @@ import { z } from "zod";
 
 export const questionFormSecSchema = z.object({
   questionText: z.string().min(1, "Question text is required"),
-  answerType: z.enum(["Text", "MultipleChoice", "Checkbox"]),
+  answerType: z.enum(["Text", "MultipleChoice", "Checkbox", "Table"]),
   helpText: z.string().optional(), // Optional field for help text
   answerOptions: z.array(z.string()).optional(),
+  answerOptionsTable: z.array(z.string()).optional(),
   isRequired: z.boolean(),
   minLength: z.number().optional(),
   maxLength: z.number().optional(),

@@ -219,52 +219,6 @@ export async function updateSection(formData: FormData) {
   }
 }
 
-export async function addQuestionColumn(formData: FormData) {
-  const supabase = createClient();
-
-  const columnName = formData.get("name");
-  const questionId = formData.get("questionId");
-
-  if (!columnName || !questionId) {
-    console.error("Invalid form data: Missing name or questionId");
-    return;
-  }
-  
-  try {
-    const { data: currentData, error: fetchError } = await supabase
-      .from("fe_questions")
-      .select("qu_columns")
-      .eq("id", questionId)
-      .single();
-
-    if (fetchError) {
-      console.error("Error fetching current columns:", fetchError);
-      return;
-    }
-
-    const currentColumns = currentData?.qu_columns || [];
-
-    if (!currentColumns.includes(columnName)) {
-      currentColumns.push(columnName);
-    }
-
-    const { data, error: updateError } = await supabase
-    .from("fe_questions")
-    .update({ qu_columns: currentColumns })
-    .eq("id", questionId);
-
-    if (updateError) {
-      console.error("Error updating columns:", updateError);
-      return;
-    }
-  } catch (error) {
-    console.error("Error while adding column:", error);
-  } finally {
-    revalidatePath("/settings/frameworkEditor/807a68a7-3160-4b0b-871c-e8183daddf86");
-    redirect("/settings/frameworkEditor/807a68a7-3160-4b0b-871c-e8183daddf86");
-  }
-}
-
 export async function createQuestion(formData: FormData) {
   const supabase = createClient();
   const section_code = formData.get("section_code");
@@ -275,11 +229,13 @@ export async function createQuestion(formData: FormData) {
   const is_required=formData.get("isRequired");
   const is_repeatable="false";
   const answer_config=formData.get("answerOptions");
+  const answer_configTable=formData.get("answerOptionsTable");
   const min =formData.get("minLength");
   const max =formData.get("maxLength");
   const validation_rules=[{"min":min},{"max":max}]
   const framework_id=formData.get("framework_id");
   const answers=JSON.parse(answer_config);
+  const answersTable=JSON.parse(answer_configTable);
 
   let newOrderIndex = 0;
 
@@ -316,6 +272,7 @@ export async function createQuestion(formData: FormData) {
 		is_required:is_required,
 		is_repeatable:is_repeatable,
 		answer_config:answers,
+    qu_columns:answersTable,
 		validation_rules:validation_rules,
         order_index: newOrderIndex, 
         framework_id: framework_id
