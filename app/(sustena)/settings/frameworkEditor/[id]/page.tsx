@@ -11,6 +11,11 @@ import { getFEFrameworkById, getQuestion, getSections } from "@/lib/settings/fra
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { getSectionsById } from "@/lib/settings/frameworkEditor/data";
+import SectionTable from "@/components/table/fe_sectionsTable";
+import { CoreAddSectionButton } from "@/components/settings/frameworkEditor/Buttons";
+import AddQuestionColumns from "@/components/settings/frameworkEditor/AddQuestionColumn";
+import { getQuestionColumnById } from "@/lib/settings/frameworkEditor/data";
 import CreateQuestionPage, { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 import CreateQuestionSectionPage from "@/components/settings/frameworkEditor/QuestionPage";
 import EditQuestionSectionPage from "@/components/settings/frameworkEditor/EditQuestionButton";
@@ -25,7 +30,6 @@ export default async function DetailFramework({
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
 
-  
   const sections = await getSections(frameworkId);
   const question = await getQuestion();
 
@@ -54,6 +58,8 @@ export default async function DetailFramework({
     },
   ];
 
+  const sectionsById = await getSectionsById(frameworkId)
+  const columns = await getQuestionColumnById("10e6ef2c-8e42-4598-bc01-50e437a3194a")
   return (
     <>
       <ContentLayout title={t("frameworkEditor.detailsMainTitle")}>
@@ -152,9 +158,18 @@ export default async function DetailFramework({
                 <TabsTrigger value="settings">{t("frameworkEditor.Settings")}</TabsTrigger>
               </TabsList>
               <div className="bg-white p-5 border rounded">
-                <TabsContent value="sections"></TabsContent>
+                <TabsContent value="sections">
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+                  <h3 className="text-xl font-semibold">
+                    Sections
+                  </h3>
+                 <CoreAddSectionButton parentSections={""} frameworkId={frameworkId}/> 
+                </div>
+                <SectionTable sections={sectionsById} frameworkId={frameworkId}/>
+                </TabsContent>
                 <TabsContent value="questions">
-                  <QuestionList frameworkId={frameworkId} sections={sections}/>
+                  <AddQuestionColumns columnData={columns}/>
+                   <QuestionList frameworkId={frameworkId} sections={sections}/>
                 </TabsContent>
                 <TabsContent value="questions">
                 {/* <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} /> */}

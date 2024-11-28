@@ -219,6 +219,51 @@ export async function updateSection(formData: FormData) {
   }
 }
 
+export async function addQuestionColumn(formData: FormData) {
+  const supabase = createClient();
+
+  const columnName = formData.get("name");
+  const questionId = formData.get("questionId");
+
+  if (!columnName || !questionId) {
+    console.error("Invalid form data: Missing name or questionId");
+    return;
+  }
+  
+  try {
+    const { data: currentData, error: fetchError } = await supabase
+      .from("fe_questions")
+      .select("qu_columns")
+      .eq("id", questionId)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching current columns:", fetchError);
+      return;
+    }
+
+    const currentColumns = currentData?.qu_columns || [];
+
+    if (!currentColumns.includes(columnName)) {
+      currentColumns.push(columnName);
+    }
+
+    const { data, error: updateError } = await supabase
+    .from("fe_questions")
+    .update({ qu_columns: currentColumns })
+    .eq("id", questionId);
+
+    if (updateError) {
+      console.error("Error updating columns:", updateError);
+      return;
+    }
+  } catch (error) {
+    console.error("Error while adding column:", error);
+  } finally {
+    revalidatePath("/settings/frameworkEditor/807a68a7-3160-4b0b-871c-e8183daddf86");
+    redirect("/settings/frameworkEditor/807a68a7-3160-4b0b-871c-e8183daddf86");
+  }
+}
 
 export async function createQuestion(formData: FormData) {
   const supabase = createClient();

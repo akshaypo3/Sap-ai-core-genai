@@ -26,7 +26,7 @@ import AddQuestionsForm from "./AddQuestionsForm";
 import CreateSectionEditorForm from "./CreateSectionForm";
 import { UUID } from "crypto";
 import EditSectionEditorForm from "./EditSectionForm";
-
+import CreateQuestionColumns from "./CreateQuestionColumn";
 import { QuestionFormDialog } from "./CreateQuestionForm";
 import { QuestionFormSectionDialog } from "./CreateQuestionFormSectionArray";
 
@@ -293,3 +293,22 @@ export function CoreAddSectionButton({ parentSections, frameworkId}) {
   );
 }
 
+export function AddQuestionColumnButton() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+        <Button>Add Question Column</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Column</DialogTitle>
+          <DialogDescription>
+            Add Question Column Function Description
+          </DialogDescription>
+        </DialogHeader>
+       <CreateQuestionColumns open={open} setOpen={setOpen}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
