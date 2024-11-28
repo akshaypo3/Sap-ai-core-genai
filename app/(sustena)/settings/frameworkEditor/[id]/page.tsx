@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 
-import { getFEFrameworkById, getParentSections, getQuestion, getSections } from "@/lib/settings/frameworkEditor/data";
+import { getFEFrameworkById, getQuestion, getSections } from "@/lib/settings/frameworkEditor/data";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
@@ -29,8 +29,6 @@ export default async function DetailFramework({
 }) {
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
-
-  const frame = await getParentSections();
   const sections = await getSections(frameworkId);
   const question = await getQuestion();
 
@@ -59,7 +57,8 @@ export default async function DetailFramework({
     },
   ];
 
-  const sections = await getSectionsById(frameworkId)
+  const sectionsById = await getSectionsById(frameworkId)
+  const columns = await getQuestionColumnById("10e6ef2c-8e42-4598-bc01-50e437a3194a")
   return (
     <>
       <ContentLayout title={t("frameworkEditor.detailsMainTitle")}>
@@ -158,8 +157,17 @@ export default async function DetailFramework({
                 <TabsTrigger value="settings">{t("frameworkEditor.Settings")}</TabsTrigger>
               </TabsList>
               <div className="bg-white p-5 border rounded">
-                <TabsContent value="sections"></TabsContent>
+                <TabsContent value="sections">
+                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+                  <h3 className="text-xl font-semibold">
+                    Sections
+                  </h3>
+                 <CoreAddSectionButton parentSections={""} frameworkId={frameworkId}/> 
+                </div>
+                <SectionTable sections={sectionsById} frameworkId={frameworkId}/>
+                </TabsContent>
                 <TabsContent value="questions">
+                  <AddQuestionColumns columnData={columns}/>
                   <QuestionList frameworkId={frameworkId}/>
                 </TabsContent>
                 <TabsContent value="questions">
