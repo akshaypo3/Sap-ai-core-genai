@@ -3,7 +3,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
- 
+
+import { json } from "stream/consumers";
+
 export async function createFramework(formData: FormData) {
   const supabase = createClient();
  
@@ -220,83 +222,150 @@ export async function updateSection(formData: FormData) {
 
 export async function createQuestion(formData: FormData) {
   const supabase = createClient();
-
-  const assessment_id = formData.get("assessment_id");
   const section_code = formData.get("section_code");
-  const question_code = formData.get("question_code");
-  const question_text = formData.get("question_text");
-  const question_type = formData.get("question_type");
-  const order_index = formData.get("order_index");
-  const original_question_id = formData.get("original_question_id");
-  const help_text = formData.get("help_text");
-  const is_required = formData.get("is_required") === "true"; 
-  const is_repeatable = formData.get("is_repeatable") === "true"; 
+  const section_id = formData.get("section_id");
+  const question_text=formData.get("questionText");
+  const help_text=formData.get("helpText");
+  const question_type=formData.get("answerType");
+  const is_required=formData.get("isRequired");
+  const is_repeatable="false";
+  const answer_config=formData.get("answerOptions");
+  const min =formData.get("minLength");
+  const max =formData.get("maxLength");
+  const validation_rules=[{"min":min},{"max":max}]
+  const framework_id=formData.get("framework_id");
+  const answers=JSON.parse(answer_config);
+
+  let newOrderIndex = 0;
 
   try {
+    if (section_id) {
+      const { data: parentSections, error: parentError } = await supabase
+        .from("fe_questions")
+        .select("order_index")
+        .eq("section_id", section_id)
+        .order("order_index", { ascending: false }) 
+        .limit(1);
+
+      if (parentError) {
+        console.error("Error fetching parent section order index:", parentError);
+      }
+
+      if (parentSections && parentSections.length > 0) {
+        newOrderIndex = parentSections[0].order_index + 1;
+      } else {
+        newOrderIndex = 1;
+      }
+    } else {
+      newOrderIndex = 1;
+    }
+
     const { data, error } = await supabase
-      .from("fe_assessment_questions")
+      .from("fe_questions")
       .insert({
-        assessment_id,
-        section_code,
-        question_code,
-        question_text,
-        question_type,
-        order_index,
-        original_question_id,
-        help_text,
-        is_required,
-        is_repeatable,
+        section_id:section_id,
+		question_code:section_code+"."+newOrderIndex,
+		question_text:question_text,
+		help_text:help_text,
+		question_type:question_type,
+		is_required:is_required,
+		is_repeatable:is_repeatable,
+		answer_config:answers,
+		validation_rules:validation_rules,
+        order_index: newOrderIndex, 
+        framework_id: framework_id
       })
       .select();
 
     if (error) {
-      console.error("Error inserting question into the table:", error);
-      return { success: false, error };
+      console.log("Error inserting questions data into the table", error);
+    } else {
+      console.log("questions created successfully:", data);
     }
-
-    console.log("Question added successfully:", data);
-    return { success: true, data };
   } catch (error) {
-    console.error("Error while adding question:", error);
-    return { success: false, error };
+    console.error("Error while adding section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 
+export async function updateQuestion(formData: FormData) {
+  const supabase = createClient();
+  const question_text=formData.get("questionText");
+  const help_text=formData.get("helpText");
+  const question_type=formData.get("answerType");
+  const is_required=formData.get("isRequired");
+  const is_repeatable="false";
+  const answer_config=formData.get("answerOptions");
+  const min =formData.get("minLength");
+  const max =formData.get("maxLength");
+  const validation_rules=[{"min":min},{"max":max}]
+  const framework_id=formData.get("framework_id");
+  const id=formData.get("id");
+  const answers=JSON.parse(answer_config);
 
+  try {
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .update({
+        question_text: question_text,
+        help_text: help_text,
+        question_type: question_type,
+        is_required: is_required,
+        answer_config: answers,
+		validation_rules:validation_rules
+		
+      })
+      .eq("id", id) 
+      .select();
+
+    if (error) {
+      console.log("Error updating question data:", error);
+    } else {
+      console.log("Question updated successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while updating question:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
 export const deleteQuestion = async (questionId: string) => {
   const supabase = createClient();
-
+ 
   try {
     const { error } = await supabase
       .from("fe_questions")
       .delete()
       .eq("id", questionId);
-
+ 
     if (error) {
       console.error("Error deleting question:", error.message);
       return { success: false, error: error.message };
     }
-
+ 
     return { success: true };
   } catch (err) {
     console.error("An error occurred while deleting the question:", err);
     return { success: false, error: err.message };
   }
 };
-
+ 
 export const duplicateQuestion = async (duplicatedQuestionData: any) => {
   const supabase = createClient();
-
+ 
   try {
     const { data, error } = await supabase
       .from("fe_questions")
       .insert([duplicatedQuestionData]);
-
+ 
     if (error) {
       console.error("Error duplicating question:", error.message);
       return { success: false, error: error.message };
     }
-
+ 
     return { success: true, data: data[0] };
   } catch (err) {
     console.error("An error occurred while duplicating the question:", err);
