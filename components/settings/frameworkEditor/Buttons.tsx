@@ -297,10 +297,8 @@ export function CoreAddSectionButton({ parentSections, frameworkId}) {
   );
 }
 
-
 export function DuplicateQuestion({ questionData, sections }: DuplicateQuestionButtonProps) {
   const [open, setOpen] = useState(false);
-  console.log("1",sections);
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>

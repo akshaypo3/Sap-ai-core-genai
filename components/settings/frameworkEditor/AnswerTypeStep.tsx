@@ -13,6 +13,12 @@ const AnswerTypeStep = () => {
     setValue("answerOptions", optionsArray);
   };
 
+  const handleAnswerOptionsChangeTable = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const optionsArray = value.split(",").map((option) => option.trim());
+    setValue("answerOptionsTable", optionsArray);
+  };
+
   return (
     <div className="space-y-4">
       {answerType === "MultipleChoice" && (
@@ -60,6 +66,21 @@ const AnswerTypeStep = () => {
             <p className="text-red-500 text-xs">{formState.errors.maxLength.message}</p>
           )}
         </div>
+      )}
+
+      {answerType === "Table" && (
+         <div>
+         <label className="block text-sm font-medium">Answer Options</label>
+         <Textarea
+           onChange={handleAnswerOptionsChangeTable}
+           placeholder="e.g., Column 1, Column 2"
+           rows={3}
+           value={watch("answerOptionsTable")?.join(", ")}
+         />
+         {formState.errors.answerOptions && (
+           <p className="text-red-500 text-xs">{formState.errors.answerOptions.message}</p>
+         )}
+       </div>
       )}
 
       <div>

@@ -219,7 +219,6 @@ export async function updateSection(formData: FormData) {
   }
 }
 
-
 export async function createQuestion(formData: FormData) {
   const supabase = createClient();
   const section_code = formData.get("section_code");
@@ -230,11 +229,13 @@ export async function createQuestion(formData: FormData) {
   const is_required=formData.get("isRequired");
   const is_repeatable="false";
   const answer_config=formData.get("answerOptions");
+  const answer_configTable=formData.get("answerOptionsTable");
   const min =formData.get("minLength");
   const max =formData.get("maxLength");
   const validation_rules=[{"min":min},{"max":max}]
   const framework_id=formData.get("framework_id");
   const answers=JSON.parse(answer_config);
+  const answersTable=JSON.parse(answer_configTable);
 
   let newOrderIndex = 0;
 
@@ -271,6 +272,7 @@ export async function createQuestion(formData: FormData) {
 		is_required:is_required,
 		is_repeatable:is_repeatable,
 		answer_config:answers,
+    qu_columns:answersTable,
 		validation_rules:validation_rules,
         order_index: newOrderIndex, 
         framework_id: framework_id

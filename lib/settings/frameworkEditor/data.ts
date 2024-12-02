@@ -49,7 +49,6 @@ export async function getFEFrameworkById(frameworkId:string) {
   
     return sections;
   }
-
   
   export async function getSections(frameworkId: string) {
     const supabase = createClient();
