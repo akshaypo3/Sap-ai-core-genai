@@ -378,3 +378,95 @@ export const duplicateQuestion = async (duplicatedQuestionData: any) => {
     redirect(`/settings/frameworkEditor${id}`);
   }
 };
+
+export const fetchQuestions = async () => {
+  const supabase = createClient();
+  
+  try {
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .select("*,section:section_id(name)");
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data; // Return the fetched data
+  } catch (err) {
+    throw new Error("An error occurred while fetching the data.");
+  }
+};
+
+export async function DuplicateQuestion(formData: FormData) {
+  const supabase = createClient();
+  const section_code = formData.get("section_code");
+  const section_id = formData.get("section_id");
+  const question_text=formData.get("question_text");
+  const help_text=formData.get("help_text");
+  const question_type=formData.get("question_type");
+  const is_required=formData.get("is_required");
+  const is_repeatable="false";
+  const answer_config=formData.get("answer_config");
+  const validation_rules1=formData.get("validation_rules");
+  const framework_id=formData.get("framework_id");
+  const minLength = String(validation_rules1[0]?.min || 0);
+  const maxLength = String(validation_rules1[1]?.max || 100);
+  const validation_rules=[{"min":minLength},{"max":maxLength}]
+  const answers=JSON.parse(answer_config);
+  const qu_columns1=formData.get("qu_columns");
+  const qu_columns=[qu_columns1]
+
+  let newOrderIndex = 0;
+
+  try {
+    if (section_id) {
+      const { data: parentSections, error: parentError } = await supabase
+        .from("fe_questions")
+        .select("order_index")
+        .eq("section_id", section_id)
+        .order("order_index", { ascending: false }) 
+        .limit(1);
+
+      if (parentError) {
+        console.error("Error fetching parent section order index:", parentError);
+      }
+
+      if (parentSections && parentSections.length > 0) {
+        newOrderIndex = parentSections[0].order_index + 1;
+      } else {
+        newOrderIndex = 1;
+      }
+    } else {
+      newOrderIndex = 1;
+    }
+
+    const { data, error } = await supabase
+      .from("fe_questions")
+      .insert({
+        section_id:section_id,
+		question_code:section_code+"."+newOrderIndex,
+		question_text:question_text,
+		help_text:help_text,
+		question_type:question_type,
+		is_required:is_required,
+		is_repeatable:is_repeatable,
+		answer_config:answers,
+		validation_rules:validation_rules,
+        order_index: newOrderIndex, 
+        framework_id: framework_id,
+        qu_columns:qu_columns
+      })
+      .select();
+
+    if (error) {
+      console.log("Error inserting questions data into the table", error);
+    } else {
+      console.log("questions created successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while adding section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}

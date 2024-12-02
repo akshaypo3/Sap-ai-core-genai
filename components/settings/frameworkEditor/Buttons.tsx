@@ -16,7 +16,7 @@ import { useState } from "react";
 import CreateFrameworkEditorForm from "./CreateFrameworkForm";
 import { deleteFramework } from "@/lib/settings/frameworkEditor/action";
 import Link from "next/link";
-import { Copy, Pencil, Trash2, TrashIcon, Eye } from "lucide-react";
+import { Copy, Pencil, Trash2, TrashIcon, Eye, CopyIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
@@ -28,6 +28,7 @@ import { UUID } from "crypto";
 import EditSectionEditorForm from "./EditSectionForm";
 import { QuestionFormDialog } from "./CreateQuestionForm";
 import { QuestionFormSectionDialog } from "./CreateQuestionFormSectionArray";
+import DuplicateQuestionForm from "./DuplicateQuestionForm";
 
 interface DuplicateFrameworkEditorButtonProps {
   userId: string;
@@ -37,6 +38,10 @@ interface CreateQuestionFormDialogProps {
   framework_id: string;
   section_id: string;
   section_code: string;
+}
+interface DuplicateQuestionButtonProps {
+  questionData: any;
+  sections: any;
 }
 
 interface AddSectionButtonProps {
@@ -287,6 +292,32 @@ export function CoreAddSectionButton({ parentSections, frameworkId}) {
           </DialogDescription>
         </DialogHeader>
         <CreateSectionEditorForm open={open} setOpen={setOpen} parentSections={parentSections} frameworkId={frameworkId}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function DuplicateQuestion({ questionData, sections }: DuplicateQuestionButtonProps) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog  open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+       <Button
+        variant="outline"
+        color="blue"
+        className="px-2 bg-blue-600 h-9 hover:bg-blue-900 rounded-md"
+        >
+        <CopyIcon className="w-4 text-white" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Question</DialogTitle>
+          <DialogDescription>
+            Add Question Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <DuplicateQuestionForm open={open} setOpen={setOpen} questionData={questionData} sections={sections}/>
       </DialogContent>
     </Dialog>
   );
