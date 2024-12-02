@@ -50,22 +50,6 @@ export async function getFEFrameworkById(frameworkId:string) {
     return sections;
   }
 
-export async function getQuestionColumnById(questionId:any) {
-  const supabase = createClient();
-
-  const { data: columns, error } = await supabase
-    .from("fe_questions")
-    .select("qu_columns, question_text")
-    .eq("id", questionId)
-    .single()
-
-  if (error) {
-    console.error("Error fetching columns:", error);
-    return [];
-  }
-
-  return columns;
-}
   
   export async function getSections(frameworkId: string) {
     const supabase = createClient();

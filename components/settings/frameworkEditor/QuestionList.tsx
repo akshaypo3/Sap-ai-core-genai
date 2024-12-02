@@ -23,7 +23,7 @@ const QuestionList: React.FC<QuestionListProps> = ({ frameworkId ,sections}) => 
         <CreateQuestionSectionPage framework_id={frameworkId} sections={sections} />
       </div>
       <div className="min-w-full pt-2 table-auto border-collapse">
-        <QuestionsTable frameworkId={frameworkId} /> 
+        <QuestionsTable frameworkId={frameworkId} sections={sections}/> 
       </div>
     </>
   );

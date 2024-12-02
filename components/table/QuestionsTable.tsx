@@ -21,10 +21,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import { Trash2Icon, CopyIcon } from "lucide-react";
-import { deleteQuestion, duplicateQuestion } from "@/lib/settings/frameworkEditor/action";
+import { deleteQuestion, duplicateQuestion, fetchQuestions } from "@/lib/settings/frameworkEditor/action";
 import EditQuestionSectionPage from "../settings/frameworkEditor/EditQuestionButton";
+import { DuplicateQuestion } from "../settings/frameworkEditor/Buttons";
 
-const QuestionsTable = () => {
+interface CreateQuestionTableFormDialogProps {
+  framework_id: string;
+  sections:any;
+}
+
+const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogProps) => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -43,27 +49,20 @@ const QuestionsTable = () => {
     help_text: "",
     order_index: 1,
   });
-
+console.log("2",sections);
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const supabase = createClient();
-
+   
+    const loadQuestions = async () => {
       try {
-        const { data, error } = await supabase
-          .from("fe_questions")
-          .select("*,section:section_id(name)");
-
-        if (error) {
-          setError(error.message);
-        } else {
-          setQuestions(data);
-          setFilteredQuestions(data);
-        }
+        const data = await fetchQuestions();
+        setQuestions(data);
       } catch (err) {
-        setError("An error occurred while fetching the data.");
+        setError(err.message);
       }
     };
-    fetchQuestions();
+
+    loadQuestions();
+
   }, []);
 
   useEffect(() => {
@@ -245,14 +244,15 @@ const QuestionsTable = () => {
                 <TableCell className="border px-4 py-2 text-center">{question.section?.name}</TableCell>
                 <TableCell className="border px-4 py-2 text-center">
                   <div className="flex items-center justify-center space-x-2">
-                    <Button
+                    {/* <Button
                       variant="outline"
                       color="blue"
                       onClick={() => handleDuplicate(question)}
                       className="px-2 bg-blue-600 h-9 hover:bg-blue-900 rounded-md"
                     >
                       <CopyIcon className="w-4 text-white" />
-                    </Button>
+                    </Button> */}
+                    <DuplicateQuestion questionData={question} sections={sections}/>
                     <Button
                       variant="outline"
                       color="red"
@@ -261,6 +261,7 @@ const QuestionsTable = () => {
                     >
                       <Trash2Icon className="w-4 text-white" />
                     </Button>
+
                     <EditQuestionSectionPage Questiondata={question} />
                   </div>
                 </TableCell>

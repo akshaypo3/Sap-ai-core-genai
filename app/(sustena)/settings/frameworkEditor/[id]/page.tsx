@@ -14,8 +14,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { getSectionsById } from "@/lib/settings/frameworkEditor/data";
 import SectionTable from "@/components/table/fe_sectionsTable";
 import { CoreAddSectionButton } from "@/components/settings/frameworkEditor/Buttons";
-import AddQuestionColumns from "@/components/settings/frameworkEditor/AddQuestionColumn";
-import { getQuestionColumnById } from "@/lib/settings/frameworkEditor/data";
 import CreateQuestionPage, { AddSectionButton, EditSectionButton } from "@/components/settings/frameworkEditor/Buttons";
 import CreateQuestionSectionPage from "@/components/settings/frameworkEditor/QuestionPage";
 import EditQuestionSectionPage from "@/components/settings/frameworkEditor/EditQuestionButton";
@@ -29,7 +27,6 @@ export default async function DetailFramework({
 }) {
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
-
   const sections = await getSections(frameworkId);
   const question = await getQuestion();
 
@@ -59,7 +56,6 @@ export default async function DetailFramework({
   ];
 
   const sectionsById = await getSectionsById(frameworkId)
-  const columns = await getQuestionColumnById("10e6ef2c-8e42-4598-bc01-50e437a3194a")
   return (
     <>
       <ContentLayout title={t("frameworkEditor.detailsMainTitle")}>
@@ -168,8 +164,7 @@ export default async function DetailFramework({
                 <SectionTable sections={sectionsById} frameworkId={frameworkId}/>
                 </TabsContent>
                 <TabsContent value="questions">
-                  <AddQuestionColumns columnData={columns}/>
-                   <QuestionList frameworkId={frameworkId} sections={sections}/>
+                  <QuestionList frameworkId={frameworkId} sections={sections}/>
                 </TabsContent>
                 <TabsContent value="questions">
                 {/* <CreateQuestionPage framework_id={frameworkId} section_id={"f140217f-8bb4-424e-81dd-3e72a1305543"} section_code={"T.1.1.1"} /> */}
