@@ -56,7 +56,6 @@ export function QuestionFormSectionDialog({
 
   const CreateQuestion = async (data) => {
     try {
-      console.log("Created question:", data);
       await createQuestion(data);
       setOpen(false); // Close the dialog after creating the question
     } catch (error) {

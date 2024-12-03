@@ -223,7 +223,6 @@ const Frameworks = () => {
   // };
 
   const handleEdit = (item) => {
-    console.log("itemID", item.id);
     setFormData({
       id: item.id,
       title: item.frameworkTitle,

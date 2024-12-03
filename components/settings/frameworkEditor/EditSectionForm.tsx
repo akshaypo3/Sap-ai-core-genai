@@ -42,7 +42,6 @@ export default function EditSectionEditorForm({
   sectionData,
 }: SectionFormProps) {
   const [loading, setLoading] = React.useState(false);
-  console.log(sectionData?.is_required);
   const form = useForm<z.infer<typeof sectionEditorFormSchema>>({
     resolver: zodResolver(sectionEditorFormSchema),
     defaultValues: {

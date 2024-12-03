@@ -33,7 +33,7 @@ export default function DuplicateQuestionForm({
   const [loading, setLoading] = React.useState(false);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);  // Ensure null as the initial state for selected section
   const [openPopover, setOpenPopover] = useState(false);
-console.log("test",sections);
+
   const form = useForm({
     defaultValues: {
       section: {

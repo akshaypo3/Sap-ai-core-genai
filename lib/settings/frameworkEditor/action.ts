@@ -379,13 +379,14 @@ export const duplicateQuestion = async (duplicatedQuestionData: any) => {
   }
 };
 
-export const fetchQuestions = async () => {
+export const fetchQuestions = async (framework_id:string) => {
   const supabase = createClient();
   
   try {
     const { data, error } = await supabase
       .from("fe_questions")
-      .select("*,section:section_id(name)");
+      .select("*,section:section_id(name)")
+      .eq("framework_id", framework_id);
 
     if (error) {
       throw new Error(error.message);

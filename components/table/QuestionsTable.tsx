@@ -49,12 +49,11 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
     help_text: "",
     order_index: 1,
   });
-console.log("2",sections);
   useEffect(() => {
    
     const loadQuestions = async () => {
       try {
-        const data = await fetchQuestions();
+        const data = await fetchQuestions(framework_id);
         setQuestions(data);
       } catch (err) {
         setError(err.message);
