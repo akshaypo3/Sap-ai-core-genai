@@ -493,6 +493,11 @@
         "reporting": "Reporting",
         "internal": "External"
       }
+    },
+    "fe_assessments":{
+      "assessments":"Assessments",
+      "home":"Home",
+      "frameworks":"Frameworks"
     }
   },
   "settings": {
