@@ -21,3 +21,12 @@ export async function getFEFramework() {
   const { data: frameworks } = await supabase.from("fe_frameworks").select().order("reporting_year", { ascending: true });;
   return frameworks;
 }
+
+export async function getActiveAssessmentsById(frameworkId:string) {
+  const supabase = createClient();
+  const { data: assessments } = await supabase.from("fe_assessments")
+  .select()
+  .eq("framework_id", frameworkId)
+
+  return assessments;
+}

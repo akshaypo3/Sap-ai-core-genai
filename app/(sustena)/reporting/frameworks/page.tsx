@@ -35,6 +35,8 @@ import FrameworkCards from "@/components/reporting/frameworks/FrameworkCards";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import ActiveFramewrokCards from "@/components/reporting/fe_frameworks/ActiveFrameCards";
+import { getFEFramework } from "@/lib/frameworks/data";
 
 export default async function Home() {
   const supabase = createClient();
@@ -51,6 +53,10 @@ export default async function Home() {
   const breadcrumbs = [
     { href: "/dashboard/", text: t("frameworks.Home") }
   ];
+
+  const frameworks = await getFEFramework()
+  const activeFrameworks = frameworks?.filter((framework) => framework.status === "active")
+  
   return (
     <>
       <ContentLayout title={t("frameworks.title")}>
@@ -62,6 +68,7 @@ export default async function Home() {
         </div> */}
       </div>
         <FrameworkCards/>
+        <ActiveFramewrokCards activeFrameworks={activeFrameworks}/>
     </ContentLayout>
     </>
   );
