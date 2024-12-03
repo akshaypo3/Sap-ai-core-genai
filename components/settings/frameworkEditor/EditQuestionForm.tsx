@@ -45,7 +45,7 @@ export function EditQuestionFormDialog({
   const steps = ["Question", "Answer Type", "Preview"];
 
   const onSubmit = async (data) => {
-    console.log("test");
+  
     try {
       const updateData = {
         ...data,

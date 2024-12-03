@@ -73,17 +73,15 @@ export async function getFEFrameworkById(frameworkId:string) {
     return formattedSections;
   }
   
-  export async function getQuestion() {
+  export async function getQuestion(frameworkId: string) {
     const supabase = createClient();
   
     try {
       const { data, error } = await supabase
         .from("fe_questions")
         .select()
-        .eq("id", "6924f18c-9935-4d0d-88ab-e603d32a5e0f")
-        .single()
-  
-      
+        .eq("framework_id", frameworkId)
+
       return data;
     } catch (error) {
       console.error("Error while fetching question:", error);

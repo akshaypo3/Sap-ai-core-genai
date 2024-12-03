@@ -28,7 +28,7 @@ export default async function DetailFramework({
   const { id: frameworkId } = params;
   const framework = await getFEFrameworkById(frameworkId);
   const sections = await getSections(frameworkId);
-  const question = await getQuestion();
+  const questions = await getQuestion(frameworkId);
 
 
   if (!framework) {
@@ -127,13 +127,13 @@ export default async function DetailFramework({
                 <Label className="font-semibold text-gray-700 dark:text-gray-300">
                   {t("frameworkEditor.Sections")}
                 </Label>
-                <p className="text-gray-800 dark:text-gray-100">12</p>
+                <p className="text-gray-800 dark:text-gray-100">{sections.length}</p>
               </div>
               <div className="p-6 bg-gray-100 dark:bg-neutral-800 rounded-md shadow-md text-center">
                 <Label className="font-semibold text-gray-700 dark:text-gray-300">
                   {t("frameworkEditor.Questions")}
                 </Label>
-                <p className="text-gray-800 dark:text-gray-100">145</p>
+                <p className="text-gray-800 dark:text-gray-100">{questions?.length}</p>
               </div>
               <div className="p-6 bg-gray-100 dark:bg-neutral-800 rounded-md shadow-md text-center">
                 <Label className="font-semibold text-gray-700 dark:text-gray-300">

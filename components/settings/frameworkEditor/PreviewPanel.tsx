@@ -10,12 +10,11 @@ const PreviewPanel = () => {
   const helpText = watch("helpText");
   const maxLength = watch("maxLength");
   const isRequired = watch("isRequired");
-  console.log("isRequired value:", isRequired);
   
   const formattedAnswerOptions = Array.isArray(answerOptions) ? answerOptions : [];
   const formattedAnswerOptionsTable = Array.isArray(answerOptionsTable) ? answerOptionsTable : [];
 
-  console.log("Answer Options:", formattedAnswerOptions); // Debugging
+  
 
   return (
     <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ddd" }}>

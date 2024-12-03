@@ -10,7 +10,7 @@ interface EditQuestionSectionFormDialogProps {
 
 export default function EditQuestionSectionPage({ Questiondata}: EditQuestionSectionFormDialogProps) {
     const [open, setOpen] = useState(false);
-    console.log(Questiondata);
+  
   
     return (
       <div>
