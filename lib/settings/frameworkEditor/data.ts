@@ -88,3 +88,20 @@ export async function getFEFrameworkById(frameworkId:string) {
       return [];
     }
   }
+
+  export async function getAssesmentQuestion() {
+    const supabase = createClient();
+  
+    try {
+      const { data, error } = await supabase
+        .from("fe_assessment_questions")
+        .select()
+        .eq("id", "ab3f3578-9873-40fe-996f-5f6d5b13cae0")
+        .single()
+
+      return data;
+    } catch (error) {
+      console.error("Error while fetching question:", error);
+      return [];
+    }
+  }
