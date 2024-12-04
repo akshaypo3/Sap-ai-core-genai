@@ -24,6 +24,7 @@ import { Trash2Icon, CopyIcon } from "lucide-react";
 import { deleteQuestion, duplicateQuestion, fetchQuestions } from "@/lib/settings/frameworkEditor/action";
 import EditQuestionSectionPage from "../settings/frameworkEditor/EditQuestionButton";
 import { DuplicateQuestion } from "../settings/frameworkEditor/Buttons";
+import { SE } from "country-flag-icons/react/3x2";
 
 interface CreateQuestionTableFormDialogProps {
   framework_id: string;
@@ -197,6 +198,7 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
               <SelectItem value="all">All</SelectItem>
               <SelectItem value="Text">Text</SelectItem>
               <SelectItem value="Checkbox">Checkbox</SelectItem>
+              <SelectItem value="Table">Table</SelectItem>
               <SelectItem value="MultipleChoice">MultipleChoice</SelectItem>
             </SelectContent>
           </Select>
