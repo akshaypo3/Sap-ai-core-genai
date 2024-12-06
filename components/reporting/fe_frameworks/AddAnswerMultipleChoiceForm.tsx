@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { creatanswerAssessment } from "@/lib/frameworks/action";
+import { creatanswerAssessment, fetchExistingAnswerForMultipleChoice } from "@/lib/frameworks/action";
 
 export const answerEditorFormSchema = z.object({
   answer: z
@@ -26,14 +26,20 @@ interface AnswerFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   QuestionData: any;
+  FrameworkID:string;
+  AssessmentID:string;
 }
 
 export default function CreateAnswerMultipleChoiceForm({
   open,
   setOpen,
   QuestionData,
+  FrameworkID,
+  AssessmentID
 }: AnswerFormProps) {
   const [loading, setLoading] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [fetchExistingAnswers, setfetchExistingAnswers] = useState("");
 
   const options = QuestionData.answer_config;
 
@@ -43,7 +49,25 @@ export default function CreateAnswerMultipleChoiceForm({
       answer: [],
     },
   });
-
+  
+  useEffect(() => {
+    const loadExistingAnswer = async () => {
+      if (open) {
+        // Fetch the existing answer for the multiple-choice question
+        const answerData = await fetchExistingAnswerForMultipleChoice(QuestionData.id);
+        
+        // Check if the answer is an array and then set the form value
+        if (Array.isArray(answerData)) {
+          form.setValue("answer", answerData); // Directly set the form value with fetched answer data
+          setIsUpdate(true); // Indicate that an update is happening
+        } else {
+          console.error("Fetched data is not an array", answerData);
+        }
+      }
+    };
+  
+    loadExistingAnswer();
+  }, [open, QuestionData.id, form]);
   const closeDialog = () => {
     setTimeout(() => setOpen(false), 100);
   };
@@ -51,14 +75,15 @@ export default function CreateAnswerMultipleChoiceForm({
   const onSubmit = async (data: z.infer<typeof answerEditorFormSchema>) => {
     setLoading(true);
 
-    const frameworkId = "807a68a7-3160-4b0b-871c-e8183daddf86";
+    const frameworkId=FrameworkID
+    const assessmentID=AssessmentID
     const formData = new FormData();
     formData.append("assessment_id", QuestionData.assessment_id);
     formData.append("id", QuestionData.id);
     formData.append("answer", data.answer.join(", "));  // Convert array to string for submission
     formData.append("metadata", JSON.stringify(QuestionData.metadata));
 
-    await creatanswerAssessment(formData, frameworkId);
+    await creatanswerAssessment(formData, frameworkId,isUpdate,assessmentID);
     setLoading(false);
     closeDialog();
   };
@@ -90,7 +115,8 @@ export default function CreateAnswerMultipleChoiceForm({
                           type="checkbox"
                           name="answer"
                           value={option}
-                          onChange={(e) => {const newValue = e.target.checked
+                          onChange={(e) => {
+                            const newValue = e.target.checked
                               ? [...field.value, option]
                               : field.value.filter((val: string) => val !== option);
                             field.onChange(newValue);

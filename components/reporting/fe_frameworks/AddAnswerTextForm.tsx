@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { creatanswerAssessment } from "@/lib/frameworks/action";
+import { creatanswerAssessment, fetchExistingAnswerForText } from "@/lib/frameworks/action";
 
 
 export const answerEditorFormSchema = z.object({
@@ -29,14 +29,21 @@ interface AnswerFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   QuestionData: any;
+  FrameworkID:string;
+  AssessmentID:string;
 }
 
 export default function CreateAnswerTextForm({
   open,
   setOpen,
   QuestionData,
+  FrameworkID,
+  AssessmentID
 }: AnswerFormProps) {
   const [loading, setLoading] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [fetchExistingAnswers, setfetchExistingAnswers] = useState("");
+
 
   
   const form = useForm<z.infer<typeof answerEditorFormSchema>>({
@@ -45,7 +52,23 @@ export default function CreateAnswerTextForm({
       answer: "",
     },
   });
+  useEffect(() => {
+    const loadExistingAnswer = async () => {
+      if (open) {
+        const answerData = await fetchExistingAnswerForText(QuestionData.id);
+        setfetchExistingAnswers(answerData);
 
+        if (answerData) {
+          form.setValue("answer", answerData);
+          setIsUpdate(true);
+        } else {
+          setIsUpdate(false);
+        }
+      }
+    };
+
+    loadExistingAnswer();
+  }, [open, QuestionData.id, form]);
  
   const closeDialog = () => {
     setTimeout(() => setOpen(false), 100);
@@ -55,14 +78,15 @@ export default function CreateAnswerTextForm({
   const onSubmit = async (data: z.infer<typeof answerEditorFormSchema>) => {
     setLoading(true);
 
-    const frameworkId="807a68a7-3160-4b0b-871c-e8183daddf86"
+    const frameworkId=FrameworkID
+    const assessmentID=AssessmentID
     const formData = new FormData();
     formData.append("assessment_id", QuestionData.assessment_id);
     formData.append("id", QuestionData.id);
     formData.append("answer", data.answer);
     formData.append("metadata", JSON.stringify(QuestionData.metadata));
   
-    await creatanswerAssessment(formData,frameworkId)
+    await creatanswerAssessment(formData,frameworkId,isUpdate,assessmentID)
     setLoading(false);
     closeDialog();
   };

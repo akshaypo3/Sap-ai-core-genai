@@ -12,8 +12,14 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { AnswerButton } from "../reporting/fe_frameworks/Buttons";
+interface QuestionsProps {
+  questionData: any;
+  FrameworkID: string;
+  AssessmentID: string;
+}
 
-const AssessmentQuestionsTable = ({ questionData }) => {
+const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:QuestionsProps) => {
   const [data, setData] = useState(questionData);
   const [filteredData, setFilteredData] = useState(questionData);
   const [sortOrder, setSortOrder] = useState({
@@ -214,7 +220,7 @@ const AssessmentQuestionsTable = ({ questionData }) => {
                 </td>
                 <td className="border p-3 text-center">
                   <div className="flex justify-center items-center space-x-2">
-                    <Button>Answer</Button>
+                    <AnswerButton QuestionData={question} FrameworkID={FrameworkID} AssessmentID={AssessmentID}/>
                   </div>
                 </td>
               </tr>
