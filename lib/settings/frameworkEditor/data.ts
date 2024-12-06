@@ -89,14 +89,14 @@ export async function getFEFrameworkById(frameworkId:string) {
     }
   }
 
-  export async function getAssesmentQuestion() {
+  export async function getAssesmentQuestion(id1) {
     const supabase = createClient();
   
     try {
       const { data, error } = await supabase
         .from("fe_assessment_questions")
         .select()
-        .eq("id", "ab3f3578-9873-40fe-996f-5f6d5b13cae0")
+        .eq("id", id1)
         .single()
 
       return data;

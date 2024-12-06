@@ -123,6 +123,7 @@ const QuestionStep = ({ sections }: QuestionStepProps) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Text">Text</SelectItem>
+                <SelectItem value="Numeric">Numeric</SelectItem>
                 <SelectItem value="MultipleChoice">Multiple Choice</SelectItem>
                 <SelectItem value="Checkbox">Checkbox</SelectItem>
                 <SelectItem value="Table">Table</SelectItem>
