@@ -137,3 +137,74 @@ export async function createactiveAssessment(formData: FormData) {
     redirect(`/reporting/frameworks/${frameworkId}`);
   }
 }
+
+export async function creatanswerAssessment(formData: FormData,frameworkId:any) {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userId = userData.id;
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+  
+  const assessment_id = formData.get("assessment_id");
+  const assessment_question_id = formData.get("id");
+  const answer_value = formData.get("answer");
+  const metadata  = formData.get("metadata");
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .insert({
+        assessment_id: assessment_id,
+        assessment_question_id: assessment_question_id,
+        answer_value: answer_value,
+        created_by: userId,
+		metadata:metadata
+      })
+      .select();
+ 
+    if (error) {
+      throw new Error("Error while creating assessment: " + error.message);
+    }
+
+  } catch (error) {
+    console.error("Error while adding new answer: ", error);
+  } finally {
+    revalidatePath(`/reporting/frameworks/${frameworkId}`);
+    redirect(`/reporting/frameworks/${frameworkId}`);
+  }
+}
+export async function creatanswerAssessmentTable(formData: FormData,frameworkId:any) {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userId = userData.id;
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+  
+  const assessment_id = formData.get("assessment_id");
+  const assessment_question_id = formData.get("id");
+  const answer_value = formData.get("answer");
+  const answer=JSON.parse(answer_value)
+  console.log(answer);
+  const metadata  = formData.get("metadata");
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .insert({
+        assessment_id: assessment_id,
+        assessment_question_id: assessment_question_id,
+        answer_value: answer,
+        created_by: userId,
+		metadata:metadata
+      })
+      .select();
+ 
+    if (error) {
+      throw new Error("Error while creating assessment: " + error.message);
+    }
+
+  } catch (error) {
+    console.error("Error while adding new answer: ", error);
+  } finally {
+    revalidatePath(`/reporting/frameworks/${frameworkId}`);
+    redirect(`/reporting/frameworks/${frameworkId}`);
+  }
+}
