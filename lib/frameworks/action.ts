@@ -138,73 +138,240 @@ export async function createactiveAssessment(formData: FormData) {
   }
 }
 
-export async function creatanswerAssessment(formData: FormData,frameworkId:any) {
+
+export async function creatanswerAssessment(formData: FormData, frameworkId: any, isUpdate: boolean,assessmentID:any) {
   const supabase = createClient();
   const userData = await getUserInfo();
   const userId = userData.id;
-  const userEmail = userData.email;
-  const userName = userEmail.substring(0, userEmail.indexOf("@"));
-  
+ 
   const assessment_id = formData.get("assessment_id");
   const assessment_question_id = formData.get("id");
   const answer_value = formData.get("answer");
-  const metadata  = formData.get("metadata");
-  try {
-    const { data, error } = await supabase
-      .from('fe_answers')
-      .insert({
-        assessment_id: assessment_id,
-        assessment_question_id: assessment_question_id,
-        answer_value: answer_value,
-        created_by: userId,
-		metadata:metadata
-      })
-      .select();
+  const metadata = formData.get("metadata");
  
-    if (error) {
-      throw new Error("Error while creating assessment: " + error.message);
+  try {
+    let result;
+    if (isUpdate) {
+      result = await supabase
+        .from('fe_answers')
+        .update({
+          answer_value: answer_value,
+        })
+        .eq('assessment_question_id', assessment_question_id)
+        .eq('assessment_id', assessment_id)
+        .select();
+    } else {
+      result = await supabase
+        .from('fe_answers')
+        .insert({
+          assessment_id: assessment_id,
+          assessment_question_id: assessment_question_id,
+          answer_value: answer_value,
+          created_by: userId,
+          metadata: metadata,
+        })
+        .select();
     }
-
+ 
+    const { data, error } = result;
+    if (error) {
+      throw new Error("Error while creating/updating assessment: " + error.message);
+    }
+ 
   } catch (error) {
-    console.error("Error while adding new answer: ", error);
+    console.error("Error while adding/updating answer: ", error);
   } finally {
-    revalidatePath(`/reporting/frameworks/${frameworkId}`);
-    redirect(`/reporting/frameworks/${frameworkId}`);
+    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
 }
-export async function creatanswerAssessmentTable(formData: FormData,frameworkId:any) {
+
+export async function fetchExistingAnswerForText(questionId: string) {
+  const supabase = createClient();
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .select('answer_value')
+      .eq('assessment_question_id', questionId)
+      .single();
+ 
+    if (error) {
+      console.error("Error while fetching answer: " + error.message);
+    }
+ 
+    return data?.answer_value || null;
+  } catch (error) {
+    console.error("Error fetching answer: ", error);
+    return null;
+  }
+}
+
+
+export async function fetchExistingAnswerForMultipleChoice(questionId: string) {
+  const supabase = createClient();
+ 
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .select('answer_value')
+      .eq('assessment_question_id', questionId)
+      .single();
+ 
+    if (error) {
+      console.error("Error while fetching answer: " + error.message);
+      return null;
+    }
+ 
+    if (data?.answer_value) {
+      const trimmedAnswer = data.answer_value.trim();
+ 
+      if (trimmedAnswer.includes(",")) {
+        return trimmedAnswer.split(",").map((val: string) => val.trim());
+      }
+ 
+      return [trimmedAnswer];
+    }
+ 
+    return null;
+  } catch (error) {
+    console.error("Error fetching answer: ", error);
+    return null;
+  }
+}
+export async function fetchExistingAnswerForCheckbox(questionId: string) {
+  const supabase = createClient();
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .select('answer_value')
+      .eq('assessment_question_id', questionId)
+      .single();
+ 
+    if (error) {
+      console.error("Error while fetching answer: " + error.message);
+      return null;
+    }
+ 
+    return data?.answer_value || "No";
+  } catch (error) {
+    console.error("Error fetching answer: ", error);
+    return "No";
+  }
+}
+export async function fetchExistingAnswerForNumeric(questionId: string) {
+  const supabase = createClient();
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .select('answer_value')
+      .eq('assessment_question_id', questionId)
+      .single();
+ 
+    if (error) {
+      console.error("Error while fetching answer: " + error.message);
+      return null;
+    }
+ 
+    return data?.answer_value ? parseFloat(data.answer_value) : 0;  
+  } catch (error) {
+    console.error("Error fetching answer: ", error);
+    return 0;  
+  }
+}
+export async function fetchExistingAnswerForTable(questionId: string) {
+  const supabase = createClient();
+ 
+  try {
+    const { data, error } = await supabase
+      .from('fe_answers')
+      .select('answer_value')
+      .eq('assessment_question_id', questionId);
+ 
+    if (error) {
+      console.error("Error while fetching answers: " + error.message);
+      return [];
+    }
+ 
+    if (!data || data.length === 0) {
+      console.warn("No data returned for questionId:", questionId);
+      return [];
+    }
+ 
+    // console.log("Raw fetched data:", JSON.stringify(data, null, 2));
+ 
+    const parsedAnswers = data
+      .map((row) => row.answer_value)
+      .flat();
+ 
+    return parsedAnswers;
+  } catch (error) {
+    console.error("Error fetching answers: ", error);
+    return [];
+  }
+}
+export async function creatanswerAssessmentTable(formData: FormData, frameworkId: any,assessmentID:any) {
   const supabase = createClient();
   const userData = await getUserInfo();
   const userId = userData.id;
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
-  
+ 
   const assessment_id = formData.get("assessment_id");
   const assessment_question_id = formData.get("id");
   const answer_value = formData.get("answer");
-  const answer=JSON.parse(answer_value)
-  console.log(answer);
-  const metadata  = formData.get("metadata");
-  try {
-    const { data, error } = await supabase
-      .from('fe_answers')
-      .insert({
-        assessment_id: assessment_id,
-        assessment_question_id: assessment_question_id,
-        answer_value: answer,
-        created_by: userId,
-		metadata:metadata
-      })
-      .select();
+  const answer = JSON.parse(answer_value);
+  const metadata = formData.get("metadata");
  
-    if (error) {
-      throw new Error("Error while creating assessment: " + error.message);
+  try {
+    const { data: existingData, error: fetchError } = await supabase
+      .from('fe_answers')
+      .select('id')
+      .eq('assessment_id', assessment_id)
+      .eq('assessment_question_id', assessment_question_id)
+      .single();
+ 
+    if (fetchError) {
+      throw new Error("Error checking for existing record: " + fetchError.message);
     }
-
+ 
+    if (existingData) {
+ 
+      const { error: updateError } = await supabase
+        .from('fe_answers')
+        .update({
+          answer_value: answer,
+        })
+        .eq('assessment_id', assessment_id)
+        .eq('assessment_question_id', assessment_question_id);
+ 
+      if (updateError) {
+        throw new Error("Error updating assessment: " + updateError.message);
+      }
+ 
+      console.log("Record updated successfully");
+    } else {
+      const { error: insertError } = await supabase
+        .from('fe_answers')
+        .insert({
+          assessment_id: assessment_id,
+          assessment_question_id: assessment_question_id,
+          answer_value: answer,
+          created_by: userId,
+          metadata: metadata,
+        })
+        .select();
+ 
+      if (insertError) {
+        throw new Error("Error inserting new assessment: " + insertError.message);
+      }
+ 
+      console.log("New record created successfully");
+    }
+ 
   } catch (error) {
-    console.error("Error while adding new answer: ", error);
+    console.error("Error while adding/updating answer: ", error);
   } finally {
-    revalidatePath(`/reporting/frameworks/${frameworkId}`);
-    redirect(`/reporting/frameworks/${frameworkId}`);
+    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
 }

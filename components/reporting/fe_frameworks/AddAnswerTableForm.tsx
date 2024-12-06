@@ -1,5 +1,5 @@
 'use client'
-
+ 
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,29 +22,29 @@ import {
   TableRow,
   TableHead,
 } from "@/components/ui/table";
-import { creatanswerAssessmentTable } from "@/lib/frameworks/action";
-
+import { creatanswerAssessmentTable, fetchExistingAnswerForTable } from "@/lib/frameworks/action";
+ 
 interface AnswerFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   QuestionData: any;
+  FrameworkID:string;
+  AssessmentID:string;
 }
-
+ 
 export default function CreateAnswerTableForm({
   open,
   setOpen,
   QuestionData,
+  FrameworkID,
+  AssessmentID
 }: AnswerFormProps) {
   const [loading, setLoading] = useState(false);
-  
-  // Check if QuestionData is available
-  if (!QuestionData?.qu_columns1 || QuestionData.qu_columns1.length === 0) {
-    console.error("Error: No columns available in QuestionData");
-    return <div>No columns found</div>;
-  }
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [fetchExistingAnswers, setfetchExistingAnswers] = useState([{}]);
 
-  // Dynamically create Zod schema based on the columns in QuestionData
-  const answerEditorFormSchema = z.object({
+   // Dynamically create Zod schema based on the columns in QuestionData
+   const answerEditorFormSchema = z.object({
     answers: z.array(
       z.object(
         QuestionData.qu_columns1.reduce((acc, col) => {
@@ -54,42 +54,68 @@ export default function CreateAnswerTableForm({
       )
     ).min(1, { message: "At least one row must be entered." }),
   });
-
+ 
   // Initialize the form with dynamic default values based on QuestionData
   const form = useForm<z.infer<typeof answerEditorFormSchema>>({
     resolver: zodResolver(answerEditorFormSchema),
     defaultValues: {
-      answers: [
-        QuestionData.qu_columns1.reduce((acc: any, col: string) => {
-          acc[col] = ""; // Initialize empty value for each column
-          return acc;
-        }, {}),
-      ],
+      answers: fetchExistingAnswers.length > 0
+        ? fetchExistingAnswers
+        : [
+            QuestionData.qu_columns1.reduce((acc: any, col: string) => {
+              acc[col] = "";
+              return acc;
+            }, {}),
+          ],
     },
   });
+ 
+  useEffect(() => {
+    const loadExistingAnswer = async () => {
+      if (open) {
+        const answerData = await fetchExistingAnswerForTable(QuestionData.id);
+        setfetchExistingAnswers(answerData);
 
+        // if (answerData) {
+        //   form.setValue("answer", answerData);
+        //   setIsUpdate(true);
+        // } else {
+        //   setIsUpdate(false);
+        // }
+      }
+    };
+
+    loadExistingAnswer();
+  }, [open, QuestionData.id,form]);
+  // Check if QuestionData is available
+  if (!QuestionData?.qu_columns1 || QuestionData.qu_columns1.length === 0) {
+    console.error("Error: No columns available in QuestionData");
+    return <div>No columns found</div>;
+  }
+ 
+ 
+ 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "answers",
   });
-
+ 
   const onSubmit = async (data: z.infer<typeof answerEditorFormSchema>) => {
     setLoading(true);
-
-    // Log the form data for debugging
-    console.log("Form Data:", data);
-    const frameworkId = "807a68a7-3160-4b0b-871c-e8183daddf86";
+ 
+   const frameworkId=FrameworkID
+    const assessmentID=AssessmentID
     const formData = new FormData();
     formData.append("assessment_id", QuestionData.assessment_id);
     formData.append("id", QuestionData.id);
     formData.append("metadata", JSON.stringify(QuestionData.metadata));
     formData.append("answer",JSON.stringify(data.answers));
-
-    await creatanswerAssessmentTable(formData, frameworkId);
+ 
+    await creatanswerAssessmentTable(formData, frameworkId,assessmentID);
     setLoading(false);
     setOpen(false);
   };
-
+ 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -103,7 +129,7 @@ export default function CreateAnswerTableForm({
             <strong>Help text:</strong> {QuestionData?.help_text}
           </p>
         </div>
-
+ 
         <div className="mb-4">
           <Button
             onClick={() =>
@@ -119,7 +145,7 @@ export default function CreateAnswerTableForm({
             Add Row
           </Button>
         </div>
-
+ 
         <div className="overflow-x-auto">
           <Table className="min-w-full border-collapse border border-gray-300">
             <TableHeader>
@@ -173,7 +199,7 @@ export default function CreateAnswerTableForm({
             </TableBody>
           </Table>
         </div>
-
+ 
         <div className="flex justify-between mt-4">
           <Button
             type="submit"

@@ -6,6 +6,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 import { Button } from "@/components/ui/button";
 import { getAssessmentQuestionsById } from "@/lib/frameworks/data";
 import AssessmentQuestionsTable from "@/components/table/AssessmentQuestionTable";
+import { idText } from "typescript";
 
 export default async function Home({ params }: { params: { assessmentId: string, id: string } }) {
   const { assessmentId } = params;
@@ -20,7 +21,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
   ];
 
   const questions = await getAssessmentQuestionsById(assessmentId)
-
+  
   return (
     <>
       <ContentLayout title="Questions">
@@ -33,7 +34,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
         </div>
         <div className="p-5 border rounded">
             <p className="text-xl font-semibold mb-10">Questions</p>
-         <AssessmentQuestionsTable questionData={questions}/>
+         <AssessmentQuestionsTable questionData={questions} FrameworkID={id} AssessmentID={assessmentId}/>
         </div>
       </ContentLayout>
     </>

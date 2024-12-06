@@ -20,6 +20,8 @@ import CreateAnswerNumericForm from "./AddAnswerNumericForm";
 
 interface AnswerButtonButtonProps {
   QuestionData: any;
+  AssessmentID:string;
+  FrameworkID:string;
 }
 
 export function ActiveFrameworkAssessmentButton({
@@ -53,24 +55,23 @@ export function ActiveFrameworkAssessmentButton({
   );
 }
 
-export function AnswerButton({ QuestionData}:AnswerButtonButtonProps) {
+export function AnswerButton({ QuestionData,FrameworkID,AssessmentID}:AnswerButtonButtonProps) {
   const [open, setOpen] = useState(false);
   const type=QuestionData.question_type;
 const col=QuestionData.qu_columns;
  QuestionData.qu_columns1=col;
-
   const renderForm = () => {
     switch (type) {
       case "Text":
-        return <CreateAnswerTextForm open={open} setOpen={setOpen} QuestionData={QuestionData} />;
+        return <CreateAnswerTextForm open={open} setOpen={setOpen} QuestionData={QuestionData} FrameworkID={FrameworkID} AssessmentID={AssessmentID} />;
       case "MultipleChoice":
-        return <CreateAnswerMultipleChoiceForm open={open} setOpen={setOpen} QuestionData={QuestionData} />;
+        return <CreateAnswerMultipleChoiceForm open={open} setOpen={setOpen} QuestionData={QuestionData} FrameworkID={FrameworkID} AssessmentID={AssessmentID}/>;
       case "Checkbox":
-        return <CreateAnswerCheckboxForm open={open} setOpen={setOpen} QuestionData={QuestionData} />;
+        return <CreateAnswerCheckboxForm open={open} setOpen={setOpen} QuestionData={QuestionData} FrameworkID={FrameworkID} AssessmentID={AssessmentID}/>;
         case "Table":
-        return <CreateAnswerTableForm open={open} setOpen={setOpen} QuestionData={QuestionData} />;
+        return <CreateAnswerTableForm open={open} setOpen={setOpen} QuestionData={QuestionData} FrameworkID={FrameworkID} AssessmentID={AssessmentID}/>;
       case "Numeric":
-      return <CreateAnswerNumericForm open={open} setOpen={setOpen} QuestionData={QuestionData} />;
+      return <CreateAnswerNumericForm open={open} setOpen={setOpen} QuestionData={QuestionData} FrameworkID={FrameworkID} AssessmentID={AssessmentID}/>;
       default:
         return <div>No form available for this question type</div>;
     }
@@ -79,7 +80,7 @@ const col=QuestionData.qu_columns;
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>Answer {type}</Button>
+        <Button>Answer</Button>
       </DialogTrigger>
       <DialogContent  className="max-w-3xl">
         <DialogHeader>
