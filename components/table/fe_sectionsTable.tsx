@@ -30,6 +30,7 @@ const SectionTable = ({ sections, frameworkId }) => {
   });
 
   const requiredFields = [
+    { label: "All", value: "all" },
     { label: "Required", value: "true" },
     { label: "Unrequired", value: "false" },
   ];
@@ -87,35 +88,24 @@ const SectionTable = ({ sections, frameworkId }) => {
     setFilteredData(filtered);
   };
 
-  const handleSort = (field) => {
+  const handleSort = (field:any) => {
     let newDirection = "asc";
     if (sortOrder.field === field && sortOrder.direction === "asc") {
       newDirection = "desc";
     }
-
+  
     const sortedData = [...filteredData].sort((a, b) => {
       let aValue = a[field];
       let bValue = b[field];
-
-      if (field === "framework") {
-        aValue = a.fe_frameworks?.name || "";
-        bValue = b.fe_frameworks?.name || "";
-      }
-
-      if (field === "created_at") {
-        return newDirection === "asc"
-          ? new Date(aValue) - new Date(bValue)
-          : new Date(bValue) - new Date(aValue);
-      } else {
-        return newDirection === "asc"
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
-      }
+      
+      return newDirection === "asc"
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     });
-
+  
     setFilteredData(sortedData);
     setSortOrder({ field, direction: newDirection });
-  };
+  };  
 
   const sectionData = filteredData.filter((section: any) => {
     const allIds = filteredData.map((item: any) => item.id);
@@ -176,21 +166,18 @@ const SectionTable = ({ sections, frameworkId }) => {
                 Section Code
               </th>
               <th
-                className="bg-gray-100 dark:bg-neutral-800 p-3 text-center"
+                className="bg-gray-100 dark:bg-neutral-800 p-3 text-center cursor-pointer"
                 onClick={() => handleSort("name")}
               >
                 Section
-                <ArrowUpDown className="ml-2 h-4 w-4 inline cursor-pointer" />
+                <ArrowUpDown className="ml-2 h-4 w-4 inline" />
               </th>
               <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Description
               </th>
               <th
-                className="bg-gray-100 dark:bg-neutral-800 p-3 text-center"
-                onClick={() => handleSort("framework")}
-              >
+                className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Framework
-                <ArrowUpDown className="ml-2 h-4 w-4 inline cursor-pointer" />
               </th>
               <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Required
@@ -209,7 +196,14 @@ const SectionTable = ({ sections, frameworkId }) => {
               //     !allIds.includes(section.parent_section_id)
               //   );
               // })
-              .filter((section: any) => section.parent_section_id === null)
+              // .filter((section: any) => section.parent_section_id === null )
+              .filter((section: any) => {
+                  const allIds = filteredData.map((item: any) => item.id);
+                  return (
+                    section.parent_section_id === null ||
+                    !allIds.includes(section.parent_section_id)
+                  );
+                })
               .map((section: any, sectionIndex: number) => {
                 const subsections = filteredData.filter(
                   (sub_section: any) =>

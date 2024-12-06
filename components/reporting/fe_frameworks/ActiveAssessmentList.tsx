@@ -19,6 +19,7 @@ import {
 import { getActiveAssessmentsById } from "@/lib/frameworks/data";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export default async function ActiveAssessmentList({
   activeFrameworkName,
@@ -121,7 +122,14 @@ export default async function ActiveAssessmentList({
               <TableCell>{item.reporting_period_start}</TableCell>
               <TableCell>{item.reporting_period_end}</TableCell>
               <TableCell>
-                <Button className="bg-green-500">View</Button>
+                <Link href={`/reporting/frameworks/${frameworkId}/${item.id}`}>
+                  <Button
+                    variant="outline"
+                    className="bg-green-500 hover:bg-green-600 text-white hover:text-white"
+                  >
+                    view
+                  </Button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}
