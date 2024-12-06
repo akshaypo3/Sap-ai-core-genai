@@ -30,3 +30,22 @@ export async function getActiveAssessmentsById(frameworkId:string) {
 
   return assessments;
 }
+
+export async function getAssessmentQuestionsById(assessmentId: string) {
+  const supabase = createClient();
+  const { data: questions, error } = await supabase
+    .from("fe_assessment_questions")
+    .select(`
+      *,
+      fe_assessments(name)
+    `)
+    .eq("assessment_id", assessmentId)
+    .order('question_code', { ascending: true });
+    
+  if (error) {
+    console.error('Supabase Error:', error);
+    return [];
+  }
+
+  return questions;
+}
