@@ -177,7 +177,17 @@ export async function creatanswerAssessment(formData: FormData, frameworkId: any
     if (error) {
       throw new Error("Error while creating/updating assessment: " + error.message);
     }
- 
+    const { error: updateErrorquestion } = await supabase
+    .from('fe_assessment_questions')
+    .update({
+      answered: true,
+    })
+    .eq('id', assessment_question_id);
+
+  if (updateErrorquestion) {
+    throw new Error("Error updating assessment: " + updateErrorquestion.message);
+  }
+
   } catch (error) {
     console.error("Error while adding/updating answer: ", error);
   } finally {
@@ -363,6 +373,16 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
  
       if (insertError) {
         throw new Error("Error inserting new assessment: " + insertError.message);
+      }
+      const { error: updateErrorquestion } = await supabase
+        .from('fe_assessment_questions')
+        .update({
+          answered: true,
+        })
+        .eq('id', assessment_question_id);
+ 
+      if (updateErrorquestion) {
+        throw new Error("Error updating assessment: " + updateErrorquestion.message);
       }
  
       console.log("New record created successfully");
