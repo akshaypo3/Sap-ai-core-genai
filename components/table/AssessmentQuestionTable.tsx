@@ -108,6 +108,15 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
     }
     return is_required;
   };
+  const Answeredstatus = (answered: any) => {
+    if (answered === true || answered === "true") {
+      return "Yes";
+    }
+    if (answered === false || answered === "false") {
+      return "No";
+    }
+    return answered;
+  };
 
   return (
     <>
@@ -186,6 +195,9 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
                 Required
               </th>
               <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+                Answered
+              </th>
+              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Actions
               </th>
             </tr>
@@ -215,6 +227,23 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
                       }
                     >
                       {reuiredStatus(question.is_required)}
+                    </Badge>
+                  )}
+                </td>
+                <td className="border p-3 text-center">
+                  {question.answered !== undefined && (
+                    <Badge
+                      className={
+                        question.answered === false ||
+                        question.answered === "false"
+                          ? "bg-red-400"
+                          : question.answered === true ||
+                            question.answered === "true"
+                          ? "bg-green-400"
+                          : ""
+                      }
+                    >
+                      {Answeredstatus(question.answered)}
                     </Badge>
                   )}
                 </td>
