@@ -292,10 +292,10 @@ export async function fetchExistingAnswerForTable(questionId: string) {
       return [];
     }
  
-    if (!data || data.length === 0) {
-      console.warn("No data returned for questionId:", questionId);
-      return [];
-    }
+    // if (!data || data.length === 0) {
+    //   console.warn("No data returned for questionId:", questionId);
+    //   return [];
+    // }
  
     // console.log("Raw fetched data:", JSON.stringify(data, null, 2));
  
@@ -328,7 +328,7 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
       .select('id')
       .eq('assessment_id', assessment_id)
       .eq('assessment_question_id', assessment_question_id)
-      .single();
+      .maybeSingle();
  
     if (fetchError) {
       throw new Error("Error checking for existing record: " + fetchError.message);

@@ -114,6 +114,7 @@ export default function CreateAnswerMultipleChoiceForm({
                         <input
                           type="checkbox"
                           name="answer"
+                          className="me-2"
                           value={option}
                           onChange={(e) => {
                             const newValue = e.target.checked

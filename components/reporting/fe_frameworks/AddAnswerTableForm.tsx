@@ -76,17 +76,17 @@ export default function CreateAnswerTableForm({
         const answerData = await fetchExistingAnswerForTable(QuestionData.id);
         setfetchExistingAnswers(answerData);
 
-        // if (answerData) {
-        //   form.setValue("answer", answerData);
-        //   setIsUpdate(true);
-        // } else {
-        //   setIsUpdate(false);
-        // }
+        if (answerData.length > 0) {
+          form.setValue("answers", answerData);
+          setIsUpdate(true);
+        } else {
+          setIsUpdate(false);
+        }
       }
     };
 
     loadExistingAnswer();
-  }, [open, QuestionData.id,form]);
+  }, [open, QuestionData.id]);
   // Check if QuestionData is available
   if (!QuestionData?.qu_columns1 || QuestionData.qu_columns1.length === 0) {
     console.error("Error: No columns available in QuestionData");
