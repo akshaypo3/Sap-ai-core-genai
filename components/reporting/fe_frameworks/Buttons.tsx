@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,6 +19,9 @@ import CreateAnswerYesNoForm from "./AddAnswerCheckboxForm";
 import CreateAnswerCheckboxForm from "./AddAnswerCheckboxForm";
 import CreateAnswerTableForm from "./AddAnswerTableForm";
 import CreateAnswerNumericForm from "./AddAnswerNumericForm";
+import { deleteQuestionCommentDialog } from "@/lib/frameworks/action";
+import { TrashIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 interface AnswerButtonButtonProps {
   QuestionData: any;
@@ -90,6 +95,62 @@ const col=QuestionData.qu_columns;
           </DialogDescription>
         </DialogHeader>
         {renderForm()}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function DeleteQuestionCommentButtonDialog({
+  commentId,
+  frameworkId,
+  assessmentID,
+}: {
+  commentId: string;
+  frameworkId: string;
+  assessmentID:string;
+}) {
+  const deleteCommentWithId = deleteQuestionCommentDialog.bind(null, commentId.id, frameworkId,assessmentID);
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="sm">
+          <TrashIcon className="w-4 h-4 mr-1" />
+          Delete
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[450px]">
+        <DialogHeader>
+          <DialogTitle className="text-center">Delete comment</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-1 py-1">
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Label
+              htmlFor="name"
+              className="text-center overflow-hidden max-h-32" // Adjust max-h value as needed
+            >
+              Are you sure to delete the comment:{" "}
+              <b className="font-bold text-lg font-semibold text-red-600">
+                {commentId.comment} <span className="text-black">?</span>
+              </b>
+            </Label>
+          </div>
+        </div>
+
+        <DialogFooter className="flex justify-between mt-4">
+          <div className="flex justify-end space-x-2 mt-4">
+            <DialogTrigger asChild>
+              <Button>Cancel</Button>
+            </DialogTrigger>
+            <form action={deleteCommentWithId}>
+              <DialogClose asChild>
+                <Button type="submit" variant="destructive">
+                  Delete Comment
+                </Button>
+              </DialogClose>
+            </form>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

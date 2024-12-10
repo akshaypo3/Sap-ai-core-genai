@@ -13,7 +13,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { creatanswerAssessment, fetchExistingAnswerForNumeric } from "@/lib/frameworks/action";
+import { QuestionComments } from "./QuestionComments";
 
 // Updated schema to allow both positive and negative decimal numbers
 export const answerEditorFormSchema = z.object({
@@ -44,6 +46,7 @@ export default function CreateAnswerNumericForm({
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [fetchExistingAnswers, setfetchExistingAnswers] = useState("");
+  const [activeTab, setActiveTab] = useState<'comments' | 'activitylog'>('comments');
 
   const form = useForm<z.infer<typeof answerEditorFormSchema>>({
     resolver: zodResolver(answerEditorFormSchema),
@@ -130,6 +133,23 @@ export default function CreateAnswerNumericForm({
           </div>
         </div>
       </form>
+      <Tabs defaultValue="comments" className="w-full" value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="comments">Comments</TabsTrigger>
+              <TabsTrigger value="activitylog">Activity Log</TabsTrigger>
+            </TabsList>
+            <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
+              <TabsContent value="comments">
+                <QuestionComments QuestionId={QuestionData.id} frameworkId={FrameworkID} assessmentID={AssessmentID} isOpen={true} />
+              </TabsContent>
+              <TabsContent value="activitylog">
+                <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
+                <div className="min-w-full table-auto border-collapse">
+                  {/* <DataTable columns={columns_task_log} data={Logs} filter={'user'} sort={'Created At'} /> */}
+                </div>
+              </TabsContent>
+            </div>
+          </Tabs>
     </Form>
   );
 }
