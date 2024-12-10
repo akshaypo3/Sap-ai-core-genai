@@ -144,15 +144,38 @@ export async function creatanswerAssessment(formData: FormData, frameworkId: any
   const supabase = createClient();
   const userData = await getUserInfo();
   const userId = userData.id;
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
  
   const assessment_id = formData.get("assessment_id");
   const assessment_question_id = formData.get("id");
   const answer_value = formData.get("answer");
   const metadata = formData.get("metadata");
  
+  const stripHTML = (input: string) => {
+    return input.replace(/<\/?[^>]+(>|$)/g, ""); 
+  };
+
   try {
     let result;
     if (isUpdate) {
+
+       const { data: existingAnswer, error: fetchError } = await supabase
+        .from('fe_answers')
+        .select('answer_value')
+        .eq('assessment_question_id', assessment_question_id)
+        .eq('assessment_id', assessment_id)
+        .single(); 
+      
+      if (fetchError) {
+        console.error("Error fetching previous answer: ", fetchError);
+      }
+
+      const previousAnswerValue = existingAnswer ? existingAnswer.answer_value : "N/A";
+
+      const cleanPreviousAnswer = stripHTML(previousAnswerValue);
+      const cleanAnswerValue = stripHTML(answer_value);
+
       result = await supabase
         .from('fe_answers')
         .update({
@@ -161,7 +184,24 @@ export async function creatanswerAssessment(formData: FormData, frameworkId: any
         .eq('assessment_question_id', assessment_question_id)
         .eq('assessment_id', assessment_id)
         .select();
+
+      const {data, error} = await supabase
+      .from('fe_question_logs')
+      .insert({
+        assessment_id: assessment_id,
+        question_id: assessment_question_id,
+        activity: `Changed from "${cleanPreviousAnswer}" to "${cleanAnswerValue}"`,
+        user: userName
+      })
+
+      if(error){
+        console.log("Error while inserting the update log in fe_question_logs:",error)
+      }
+
     } else {
+
+      const cleanAnswerValue = stripHTML(answer_value);
+      
       result = await supabase
         .from('fe_answers')
         .insert({
@@ -172,6 +212,19 @@ export async function creatanswerAssessment(formData: FormData, frameworkId: any
           metadata: metadata,
         })
         .select();
+
+      const {data, error} = await supabase
+        .from('fe_question_logs')
+        .insert({
+          assessment_id: assessment_id,
+          question_id: assessment_question_id,
+          activity: `Changed to ${cleanAnswerValue}`,
+          user: userName
+        })
+
+      if(error){
+        console.log("Error while inserting the insert log in fe_question_logs:",error)
+      }
     }
  
     const { data, error } = result;
@@ -332,11 +385,36 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
   const answer_value = formData.get("answer");
   const answer = JSON.parse(answer_value);
   const metadata = formData.get("metadata");
- 
+
+  const formatAnswerValue = (input: any): string => {
+    if (typeof input === 'string') {
+      try {
+        input = JSON.parse(input);
+      } catch (e) {
+        return input;
+      }
+    }
+  
+    if (Array.isArray(input)) {
+      return input.map(item =>
+        Object.entries(item)
+          .map(([key, value]) => `${key}:${value}`)
+          .join(',')
+      ).join('; ');
+    }
+    
+    if (typeof input === 'object' && input !== null) {
+      return Object.entries(input)
+        .map(([key, value]) => `${key}:${value}`)
+        .join(',');
+    }
+      return input.toString();
+  };
+
   try {
     const { data: existingData, error: fetchError } = await supabase
       .from('fe_answers')
-      .select('id')
+      .select('id, answer_value')
       .eq('assessment_id', assessment_id)
       .eq('assessment_question_id', assessment_question_id)
       .maybeSingle();
@@ -345,6 +423,10 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
       throw new Error("Error checking for existing record: " + fetchError.message);
     }
  
+    const previousAnswerValue = existingData ? existingData.answer_value : {};
+    const cleanPreviousAnswer = formatAnswerValue(previousAnswerValue);
+    const cleanAnswerValue = formatAnswerValue(answer_value); 
+  
     if (existingData) {
  
       const { error: updateError } = await supabase
@@ -358,8 +440,20 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
       if (updateError) {
         throw new Error("Error updating assessment: " + updateError.message);
       }
- 
-      console.log("Record updated successfully");
+
+      const {data, error} = await supabase
+      .from('fe_question_logs')
+      .insert({
+        assessment_id: assessment_id,
+        question_id: assessment_question_id,
+        activity: `Changed from "${cleanPreviousAnswer}" to "${cleanAnswerValue}"`,
+        user: userName
+      })
+
+      if(error){
+        console.log("Error while inserting the update log in fe_question_logs:",error)
+      }
+
     } else {
       const { error: insertError } = await supabase
         .from('fe_answers')
@@ -386,7 +480,18 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
         throw new Error("Error updating assessment: " + updateErrorquestion.message);
       }
  
-      console.log("New record created successfully");
+      const {data, error} = await supabase
+        .from('fe_question_logs')
+        .insert({
+          assessment_id: assessment_id,
+          question_id: assessment_question_id,
+          activity: `Changed to ${cleanAnswerValue}`,
+          user: userName
+        })
+
+      if(error){
+        console.log("Error while inserting the insert log in fe_question_logs:",error)
+      }
     }
  
   } catch (error) {
@@ -395,6 +500,22 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
     revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
     redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
+}
+
+export async function getQuestionLogsById(questionId: string) {
+  const supabase = createClient();
+  const { data: questionsLogs, error } = await supabase
+    .from("fe_question_logs")
+    .select()
+    .eq("question_id", questionId)
+    .order('created_at', { ascending: true });
+    
+  if (error) {
+    console.error('Supabase Error:', error);
+    return [];
+  }
+
+  return questionsLogs;
 }
 
 export async function getQuestionComments(QuestionId: string,assessmentID:string) {

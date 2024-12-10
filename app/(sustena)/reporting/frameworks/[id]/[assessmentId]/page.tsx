@@ -15,7 +15,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
   const t = await getTranslations("reporting");
 
   const breadcrumbs = [
-    { href: "/materiality/dashboard", text: t("fe_assessments.home") },
+    { href: "/dashboard", text: t("fe_assessments.home") },
     { href: "/reporting/frameworks", text: t("fe_assessments.frameworks") },
     { href: `/reporting/frameworks/${id}`, text: t("fe_assessments.assessments") },
   ];

@@ -15,6 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { creatanswerAssessment, fetchExistingAnswerForMultipleChoice } from "@/lib/frameworks/action";
+import { getQuestionLogsById } from "@/lib/frameworks/action";
+import { DataTable } from "@/components/table/data-table";
+import { question_table_log } from "@/components/table/QuestionLogsTableColumns";
 import { QuestionComments } from "./QuestionComments";
 
 export const answerEditorFormSchema = z.object({
@@ -42,6 +45,7 @@ export default function CreateAnswerMultipleChoiceForm({
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [fetchExistingAnswers, setfetchExistingAnswers] = useState("");
+  const [Logs, setLogs] = useState([]);
   const [activeTab, setActiveTab] = useState<'comments' | 'activitylog'>('comments');
 
   const options = QuestionData.answer_config;
@@ -91,7 +95,22 @@ export default function CreateAnswerMultipleChoiceForm({
     closeDialog();
   };
 
+  const fetchLogs = async () => {
+    try {
+      const Logs = await getQuestionLogsById(QuestionData.id);
+      setLogs(Logs);
+    } catch (error) {
+      console.error("Failed to fetch logs:", error);
+    }
+  };
+
+  useEffect(() => {
+      fetchLogs();
+  }, [open]);
+
+
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-1.5 mb-2">
@@ -164,5 +183,7 @@ export default function CreateAnswerMultipleChoiceForm({
             </div>
           </Tabs>
     </Form>
+     <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'}/>
+   </>
   );
 }
