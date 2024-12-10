@@ -15,6 +15,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { creatanswerAssessment, fetchExistingAnswerForCheckbox } from "@/lib/frameworks/action";
+import { getQuestionLogsById } from "@/lib/frameworks/action";
+import { DataTable } from "@/components/table/data-table";
+import { question_table_log } from "@/components/table/QuestionLogsTableColumns";
 
 // Validation schema ensuring that the answer is either "Yes" or "No"
 export const answerEditorFormSchema = z.object({
@@ -45,6 +48,7 @@ export default function CreateAnswerCheckboxForm({
   
   const [isUpdate, setIsUpdate] = useState(false);
   const [fetchExistingAnswers, setfetchExistingAnswers] = useState("");
+  const [Logs, setLogs] = useState([]);
 
   // React Hook Form initialization
   const form = useForm<z.infer<typeof answerEditorFormSchema>>({
@@ -95,7 +99,21 @@ export default function CreateAnswerCheckboxForm({
     form.setValue("answer", checked ? "Yes" : "No");
   };
 
+  const fetchLogs = async () => {
+    try {
+      const Logs = await getQuestionLogsById(QuestionData.id);
+      setLogs(Logs);
+    } catch (error) {
+      console.error("Failed to fetch logs:", error);
+    }
+  };
+
+  useEffect(() => {
+      fetchLogs();
+  }, [open]);
+
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-1.5 mb-2">
@@ -137,5 +155,7 @@ export default function CreateAnswerCheckboxForm({
         </div>
       </form>
     </Form>
+      <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'}/>
+    </>
   );
 }
