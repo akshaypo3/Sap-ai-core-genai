@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getUserInfo } from "@/lib/settings/users/data";
+import { getTimeZone } from "@/lib/settings/timezone/action";
 
 export async function createCdpAssessment(formData: FormData) {
     const supabase = createClient();
@@ -395,3 +396,94 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
     redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
 }
+
+export async function getQuestionComments(QuestionId: string,assessmentID:string) {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const timezone1 = await getTimeZone({ userId: userData.id })
+  const userId=userData.id;
+  const timezone = timezone1.userWithTimezone?.timezone || "UTC";
+  try {
+    const { data: comment, error } = await supabase
+      .from('fe_assessment_questions_comments')
+      .select('*')
+      .eq('assessment_id', assessmentID)
+	  .eq('assessment_question_id', QuestionId)
+    if (error) {
+      console.error("Error while fetching answer: " + error.message);
+    }
+    
+    const result = {
+      comment,
+      timezone,
+      userId
+    };
+    return result
+  } catch (error) {
+    console.error("Error fetching comments: ", error);
+    return null;
+  }
+}
+
+export const deleteQuestionCommentDialog = async (commentId: string, frameworkId: any,assessmentID:any) => {
+  const supabase = createClient();
+
+  try { 
+    const { data, error } = await supabase
+      .from("fe_assessment_questions_comments")
+      .delete()
+      .eq("id", commentId);
+
+    if (error) {
+      console.error("Error deleting comment:", error);
+      return null;
+    }
+
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return null;
+  } finally {
+   revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+  }
+};
+export const createQuestionCommentDialog = async (formData: FormData) => {
+  const supabase = createClient();
+  const userData = await getUserInfo();
+  const userEmail = userData.email;
+  const userName = userEmail.substring(0, userEmail.indexOf("@"));
+  const userId = userData.id;
+
+  const assessmentID = formData.get("assessmentID");
+  const commentText = formData.get("comment");
+  const assessment_question_id= formData.get("QuestionId");
+  const frameworkId=formData.get("frameworkId");
+
+  if (!commentText) {
+    console.error("Comment cannot be empty");
+    return null;
+  }
+
+  try {
+    const { data: newComment, error } = await supabase.from("fe_assessment_questions_comments").insert({
+      comment: commentText,
+      user: userName,
+      assessment_id: assessmentID,
+	  assessment_question_id:assessment_question_id,
+      user_id: userId,
+    });
+
+    if (error) {
+      console.error("Error creating comment:", error);
+      return null;
+    }
+
+    return newComment;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return null;
+  } finally {
+    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+  }
+};
