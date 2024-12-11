@@ -54,7 +54,7 @@ export default function CreateAnswerTableForm({
    const answerEditorFormSchema = z.object({
     answers: z.array(
       z.object(
-        QuestionData.qu_columns1.reduce((acc, col) => {
+        (QuestionData.qu_columns1 || []).reduce((acc, col) => {
           acc[col] = z.string().min(1, { message: `${col} is required.` });
           return acc;
         }, {})
@@ -69,7 +69,7 @@ export default function CreateAnswerTableForm({
       answers: fetchExistingAnswers.length > 0
         ? fetchExistingAnswers
         : [
-            QuestionData.qu_columns1.reduce((acc: any, col: string) => {
+          (QuestionData.qu_columns1 || []).reduce((acc: any, col: string) => {
               acc[col] = "";
               return acc;
             }, {}),
@@ -94,13 +94,6 @@ export default function CreateAnswerTableForm({
 
     loadExistingAnswer();
   }, [open, QuestionData.id]);
-  // Check if QuestionData is available
-  if (!QuestionData?.qu_columns1 || QuestionData.qu_columns1.length === 0) {
-    console.error("Error: No columns available in QuestionData");
-    return <div>No columns found</div>;
-  }
- 
- 
  
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -242,7 +235,7 @@ export default function CreateAnswerTableForm({
               </TabsContent>
               <TabsContent value="activitylog">
                 <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
-                <div className="overflow-x-auto max-h-[400px] max-w-[680px]">
+                <div className="">
                 <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'}/>
                 </div>
               </TabsContent>

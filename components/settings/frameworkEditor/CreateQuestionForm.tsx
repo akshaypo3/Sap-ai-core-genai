@@ -69,6 +69,7 @@ export function QuestionFormDialog({
     formData.append("questionText", data.questionText);
     formData.append("answerType", data.answerType);
     formData.append("answerOptions", JSON.stringify(data.answerOptions)); // If answerOptions is an array, you may need to stringify it
+    formData.append("answerOptionsTable", JSON.stringify(data.answerOptionsTable)); 
     formData.append("helpText", data.helpText || ""); 
     formData.append("isRequired", data.isRequired.toString()); // Make sure boolean values are converted to strings
     formData.append("minLength", data.minLength.toString()); // Convert number values to strings
