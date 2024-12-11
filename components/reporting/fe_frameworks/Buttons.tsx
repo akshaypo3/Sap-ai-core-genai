@@ -87,12 +87,9 @@ const col=QuestionData.qu_columns;
       <DialogTrigger>
         <Button>Answer</Button>
       </DialogTrigger>
-      <DialogContent  className="max-w-3xl">
+      <DialogContent  className="sm:max-w-[1000px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Answer</DialogTitle>
-          <DialogDescription>
-            {type}
-          </DialogDescription>
         </DialogHeader>
         {renderForm()}
       </DialogContent>
@@ -104,12 +101,23 @@ export function DeleteQuestionCommentButtonDialog({
   commentId,
   frameworkId,
   assessmentID,
+  fetchtherequireddata
 }: {
   commentId: string;
   frameworkId: string;
   assessmentID:string;
+  fetchtherequireddata:() => void;
 }) {
-  const deleteCommentWithId = deleteQuestionCommentDialog.bind(null, commentId.id, frameworkId,assessmentID);
+  //const deleteCommentWithId = deleteQuestionCommentDialog.bind(null, commentId.id, frameworkId,assessmentID);
+  
+  const deleteCommentWithId = async () => {
+    try {
+      await deleteQuestionCommentDialog(commentId.id, frameworkId, assessmentID);
+      fetchtherequireddata();
+    } catch (error) {
+      console.error("Failed to delete comment:", error);
+    }
+  };
 
   return (
     <Dialog>
