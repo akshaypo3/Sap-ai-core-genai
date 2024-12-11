@@ -44,7 +44,7 @@ export  function QuestionComments({ QuestionId,frameworkId,assessmentID,isOpen})
   return (
     <div className="w-full max-w-2xl">
       <h2 className="font-semibold text-xl">Comments</h2>
-      <AddQuestionCommentButtonDialog QuestionId={QuestionId} frameworkId={frameworkId} assessmentID={assessmentID} />
+      <AddQuestionCommentButtonDialog QuestionId={QuestionId} frameworkId={frameworkId} assessmentID={assessmentID} fetchtherequireddata={fetchtherequireddata}/>
       <div className="grid">
         {comments?.map((comment) => (
           <div
@@ -67,7 +67,7 @@ export  function QuestionComments({ QuestionId,frameworkId,assessmentID,isOpen})
               <div className="mt-1">{comment.comment}</div>
               {userId === comment.user_id && (
                 <div className="flex items-center gap-2">
-                    <DeleteQuestionCommentButtonDialog commentId={comment} frameworkId={frameworkId} assessmentID={assessmentID} />
+                    <DeleteQuestionCommentButtonDialog commentId={comment} frameworkId={frameworkId} assessmentID={assessmentID} fetchtherequireddata={fetchtherequireddata}/>
                 </div>
               )}
             </div>

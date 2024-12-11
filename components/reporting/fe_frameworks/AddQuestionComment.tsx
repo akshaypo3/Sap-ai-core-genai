@@ -7,12 +7,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createQuestionCommentDialog } from "@/lib/frameworks/action";
 
-export function AddQuestionCommentButtonDialog({ QuestionId,frameworkId,assessmentID }: { QuestionId:string,frameworkId: string ,assessmentID:string}) {
+export function AddQuestionCommentButtonDialog({ QuestionId,frameworkId,assessmentID,fetchtherequireddata }: { QuestionId:string,frameworkId: string ,assessmentID:string}) {
     const ref = useRef<HTMLFormElement>(null);
-    ref.current?.reset();
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      const formData = new FormData(ref.current!);
+      const newComment = await createQuestionCommentDialog(formData);
+      ref.current?.reset();
+      fetchtherequireddata(); 
+    };
   
     return (
-      <form ref={ref} action={createQuestionCommentDialog} className="grid gap-6 mb-3">
+      <form ref={ref} onSubmit={handleSubmit} className="grid gap-6 mb-3">
         <div className="w-full gap-1.5">
           <Label htmlFor="comment">Add a comment</Label>
           <Textarea
