@@ -176,7 +176,7 @@ export default function CreateAnswerMultipleChoiceForm({
               </TabsContent>
               <TabsContent value="activitylog">
                 <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
-                <div className="">
+                <div className="overflow-x-auto max-w-[880px]">
                 <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'}/>
                 </div>
               </TabsContent>
