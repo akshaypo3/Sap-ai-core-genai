@@ -178,7 +178,7 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
           className="w-80"
         />
         <div className="flex space-x-4 ml-auto">
-          <Select onValueChange={(value) => setSelectedStatus(value)} className="w-40">
+          {/* <Select onValueChange={(value) => setSelectedStatus(value)} className="w-40">
             <SelectTrigger>
               <SelectValue placeholder="Status" />
               <ChevronDownIcon className="h-4 w-4 text-gray-500" />
@@ -188,11 +188,10 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
           <Select onValueChange={(value) => setSelectedType(value)} className="w-40">
             <SelectTrigger>
               <SelectValue placeholder="Type" />
-              <ChevronDownIcon className="h-4 w-4 text-gray-500" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
@@ -204,8 +203,7 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
           </Select>
           <Select onValueChange={(value) => setSortBy(value)} className="w-40">
             <SelectTrigger>
-              <SelectValue placeholder="Sort" />
-              <ChevronDownIcon className="h-4 w-4 text-gray-500" />
+              <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="question_code">Sort by Code</SelectItem>
