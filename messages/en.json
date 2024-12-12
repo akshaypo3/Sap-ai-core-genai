@@ -497,7 +497,11 @@
     "fe_assessments":{
       "assessments":"Assessments",
       "home":"Home",
-      "frameworks":"Frameworks"
+      "frameworks":"Frameworks",
+      "Statistics":"Statistics",
+      "totalquestion":"Total Questions",
+      "totalquestionans":"Total Questions Answered",
+      "totalquestionunans":"Total Questions Not Answered"
     }
   },
   "settings": {
