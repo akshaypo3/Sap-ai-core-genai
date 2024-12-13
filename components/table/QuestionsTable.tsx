@@ -25,6 +25,7 @@ import { deleteQuestion, duplicateQuestion, fetchQuestions } from "@/lib/setting
 import EditQuestionSectionPage from "../settings/frameworkEditor/EditQuestionButton";
 import { DuplicateQuestion } from "../settings/frameworkEditor/Buttons";
 import { SE } from "country-flag-icons/react/3x2";
+import { AddQuestionDownward, AddQuestionUpward } from "../settings/frameworkEditor/Buttons";
 
 interface CreateQuestionTableFormDialogProps {
   framework_id: string;
@@ -262,6 +263,8 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
                     </Button>
 
                     <EditQuestionSectionPage Questiondata={question} />
+                    <AddQuestionUpward framework_id={question.framework_id} section_id={question.section_id} section_code={question.section?.section_code} questionData={question} key1={"upward"}/>
+                    <AddQuestionDownward framework_id={question.framework_id} section_id={question.section_id} section_code={question.section?.section_code} questionData={question} key1={"downward"}/>
                   </div>
                 </TableCell>
               </TableRow>
@@ -368,8 +371,6 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
           </div>
         </div>
       )}
-
-
     </div>
   );
 };
