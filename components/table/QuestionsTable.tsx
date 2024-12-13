@@ -38,7 +38,7 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<string | null>("question_code");
+  const [sortBy, setSortBy] = useState<string | null>("order_index");
   const [error, setError] = useState<string | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [questionToDelete, setQuestionToDelete] = useState<any | null>(null);
@@ -207,7 +207,7 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="question_code">Sort by Code</SelectItem>
+              <SelectItem value="order_index">Sort by Code</SelectItem>
               <SelectItem value="question_type">Sort by Type</SelectItem>
               <SelectItem value="created_at">Sort by Created Date</SelectItem>
             </SelectContent>
