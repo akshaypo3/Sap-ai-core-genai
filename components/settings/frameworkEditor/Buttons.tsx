@@ -16,7 +16,7 @@ import { useState } from "react";
 import CreateFrameworkEditorForm from "./CreateFrameworkForm";
 import { deleteFramework } from "@/lib/settings/frameworkEditor/action";
 import Link from "next/link";
-import { Copy, Pencil, Trash2, TrashIcon, Eye, CopyIcon } from "lucide-react";
+import { Copy, Pencil, Trash2, TrashIcon, Eye, CopyIcon, MoveUp, MoveDown} from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
@@ -29,6 +29,7 @@ import EditSectionEditorForm from "./EditSectionForm";
 import { QuestionFormDialog } from "./CreateQuestionForm";
 import { QuestionFormSectionDialog } from "./CreateQuestionFormSectionArray";
 import DuplicateQuestionForm from "./DuplicateQuestionForm";
+import { UpwardDownwardQuestionFormDialog } from "./UpwardDownwardQuestionForm";
 
 interface DuplicateFrameworkEditorButtonProps {
   userId: string;
@@ -64,6 +65,14 @@ interface EditSectionButtonProps {
   },
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+}
+
+interface UpwardDownWardProps {
+  framework_id: string;
+  section_id: string;
+  section_code: string;
+  questionData: any;
+  key1: string
 }
 
 export function AddFrameworkEditorButton({userId}:{userId:string}) {
@@ -318,6 +327,55 @@ export function DuplicateQuestion({ questionData, sections }: DuplicateQuestionB
           </DialogDescription>
         </DialogHeader>
         <DuplicateQuestionForm open={open} setOpen={setOpen} questionData={questionData} sections={sections}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function AddQuestionUpward({framework_id, section_code, section_id, questionData, key1}:UpwardDownWardProps) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog  open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+      <Button
+        variant="outline"
+        color="blue"
+        className="px-2 bg-gray-600 h-9 hover:bg-gray-900 rounded-md"
+        ><MoveUp className="w-4 text-white"/>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Question</DialogTitle>
+          <DialogDescription>
+            Add Question Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <UpwardDownwardQuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code} questionData={questionData} key1={key1}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function AddQuestionDownward({framework_id, section_code, section_id, questionData, key1}:UpwardDownWardProps) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog  open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+        <Button
+        variant="outline"
+        color="blue"
+        className="px-2 bg-gray-500 h-9 hover:bg-gray-900 rounded-md"><MoveDown className="w-4 text-white"/>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Question</DialogTitle>
+          <DialogDescription>
+            Add Question Function Description
+          </DialogDescription>
+        </DialogHeader>
+        <UpwardDownwardQuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code} questionData={questionData} key1={key1}/>
       </DialogContent>
     </Dialog>
   );

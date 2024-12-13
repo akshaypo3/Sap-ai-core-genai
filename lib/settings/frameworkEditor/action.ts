@@ -235,8 +235,18 @@ export async function createQuestion(formData: FormData) {
   const validation_rules=[{"min":min},{"max":max}]
   const framework_id=formData.get("framework_id");
   const answers=JSON.parse(answer_config);
-  const answersTable=JSON.parse(answer_configTable);
 
+  let answersTable = [];
+  if( question_type === "Table"){
+  if (answer_configTable) {
+    try {
+      answersTable = JSON.parse(answer_configTable);
+    } catch (error) {
+      console.error("Error parsing answer_configTable:", error);
+    }
+  }
+  }
+  
   let newOrderIndex = 0;
 
   try {
@@ -385,7 +395,7 @@ export const fetchQuestions = async (framework_id:string) => {
   try {
     const { data, error } = await supabase
       .from("fe_questions")
-      .select("*,section:section_id(name)")
+      .select("*,section:section_id(name, section_code)")
       .eq("framework_id", framework_id);
 
     if (error) {
@@ -463,6 +473,169 @@ export async function DuplicateQuestion(formData: FormData) {
       console.log("Error inserting questions data into the table", error);
     } else {
       console.log("questions created successfully:", data);
+    }
+  } catch (error) {
+    console.error("Error while adding section:", error);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
+
+export async function upwardDownwardCreateQuestion(formData: FormData) {
+  const supabase = createClient();
+  const section_code = formData.get("section_code");
+  const section_id = formData.get("section_id");
+  const question_text=formData.get("questionText");
+  const help_text=formData.get("helpText");
+  const question_type=formData.get("answerType");
+  const is_required=formData.get("isRequired");
+  const is_repeatable="false";
+  const answer_config=formData.get("answerOptions");
+  const answer_configTable=formData.get("answerOptionsTable");
+  const min =formData.get("minLength");
+  const max =formData.get("maxLength");
+  const validation_rules=[{"min":min},{"max":max}]
+  const framework_id=formData.get("framework_id");
+  const answers=JSON.parse(answer_config);
+  const questionData = formData.get("questionData");
+  const key1 = formData.get("key1");
+  
+  const parsedData = JSON.parse(questionData);
+
+  const orderofthequestiondata = parsedData.order_index
+  const position = key1
+
+  console.log("real order_index bnoowow", orderofthequestiondata)
+  
+  let answersTable = [];
+  if( question_type === "Table"){
+  if (answer_configTable) {
+    try {
+      answersTable = JSON.parse(answer_configTable);
+    } catch (error) {
+      console.error("Error parsing answer_configTable:", error);
+    }
+   }
+  }
+ 
+let postionofnewdata = 0;
+ 
+  // Logic to determine the position
+  if (position === "upward" && orderofthequestiondata === 1) {
+    postionofnewdata = 1;
+  } else if (position === "upward") {
+    postionofnewdata = orderofthequestiondata;
+  } else {
+    postionofnewdata = orderofthequestiondata + 1;
+  }
+ 
+  try {
+    if (section_id) {
+      const { data: parentSections, error: parentError } = await supabase
+        .from("fe_questions")
+        .select("*")
+        .eq("section_id", section_id)
+        .order("order_index", { ascending: false });
+ 
+	const endlength= parentSections.length+2
+      if (parentError) {
+        console.error("Error fetching parent section order index:", parentError);
+      }
+ 
+      // If the new question is being inserted at the first position
+      if (postionofnewdata === 1) {
+        // Move all existing questions down by 1 order_index
+        const updatePromises = parentSections.map(async (parentSection) => {
+          const newOrderIndex = endlength - 1;
+          const { error: updateError } = await supabase
+            .from("fe_questions")
+            .update({ order_index: newOrderIndex, question_code: section_code + "." + newOrderIndex }) // Update question_code
+            .eq("id", parentSection.id);
+ 
+          if (updateError) {
+            console.error("Error updating order index for question:", updateError);
+          }
+        });
+ 
+        // Wait for all updates to complete
+        await Promise.all(updatePromises);
+      }
+      // If the new question is inserted in the middle
+      else if (parentSections.length > postionofnewdata) {
+        // Shift all questions from the position down by 1
+        const updatePromises = parentSections
+          .filter((parentSection) => parentSection.order_index >= postionofnewdata)
+          .map(async (parentSection) => {
+            const newOrderIndex = endlength - 1; // Move down by 1
+            const { error: updateError } = await supabase
+              .from("fe_questions")
+              .update({
+                order_index: newOrderIndex,
+                question_code: section_code + "." + newOrderIndex, // Update question_code
+              })
+              .eq("id", parentSection.id);
+ 
+            if (updateError) {
+              console.error("Error updating order index for question:", updateError);
+            }
+          });
+ 
+        // Wait for all updates to complete
+        await Promise.all(updatePromises);
+ 
+        // Insert the new question at the specified position
+        const { data, error } = await supabase
+          .from("fe_questions")
+          .insert({
+            section_id: section_id,
+            question_code: section_code + "." + postionofnewdata,
+            question_text: question_text,
+            help_text: help_text,
+            question_type: question_type,
+            is_required: is_required,
+            is_repeatable: is_repeatable,
+            answer_config: answers,
+            qu_columns: answersTable,
+            validation_rules: validation_rules,
+            order_index: postionofnewdata,
+            framework_id: framework_id,
+          })
+          .select();
+ 
+        if (error) {
+          console.log("Error inserting question data into the table", error);
+        } else {
+          console.log("Question created successfully:", data);
+        }
+      }
+ 
+      // If the new question is being inserted at the end, no need to adjust order for existing questions
+      else {
+        const { data, error } = await supabase
+          .from("fe_questions")
+          .insert({
+            section_id: section_id,
+            question_code: section_code + "." + postionofnewdata, // Use the new order_index for question_code
+            question_text: question_text,
+            help_text: help_text,
+            question_type: question_type,
+            is_required: is_required,
+            is_repeatable: is_repeatable,
+            answer_config: answers,
+            qu_columns: answersTable,
+            validation_rules: validation_rules,
+            order_index: postionofnewdata,
+            framework_id: framework_id,
+          })
+          .select();
+ 
+        if (error) {
+          console.log("Error inserting question data into the table", error);
+        } else {
+          console.log("Question created successfully:", data);
+        }
+      }
     }
   } catch (error) {
     console.error("Error while adding section:", error);
