@@ -114,16 +114,6 @@ export function UpwardDownwardQuestionFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {/* <DialogTrigger asChild>
-        <Button>Add Question</Button>
-      </DialogTrigger> */}
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create Question</DialogTitle>
-          <DialogDescription>
-            Add a new question with dynamic answer type configuration.
-          </DialogDescription>
-        </DialogHeader>
 
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -149,7 +139,6 @@ export function UpwardDownwardQuestionFormDialog({
             )}
           </form>
         </FormProvider>
-      </DialogContent>
     </Dialog>
   );
 }
