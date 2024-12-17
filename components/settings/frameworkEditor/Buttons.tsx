@@ -20,7 +20,7 @@ import { Copy, Pencil, Trash2, TrashIcon, Eye, CopyIcon, MoveUp, MoveDown} from 
 import { Label } from "@/components/ui/label";
 import UpdateFrameworkEditorForm from "./EditFrameworkForm";
 import DuplicateFrameworkEditorForm from "./DuplicateFrameworkForm";
-
+import RearrangeQuestionList from "./RearrangeQuestions";
 import AddQuestionsForm from "./AddQuestionsForm";
 
 import CreateSectionEditorForm from "./CreateSectionForm";
@@ -376,6 +376,28 @@ export function AddQuestionDownward({framework_id, section_code, section_id, que
           </DialogDescription>
         </DialogHeader>
         <UpwardDownwardQuestionFormDialog open={open} setOpen={setOpen} framework_id={framework_id} section_id={section_id} section_code={section_code} questionData={questionData} key1={key1}/>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function RearrangeQuestions({questionData, framework_id}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog  open={open} onOpenChange={setOpen}>
+      <DialogTrigger>
+        <Button className="bg-green-600">
+          Rearrange Questions
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-[1100px] w-full">
+        <DialogHeader>
+          <DialogTitle>Rearrange Questions</DialogTitle>
+          <DialogDescription>
+           Question Rearrange Function
+          </DialogDescription>
+        </DialogHeader>
+        <RearrangeQuestionList questionData={questionData} framework_id={framework_id} open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   );

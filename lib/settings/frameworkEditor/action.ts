@@ -441,7 +441,7 @@ export const fetchQuestions = async (framework_id:string) => {
   try {
     const { data, error } = await supabase
       .from("fe_questions")
-      .select("*,section:section_id(name, section_code)")
+      .select("*,section:section_id(name, section_code, id)")
       .eq("framework_id", framework_id)
       .order("order_index", { ascending: true });
 
@@ -708,3 +708,52 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
     redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
+
+export async function saveReorderedQuestionsOnServer(questions: any, framework_id: string) {
+  const supabase = createClient();
+
+  const firstUpdates = questions.map((question: any) => ({
+    id: question.id,
+    order_index: question.order_index,
+    question_code: question.section?.section_code + "." + question.order_index + "1", 
+    question_text: question.question_text || "Untitled Question",
+    question_type: question.question_type || "text", 
+    is_required: question.is_required ?? true,
+  }));
+
+  const secondUpdates = questions.map((question: any) => ({
+    id: question.id,
+    order_index: question.order_index,
+    question_code: question.section?.section_code + "." + question.order_index, 
+    question_text: question.question_text || "Untitled Question",
+    question_type: question.question_type || "text", 
+    is_required: question.is_required ?? true,
+  }));
+
+  try {
+    const { error: error1 } = await supabase
+      .from("fe_questions")
+      .upsert(firstUpdates, { onConflict: ["id"] });
+
+    if (error1) {
+      console.log("Failed to update questions (first stage):", error1);
+      throw new Error("Failed during the first update stage.");
+    }
+
+    const { error: error2 } = await supabase
+      .from("fe_questions")
+      .upsert(secondUpdates, { onConflict: ["id"] });
+
+    if (error2) {
+      console.log("Failed to update questions (second stage):", error2);
+      throw new Error("Failed during the second update stage.");
+    }
+
+  } catch (err) {
+    console.error("An error occurred while rearranging questions:", err);
+  } finally {
+    revalidatePath(`/settings/frameworkEditor/${framework_id}`);
+    redirect(`/settings/frameworkEditor/${framework_id}`);
+  }
+}
+
