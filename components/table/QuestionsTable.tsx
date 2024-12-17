@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import { Trash2Icon, CopyIcon } from "lucide-react";
-import { deleteQuestion, duplicateQuestion, fetchQuestions } from "@/lib/settings/frameworkEditor/action";
+import { deleteQuestion, duplicateQuestion } from "@/lib/settings/frameworkEditor/action";
 import EditQuestionSectionPage from "../settings/frameworkEditor/EditQuestionButton";
 import { DuplicateQuestion } from "../settings/frameworkEditor/Buttons";
 import { SE } from "country-flag-icons/react/3x2";
@@ -30,10 +30,11 @@ import { AddQuestionDownward, AddQuestionUpward } from "../settings/frameworkEdi
 interface CreateQuestionTableFormDialogProps {
   framework_id: string;
   sections:any;
+  questionData:any
 }
 
-const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogProps) => {
-  const [questions, setQuestions] = useState<any[]>([]);
+const QuestionsTable = ({ framework_id,sections,questionData}: CreateQuestionTableFormDialogProps) => {
+  const [questions, setQuestions] = useState(questionData);
   const [filteredQuestions, setFilteredQuestions] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
@@ -51,20 +52,20 @@ const QuestionsTable = ({ framework_id,sections}: CreateQuestionTableFormDialogP
     help_text: "",
     order_index: 1,
   });
-  useEffect(() => {
+  // useEffect(() => {
    
-    const loadQuestions = async () => {
-      try {
-        const data = await fetchQuestions(framework_id);
-        setQuestions(data);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
+  //   const loadQuestions = async () => {
+  //     try {
+  //       const data = await fetchQuestions(framework_id);
+  //       setQuestions(data);
+  //     } catch (err) {
+  //       setError(err.message);
+  //     }
+  //   };
 
-    loadQuestions();
+  //   loadQuestions();
 
-  }, []);
+  // }, []);
 
   useEffect(() => {
     let filteredData = [...questions];
