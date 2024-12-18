@@ -84,10 +84,10 @@ export default async function Home() {
             <AddTask createdId={user.id} />
           </div>
           <Tabs defaultValue="board" className="mt-2">
-            <TabsList className="grid grid-cols-5">
+            <TabsList className="grid grid-cols-4">
               <TabsTrigger value="board"><SquareKanban className="mr-2 h-4 w-4"/>Board</TabsTrigger>
               <TabsTrigger value="list"><List className="mr-2 h-4 w-4"/>List</TabsTrigger>
-              <TabsTrigger value="gantt"><SquareGanttChart className="mr-2 h-4 w-4"/>Gantt</TabsTrigger>
+              {/* <TabsTrigger value="gantt"><SquareGanttChart className="mr-2 h-4 w-4"/>Gantt</TabsTrigger> */}
               <TabsTrigger value="table"><TableProperties className="mr-2 h-4 w-4"/>Table</TabsTrigger>
               <TabsTrigger value="archive"><List className="mr-2 h-4 w-4"/>Archive</TabsTrigger>
             </TabsList>
@@ -102,7 +102,7 @@ export default async function Home() {
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="gantt"></TabsContent>
+              {/* <TabsContent value="gantt"></TabsContent> */}
               <TabsContent value="table">
                 <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
                   <div className="min-w-full table-auto border-collapse">

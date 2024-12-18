@@ -67,7 +67,7 @@ export default async function Home() {
           <Button variant="outline">Add new</Button> 
         </div> */}
       </div>
-        <FrameworkCards/>
+        {/* <FrameworkCards/> */}
         <ActiveFramewrokCards activeFrameworks={activeFrameworks}/>
     </ContentLayout>
     </>
