@@ -13,17 +13,18 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { AnswerButton } from "../reporting/fe_frameworks/Buttons";
+
 interface QuestionsProps {
   questionData: any;
   FrameworkID: string;
   AssessmentID: string;
 }
 
-const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:QuestionsProps) => {
+const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: QuestionsProps) => {
   const [data, setData] = useState(questionData);
   const [filteredData, setFilteredData] = useState(questionData);
   const [sortOrder, setSortOrder] = useState({
-    field: "name",
+    field: "section_code", // Default sort by section_code
     direction: "asc",
   });
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,11 +41,16 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
   ];
 
   const uniqueTypes = Array.from(
-    new Set(questionData.map((item:any) => item.question_type)),
+    new Set(questionData.map((item: any) => item.question_type))
   );
 
   useEffect(() => {
     filterData(searchQuery, filters);
+  }, [questionData]);
+
+  useEffect(() => {
+    // Sort data on initial load based on section_code and then order_index
+    handleSort("section_code", "asc");
   }, [questionData]);
 
   const handleSearch = (e: any) => {
@@ -58,48 +64,58 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
     filterData(searchQuery, { ...filters, [name]: value });
   };
 
-  const filterData = (query, appliedFilters) => {
+  const filterData = (query: string, appliedFilters: any) => {
     let filtered = data;
-  
+
     if (query) {
-      filtered = filtered.filter((item:any) =>
+      filtered = filtered.filter((item: any) =>
         item.question_text?.toLowerCase().includes(query.toLowerCase())
       );
     }
-  
+
     if (appliedFilters.is_required && appliedFilters.is_required !== "all") {
       filtered = filtered.filter(
-        (item:any) => item.is_required === (appliedFilters.is_required === "true")
+        (item: any) => item.is_required === (appliedFilters.is_required === "true")
       );
     }
 
     if (appliedFilters.question_type && appliedFilters.question_type !== "all") {
-      filtered = filtered.filter((item:any) => item.question_type === appliedFilters.question_type);
+      filtered = filtered.filter((item: any) => item.question_type === appliedFilters.question_type);
     }
-  
-    setFilteredData(filtered);
-  };  
 
-  const handleSort = (field: string) => {
-    let newDirection = "asc";
+    setFilteredData(filtered);
+  };
+
+  const handleSort = (field: string, direction: string = "asc") => {
+    let newDirection = direction;
+
     if (sortOrder.field === field && sortOrder.direction === "asc") {
-      newDirection = "desc";
+      newDirection = "asc";
     }
-  
+
     const sortedData = [...filteredData].sort((a, b) => {
-      const aValue = a[field]?.toString().toLowerCase() || "";
-      const bValue = b[field]?.toString().toLowerCase() || "";
-  
-      return newDirection === "asc"
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
+      if (field === "section_code" || field === "order_index") {
+        const aValue = a[field] || "";
+        const bValue = b[field] || "";
+
+        if (aValue === bValue) {
+          // If section_code is equal, sort by order_index next
+          return a["order_index"] - b["order_index"];
+        }
+
+        return newDirection === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return 0;
     });
-  
+
     setFilteredData(sortedData);
     setSortOrder({ field, direction: newDirection });
-  };  
+  };
 
-  const reuiredStatus = (is_required: any) => {
+  const requiredStatus = (is_required: any) => {
     if (is_required === true || is_required === "true") {
       return "Required";
     }
@@ -108,6 +124,7 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
     }
     return is_required;
   };
+
   const Answeredstatus = (answered: any) => {
     if (answered === true || answered === "true") {
       return "Yes";
@@ -175,12 +192,8 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
         <table className="min-w-full table-auto border-collapse border">
           <thead>
             <tr>
-              <th
-                className="bg-gray-100 dark:bg-neutral-800 cursor-pointer p-3 text-center"
-                onClick={() => handleSort("question_text")}
-              >
+              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Question Name
-                <ArrowUpDown className="ml-2 h-4 w-4 inline" />
               </th>
               <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
                 Question Code
@@ -205,14 +218,10 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
           <tbody>
             {filteredData.map((question: any) => (
               <tr key={question.id}>
-                <td className="border p-3 text-center">
-                  {question.question_text}
-                </td>
+                <td className="border p-3 text-center">{question.question_text}</td>
                 <td className="border p-3 text-center">{question.question_code}</td>
                 <td className="border p-3 text-center">{question.help_text}</td>
-                <td className="border p-3 text-center">
-                  {question.question_type}
-                </td>
+                <td className="border p-3 text-center">{question.question_type}</td>
                 <td className="border p-3 text-center">
                   {question.is_required !== undefined && (
                     <Badge
@@ -226,7 +235,7 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
                           : ""
                       }
                     >
-                      {reuiredStatus(question.is_required)}
+                      {requiredStatus(question.is_required)}
                     </Badge>
                   )}
                 </td>
@@ -249,7 +258,7 @@ const AssessmentQuestionsTable = ({ questionData,FrameworkID,AssessmentID }:Ques
                 </td>
                 <td className="border p-3 text-center">
                   <div className="flex justify-center items-center space-x-2">
-                    <AnswerButton QuestionData={question} FrameworkID={FrameworkID} AssessmentID={AssessmentID}/>
+                    <AnswerButton QuestionData={question} FrameworkID={FrameworkID} AssessmentID={AssessmentID} />
                   </div>
                 </td>
               </tr>
