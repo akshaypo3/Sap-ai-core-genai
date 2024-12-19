@@ -344,7 +344,7 @@ export function AddQuestionUpward({framework_id, section_code, section_id, quest
         ><MoveUp className="w-4 text-white"/>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Question</DialogTitle>
           <DialogDescription>
@@ -368,7 +368,7 @@ export function AddQuestionDownward({framework_id, section_code, section_id, que
         className="px-2 bg-gray-500 h-9 hover:bg-gray-900 rounded-md"><MoveDown className="w-4 text-white"/>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Question</DialogTitle>
           <DialogDescription>

@@ -112,7 +112,7 @@ export function QuestionFormSectionDialog({
       <DialogTrigger asChild>
         <Button className="w-full bg-green-600">Add Question</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Create Question</DialogTitle>
           <DialogDescription>

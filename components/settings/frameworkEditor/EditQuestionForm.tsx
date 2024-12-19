@@ -34,12 +34,16 @@ export function EditQuestionFormDialog({
       questionText: existingData?.question_text || '',
       answerType: existingData?.question_type || "Text", // Default value for answer type
       answerOptions: existingData?.answer_config || [], // Use existing options if available
+      answerOptionsTable: existingData?.metadata || [],
       isRequired: existingData?.is_required || false, // Use existing value if available
       minLength: existingData?.validation_rules[0]?.min || 0,
       maxLength: existingData?.validation_rules[1]?.max || 100,
       helpText: existingData?.help_text || "",
+      quColumns: existingData?.qu_columns || []
     },
   });
+
+  console.log("existing datas", existingData)
 
   const [currentStep, setCurrentStep] = useState(0);
   const steps = ["Question", "Answer Type", "Preview"];
@@ -72,6 +76,8 @@ export function EditQuestionFormDialog({
       formData.append("maxLength", updateData.maxLength.toString());
       formData.append("id", updateData.id);
       formData.append("framework_id", updateData.framework_id);
+      formData.append("answerOptionsTable", JSON.stringify(updateData.answerOptionsTable));
+      formData.append("quColumns", JSON.stringify(updateData.quColumns));
 
       console.log("Form Data Before Submit:", formData); // Log form data to debug
 
@@ -106,10 +112,12 @@ export function EditQuestionFormDialog({
         questionText: existingData?.question_text || '',
         answerType: existingData?.question_type || 'Text',
         answerOptions: existingData?.answer_config || [], // Ensure this is an array
+        answerOptionsTable: existingData?.metadata || [],
         isRequired: existingData?.is_required || false,
         minLength: existingData?.validation_rules?.[0]?.min || 0,
         maxLength: existingData?.validation_rules?.[1]?.max || 100,
         helpText: existingData?.help_text || "",
+        quColumns: existingData?.qu_columns || []
       });
 
       // Check if reset worked and answerOptions is an array
@@ -127,7 +135,7 @@ export function EditQuestionFormDialog({
           <Pencil className="w-4 text-white" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Edit Question</DialogTitle>
           <DialogDescription>

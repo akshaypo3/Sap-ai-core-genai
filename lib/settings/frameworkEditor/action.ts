@@ -250,6 +250,8 @@ export async function createQuestion(formData: FormData) {
   
   let newOrderIndex = 0;
 
+  const columnNames = answersTable.map((item:any) => item.column);
+
   try {
     if (section_id) {
       const { data: parentSections, error: parentError } = await supabase
@@ -283,7 +285,8 @@ export async function createQuestion(formData: FormData) {
 		is_required:is_required,
 		is_repeatable:is_repeatable,
 		answer_config:answers,
-    qu_columns:answersTable,
+    qu_columns:columnNames,
+    metadata:answersTable,
 		validation_rules:validation_rules,
         order_index: newOrderIndex, 
         framework_id: framework_id
@@ -316,7 +319,33 @@ export async function updateQuestion(formData: FormData) {
   const validation_rules=[{"min":min},{"max":max}]
   const framework_id=formData.get("framework_id");
   const id=formData.get("id");
+  const answerOptionsTable = formData.get("answerOptionsTable");
+  const quColumns = formData.get("quColumns");
   const answers=JSON.parse(answer_config);
+ 
+  let metadata = [];
+  let columnNames = [];
+
+  if (answerOptionsTable && typeof answerOptionsTable === 'string') {
+    try {
+      metadata = JSON.parse(answerOptionsTable);
+      columnNames = metadata.map((item: any) => item.column);
+    } catch (error) {
+      console.error("Error parsing answerOptionsTable:", error);
+    }
+  }
+
+  if ((!Array.isArray(columnNames) || columnNames.length === 0) && quColumns && typeof quColumns === 'string') {
+    try {
+      columnNames = JSON.parse(quColumns);
+    } catch (error) {
+      console.error("Error parsing quColumns:", error);
+    }
+}
+
+  if (!Array.isArray(columnNames) || columnNames.length === 0) {
+    columnNames = ["default_column"]; 
+  }
 
   try {
     const { data, error } = await supabase
@@ -327,8 +356,9 @@ export async function updateQuestion(formData: FormData) {
         question_type: question_type,
         is_required: is_required,
         answer_config: answers,
-		validation_rules:validation_rules
-		
+		    validation_rules:validation_rules,
+        metadata : metadata,
+        qu_columns: columnNames
       })
       .eq("id", id) 
       .select();
@@ -564,6 +594,8 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
 
   let postionofnewdata = 0;
 
+  const columnNames = answersTable.map((item:any) => item.column);
+
   // Logic to determine the position
   if (position === "upward" && orderofthequestiondata === 1) {
     postionofnewdata = 1;
@@ -614,7 +646,8 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
           is_required: is_required,
           is_repeatable: is_repeatable,
           answer_config: answers,
-          qu_columns: answersTable,
+          qu_columns: columnNames,
+          metadata: answersTable,
           validation_rules: validation_rules,
           order_index: postionofnewdata,
           framework_id: framework_id,
@@ -661,7 +694,8 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
             is_required: is_required,
             is_repeatable: is_repeatable,
             answer_config: answers,
-            qu_columns: answersTable,
+            qu_columns: columnNames,
+            metadata: answersTable,
             validation_rules: validation_rules,
             order_index: postionofnewdata,
             framework_id: framework_id,
@@ -687,7 +721,8 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
             is_required: is_required,
             is_repeatable: is_repeatable,
             answer_config: answers,
-            qu_columns: answersTable,
+            qu_columns: columnNames,
+            metadata: answersTable,
             validation_rules: validation_rules,
             order_index: postionofnewdata,
             framework_id: framework_id,

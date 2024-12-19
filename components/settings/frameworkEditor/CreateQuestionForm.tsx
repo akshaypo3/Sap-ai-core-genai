@@ -41,6 +41,7 @@ export function QuestionFormDialog({
       questionText: "",
       answerType: "Text",
       answerOptions: [],
+      answerOptionsTable:[],
       isRequired: false,
       minLength: 0,
       maxLength: 100,
@@ -109,7 +110,7 @@ export function QuestionFormDialog({
       {/* <DialogTrigger asChild>
         <Button>Add Question</Button>
       </DialogTrigger> */}
-      <DialogContent>
+      <DialogContent className="max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Create Question</DialogTitle>
           <DialogDescription>

@@ -45,6 +45,7 @@ export function UpwardDownwardQuestionFormDialog({
       questionText: "",
       answerType: "Text",
       answerOptions: [],
+      answerOptionsTable:[],
       isRequired: false,
       minLength: 0,
       maxLength: 100,

@@ -49,7 +49,7 @@ const QuestionStep = ({ sections }: QuestionStepProps) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[460px] justify-between" // Combobox button styling
+            className="w-full justify-between" // Combobox button styling
           >
             {selectedSection
               ? `${selectedSection.section_name} (${selectedSection.section_code})`
