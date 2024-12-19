@@ -58,9 +58,9 @@ export default async function Home() {
       </div>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="general">{t("administration.General")}</TabsTrigger>
-          <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger>
+          {/* <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger> */}
           <TabsTrigger value="emailTempalate">{t("administration.E-mail Templates")}</TabsTrigger>
           <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
           <TabsTrigger value="glossary">Glossary</TabsTrigger>
@@ -78,9 +78,9 @@ export default async function Home() {
             <GoogleMapsApi data={apiId} />
           </TabsContent>
 
-          <TabsContent value="frameworks">
+          {/* <TabsContent value="frameworks">
             <Frameworks />
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="emailTempalate">
             {/* {t("administration.E-mail Templates")} */}
