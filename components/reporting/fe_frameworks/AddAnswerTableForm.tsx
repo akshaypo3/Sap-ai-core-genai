@@ -1,3 +1,5 @@
+'use client'
+ 
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,18 +13,30 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Table, TableBody, TableCaption, TableCell, TableHeader, TableRow, TableHead } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHeader,
+  TableRow,
+  TableHead,
+} from "@/components/ui/table";
 import { creatanswerAssessmentTable, fetchExistingAnswerForTable } from "@/lib/frameworks/action";
 import { getQuestionLogsById } from "@/lib/frameworks/action";
-
+import { DataTable } from "@/components/table/data-table";
+import { question_table_log } from "@/components/table/QuestionLogsTableColumns";
+import { QuestionComments } from "./QuestionComments";
+ 
 interface AnswerFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   QuestionData: any;
-  FrameworkID: string;
-  AssessmentID: string;
+  FrameworkID:string;
+  AssessmentID:string;
 }
-
+ 
 export default function CreateAnswerTableForm({
   open,
   setOpen,
@@ -33,22 +47,25 @@ export default function CreateAnswerTableForm({
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [fetchExistingAnswers, setfetchExistingAnswers] = useState([{}]);
-
-  // Assuming QuestionData contains metadata for the fields
+  const [Logs, setLogs] = useState([]);
+  const [activeTab, setActiveTab] = useState<'comments' | 'activitylog'>('comments');
+ 
   const fieldMetadata = QuestionData?.metadata?.fields || {};
-
-  // Dynamically create Zod schema based on the columns in QuestionData
-  const answerEditorFormSchema = z.object({
+ 
+   // Dynamically create Zod schema based on the columns in QuestionData
+   const answerEditorFormSchema = z.object({
     answers: z.array(
       z.object(
         (QuestionData.qu_columns1 || []).reduce((acc, col) => {
-          acc[col] = z.string().min(1, { message: `${col} is required.` });
+          const sanitizedColumn = col.replace(/\./g, "_");  // Replace periods with underscores
+          acc[sanitizedColumn] = z.string().min(1, { message: `${col} is required.` });
           return acc;
         }, {})
       )
     ).min(1, { message: "At least one row must be entered." }),
   });
-
+ 
+ 
   // Initialize the form with dynamic default values based on QuestionData
   const form = useForm<z.infer<typeof answerEditorFormSchema>>({
     resolver: zodResolver(answerEditorFormSchema),
@@ -60,50 +77,85 @@ export default function CreateAnswerTableForm({
               acc[col] = "";
               return acc;
             }, {}),
-        ],
+          ],
     },
   });
-
+ 
   useEffect(() => {
     const loadExistingAnswer = async () => {
       if (open) {
         const answerData = await fetchExistingAnswerForTable(QuestionData.id);
         setfetchExistingAnswers(answerData);
-
+  
         if (answerData.length > 0) {
-          form.setValue("answers", answerData);
+          // Sanitize the keys of existing answers to match the sanitized column names
+          const sanitizedAnswers = answerData.map((row: any) => {
+            const sanitizedRow: any = {};
+            for (const key in row) {
+              const sanitizedKey = key.replace(/\./g, "_"); // Sanitize column names in existing data
+              sanitizedRow[sanitizedKey] = row[key];
+            }
+            return sanitizedRow;
+          });
+  
+          form.setValue("answers", sanitizedAnswers);  // Set the sanitized answers in the form
           setIsUpdate(true);
         } else {
           setIsUpdate(false);
         }
       }
     };
-
+  
     loadExistingAnswer();
-  }, [open, QuestionData.id]);
-
+  }, [open, QuestionData.id, form]);
+  
+ 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "answers",
   });
-
+ 
   const onSubmit = async (data: z.infer<typeof answerEditorFormSchema>) => {
     setLoading(true);
-
-    const frameworkId = FrameworkID;
-    const assessmentID = AssessmentID;
+ 
     const formData = new FormData();
     formData.append("assessment_id", QuestionData.assessment_id);
     formData.append("id", QuestionData.id);
     formData.append("metadata", JSON.stringify(QuestionData.metadata));
-    formData.append("answer", JSON.stringify(data.answers));
-
-    await creatanswerAssessmentTable(formData, frameworkId, assessmentID);
+ 
+    // Reverse the sanitization for submission
+    const sanitizedAnswers = data.answers.map((row: any) => {
+      const sanitizedRow = {};
+      for (const key in row) {
+        const sanitizedKey = key.replace(/_/g, ".");  // Reverse the sanitization
+        sanitizedRow[sanitizedKey] = row[key];
+      }
+      return sanitizedRow;
+    });
+ 
+    formData.append("answer", JSON.stringify(sanitizedAnswers));
+ 
+    await creatanswerAssessmentTable(formData, FrameworkID, AssessmentID);
     setLoading(false);
     setOpen(false);
   };
-
+ 
+ 
+  const fetchLogs = async () => {
+    try {
+      const Logs = await getQuestionLogsById(QuestionData.id);
+      setLogs(Logs);
+    } catch (error) {
+      console.error("Failed to fetch logs:", error);
+    }
+  };
+ 
+  useEffect(() => {
+      fetchLogs();
+  }, [open]);
+ 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="mb-4">
@@ -116,13 +168,14 @@ export default function CreateAnswerTableForm({
             <strong>Help text:</strong> {QuestionData?.help_text}
           </p>
         </div>
-
+ 
         <div className="mb-4">
           <Button
             onClick={() =>
               append(
                 QuestionData?.qu_columns1?.reduce((acc: any, col: string) => {
-                  acc[col] = ""; // Start with empty value for each column in new row
+                  const sanitizedColumn = col.replace(/\./g, "_");  // Sanitize column name
+                  acc[sanitizedColumn] = "";  // Start with empty value for each sanitized column
                   return acc;
                 }, {})
               )
@@ -132,7 +185,7 @@ export default function CreateAnswerTableForm({
             Add Row
           </Button>
         </div>
-
+ 
         <div className="overflow-x-auto">
           <Table className="min-w-full border-collapse border border-gray-300">
             <TableHeader>
@@ -156,40 +209,42 @@ export default function CreateAnswerTableForm({
                 fields.map((field, rowIndex) => (
                   <TableRow key={field.id}>
                     {QuestionData?.qu_columns1?.map((column: string, colIndex: number) => {
-                      const fieldType = fieldMetadata[column]?.type; // Get field type (dropdown or text)
-                      const fieldOptions = fieldMetadata[column]?.options || []; // Get options if dropdown
-
-                      return (
-                        <TableCell key={colIndex} className="px-1 py-1 border border-gray-300">
-                          <Controller
-                            name={`answers.${rowIndex}.${column}`} // Bind the correct column for each row
-                            control={form.control}
-                            render={({ field }) => {
-                              if (fieldType === 'dropdown') {
-                                return (
-                                  <select {...field} className="w-full p-2 border border-gray-300 rounded-md">
-                                    {/* Render dynamic dropdown options from metadata */}
-                                    <option value="">Select {column}</option>
-                                    {fieldOptions.map((option: string, idx: number) => (
-                                      <option key={idx} value={option}>{option}</option>
-                                    ))}
-                                  </select>
-                                );
-                              } else {
-                                return (
-                                  <input
-                                    {...field}
-                                    type="text"
-                                    placeholder={`Enter ${column}`}
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                  />
-                                );
-                              }
-                            }}
-                          />
-                        </TableCell>
-                      );
-                    })}
+                        // Sanitize the column name
+                        const sanitizedColumn = column.replace(/\./g, "_");
+ 
+                        const fieldType = fieldMetadata[column]?.type;  // Access field type via dynamic column name
+                        const fieldOptions = fieldMetadata[column]?.options || []; // Options for dropdown if applicable
+ 
+                        return (
+                          <TableCell key={colIndex} className="px-1 py-1 border border-gray-300">
+                            <Controller
+                              name={`answers.${rowIndex}.${sanitizedColumn}`}  // Bind the sanitized column name
+                              control={form.control}
+                              render={({ field }) => {
+                                if (fieldType === 'dropdown') {
+                                  return (
+                                    <select {...field} className="w-full p-2 border border-gray-300 rounded-md">
+                                      <option value="">Select {column}</option>
+                                      {fieldOptions.map((option: string, idx: number) => (
+                                        <option key={idx} value={option}>{option}</option>
+                                      ))}
+                                    </select>
+                                  );
+                                } else {
+                                  return (
+                                    <input
+                                      {...field}
+                                      type="text"
+                                      placeholder={`Enter ${column}`}
+                                      className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                  );
+                                }
+                              }}
+                            />
+                          </TableCell>
+                        );
+                      })}
                     <TableCell className="px-4 py-2 border border-gray-300">
                       <Button
                         type="button"
@@ -205,7 +260,7 @@ export default function CreateAnswerTableForm({
             </TableBody>
           </Table>
         </div>
-
+ 
         <div className="flex justify-between mt-4">
           <Button
             type="submit"
@@ -216,6 +271,24 @@ export default function CreateAnswerTableForm({
           </Button>
         </div>
       </form>
+      <Tabs defaultValue="comments" className="w-full" value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="comments">Comments</TabsTrigger>
+              <TabsTrigger value="activitylog">Activity Log</TabsTrigger>
+            </TabsList>
+            <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
+              <TabsContent value="comments">
+              <QuestionComments QuestionId={QuestionData.id} frameworkId={FrameworkID} assessmentID={AssessmentID} isOpen={true} />
+              </TabsContent>
+              <TabsContent value="activitylog">
+                <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
+                <div className="overflow-x-auto max-w-[880px]">
+                <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'}/>
+                </div>
+              </TabsContent>
+            </div>
+          </Tabs>
     </Form>
+    </>
   );
 }
