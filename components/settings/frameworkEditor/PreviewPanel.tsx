@@ -30,11 +30,18 @@ const PreviewPanel = () => {
           <strong>Answer Options:</strong> {formattedAnswerOptions.join(", ")}
         </div>
       )}
-       {answerType === "Table" && formattedAnswerOptionsTable.length > 0 && (
-        <div>
-          <strong>Answer Options:</strong> {formattedAnswerOptionsTable.join(", ")}
-        </div>
-      )}
+     {answerType === "Table" && formattedAnswerOptionsTable.length > 0 && (
+  <div>
+    <strong>Answer Options:</strong>
+    <ul>
+      {formattedAnswerOptionsTable.map((row, index) => (
+        <li key={index}>
+          Column: {row.column}, Type: {row.type}, Options: {row.options}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
       {answerType === "Text" && (
         <>
           <div>

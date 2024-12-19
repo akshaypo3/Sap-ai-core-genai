@@ -5,7 +5,16 @@ export const questionFormSecSchema = z.object({
   answerType: z.enum(["Text", "Numeric", "MultipleChoice", "Checkbox", "Table"]),
   helpText: z.string().optional(), // Optional field for help text
   answerOptions: z.array(z.string()).optional(),
-  answerOptionsTable: z.array(z.string()).optional(),
+  // answerOptionsTable: z.array(z.string()).optional(),
+  answerOptionsTable: z
+  .array(
+    z.object({
+      column: z.string().min(1, "Column name is required"),
+      type: z.enum(["Text", "Dropdown"]),
+      options: z.string().optional(),
+    })
+  )
+  .optional(),
   isRequired: z.boolean(),
   minLength: z.number().optional(),
   maxLength: z.number().optional(),
@@ -16,4 +25,5 @@ export const questionFormSecSchema = z.object({
       section_name: z.string().min(1, "Section name is required"),
     })
     .optional(),
+  quColumns: z.array(z.string()).optional(),
 });
