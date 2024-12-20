@@ -8,9 +8,18 @@ import {
 } from "@/components/ui/card";
 
 import { getTranslations } from "next-intl/server";
+import { getStakeholders } from "@/lib/stakeholders/data";
 
 export default async function StakeholderStatisticCards(){
     
+  const stakeholders = await getStakeholders();
+  const getDistinctGroupCount = (data) => {
+    const groups = data.map(stakeholder => stakeholder.stakeholder_groups.group);
+    const uniqueGroups = new Set(groups);
+    return uniqueGroups.size;
+  };
+  const distinctGroupCount = getDistinctGroupCount(stakeholders);
+  console.log(stakeholders);
     const t = await getTranslations("materiality");
     return(
         <>
@@ -24,7 +33,7 @@ export default async function StakeholderStatisticCards(){
                 {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">2</div>
+                <div className="text-2xl font-bold">{stakeholders?.length}</div>
                 {/* <p className="text-xs text-muted-foreground">
                 -4 from last year
               </p> */}
@@ -38,7 +47,7 @@ export default async function StakeholderStatisticCards(){
                 {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">2</div>
+                <div className="text-2xl font-bold">{distinctGroupCount}</div>
                 {/* <p className="text-xs text-muted-foreground">
                 -1 from last year
               </p> */}
