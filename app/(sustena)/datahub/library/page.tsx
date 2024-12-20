@@ -43,8 +43,8 @@ export default async function Home() {
           <BreadCrumbCom title={t('fileUpload')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
 
-        <p>{t('fileUpload')}</p>
-        <div className="bg-white dark:bg-neutral-950 rounded-md border mt-8 p-5">
+        <p className="font-bold">{t('fileUpload')}</p>
+        <div className="bg-white dark:bg-neutral-950 rounded-md border mt-5 p-5">
         <div className="min-w-full table-auto border-collapse">
           <DataTable columns={columns_file} data={files} filter={'name'} sort={'Created At'}/>
         </div>

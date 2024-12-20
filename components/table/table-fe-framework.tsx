@@ -110,7 +110,7 @@ const FETable = ({ frameworksData ,userId}) => {
         />
 
         {/* Filters section on the right with gap between the search input and filters */}
-        <div className="ml-auto flex gap-4 w-1/3">
+        <div className="flex space-x-4 ml-auto">
           <Select
             name="status"
             value={filters.status !== "all" ? filters.status : ""} // This will hold the selected value, defaults to "all" but shows placeholder when "all"

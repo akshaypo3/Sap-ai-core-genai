@@ -121,7 +121,7 @@ const SectionTable = ({ sections, frameworkId }) => {
         <SectionOverview data={sectionData} onNavigate={handleNavigate} />
       )}
 
-      <div className="mb-4 flex items-center gap-4 mt-9">
+      <div className="mb-4 flex items-center mt-4">
         <Input
           type="text"
           placeholder="Search sections..."

@@ -172,7 +172,7 @@ const QuestionsTable = ({ framework_id,sections,questionData}: CreateQuestionTab
   }
   return (
     <div>
-      <div className="flex items-center justify-between p-4">
+      <div className="flex items-center justify-between mt-4 mb-4">
         <Input
           placeholder="Search questions..."
           value={searchQuery}
