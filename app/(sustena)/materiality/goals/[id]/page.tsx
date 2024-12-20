@@ -121,7 +121,7 @@ export default async function GoalPage({
           <div className="bg-white dark:bg-neutral-950 rounded-md border mt-3 p-5 flex items-center justify-center">
             <div className="flex items-center">
               <UpdateGoalButton goal={goal} />
-              <DeleteGoalButton goalId={goal.id} />
+              <DeleteGoalButton goalId={goal} />
             </div>
           </div>
         </div>
