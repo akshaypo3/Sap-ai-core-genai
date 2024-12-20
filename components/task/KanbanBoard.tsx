@@ -115,16 +115,16 @@ function TaskCard({ id, title, description, assigned_to_username, userid, status
       draggable="true"
       onDragStart={(e) => handleDragStart(e, id)}
     >
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium sm:mb-2">{title}</CardTitle>
         <Badge variant="outline" className={`text-${getColorForStatus(status)}-500`}>
           {assigned_to_username}
         </Badge>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-gray-500 mb-2">{description}</p>
-        <div className="flex items-center space-x-4 text-sm">
-          <div className="flex items-center space-x-2">
+        <p className="text-sm text-gray-500 sm:mb-2">{description}</p>
+        <div className="flex flex-wrap items-center text-sm">
+          <div className="flex items-center space-x-2 lg:me-5">
             <CalendarIcon className="h-4 w-4 opacity-70" />
             <span>
               {new Date(start_date)

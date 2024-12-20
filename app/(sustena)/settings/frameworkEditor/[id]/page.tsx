@@ -70,7 +70,7 @@ export default async function DetailFramework({
         </div>
         <div className="mb-8 p-10 flex flex-col bg-white dark:bg-neutral-950 rounded-md border">
           <Label className="mb-3">{t("frameworkEditor.Actions")}</Label>
-          <div className="p-10 mb-10 flex justify-between gap-10 bg-white dark:bg-neutral-950 rounded-md border">
+          <div className="p-10 mb-10 flex flex-wrap justify-between gap-10 bg-white dark:bg-neutral-950 rounded-md border">
             <div className="flex-1 rounded-md border p-7">
               <Button className="w-full bg-green-600">{t("frameworkEditor.Edit Framework")}</Button>
             </div>
@@ -78,7 +78,6 @@ export default async function DetailFramework({
               <Button className="w-full bg-green-600">{t("frameworkEditor.New Section")}</Button>
             </div>
             <div className="flex-1 rounded-md border p-7">
-              {/* <Button className="w-full bg-green-600">{t("frameworkEditor.New Question")}</Button> */}
               <CreateQuestionSectionPage framework_id={frameworkId} sections={sections} />
             </div>
             <div className="flex-1 rounded-md border p-7">
@@ -155,7 +154,7 @@ export default async function DetailFramework({
               </TabsList>
               <div className="bg-white p-5 border rounded">
                 <TabsContent value="sections">
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+                <div className="flex items-center justify-between p-4 mb-5 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
                   <h3 className="text-xl font-semibold">
                     Sections
                   </h3>

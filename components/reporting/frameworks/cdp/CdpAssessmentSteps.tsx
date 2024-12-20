@@ -25,7 +25,7 @@ export default function CdpAssessmentStepsOverview({ id, step }: AssessmentSteps
   const currentStepId = parseInt(step, 10);
 
   return (
-    <div className="grid grid-cols-6 gap-6 mb-6">
+    <div className="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 gap-6 mb-6">
       {steps.map((stepItem) => {
         const isActive = stepItem.id === currentStepId;
         const isFinished = stepItem.id < currentStepId;

@@ -146,7 +146,7 @@ const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: Q
           onChange={handleSearch}
         />
 
-        <div className="ml-auto flex gap-4 w-1/5">
+        <div className="flex space-x-4 ml-auto">
           <Select
             name="question_type"
             value={filters.question_type !== "all" ? filters.question_type : ""}
