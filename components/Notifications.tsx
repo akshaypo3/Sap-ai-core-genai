@@ -14,6 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getNotifications } from "@/lib/settings/users/data";
 import { getTranslations } from "next-intl/server";
+import { getProfile } from "@/lib/settings/users/data";
+import Link from "next/link";
 
 type Notification = {
   id: string;
@@ -30,7 +32,10 @@ type Notification = {
 
 export async function Notifications() {
   const notifications = await getNotifications();
-  const t = await getTranslations("notifications")
+  const userProfile = await getProfile();
+  const t = await getTranslations("notifications");
+
+  const isNotificationsEnabled = userProfile?.[0]?.notifications ?? false;
 
   return (
     <DropdownMenu>
@@ -40,10 +45,16 @@ export async function Notifications() {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-96" align="end" forceMount>
+      <DropdownMenuContent
+        className="w-96 h-80 overflow-y-auto"
+        align="end"
+        forceMount
+      >
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{t("Notifications")}</p>
+            <p className="text-sm font-medium leading-none">
+              {t("Notifications")}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -62,61 +73,91 @@ export async function Notifications() {
               {t("Archive")}
             </TabsTrigger>
           </TabsList>
-          <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 border rounded-lg">
-            <TabsContent value="inbox">
-              {notifications?.map(
-                (notification: Notification) =>
-                  !notification.archived && (
-                    <div
-                      key={notification.id}
-                      className="mb-2 flex items-center justify-between space-x-4 dark:border-neutral-800"
-                    >
-                      <Checkbox />
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-1">
-                          <h3 className="text-sm font-medium">
-                            {t("New")} {notification.type}
-                          </h3>
-                          <span className="h-2 w-2 bg-green-500 rounded-full"></span>
-                        </div>
-                        <p className="text-xs text-gray-500">
-                          {notification.message}
-                        </p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        {t("View")}
-                      </Button>
-                    </div>
-                  ),
-              )}
-            </TabsContent>
-            <TabsContent value="archive">
-              {notifications?.map(
-                (notification) =>
-                  notification.archived && (
-                    <div
-                      key={notification.id}
-                      className="flex items-center justify-between space-x-4 dark:border-neutral-800"
-                    >
-                      <Checkbox />
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-1">
-                          <h3 className="text-sm font-medium">
-                            {t("New")} {notification.type}
-                          </h3>
-                          <span className="h-2 w-2 bg-green-500 rounded-full"></span>
-                        </div>
-                        <p className="text-xs text-gray-500">
-                          {notification.message}
-                        </p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        {t("View")}
-                      </Button>
-                    </div>
-                  ),
-              )}
-            </TabsContent>
+          <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-3 border rounded-lg">
+            {isNotificationsEnabled ? (
+              <>
+                <TabsContent value="inbox">
+                  {notifications?.some(
+                    (notification) => !notification.archived,
+                  ) ? (
+                    notifications?.map(
+                      (notification: Notification) =>
+                        !notification.archived && (
+                          <div
+                            key={notification.id}
+                            className="mb-2 flex items-center justify-between space-x-4 dark:border-neutral-800"
+                          >
+                            <Checkbox />
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-1">
+                                <h3 className="text-sm font-medium">
+                                  {t("New")} {notification.type}
+                                </h3>
+                                <span className="h-2 w-2 bg-green-500 rounded-full"></span>
+                              </div>
+                              <p className="text-xs text-gray-500">
+                                {notification.message}
+                              </p>
+                            </div>
+                            {notification.link && (
+                              <Link href={notification.link}>
+                                <Button asChild variant="outline" size="sm">
+                                  <span>{t("View")}</span>
+                                </Button>
+                              </Link>
+                            )}
+                          </div>
+                        ),
+                    )
+                  ) : (
+                    <p className="text-sm">
+                      No inbox notifications available
+                    </p>
+                  )}
+                </TabsContent>
+                <TabsContent value="archive">
+                  {notifications?.some(
+                    (notification) => notification.archived,
+                  ) ? (
+                    notifications?.map(
+                      (notification) =>
+                        notification.archived && (
+                          <div
+                            key={notification.id}
+                            className="flex items-center justify-between space-x-4 dark:border-neutral-800"
+                          >
+                            <Checkbox />
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-1">
+                                <h3 className="text-sm font-medium">
+                                  {t("New")} {notification.type}
+                                </h3>
+                                <span className="h-2 w-2 bg-green-500 rounded-full"></span>
+                              </div>
+                              <p className="text-xs text-gray-500">
+                                {notification.message}
+                              </p>
+                            </div>
+                            {notification.link && (
+                              <Link href={notification.link}>
+                                <Button asChild variant="outline" size="sm">
+                                  <span>{t("View")}</span>
+                                </Button>
+                              </Link>
+                            )}
+                          </div>
+                        ),
+                    )
+                  ) : (
+                    <p className="text-sm">
+                      No archived notifications available
+                    </p>
+                  )}
+                </TabsContent>
+              </>
+            ) : (
+              <p className="text-sm">Please enable notifications to see.</p>
+            )}
           </div>
         </Tabs>
       </DropdownMenuContent>

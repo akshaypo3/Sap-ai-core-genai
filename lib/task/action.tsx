@@ -70,35 +70,27 @@ export async function createTask(formData: FormData) {
 
     const { data: createdUserData, error: createdUserError } = await supabase
       .from("user_profile")
-      .select(`
-        userEmail,
-        notifications
-      `)
+      .select("userEmail")
       .eq("id", created_by)
       .single();
 
     if (createdUserError || !createdUserData) {
-      throw new Error("Error fetching created user's email notification status");
+      throw new Error("Error fetching created user's email");
     }
 
-    const createdUserNotification = createdUserData.notifications;
+    const { data: notificationData, error: notificationDataError } = await supabase
+    .from("notifications")
+    .insert({
+      user_id :created_by,
+      name : userName,
+      message : `'${title}' has been assigned to you`,
+      type: "task",
+      link: `/task/${data[0]?.id}`
+      // archived
+    })
 
-    //check the value for notification true/false 
-    if(createdUserNotification){
-      const { data: notificationData, error: notificationDataError } = await supabase
-      .from("notifications")
-      .insert({
-        user_id :created_by,
-        name : userName,
-        message : `'${title}' has been assigned to you`,
-        type: "task",
-        // archived
-        // link
-      })
-
-      if(notificationDataError){
-        console.error("Error while adding notification");
-      }
+    if(notificationDataError || !notificationData){
+      console.error("Error while adding notification");
     }
 
     const createdUserEmail = createdUserData.userEmail;

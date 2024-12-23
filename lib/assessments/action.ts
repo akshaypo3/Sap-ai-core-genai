@@ -479,6 +479,21 @@ export async function addIroUserTask(formData: FormData){
       throw new Error("Error fetching created user's email");
     }
 
+    const { data: notificationData, error: notificationDataError } = await supabase
+    .from("notifications")
+    .insert({
+      user_id :created_by,
+      name : userName,
+      message : `'${title}' has been assigned to you`,
+      type: "task",
+      link: `/task/${data[0]?.id}`
+      // archived
+    })
+
+    if(notificationDataError || !notificationData){
+      console.error("Error while adding notification");
+    }
+    
     const createdUserEmail = createdUserData.userEmail;
 
     const createdEmailDetails = {
