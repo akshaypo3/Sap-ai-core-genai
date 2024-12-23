@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,10 +21,16 @@ export default function AssignedUserDropdown({
   handleUserAdded: (message: string) => void;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [resetKey, setResetKey] = useState(0);
+  // const [resetKey, setResetKey] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
-  const handleUserChange = async (selectedUserId: string) => {
-    if (!selectedUserId) return;
+  useEffect(() => {
+    const savedAssignments = JSON.parse(localStorage.getItem("userAssignments") || "{}");
+    setSelectedUserId(savedAssignments[items.id] || null); 
+  }, [items.id]);
+  
+  const handleUserChange = async (newSelectedUserId: string) => {
+    if (!newSelectedUserId) return;
 
     const formData = new FormData(formRef.current as HTMLFormElement);
     formData.set("title", items.topic);
@@ -33,9 +39,9 @@ export default function AssignedUserDropdown({
     formData.set("iroId", items.id);
     formData.set("created_by", userId);
     formData.set("status", "TODO");
-    formData.set("assigned_to", selectedUserId);
+    formData.set("assigned_to", newSelectedUserId);
 
-    const selectedUser = users.find((user: any) => user.id === selectedUserId);
+    const selectedUser = users.find((user: any) => user.id === newSelectedUserId);
 
     await addIroUserTask(formData);
     handleUserAdded(
@@ -44,7 +50,12 @@ export default function AssignedUserDropdown({
       }" added successfully!`,
     );
 
-    setResetKey((prevKey) => prevKey + 1);
+    // setResetKey((prevKey) => prevKey + 1);
+    const savedAssignments = JSON.parse(localStorage.getItem("userAssignments") || "{}");
+    savedAssignments[items.id] = newSelectedUserId;
+    localStorage.setItem("userAssignments", JSON.stringify(savedAssignments));
+
+    setSelectedUserId(newSelectedUserId);
   };
 
   return (
@@ -59,11 +70,17 @@ export default function AssignedUserDropdown({
       <div className="w-full">
         <Select
           name="assigned_to"
-          key={resetKey}
-          onValueChange={handleUserChange}
+          // key={resetKey}
+          value={selectedUserId || ""}
+          onValueChange={(value) => handleUserChange(value)}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select User" />
+            <SelectValue placeholder={
+                selectedUserId
+                  ? users.find((user: any) => user.id === selectedUserId)
+                      ?.username || "NA"
+                  : "Select User"
+              }/>
           </SelectTrigger>
           <SelectContent>
             {users?.map((user: any) => (
