@@ -12,6 +12,7 @@ import { DataTable } from '../table/data-table';
 import { columns_task_log } from '../table/TaskLogsTableColumns';
 import { Comments } from './commentdialog';
 import { ArchiveTaskButtonDialog } from './ArchieveTaskButton';
+import Link from 'next/link';
 
 export function UpdateTaskDialogForm({
   taskId,
@@ -21,6 +22,7 @@ export function UpdateTaskDialogForm({
   userid,
   isOpen,
   setIsOpen,
+  link
 }: {
   taskId: string;
   title: string;
@@ -29,6 +31,7 @@ export function UpdateTaskDialogForm({
   userid: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  link: string
 }) {
   const assignedUser = users.find((user) => user.id === userid);
   const [isPending, startTransition] = useTransition();
@@ -137,7 +140,7 @@ export function UpdateTaskDialogForm({
               </div>
 
               <div className="flex justify-between w-full">
-                <div className="flex flex-col w-1/3 pr-2">
+                <div className="flex flex-col w-1/3">
                   <label className="text-sm font-medium leading-none mb-1">Task Title</label>
                   <input
                     className="flex h-9 rounded-md border border-input bg-gray-200 px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring mb-1"
@@ -145,21 +148,16 @@ export function UpdateTaskDialogForm({
                     readOnly
                   />
                 </div>
-                <div className="flex flex-col w-1/3 pl-2">
-                  <label className="text-sm font-medium leading-none mb-1">Linked</label>
-                  <Select className="w-full mb-1">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select User" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[1, 2, 3, 4, 5].map((value) => (
-                        <SelectItem key={value} value={value.toString()}>
-                          User {value}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                {link && (    
+                <div className="flex flex-col w-1/3">
+                  <label className="text-sm font-medium leading-none mb-1">Linked To</label>     
+                  <Link href={link}>
+                    <Button variant="outline" className='w-full'>
+                      <span>View Linked Question</span>
+                    </Button>
+                  </Link>
                 </div>
+                )} 
               </div>
 
               <div className="space-y-2">

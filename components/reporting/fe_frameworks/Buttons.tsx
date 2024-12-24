@@ -20,7 +20,7 @@ import CreateAnswerCheckboxForm from "./AddAnswerCheckboxForm";
 import CreateAnswerTableForm from "./AddAnswerTableForm";
 import CreateAnswerNumericForm from "./AddAnswerNumericForm";
 import { deleteQuestionCommentDialog } from "@/lib/frameworks/action";
-import { TrashIcon } from "lucide-react";
+import { Pencil, TrashIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 
 interface AnswerButtonButtonProps {
@@ -85,7 +85,9 @@ const col=QuestionData.qu_columns;
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>Answer</Button>
+        {/* <Button> */}
+          <Pencil className="h-4 w-4"/>
+        {/* </Button> */}
       </DialogTrigger>
       <DialogContent  className="sm:max-w-[1000px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>

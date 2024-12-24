@@ -16,7 +16,7 @@ import { DeleteTaskDialog } from './DeleteTaskDialog';
 import { UpdateTaskDialogForm } from './ViewTaskDialog';
 import { ArchiveTaskDialog } from './ArchieveTaskDialog';
 
-  export function TaskActionsMenu({ id, title, description,users,assigned_to_username,userid }: { id: string,title: string,description: string,users: string,assigned_to_username: string,userid: string}) {
+  export function TaskActionsMenu({ id, title, description,users,assigned_to_username,userid, link }: { id: string,title: string,description: string,users: string,assigned_to_username: string,userid: string, link:string}) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [showViewDialog, setShowViewDialog] = useState(false);
     const [showArchiveDialog, setShowArchiveDialog] = useState(false);
@@ -63,6 +63,7 @@ import { ArchiveTaskDialog } from './ArchieveTaskDialog';
          userid={userid}
          isOpen={showViewDialog} 
           setIsOpen={setShowViewDialog}
+          link={link}
          />
          
       </>
