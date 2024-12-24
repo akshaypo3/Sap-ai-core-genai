@@ -108,7 +108,7 @@ function Column({ title, tasks, onDragOver, onDrop, actualTime, users }) {
   );
 }
 
-function TaskCard({ id, title, description, assigned_to_username, userid, status, start_date, due_date, actualTime, users }) {
+function TaskCard({ id, title, description, assigned_to_username, userid, status, start_date, due_date, actualTime, users, link }) {
   return (
     <Card
       className="w-full mt-2 cursor-move"
@@ -142,7 +142,7 @@ function TaskCard({ id, title, description, assigned_to_username, userid, status
           </div>
         </div>
         <div className="flex justify-end mt-2"> 
-          <TaskActionsMenu id={id} title={title} description={description} users={users} userid={userid} assigned_to_username={assigned_to_username} />
+          <TaskActionsMenu id={id} title={title} description={description} users={users} userid={userid} assigned_to_username={assigned_to_username} link={link}/>
         </div>
       </CardContent>
     </Card>

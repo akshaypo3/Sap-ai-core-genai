@@ -20,7 +20,11 @@ interface QuestionsProps {
   AssessmentID: string;
 }
 
-const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: QuestionsProps) => {
+const AssessmentQuestionsTable = ({
+  questionData,
+  FrameworkID,
+  AssessmentID,
+}: QuestionsProps) => {
   const [data, setData] = useState(questionData);
   const [filteredData, setFilteredData] = useState(questionData);
   const [sortOrder, setSortOrder] = useState({
@@ -41,7 +45,7 @@ const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: Q
   ];
 
   const uniqueTypes = Array.from(
-    new Set(questionData.map((item: any) => item.question_type))
+    new Set(questionData.map((item: any) => item.question_type)),
   );
 
   useEffect(() => {
@@ -69,51 +73,47 @@ const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: Q
 
     if (query) {
       filtered = filtered.filter((item: any) =>
-        item.question_text?.toLowerCase().includes(query.toLowerCase())
+        item.question_text?.toLowerCase().includes(query.toLowerCase()),
       );
     }
 
     if (appliedFilters.is_required && appliedFilters.is_required !== "all") {
       filtered = filtered.filter(
-        (item: any) => item.is_required === (appliedFilters.is_required === "true")
+        (item: any) =>
+          item.is_required === (appliedFilters.is_required === "true"),
       );
     }
 
-    if (appliedFilters.question_type && appliedFilters.question_type !== "all") {
-      filtered = filtered.filter((item: any) => item.question_type === appliedFilters.question_type);
+    if (
+      appliedFilters.question_type &&
+      appliedFilters.question_type !== "all"
+    ) {
+      filtered = filtered.filter(
+        (item: any) => item.question_type === appliedFilters.question_type,
+      );
     }
 
     setFilteredData(filtered);
   };
 
-  const handleSort = (field: string, direction: string = "asc") => {
-    let newDirection = direction;
-
+  const handleSort = (field: string) => {
+    let newDirection = "asc";
     if (sortOrder.field === field && sortOrder.direction === "asc") {
-      newDirection = "asc";
+      newDirection = "desc";
     }
-
+  
     const sortedData = [...filteredData].sort((a, b) => {
-      if (field === "section_code" || field === "order_index") {
-        const aValue = a[field] || "";
-        const bValue = b[field] || "";
-
-        if (aValue === bValue) {
-          // If section_code is equal, sort by order_index next
-          return a["order_index"] - b["order_index"];
-        }
-
-        return newDirection === "asc"
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
-      }
-
-      return 0;
+      const aValue = a[field]?.toString().toLowerCase() || "";
+      const bValue = b[field]?.toString().toLowerCase() || "";
+  
+      return newDirection === "asc"
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     });
-
+  
     setFilteredData(sortedData);
     setSortOrder({ field, direction: newDirection });
-  };
+  }; 
 
   const requiredStatus = (is_required: any) => {
     if (is_required === true || is_required === "true") {
@@ -188,50 +188,51 @@ const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: Q
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-md border border-neutral-200 dark:border-neutral-800">
-        <table className="min-w-full table-auto border-collapse border">
+      <div className="p-2 overflow-x-auto rounded-md border border-neutral-200 dark:border-neutral-800">
+        <table className="min-w-full table-auto">
           <thead>
             <tr>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm cursor-pointer"  onClick={() => handleSort("question_text")}>
                 Question Name
+                <ArrowUpDown className="ml-2 h-4 w-4 inline"/>
               </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Question Code
               </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Help Text
               </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Question Type
               </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Required
               </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Answered
               </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((question: any) => (
-              <tr key={question.id}>
-                <td className="border p-3 text-center">{question.question_text}</td>
-                <td className="border p-3 text-center">{question.question_code}</td>
-                <td className="border p-3 text-center">{question.help_text}</td>
-                <td className="border p-3 text-center">{question.question_type}</td>
-                <td className="border p-3 text-center">
+              <tr key={question.id} className="border-b border-gray-300 text-sm">
+                <td className="p-3 text-center">{question.question_text}</td>
+                <td className="p-3 text-center">{question.question_code}</td>
+                <td className="p-3 text-center">{question.help_text}</td>
+                <td className="p-3 text-center">{question.question_type}</td>
+                <td className="p-3 text-center">
                   {question.is_required !== undefined && (
                     <Badge
                       className={
                         question.is_required === false ||
                         question.is_required === "false"
-                          ? "bg-orange-400"
+                          ? "bg-orange-200 text-orange-800"
                           : question.is_required === true ||
                             question.is_required === "true"
-                          ? "bg-green-400"
+                          ? "bg-green-200 text-green-800"
                           : ""
                       }
                     >
@@ -239,16 +240,16 @@ const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: Q
                     </Badge>
                   )}
                 </td>
-                <td className="border p-3 text-center">
+                <td className="p-3 text-center">
                   {question.answered !== undefined && (
                     <Badge
                       className={
                         question.answered === false ||
                         question.answered === "false"
-                          ? "bg-red-400"
+                          ? "bg-red-200 text-red-800"
                           : question.answered === true ||
                             question.answered === "true"
-                          ? "bg-green-400"
+                          ? "bg-blue-200 text-blue-800"
                           : ""
                       }
                     >
@@ -256,9 +257,13 @@ const AssessmentQuestionsTable = ({ questionData, FrameworkID, AssessmentID }: Q
                     </Badge>
                   )}
                 </td>
-                <td className="border p-3 text-center">
+                <td className="p-3 text-center">
                   <div className="flex justify-center items-center space-x-2">
-                    <AnswerButton QuestionData={question} FrameworkID={FrameworkID} AssessmentID={AssessmentID} />
+                    <AnswerButton
+                      QuestionData={question}
+                      FrameworkID={FrameworkID}
+                      AssessmentID={AssessmentID}
+                    />
                   </div>
                 </td>
               </tr>
