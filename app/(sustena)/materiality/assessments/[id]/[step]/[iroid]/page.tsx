@@ -47,7 +47,7 @@ export default async function Home({ params }: { params: { iroid: string, id: st
     <>
       <ContentLayout title={t('assessments.iroid.Dashboard')}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-          <BreadCrumbCom title={t('assessments.iroid.Materiality')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+          {/* <BreadCrumbCom title={t('assessments.iroid.Materiality')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/> */}
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-6">
               <h2 className="text-lg font-semibold">{t('assessments.iroid.Assessment Progress Overview')}</h2>
