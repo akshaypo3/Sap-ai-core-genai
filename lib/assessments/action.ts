@@ -353,11 +353,14 @@ export async function CreateCustomIRo(formData: FormData) {
       throw new Error("Error inserting custom iros in esrs_iros: " + error.message);
     }
 
-    revalidatePath(`/materiality/assessments/${assesmentId}/5`);
-    redirect(`/materiality/assessments/${assesmentId}/5`);
+    // revalidatePath(`/materiality/assessments/${assesmentId}/5`);
+    // redirect(`/materiality/assessments/${assesmentId}/5`);
   } catch (error:any) {
     console.error("Error while inserting custom IRo in esrs_iros: ", error.message);
-  } 
+  } finally{
+    revalidatePath(`/materiality/assessments/${assesmentId}/5`);
+    redirect(`/materiality/assessments/${assesmentId}/5`);
+  }
 }
 
 export async function AddCatalogIro({
@@ -393,10 +396,13 @@ export async function AddCatalogIro({
       throw new Error("Error inserting catalog iros in esrs_iros: " + error.message);
     }
 
-    revalidatePath(`/materiality/assessments/${assessment_id}/5`);
-    redirect(`/materiality/assessments/${assessment_id}/5`);
+    // revalidatePath(`/materiality/assessments/${assessment_id}/5`);
+    // redirect(`/materiality/assessments/${assessment_id}/5`);
   } catch (error:any) {
     console.error("Error while inserting catalog IRo in esrs_iros: ", error.message);
+  } finally{
+    revalidatePath(`/materiality/assessments/${assessment_id}/5`);
+    redirect(`/materiality/assessments/${assessment_id}/5`);
   }
 }
 

@@ -13,6 +13,7 @@ import { getTranslations } from 'next-intl/server'; // Updated import
 import { Slash } from "lucide-react";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import GuidancePage from "@/components/guidance/GuidanceCom";
 
 export default async function Home() {
   const supabase = createClient();
@@ -43,7 +44,7 @@ export default async function Home() {
             <Button variant="outline">Add new</Button>
           </div> */}
         </div> 
-        Home
+       <GuidancePage/>
       </ContentLayout>
     </>
   );

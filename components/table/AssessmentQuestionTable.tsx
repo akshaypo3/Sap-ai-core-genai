@@ -192,18 +192,18 @@ const AssessmentQuestionsTable = ({
         <table className="min-w-full table-auto">
           <thead>
             <tr>
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
+                Question Code
+              </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm cursor-pointer"  onClick={() => handleSort("question_text")}>
                 Question Name
                 <ArrowUpDown className="ml-2 h-4 w-4 inline"/>
               </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                Question Code
-              </th>
-              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Help Text
               </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                Question Type
+                Type
               </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Required
@@ -219,8 +219,8 @@ const AssessmentQuestionsTable = ({
           <tbody>
             {filteredData.map((question: any) => (
               <tr key={question.id} className="border-b border-gray-300 text-sm">
-                <td className="p-3 text-center">{question.question_text}</td>
                 <td className="p-3 text-center">{question.question_code}</td>
+                <td className="p-3 text-center">{question.question_text}</td>
                 <td className="p-3 text-center">{question.help_text}</td>
                 <td className="p-3 text-center">{question.question_type}</td>
                 <td className="p-3 text-center">
