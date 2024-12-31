@@ -8,17 +8,19 @@ interface ChartCardProps {
   label: string;
   color: string;
   isSelected: boolean; 
-  formData: any;
   onClick: () => void; 
+  dbCardSelected : any;
 }
 
-const ChartCard: React.FC<ChartCardProps> = ({ value, bar_value, label, color, isSelected, onClick, formData }) => {
+const ChartCard: React.FC<ChartCardProps> = ({ value, bar_value, label, color, isSelected, onClick, dbCardSelected }) => {
   const maxValue = 100;
   const angleRange = (bar_value / maxValue) * 360; 
   const chartData = [{ label, value: bar_value, fill: color }];
   
   const cardClassNames = `flex w-full justify-center items-center p-2 border shadow transition-all duration-300 
-  ${isSelected ? 'border-green-500 bg-green-50' : 'border-gray-300'}`
+  ${isSelected || dbCardSelected ? 'border-green-500 bg-green-50' : 'border-gray-300'}`
+
+  const cardSelected = `${dbCardSelected ? 'border-green-500 bg-green-50' : 'border-gray-300'}`
 
   return (
       <Card className={cardClassNames} onClick={onClick}>

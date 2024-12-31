@@ -22,16 +22,17 @@ export default async function CompanyDetails() {
         </div>
         <div className="my-10">
           <form action={saveCompanyDetails}>
-            <input
+            <Input
               type="hidden"
               name="company_id"
-              placeholder={companyDetails[0].id}
+              value={companyDetails[0]?.id || ""}
+              placeholder={companyDetails[0]?.id || ""}
             />
             <Label htmlFor="companyname">{t("company.companyName")}</Label>
             <Input
               type="text"
               name="companyname"
-              placeholder={companyDetails[0].name}
+              placeholder={companyDetails[0]?.name || ""}
             />
             <Label htmlFor="company_strategy">
               {t("company.companyStrategy")}
@@ -39,13 +40,13 @@ export default async function CompanyDetails() {
             <Textarea
               id="company_strategy"
               name="company_strategy"
-              placeholder={companyDetails[0].company_strategy}
+              placeholder={companyDetails[0]?.company_strategy || ""}
             />
             <Label htmlFor="business_model">{t("company.businessModel")}</Label>
             <Textarea
               id="business_model"
               name="business_model"
-              placeholder={companyDetails[0].business_model}
+              placeholder={companyDetails[0]?.business_model || ""}
             />
             <div className="flex">
               <Button className="mt-5 justify-end">

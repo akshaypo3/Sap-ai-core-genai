@@ -33,7 +33,7 @@ export default function CdpAssessmentStepsOverview({ id, step }: AssessmentSteps
         return (
           <Link href={`/reporting/frameworks/cdp/${id}/${stepItem.id}`} key={stepItem.id}>
             <div
-              className={`flex flex-col flex-grow border rounded-lg bg-white p-5 transition-all
+              className={`flex flex-col h-full border rounded-lg bg-white p-5 transition-all
                 ${isActive ? 'border-green-500' : 'border-gray-300'} 
                 ${!isActive && !isFinished ? 'opacity-50' : 'opacity-100'}`}
             >

@@ -7,10 +7,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { SearchIcon } from "lucide-react";
+import { Input } from "../ui/input";
 
 export default function GuidancePage() {
   return (
-    <>
+    <div className="max-w-4xl mx-auto">
+      <div className="max-w-2xl mx-auto mb-8">
+        <div className="relative">
+          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search for guidance"
+            className="pl-10"
+          />
+        </div>
+      </div>
       <div className="bg-gray-50 rounded-lg w-80">
         <div className="flex gap-5">
           <div className="flex justify-between border border-green-500 p-5 rounded-xl shadow w-full cursor-pointer transition-all duration-300">
@@ -41,9 +53,7 @@ export default function GuidancePage() {
           <TabsTrigger value="applicability">Applicability</TabsTrigger>
           <TabsTrigger value="brsr_format">BRSR Format</TabsTrigger>
           <TabsTrigger value="benifits_of_brsr">Benifits of BRSR</TabsTrigger>
-          <TabsTrigger value="frequently_asked_questions">
-            Frequently Asked Questions
-          </TabsTrigger>
+          <TabsTrigger value="frequently_asked_questions">Questions</TabsTrigger>
         </TabsList>
         <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
           <TabsContent value="brsr_overview">
@@ -51,7 +61,7 @@ export default function GuidancePage() {
               <img
                 src="/brsr_overview.png"
                 alt="brsr_overview"
-                className="w-full h-96 rounded-xl"
+                className="w-full h-96 rounded-2xl"
               />
               <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-30 rounded-xl pt-10 ps-10">
                 BRSR
@@ -149,7 +159,7 @@ export default function GuidancePage() {
                 </ul>
               </li>
             </ul>
-            <div className="relative overflow-hidden rounded-[45px] w-full h-96">
+            <div className="relative overflow-hidden rounded-[10px] w-full h-96">
               <img
                 src="/applicability_frame.png"
                 alt="applicability"
@@ -469,6 +479,6 @@ export default function GuidancePage() {
           </TabsContent>
         </div>
       </Tabs>
-    </>
+    </div>
   );
 }
