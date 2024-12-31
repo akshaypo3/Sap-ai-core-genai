@@ -25,12 +25,25 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
   const [aiSuggestion, setAiSuggestion] = useState(null);
   const t = useTranslations();
 
-  console.log("initial data: ", initialData)
-
   const handleChange = (name, value) => {
-    console.log(`Setting ${name} to ${value}`);
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    setFormData((prev) => {
+      const updatedFormData = { ...prev, [name]: value };
+  
+      if (name === "materiality_type") {
+        if (value === "financial") {
+          updatedFormData.impact_state = null;
+          updatedFormData.impact = null;
+          // updatedFormData.scope_score = null;
+          // updatedFormData.scope_reason = '';
+          // updatedFormData.irremediability_score = null;
+          // updatedFormData.irremediability_reason = '';
+          // updatedFormData.probability_score = null;
+          // updatedFormData.probability_reason = '';
+        }
+      }
+      return updatedFormData;
+    });
+  };  
 
   const handleAIAssist = async () => {
     setIsLoading(true);
@@ -338,8 +351,7 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                       color={chart.color}
                       isSelected={formData.scale_score === chart.value}
                       onClick={() => handleChange('scale_score', chart.value)} 
-                      formData={initialData}
-                    />
+                      dbCardSelected={chart.value === JSON.stringify(formData.scale_score)}/>
                   ))}
                 </div>
                 <Label htmlFor="scale_reason" className="mt-2">Reason for scale</Label>
@@ -368,7 +380,7 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                       color={chart.color}
                       isSelected={formData.scope_score === chart.value}
                       onClick={() => handleChange('scope_score', chart.value)} 
-                      formData={initialData}
+                      dbCardSelected={chart.value === JSON.stringify(formData.scope_score)}
                     />
                   ))}
                 </div>
@@ -399,7 +411,7 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                       color={chart.color}
                       isSelected={formData.irremediability_score === chart.value}
                       onClick={() => handleChange('irremediability_score', chart.value)}
-                      formData={initialData}
+                      dbCardSelected={chart.value === JSON.stringify(formData.irremediability_score)}
                     />
                   ))}
                  </div>
@@ -428,9 +440,9 @@ export default function IroFormClient({ initialData, id, stakeholders }) {
                       bar_value={chart.bar_value}
                       label={chart.label}
                       color={chart.color}
-                      isSelected={formData.probability_score === chart.value}
-                      onClick={() => handleChange('probability_score', chart.value)} 
-                      formData={initialData}
+                      isSelected={formData.probability_score === parseFloat(chart.value)}
+                      onClick={() => handleChange('probability_score', parseFloat(chart.value))} 
+                      dbCardSelected={parseFloat(chart.value) === formData.probability_score}
                     />
                   ))}
                 </div>
