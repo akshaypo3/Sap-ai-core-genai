@@ -39,10 +39,11 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
 interface stakeholderFormProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    id:string;
     stakeholderGroups:any
 }
 
-export default function CreateSteakholderForm({ open, setOpen, stakeholderGroups }: stakeholderFormProps){
+export default function CreateSteakholderForm({ open, setOpen, id,stakeholderGroups }: stakeholderFormProps){
     // const stakeholderGroups = await getStakeholderGroups();
 
     function closeDialoge(){
@@ -69,6 +70,7 @@ export default function CreateSteakholderForm({ open, setOpen, stakeholderGroups
         formData.append("stakeholderInterest", data.stakeholderInterest.toString());
         formData.append("stakeholderInfluence", data.stakeholderInfluence.toString());
         formData.append("stakeholderKnowledge", data.stakeholderKnowledge.toString());
+        formData.append("assessmentid",id);
 
         await createStakeholder(formData);
         closeDialoge()

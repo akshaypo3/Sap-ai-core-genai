@@ -17,6 +17,7 @@ import { columns_Stakeholderquestions } from "@/components/table/stakeholderques
 import { AddLocationButton } from "@/components/materiality/company/buttons";
 import Stackholderquestions from "@/components/materiality/stakeholders/Stackholdersquestions";
 import { getUserProfiles } from "@/lib/task/data";
+import Stackholdergroup from "@/components/materiality/stakeholders/StackholderGroup";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
   const { step, id } = params;
@@ -44,6 +45,7 @@ export default async function Home({ params }: { params: { step: string; id: str
                     <StakeholderStatisticCards/>
                     <CompanyStakeholdersAssessment id={id}/>
                      <Stackholderquestions id={id}/>
+                     <Stackholdergroup id={id}/>
                 </div>;
       case 5:
         return <div><IroTable assessmentData={assessmentData} assessmentId={id} AR16Items={AR16Items} users={users} userId={userId}/></div>;

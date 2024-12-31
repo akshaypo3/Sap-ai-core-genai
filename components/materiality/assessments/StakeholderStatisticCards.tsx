@@ -19,7 +19,6 @@ export default async function StakeholderStatisticCards(){
     return uniqueGroups.size;
   };
   const distinctGroupCount = getDistinctGroupCount(stakeholders);
-  console.log(stakeholders);
     const t = await getTranslations("materiality");
     return(
         <>
