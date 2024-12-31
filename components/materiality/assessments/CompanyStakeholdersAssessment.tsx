@@ -61,7 +61,7 @@ export default async function CompanyStakeholdersAssessment(id: any) {
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-md">
           <h3 className="text-xl font-semibold">Stakeholders</h3>
           <div>
-            <AddStakeholderButton stakeholderGroups={groups}/>
+            <AddStakeholderButton id={assessmentId} stakeholderGroups={groups}/>
             <NextStepButton id={assessmentId} step={"5"} />
           </div>
         </div>
@@ -113,7 +113,7 @@ export default async function CompanyStakeholdersAssessment(id: any) {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <DeleteStakeholderButton stakeholder={item} />
+                  <DeleteStakeholderButton stakeholder={item} assessmentId={assessmentId}/>
                 </TableCell>
                 <TableCell className="text-center">
                   {item.email === null ? (

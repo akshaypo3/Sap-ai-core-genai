@@ -40,9 +40,7 @@ export async function addLocation(formData: FormData) {
 
   export async function addLocationAssessment(formData: FormData) {
     const supabase = createClient();
-
-    const assessmentId = formData.get('assessment_id') as string;
-    
+  const assessmentId = formData.get('assessment_id') as string;
   
     const location = {
       name: formData.get('name') as string,
@@ -53,6 +51,10 @@ export async function addLocation(formData: FormData) {
       city: formData.get('city') as string,
       country: formData.get('country') as string,
       employee_count: formData.get('employee_count') as string,
+      companyid: formData.get('companyid') as UUID,
+      latitude:formData.get('latitude') as string,
+      longitude :formData.get('longitude') as string,
+      search_location :formData.get('autocomplete') as string,
     };
   
     const { data, error } = await supabase
@@ -65,9 +67,8 @@ export async function addLocation(formData: FormData) {
       return { success: false, error: error.message };
     }
   
-    revalidatePath(`/materiality/assessments/${assessmentId}/2`);
+   revalidatePath(`/materiality/assessments/${assessmentId}/2`);
     redirect(`/materiality/assessments/${assessmentId}/2`);
-    // return { success: true, data };
   }
 
   export async function addProductService(formData: FormData) {

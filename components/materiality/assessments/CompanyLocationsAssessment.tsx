@@ -14,19 +14,22 @@ import {
 } from "@/components/ui/table";
 import { ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AddLocationButtonAssessment } from "@/components/materiality/assessments/AddLocationButton";
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
 import { DataTable } from "@/components/table/data-table";
 import { columns_location } from "@/components/table/LocationsTableColumns";
-import { getLocations } from "@/lib/company/data";
+import { getLocations, getLocationTypes, GoogleApikey } from "@/lib/company/data";
 import { getTranslations } from 'next-intl/server';
 import NextStepButton from "./NextStepButton";
+import { AddLocationButtonAssessment } from "./AddLocationforassessement";
 
 export default async function CompanyLocations(id:any) {
   const t = await getTranslations("materiality");
   const assessmentId = id.id;
   const assessmentLink = "/materiality/assessments/"+assessmentId+"/3"
   const locations = await getLocations();
+  const type = await getLocationTypes();
+  let api = await GoogleApikey();
+  api=api.key
 
   return (
     <>
@@ -36,7 +39,7 @@ export default async function CompanyLocations(id:any) {
             {t("company.locations.title")}
           </h3>
           <div>
-          <AddLocationButtonAssessment id={assessmentId}/>
+          <AddLocationButtonAssessment id={assessmentId} type={type} api={api}/>
           <NextStepButton id={id} step={3}/>
           </div>
         </div>

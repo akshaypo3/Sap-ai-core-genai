@@ -15,6 +15,8 @@ export async function createStakeholder(formData: FormData) {
   const stakeholderName = formData.get("name");
   const stakeholderDescription = formData.get("description");
   const stakeholderGroupId = formData.get("groupId");
+  const assessmentId = formData.get("assessmentid");
+
 
   const stakeholderInterest = parseInt(formData.get("stakeholderInterest") as string || '0');
   const stakeholderInfluence = parseInt(formData.get("stakeholderInfluence")as string || '0');
@@ -47,14 +49,14 @@ export async function createStakeholder(formData: FormData) {
   } catch (error) {
     console.error("Error while adding stakeholder");
   } finally {
-    revalidatePath("/materiality/stakeholders");
-    redirect("/materiality/stakeholders");
+    revalidatePath(`/materiality/assessments/${assessmentId}/4`);
+    redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 
 // Delete Stakeholder
 
-export async function deleteStakeholder(id: any) {
+export async function deleteStakeholder(id: any,assessmentId:any) {
   //console.log("stakeholder", id);
   const supabase = createClient();
   try {
@@ -65,8 +67,8 @@ export async function deleteStakeholder(id: any) {
   } catch (error) {
     console.error("Error while deleting stakeholder");
   } finally {
-    revalidatePath("/materiality/stakeholders");
-    redirect("/materiality/stakeholders");
+    revalidatePath(`/materiality/assessments/${assessmentId}/4`);
+    redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 
@@ -78,7 +80,6 @@ export async function createStakeholderGroup(formData: FormData) {
   const groupName = formData.get("name");
   const groupDesc = formData.get("description");
 
-  console.log(groupName, groupDesc);
 
   try {
     const newStakeholderGroup = await supabase
@@ -95,6 +96,32 @@ export async function createStakeholderGroup(formData: FormData) {
   } finally {
     revalidatePath("/materiality/stakeholders");
     redirect("/materiality/stakeholders");
+  }
+}
+
+export async function createStakeholderGroupAssessment(formData: FormData) {
+  const supabase = createClient();
+
+  const groupName = formData.get("name");
+  const groupDesc = formData.get("description");
+  const assessmentId=formData.get("assessmentId");
+
+
+  try {
+    const newStakeholderGroup = await supabase
+      .from("stakeholder_groups")
+      .insert({
+        group: groupName,
+        description: groupDesc,
+      });
+    console.log(
+      "Create Stakeholder Group: " + JSON.stringify(newStakeholderGroup),
+    );
+  } catch (error) {
+    console.error("Error while adding stakeholder group");
+  } finally {
+    revalidatePath(`/materiality/assessments/${assessmentId}/4`);
+    redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 

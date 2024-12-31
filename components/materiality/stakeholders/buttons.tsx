@@ -30,10 +30,11 @@ import CreateUserForm from "./AddUserForm";
 import { useState } from "react";
 
 interface addStakeholders{
+  id:string
   stakeholderGroups? : any
 }
 
-export function AddStakeholderButton({stakeholderGroups}: addStakeholders) {
+export function AddStakeholderButton({id,stakeholderGroups}: addStakeholders) {
   const [open, setOpen] = useState(false);
   const t = useTranslations("materiality-com");
   return (
@@ -48,7 +49,7 @@ export function AddStakeholderButton({stakeholderGroups}: addStakeholders) {
             Add Stakeholder Function Description
           </DialogDescription>
         </DialogHeader>
-        <CreateStakeholderForm stakeholderGroups={stakeholderGroups} open={open} setOpen={setOpen}/>
+        <CreateStakeholderForm id={id} stakeholderGroups={stakeholderGroups} open={open} setOpen={setOpen}/>
       </DialogContent>
     </Dialog>
   );
@@ -92,10 +93,12 @@ export function AddLocation() {
 
 export function DeleteStakeholderButton({
   stakeholder,
+  assessmentId,
 }: {
   stakeholder: string;
+  assessmentId:string;
 }) {
-  const deleteStakeholderWithId = deleteStakeholder.bind(null, stakeholder.id);
+  const deleteStakeholderWithId = deleteStakeholder.bind(null, stakeholder.id,assessmentId);
   const t = useTranslations("materiality-com");
   return (
     <Dialog>
