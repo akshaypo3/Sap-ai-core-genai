@@ -20,7 +20,7 @@ const productIRO = await getProductIRO(productid)
             <h1 className="font-bold text-2xl mb-2">Product / Service Details</h1>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="">
      <div className="bg-white dark:bg-neutral-950 rounded-md">
      <Alert>
        <h2 className="font-semibold text-xl mb-3">Product / Service Details</h2>
@@ -47,9 +47,9 @@ const productIRO = await getProductIRO(productid)
        </AlertDescription>
      </Alert>
      </div>
-     <div className="bg-white dark:bg-neutral-950 rounded-md text-center">
+     {/* <div className="bg-white dark:bg-neutral-950 rounded-md text-center">
             Map
-         </div>
+         </div> */}
        </div>
        {/* iros loaction details */}
        <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mt-5">

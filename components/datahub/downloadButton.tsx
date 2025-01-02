@@ -27,7 +27,7 @@ export function DownloadFileButton({ name }: { name: string }) {
     <Button
       onClick={handleDownload}
       disabled={isPending}
-      className="flex items-center space-x-2 px-4 py-2 bg-gray-400 hover:bg-green-500 rounded-md" >
+      className="flex items-center space-x-2 px-4 py-2 bg-green-500 hover:bg-green-700 rounded-md" >
       <Download className="w-4 h-4 text-black" />
       <span>{isPending ? "Downloading..." : "Download"}</span>
     </Button>

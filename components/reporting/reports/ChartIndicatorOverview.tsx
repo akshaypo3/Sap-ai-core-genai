@@ -45,7 +45,7 @@ export default function ChartIndicatorOverview() {
     <Card>
       <CardHeader>
         <CardTitle>Question Statistics</CardTitle>
-        <CardDescription>Report 2023</CardDescription>
+        <CardDescription>Report 2024</CardDescription>
       </CardHeader>
       <CardContent className="min-h-[200px]">
         <ChartContainer config={chartConfig}>

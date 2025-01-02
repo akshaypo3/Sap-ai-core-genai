@@ -23,7 +23,7 @@ import { useTranslations } from "next-intl"
 export const description = "A radial chart with text"
 
 const chartData = [
-  { browser: "safari", visitors: 27, fill: "var(--color-safari)" },
+  { browser: "safari", visitors: 5, fill: "var(--color-safari)" },
 ]
 
 const chartConfig = {
@@ -41,17 +41,17 @@ export default function ChartQuestionCompletion() {
     <Card>
       <CardHeader>
         <CardTitle>Questions answered</CardTitle>
-        <CardDescription>Report 2023</CardDescription>
+        <CardDescription>Report 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[215px]"
         >
           <RadialBarChart
             data={chartData}
             startAngle={0}
-            endAngle={120}
+            endAngle={60}
             innerRadius={80}
             outerRadius={110}
           >
@@ -97,7 +97,7 @@ export default function ChartQuestionCompletion() {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
+      <CardFooter className="flex-col items-start gap-2 text-sm">
         {/* <div className="flex items-center gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}

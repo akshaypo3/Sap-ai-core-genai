@@ -13,7 +13,7 @@ import { Input } from "../ui/input";
 export default function GuidancePage() {
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="max-w-2xl mx-auto mb-8">
+      {/* <div className="max-w-2xl mx-auto mb-8">
         <div className="relative">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -22,10 +22,10 @@ export default function GuidancePage() {
             className="pl-10"
           />
         </div>
-      </div>
+      </div> */}
       <div className="bg-gray-50 rounded-lg w-80">
         <div className="flex gap-5">
-          <div className="flex justify-between border border-green-500 p-5 rounded-xl shadow w-full cursor-pointer transition-all duration-300">
+          {/* <div className="flex justify-between border border-green-500 p-5 rounded-xl shadow w-full cursor-pointer transition-all duration-300">
             <div>
               <h3 className="text-xl font-bold mb-2">BRSR</h3>
               <p className="text-gray-600">
@@ -33,7 +33,7 @@ export default function GuidancePage() {
                 guidelines
               </p>
             </div>
-          </div>
+          </div> */}
 
           {/* <div className="flex justify-between border p-5 rounded-xl shadow w-full cursor-pointer transition-all duration-300">
             <div>

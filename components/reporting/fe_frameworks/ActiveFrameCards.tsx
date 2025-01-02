@@ -68,7 +68,7 @@ export default function ActiveFramewrokCards({
               </p>
             </CardContent>
             <CardFooter className="flex justify-between items-end">
-              <div className="flex flex-col text-xs text-muted-foreground">
+              {/* <div className="flex flex-col text-xs text-muted-foreground">
                 <div className="flex items-center">
                   <UserIcon className="w-3 h-3 mr-1" />
                   <span>VASPP Deutschland</span>
@@ -76,7 +76,7 @@ export default function ActiveFramewrokCards({
                 <div className="flex items-center mt-1">
                   <Progress value={0} />
                 </div>
-              </div>
+              </div> */}
               <Link href={`/reporting/frameworks/${framework.id}`}>
                 <Button
                   variant="outline"

@@ -46,7 +46,7 @@ export default function CreateAssessmentForm({ open, setOpen, getFrameworks }: C
     const relevantFrameworks = getFrameworks?.filter((item: any) => item.needsAssessment);
     
     // Check if ESRS is in the list and use it as the default if available
-    const defaultFramework = relevantFrameworks?.find((item: any) => item.title === "ESRS") || relevantFrameworks[0];
+    const defaultFramework = relevantFrameworks?.find((item: any) => item.title === "BRSR") || relevantFrameworks[0];
 
     function closeDialoge(){
         wait().then(() => setOpen(false));
@@ -80,7 +80,7 @@ export default function CreateAssessmentForm({ open, setOpen, getFrameworks }: C
                         <FormItem>
                         <FormLabel>Year</FormLabel>
                         <FormControl>
-                        <Input placeholder="2024" type="number"{...field} />
+                        <Input placeholder="2025" type="number"{...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
