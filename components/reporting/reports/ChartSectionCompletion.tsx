@@ -23,8 +23,8 @@ export const description = "A bar chart with a label"
 
 const chartData = [
   { section: "A", done: 65 },
-  { section: "B", done: 0 },
-  { section: "C", done: 0 },
+  { section: "B", done: 35 },
+  { section: "C", done: 45 },
 ]
 
 const chartConfig = {
@@ -39,7 +39,7 @@ export default function ChartSectionCompletion() {
     <Card>
       <CardHeader>
         <CardTitle>Section Completion</CardTitle>
-        <CardDescription>Report 2023</CardDescription>
+        <CardDescription>Report 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
