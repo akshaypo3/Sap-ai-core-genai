@@ -13,17 +13,23 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { AnswerButton } from "../reporting/fe_frameworks/Buttons";
+import AssignedUserDropdownQuestions from "../reporting/fe_frameworks/AssignedPersonDropdown";
+import { useToast } from "@/components/ui/use-toast";
 
 interface QuestionsProps {
   questionData: any;
   FrameworkID: string;
   AssessmentID: string;
+  users: any;
+  userId: any;
 }
 
 const AssessmentQuestionsTable = ({
   questionData,
   FrameworkID,
   AssessmentID,
+  users,
+  userId
 }: QuestionsProps) => {
   const [data, setData] = useState(questionData);
   const [filteredData, setFilteredData] = useState(questionData);
@@ -135,6 +141,14 @@ const AssessmentQuestionsTable = ({
     return answered;
   };
 
+  const { toast } = useToast();
+  const handleUserAdded = (message: string) => {
+    toast({
+      variant: "success",
+      title: message,
+    });
+  };
+
   return (
     <>
       <div className="mb-4 flex items-center gap-4">
@@ -211,6 +225,9 @@ const AssessmentQuestionsTable = ({
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Answered
               </th>
+              <th className="p-2 w-[155px] text-center font-semibold border-b text-zinc-500 text-sm">
+                Assigned Person
+              </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Actions
               </th>
@@ -256,6 +273,9 @@ const AssessmentQuestionsTable = ({
                       {Answeredstatus(question.answered)}
                     </Badge>
                   )}
+                </td>
+                <td className="p-3 text-center">
+                  <AssignedUserDropdownQuestions items={question} users={users} userId={userId} handleUserAdded={handleUserAdded} FrameworkID={FrameworkID}/>
                 </td>
                 <td className="p-3 text-center">
                   <div className="flex justify-center items-center space-x-2">

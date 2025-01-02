@@ -1,4 +1,5 @@
 import React from "react";
+import { createClient } from "@/utils/supabase/server";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
@@ -8,10 +9,17 @@ import { getAssessmentQuestionsById } from "@/lib/frameworks/data";
 import AssessmentQuestionsTable from "@/components/table/AssessmentQuestionTable";
 import { idText } from "typescript";
 import { Label } from "@/components/ui/label";
+import { getUserProfiles } from "@/lib/task/data";
 
 export default async function Home({ params }: { params: { assessmentId: string, id: string } }) {
   const { assessmentId } = params;
   const { id } = params;
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userId = user?.id;
 
   const t = await getTranslations("reporting");
 
@@ -24,6 +32,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
   const questions = await getAssessmentQuestionsById(assessmentId)
   const answeredCount = questions.filter(question => question.answered === true).length;
   const unansweredCount = questions.filter(question => question.answered === false).length;
+  const users = await getUserProfiles();
   
   return (
     <>
@@ -60,7 +69,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
           </div>
         <div className="p-5 border rounded">
             <p className="text-xl font-semibold mb-10">Questions</p>
-         <AssessmentQuestionsTable questionData={questions} FrameworkID={id} AssessmentID={assessmentId}/>
+         <AssessmentQuestionsTable questionData={questions} FrameworkID={id} AssessmentID={assessmentId} users={users} userId={userId}/>
         </div>
       </ContentLayout>
     </>

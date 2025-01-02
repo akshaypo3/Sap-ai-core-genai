@@ -89,7 +89,7 @@ export async function createTask(formData: FormData) {
       // archived
     })
 
-    if(notificationDataError || !notificationData){
+    if(notificationDataError){
       console.error("Error while adding notification");
     }
 

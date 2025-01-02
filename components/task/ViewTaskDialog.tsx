@@ -148,16 +148,16 @@ export function UpdateTaskDialogForm({
                     readOnly
                   />
                 </div>
-                {link && (    
+                {/* {link && (    
                 <div className="flex flex-col w-1/3">
                   <label className="text-sm font-medium leading-none mb-1">Linked To</label>     
                   <Link href={link}>
                     <Button variant="outline" className='w-full'>
-                      <span>View Linked Question</span>
+                      <span>View Linked Section</span>
                     </Button>
                   </Link>
                 </div>
-                )} 
+                )}  */}
               </div>
 
               <div className="space-y-2">
