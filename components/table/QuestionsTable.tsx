@@ -208,7 +208,7 @@ const QuestionsTable = ({ framework_id,sections,questionData}: CreateQuestionTab
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="order_index">Sort by Code</SelectItem>
+              <SelectItem value="question_code">Sort by Code</SelectItem>
               <SelectItem value="question_type">Sort by Type</SelectItem>
               <SelectItem value="created_at">Sort by Created Date</SelectItem>
             </SelectContent>
