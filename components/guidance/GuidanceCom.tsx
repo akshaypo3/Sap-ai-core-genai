@@ -63,7 +63,7 @@ export default function GuidancePage() {
                 alt="brsr_overview"
                 className="w-full h-96 rounded-2xl"
               />
-              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-30 rounded-xl pt-10 ps-10">
+              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-30 rounded-xl pt-40 ps-10">
                 BRSR
               </div>
             </div>
@@ -96,7 +96,7 @@ export default function GuidancePage() {
                 alt="objectives"
                 className="w-full h-96 rounded-xl"
               />
-              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-10 ps-10">
+              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-28 ps-10">
                 Objectives of BRSR Implementation
               </div>
             </div>
@@ -136,8 +136,8 @@ export default function GuidancePage() {
                 alt="applicability"
                 className="w-full h-96 rounded-xl"
               />
-              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-10 ps-10">
-                BRSR Applicability
+              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-28 ps-10">
+                BRSR<br/>Applicability
               </div>
             </div>
             <ul className="mt-7 list-disc pl-5 mb-7">
@@ -163,7 +163,7 @@ export default function GuidancePage() {
               <img
                 src="/applicability_frame.png"
                 alt="applicability"
-                className="w-full h-full object-cover"
+                className="w-full h-full"
               />
             </div>
             <p className="mt-7 mb-2 text-2xl font-bold">BRSR Due Date</p>
@@ -180,8 +180,8 @@ export default function GuidancePage() {
                 alt="applicability"
                 className="w-full h-96 rounded-xl"
               />
-              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-10 ps-10">
-                BRSR Format
+              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-28 ps-10">
+                BRSR<br/>Format
               </div>
             </div>
             <div className="flex mt-10 justify-center">
@@ -344,7 +344,7 @@ export default function GuidancePage() {
                 alt="benifits_of_brsr"
                 className="w-full h-96 rounded-xl"
               />
-              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-10 ps-10">
+              <div className="absolute top-0 left-0 w-full h-full flex items-start justify-start text-white font-bold text-7xl bg-black bg-opacity-20 rounded-xl pt-28 ps-10">
                 Benifits of BRSR Reporting
               </div>
             </div>
