@@ -67,7 +67,7 @@ export default function ActiveFramewrokCards({
                 {framework.description}
               </p>
             </CardContent>
-            <CardFooter className="flex justify-between items-end">
+            <CardFooter className="flex justify-end items-end">
               {/* <div className="flex flex-col text-xs text-muted-foreground">
                 <div className="flex items-center">
                   <UserIcon className="w-3 h-3 mr-1" />

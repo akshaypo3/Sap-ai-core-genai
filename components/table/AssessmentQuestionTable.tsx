@@ -58,10 +58,10 @@ const AssessmentQuestionsTable = ({
     filterData(searchQuery, filters);
   }, [questionData]);
 
-  useEffect(() => {
-    // Sort data on initial load based on section_code and then order_index
-    handleSort("section_code", "asc");
-  }, [questionData]);
+  // useEffect(() => {
+  //   // Sort data on initial load based on section_code and then order_index
+  //   handleSort("section_code", "asc");
+  // }, [questionData]);
 
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);
@@ -209,12 +209,12 @@ const AssessmentQuestionsTable = ({
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Question Code
               </th>
-              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm cursor-pointer"  onClick={() => handleSort("question_text")}>
+              <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Question Name
-                <ArrowUpDown className="ml-2 h-4 w-4 inline"/>
+                {/* <ArrowUpDown className="ml-2 h-4 w-4 inline"/> */}
               </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                Help Text
+                Section
               </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
                 Type
@@ -238,7 +238,7 @@ const AssessmentQuestionsTable = ({
               <tr key={question.id} className="border-b border-gray-300 text-sm">
                 <td className="p-3 text-center">{question.question_code}</td>
                 <td className="p-3 text-center">{question.question_text}</td>
-                <td className="p-3 text-center">{question.help_text}</td>
+                <td className="p-3 text-center">{question.original_question_id?.section_id?.name || "N/A"}</td>
                 <td className="p-3 text-center">{question.question_type}</td>
                 <td className="p-3 text-center">
                   {question.is_required !== undefined && (

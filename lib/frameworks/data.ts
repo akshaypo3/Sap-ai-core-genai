@@ -37,7 +37,12 @@ export async function getAssessmentQuestionsById(assessmentId: string) {
     .from("fe_assessment_questions")
     .select(`
       *,
-      fe_assessments(name)
+      fe_assessments(name),
+      original_question_id (
+        section_id (
+          name
+        )
+      )
     `)
     .eq("assessment_id", assessmentId)
     .order('question_code', { ascending: true });
