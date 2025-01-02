@@ -19,7 +19,7 @@ export default async function Component({userId}:{userId:string}) {
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mt-4">
         {newsArticles.map((item) => (
           <Card key={item.id} className="flex flex-col h-full">
-            <img src={item.image_link} alt={item.headline} className="w-full h-48 object-cover rounded-t-md" />
+            <img src={item.image_link} alt={item.headline} className="w-full h-46 object-cover rounded-t-md" />
             <CardHeader className="h-24 overflow-hidden">
               <h3 className="text-lg font-semibold line-clamp-2">{item.headline}</h3>
             </CardHeader>

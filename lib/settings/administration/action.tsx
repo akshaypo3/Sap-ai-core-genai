@@ -11,7 +11,6 @@ export async function createGlossary(formData: FormData) {
     const GlossaryName = formData.get("title");
     const GlossaryDesc = formData.get("description");
     const language = formData.get("language");
-    console.log("tset123"+language);
 
     let tableName;
   switch (language) {
