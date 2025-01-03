@@ -30,7 +30,7 @@ interface stakeholderQuestionFormProps {
 
 export default function AddStackholderquestionsForm({ open, setOpen, id }: stakeholderQuestionFormProps) {
     
-    const Assessmentid = id.id.id.id;
+    const Assessmentid = id;
     const Createquestion = createStakeholderQuestions.bind(null, Assessmentid);
 
     function closeDialoge(){

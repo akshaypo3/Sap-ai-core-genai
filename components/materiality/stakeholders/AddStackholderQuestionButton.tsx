@@ -13,6 +13,8 @@ import { useState } from "react";
 
   export function AddStackholderButton(id:any){
     const [open, setOpen] = useState(false);
+    console.log("test2",id.id);
+    const assessmentId=id.id
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger><Button>Add Question</Button></DialogTrigger>
@@ -23,7 +25,7 @@ import { useState } from "react";
               Add the Question for the Stack Holder
             </DialogDescription>
           </DialogHeader>
-          <AddStackholderquestionsForm id={id} open={open} setOpen={setOpen}/>
+          <AddStackholderquestionsForm id={assessmentId} open={open} setOpen={setOpen}/>
         </DialogContent>
       </Dialog>
     )

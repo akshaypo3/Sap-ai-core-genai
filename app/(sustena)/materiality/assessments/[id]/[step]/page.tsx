@@ -31,7 +31,6 @@ export default async function Home({ params }: { params: { step: string; id: str
     data: { user },
   } = await supabase.auth.getUser();
   const userId = user?.id;
-
   const renderStepContent = () => {
     switch (stepNumber) {
       case 1:
