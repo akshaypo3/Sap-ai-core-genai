@@ -229,7 +229,7 @@ const AssessmentQuestionsTable = ({
                 Assigned Person
               </th>
               <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                Actions
+                Answer
               </th>
             </tr>
           </thead>
