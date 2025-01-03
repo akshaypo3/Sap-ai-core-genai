@@ -10,9 +10,11 @@ import {
 import { SearchIcon } from "lucide-react";
 import { Input } from "../ui/input";
 
-export default function GuidancePage() {
+export default function GuidanceBRSRPage() {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-3xl mx-auto mt-8">
+      <h4 className="font-bold text-3xl">Business responsibility and sustainability reporting (BRSR)
+      guidelines</h4>
       {/* <div className="max-w-2xl mx-auto mb-8">
         <div className="relative">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
