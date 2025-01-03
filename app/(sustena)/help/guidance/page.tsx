@@ -7,13 +7,13 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getTranslations } from 'next-intl/server'; // Updated import
+import { getTranslations } from "next-intl/server"; // Updated import
 import { Slash } from "lucide-react";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-import GuidancePage from "@/components/guidance/GuidanceCom";
+import CardBRSR from "@/components/guidance/CardBRSR";
 
 export default async function Home() {
   const supabase = createClient();
@@ -27,24 +27,31 @@ export default async function Home() {
   }
 
   // Use getTranslations to fetch translations
-  const t = await getTranslations('guidance');
+  const t = await getTranslations("guidance");
   const breadcrumbs = [
-    { href: "/dashboard/", text: t('breadcrumb.dashboard') },
-    { href: "/help/guidance", text: t('breadcrumb.help') },
-    { href: "/help/guidance", text: t('breadcrumb.guidance')}
+    { href: "/dashboard/", text: t("breadcrumb.dashboard") },
+    { href: "/help/guidance", text: t("breadcrumb.help") },
+    { href: "/help/guidance", text: t("breadcrumb.guidance") },
   ];
-  
+
   return (
     <>
-      <ContentLayout title={t('title')}>
+      <ContentLayout title={t("title")}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
-            <BreadCrumbCom title={t('title')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
+          <BreadCrumbCom
+            title={t("title")}
+            breadcrumbs={breadcrumbs}
+            backButton={<BackButton />}
+          />
           {/* <div className="flex space-x-4">
             Button Section for Subheader
             <Button variant="outline">Add new</Button>
           </div> */}
-        </div> 
-       <GuidancePage/>
+        </div>
+        <div className="mt-10">
+          <h1 className="font-bold text-lg">Frameworks Guidance</h1>
+        </div>
+        <CardBRSR userId={user.id} />
       </ContentLayout>
     </>
   );

@@ -109,6 +109,7 @@
   },
   "guidance": {
     "title": "Anleitung",
+    "BRSR":"BRSR",
     "breadcrumb": {
       "dashboard": "Dashboard",
       "help": "Hilfe",
