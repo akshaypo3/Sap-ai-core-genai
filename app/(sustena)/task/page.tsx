@@ -79,17 +79,17 @@ export default async function Home() {
         <div className="bg-white dark:bg-neutral-950 rounded-md border p-5">
           <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
             <h3 className="text-xl font-semibold">
-              Workspace
+              {t("Workspace")}
             </h3>
             <AddTask createdId={user.id} />
           </div>
           <Tabs defaultValue="board" className="mt-2">
             <TabsList className="grid grid-cols-4">
-              <TabsTrigger value="board"><SquareKanban className="mr-2 h-4 w-4"/>Board</TabsTrigger>
-              <TabsTrigger value="list"><List className="mr-2 h-4 w-4"/>List</TabsTrigger>
+              <TabsTrigger value="board"><SquareKanban className="mr-2 h-4 w-4"/>{t("Board")}</TabsTrigger>
+              <TabsTrigger value="list"><List className="mr-2 h-4 w-4"/>{t("List")}</TabsTrigger>
               {/* <TabsTrigger value="gantt"><SquareGanttChart className="mr-2 h-4 w-4"/>Gantt</TabsTrigger> */}
-              <TabsTrigger value="table"><TableProperties className="mr-2 h-4 w-4"/>Table</TabsTrigger>
-              <TabsTrigger value="archive"><List className="mr-2 h-4 w-4"/>Archive</TabsTrigger>
+              <TabsTrigger value="table"><TableProperties className="mr-2 h-4 w-4"/>{t("Table")}</TabsTrigger>
+              <TabsTrigger value="archive"><List className="mr-2 h-4 w-4"/>{t("Archive")}</TabsTrigger>
             </TabsList>
             <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
               <TabsContent value="board">

@@ -23,10 +23,13 @@ import {
 import { useTranslations } from "use-intl";
 import SendMailForm from "./SendMailForm";
 
+interface EmailTemplatesListProps {
+  emailTemplatesData: any[];
+}
 
-const EmailTemplatesList: React.FC = () => {
+const EmailTemplatesList: React.FC<EmailTemplatesListProps> = ({ emailTemplatesData }) => {
   const router = useRouter(); 
-  const [emailTemplates, setEmailTemplates] = useState<any[]>([]);
+  const [emailTemplates, setEmailTemplates] = useState(emailTemplatesData);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>(""); 
   const [selectedColumns, setSelectedColumns] = useState<string[]>(["name", "description"]);
@@ -49,19 +52,19 @@ const EmailTemplatesList: React.FC = () => {
     "version",
   ];
 
-  useEffect(() => {
-    const getEmailTemplates = async () => {
-      try {
-        const data = await fetchEmailTemplates();
-        setEmailTemplates(data);
-      } catch (error) {
-        console.error("Error fetching email templates:", error);
-      }
-      setLoading(false);
-    };
+  // useEffect(() => {
+  //   const getEmailTemplates = async () => {
+  //     try {
+  //       const data = await fetchEmailTemplates();
+  //       setEmailTemplates(data);
+  //     } catch (error) {
+  //       console.error("Error fetching email templates:", error);
+  //     }
+  //     setLoading(false);
+  //   };
 
-    getEmailTemplates();
-  }, []);
+  //   getEmailTemplates();
+  // }, []);
 
   const handleSearchChange = (value: string) => setSearchTerm(value);
 

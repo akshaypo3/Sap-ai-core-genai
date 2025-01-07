@@ -109,9 +109,9 @@ export default async function ActiveAssessmentList({
                   <Badge
                     className={
                       item.status === "in_progress"
-                        ? "bg-orange-400"
+                        ? "bg-orange-400 hover:bg-orange-400"
                         : item.status === "done"
-                        ? "bg-green-400"
+                        ? "bg-green-400 hover:bg-green-400"
                         : ""
                     }
                   >

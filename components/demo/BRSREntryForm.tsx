@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useTranslations } from 'next-intl';
 
 type BRSREntryFormProps = {
   id: string;
@@ -49,30 +50,31 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
     router.push('/brsr-table');
   };
 
+  const t = useTranslations('demo')
   return (
     <div className="container mx-auto py-10 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-6">Edit BRSR Entry</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("Edit BRSR Entry")}</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <Label htmlFor="section">Section</Label>
+          <Label htmlFor="section">{t("Section")}</Label>
           <Input id="section" value={section} readOnly />
         </div>
         <div>
-          <Label htmlFor="principle">Principle</Label>
+          <Label htmlFor="principle">{t("Principle")}</Label>
           <Input id="principle" value={principle} readOnly />
         </div>
         <div>
-          <Label htmlFor="question">Question</Label>
+          <Label htmlFor="question">{t("Question")}</Label>
           <Input id="question" value={question} readOnly />
         </div>
         <div>
-          <Label htmlFor="status">Status</Label>
+          <Label htmlFor="status">{t("Status")}</Label>
           <div>
             <Badge className={getStatusColor(status)}>{status}</Badge>
           </div>
         </div>
         <div>
-          <Label htmlFor="assignedUser">Assigned User</Label>
+          <Label htmlFor="assignedUser">{t("Assigned User")}</Label>
           <div className="flex items-center space-x-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src={assignedUser.avatar} alt={assignedUser.name} />
@@ -82,7 +84,7 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
           </div>
         </div>
         <div>
-          <Label htmlFor="response">Response</Label>
+          <Label htmlFor="response">{t("Response")}</Label>
           <Textarea 
             id="response" 
             value={response} 
@@ -93,9 +95,9 @@ const BRSREntryForm: React.FC<BRSREntryFormProps> = ({
         </div>
         <div className="flex justify-end space-x-4">
           <Button type="button" variant="outline" onClick={() => router.push('/brsr-table')}>
-            Cancel
+            {t("Cancel")}
           </Button>
-          <Button type="submit">Save Changes</Button>
+          <Button type="submit">{t("Save Changes")}</Button>
         </div>
       </form>
     </div>

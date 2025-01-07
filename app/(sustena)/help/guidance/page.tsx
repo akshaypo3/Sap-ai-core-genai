@@ -49,7 +49,7 @@ export default async function Home() {
           </div> */}
         </div>
         <div className="mt-10">
-          <h1 className="font-bold text-lg">Frameworks Guidance</h1>
+          <h1 className="font-bold text-lg">{t("Frameworks Guidance")}</h1>
         </div>
         <CardBRSR userId={user.id} />
       </ContentLayout>

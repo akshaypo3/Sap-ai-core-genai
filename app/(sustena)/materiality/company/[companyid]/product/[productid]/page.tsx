@@ -6,41 +6,43 @@ import { Label } from "@/components/ui/label";
 import { AddProductIROButton } from "@/components/materiality/company/buttons";
 import { DataTable } from "@/components/table/data-table";
 import { columns_product_IRO } from "@/components/table/ProductsIROTableColumns";
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home({ params }: { params: { companyid: string; productid: string } }) {
   const { companyid, productid } = params;
   
 const product = await getProduct(productid)
 const productIRO = await getProductIRO(productid)
+const t = await getTranslations('materiality');
 
   return (
     <ContentLayout title={""}>
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <div>
-            <h1 className="font-bold text-2xl mb-2">Product / Service Details</h1>
+            <h1 className="font-bold text-2xl mb-2">{t("company.companyId.Product / Service Details")}</h1>
           </div>
         </div>
         <div className="">
      <div className="bg-white dark:bg-neutral-950 rounded-md">
      <Alert>
-       <h2 className="font-semibold text-xl mb-3">Product / Service Details</h2>
+       <h2 className="font-semibold text-xl mb-3">{t("company.companyId.Product / Service Details")}</h2>
        <AlertDescription>
         
          <div className="grid gap-4">
            <div>
-             <Label>Name</Label>
+             <Label>{t("company.companyId.Name")}</Label>
              <p>{product.name}</p>
            </div>
            <div>
-             <Label>Description</Label>
+             <Label>{t("company.companyId.Description")}</Label>
              <p>{product.description}</p>
            </div>
            <div>
-             <Label>Type</Label>
+             <Label>{t("company.companyId.Type")}</Label>
              <p>{product.type}</p>
            </div>
            <div>
-             <Label>% of Turnover</Label>
+             <Label>{t("company.companyId.% of Turnover")}</Label>
              <p>{product.turnover_percentage}</p>
            </div>
          </div>
@@ -55,7 +57,7 @@ const productIRO = await getProductIRO(productid)
        <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mt-5">
         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-t-md">
           <h3 className="text-xl font-semibold">
-            Impact / Risks / Opportunities
+            {t("company.companyId.Impact / Risks / Opportunities")}
           </h3>
           <AddProductIROButton companyId={companyid} productId={productid} />
         </div>

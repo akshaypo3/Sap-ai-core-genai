@@ -17,6 +17,7 @@ import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getIROProduct } from "@/lib/company/data";
 import EditProductIROButton from "@/components/materiality/company/EditProductIRO";
 import { DeleteProductIROButton } from "@/components/materiality/company/DeleteProductIRO";
+import { getTranslations } from 'next-intl/server';
 
 export default async function IroProductPage({
   params,
@@ -42,6 +43,7 @@ export default async function IroProductPage({
 
   const timezone = await getTimeZone({ userId: user.id });
   const actualTime = timezone.userWithTimezone.timezone;
+  const t = await getTranslations('materiality');
 
   return (
     <>
@@ -54,37 +56,37 @@ export default async function IroProductPage({
 
         <div className="bg-white dark:bg-neutral-950 rounded-md">
           <Alert>
-            <h2 className="font-semibold text-xl mb-3">Product / Service IRO Details</h2>
+            <h2 className="font-semibold text-xl mb-3">{t("company.companyId.Product / Service IRO Details")}</h2>
             <AlertDescription>
               <div className="grid  gap-4">
                 <div>
-                  <Label>Description</Label>
+                  <Label>{t("company.companyId.Description")}</Label>
                   <p>{iro.description}</p>
                 </div>
                 <div>
-                  <Label>Type</Label>
+                  <Label>{t("company.companyId.Type")}</Label>
                   <p>
                     {iro.type}
                   </p>
                 </div>
                 <div>
-                  <Label>Topic</Label>
+                  <Label>{t("company.companyId.Topic")}</Label>
                   <p>
                     {iro.topic}
                   </p>
                 </div>
                 <div>
-                  <Label>Sub Topic</Label>
+                  <Label>{t("company.companyId.Sub Topic")}</Label>
                   <p>
                     {iro.subtopic}
                   </p>
                 </div>
                 <div>
-                  <Label>Sub Sub Topic</Label>
+                  <Label>{t("company.companyId.Sub Sub Topic")}</Label>
                   <p>{iro.subsubtopic}</p>
                 </div>
                 <div>
-                <Label>Created At</Label>
+                <Label>{t("company.companyId.Created At")}</Label>
                 <p>
                 {new Date(iro.created_at)
             .toLocaleDateString("en-GB")

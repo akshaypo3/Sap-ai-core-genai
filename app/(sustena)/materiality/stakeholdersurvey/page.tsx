@@ -152,7 +152,7 @@ export default async function Home() {
               </TableCell>
               <TableCell className="font-medium">3</TableCell>
               <TableCell className="font-medium">0</TableCell>
-              <TableCell><Badge className="bg-red-500">0%</Badge></TableCell>
+              <TableCell><Badge className="bg-red-200 text-red-700 hover:bg-red-200">0%</Badge></TableCell>
               <TableCell>
                 <StakeholderSurveyEditButton/>
               </TableCell>

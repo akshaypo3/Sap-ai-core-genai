@@ -23,7 +23,7 @@ export default async function Home({ params }: { params: { step: string; id: str
       case 2:
         return <CdpIdentificationStep id={id}/>;
       default:
-        return <div>Invalid Step</div>;
+        return <div>{t("assessments.iroid.Invalid Step")}</div>;
     }
   };
 

@@ -17,24 +17,24 @@ interface PageProps {
 
 export default async function AdminEmailPage({ params }: PageProps) {
   const { editEmailTemp } = params; 
-
+  
+  const t = await getTranslations('settings');
   const templates = await fetchEmailTemplates();
   const emailTemplate = templates.find((template) => template.id === editEmailTemp);
 
   if (!emailTemplate) {
-    return <div>Email Template not found.</div>;
+    return <div>{t("administration.Email Template not found")}.</div>;
   }
 
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    return <div>Unauthorized. Please log in.</div>;
+    return <div>{t("administration.Unauthorized Please log in")}.</div>;
   }
 
   const smtpSettings = await getSmtpSettings();
   const { initialTimezone } = await getTimeZone({ userId: user.id });
-  const t = await getTranslations('settings');
 
   const handleTimezoneChange = async (newTimezone: { value: string }) => {
     "use server";

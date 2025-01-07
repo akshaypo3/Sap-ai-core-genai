@@ -8,6 +8,7 @@ import { X, Trash2 } from 'lucide-react';
 import { useChat } from '@/app/contexts/ChatContext';
 import { callAnthropic } from '@/lib/ai/anthropic';
 import { LoadingDots } from '@/components/chats/LoadingDots';
+import { useTranslations } from 'next-intl';
 
 const SYSTEM_PROMPT = `You are a helpful assistant focused on sustainability topics. If a question or request is not related to sustainability, environment, or related areas, respond with: "Please ask questions about sustainability." Otherwise, provide a helpful and informative answer related to the sustainability aspect of the question. Please make the answer as short as possible`;
 
@@ -15,6 +16,7 @@ export const ChatInterface: React.FC = () => {
   const { isChatOpen, closeChat, messages, addMessage, clearChat } = useChat();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations('chats')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ export const ChatInterface: React.FC = () => {
   return (
     <Card className="fixed bottom-20 right-4 w-1/3 h-2/5 flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Sustena.AI Assistant</CardTitle>
+        <CardTitle>{t("Sustena_Assistant")}</CardTitle>
         <div className="flex">
           <Button variant="ghost" size="icon" onClick={clearChat} title="Clear Chat">
             <Trash2 className="h-4 w-4" />
@@ -75,12 +77,12 @@ export const ChatInterface: React.FC = () => {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about sustainability..."
+            placeholder={t("Ask about sustainability")}
             className="flex-grow mr-2"
             disabled={isLoading}
           />
           <Button type="submit" disabled={isLoading || !input.trim()}>
-            Send
+            {t("Send")}
           </Button>
         </form>
       </CardFooter>

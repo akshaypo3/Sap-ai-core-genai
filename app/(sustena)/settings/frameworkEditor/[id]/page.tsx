@@ -85,7 +85,7 @@ export default async function DetailFramework({
             </div>
           </div> */}
 
-          <Label className="mb-3">{t("frameworkEditor.Framework Information")}</Label>
+          <Label className="mb-3 font-semibold text-lg">{t("frameworkEditor.Framework Information")}</Label>
           <div className="p-10 mb-10 flex justify-between gap-28 bg-white dark:bg-neutral-950 rounded-md border">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -119,7 +119,7 @@ export default async function DetailFramework({
             </div>
           </div>
 
-          <Label className="mb-3">{t("frameworkEditor.Statistics")}</Label>
+          <Label className="mb-3 font-semibold text-lg">{t("frameworkEditor.Statistics")}</Label>
           <div className="p-10 mb-10 flex justify-between gap-8 bg-white dark:bg-neutral-950 rounded-md border">
             <div className="grid grid-cols-3 gap-8 w-full">
               <div className="p-6 bg-gray-100 dark:bg-neutral-800 rounded-md shadow-md text-center">
@@ -143,7 +143,7 @@ export default async function DetailFramework({
             </div>
           </div>
 
-          <Label className="mb-3">{t("frameworkEditor.Overview")}</Label>
+          <Label className="mb-3 font-semibold text-lg">{t("frameworkEditor.Overview")}</Label>
           <div className="p-10 flex justify-between gap-28 bg-white dark:bg-neutral-950 rounded-md border">
             <Tabs defaultValue="sections" className="w-full">
               <TabsList className="grid w-full grid-cols-4">
