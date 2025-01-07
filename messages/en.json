@@ -107,6 +107,7 @@
   },
   "guidance": {
     "title": "Guidance",
+    "Frameworks Guidance":"Frameworks Guidance",
     "BRSR":"BRSR",
     "breadcrumb": {
       "dashboard": "Dashboard",
@@ -195,7 +196,8 @@
         "Material:": "Material:",
         "Not Material:": "Not Material:",
         "To Be Assessed:": "To Be Assessed:",
-        "Under Review:": "Under Review:"
+        "Under Review:": "Under Review:",
+        "Invalid Step":"Invalid Step"
       },
       "new":{
         "title":"New Assessment",
@@ -246,6 +248,26 @@
         "Location": "Location",
         "Company Location": "Company Location",
         "Location ID": "Location ID"
+      },
+      "companyId": {
+        "Name":"Name",
+        "City":"City",
+        "Country":"Country",
+        "Location Details":"Location Details",
+        "Description": "Description",
+        "Type":"Type",
+        "Address":"Address",
+        "Postal Code":"Postal Code",
+        "Employee Count":"Employee Count",
+        "Impact / Risks / Opportunities":"Impact / Risks / Opportunities",
+        "Location IRO Details":"Location IRO Details",
+        "Topic":"Topic",
+        "Sub Topic":"Sub Topic",
+        "Sub Sub Topic":"Sub Sub Topic",
+        "Created At":"Created At",
+        "% of Turnover":"% of Turnover",
+        "Product / Service Details":"Product / Service Details",
+        "Product / Service IRO Details":"Product / Service IRO Details"
       }
     },
     "dashboard": {
@@ -502,7 +524,8 @@
       "Statistics":"Statistics",
       "totalquestion":"Total Questions",
       "totalquestionans":"Total Questions Answered",
-      "totalquestionunans":"Total Questions Not Answered"
+      "totalquestionunans":"Total Questions Not Answered",
+      "questions":"Questions"
     }
   },
   "settings": {
@@ -533,9 +556,11 @@
       "Administrative Users": "Administrative Users",
       "SMTP": "SMTP",
       "Anthropic AI": "Anthropic AI",
-      "Frameworks":"Frameworks"
-
-      
+      "Frameworks":"Frameworks",
+      "Glossary":"Glossary",
+      "AI":"AI",
+      "Email Template not found":"Email Template not found",
+      "Unauthorized Please log in":"Unauthorized. Please log in"
     },
     "groups": {
       "title": "Group Details",
@@ -629,6 +654,11 @@
     "Due date": "Due date",
     "Action": "Action",
     "My Tasks": "My Tasks",
+    "Workspace":"Workspace",
+    "Board":"Board",
+    "List":"List",
+    "Table":"Table",
+    "Archive":"Archive",
     "taskId": {
       "title": "Task Details",
       "Dashboard": "Dashboard",
@@ -727,7 +757,7 @@
     "SYSTEM_PROMPT": "You are a helpful assistant focused on sustainability topics. If a question or request is not related to sustainability, environment, or related areas, respond with: Please ask questions about sustainability. Otherwise, provide a helpful and informative answer related to the sustainability aspect of the question. Please make the answer as short as possible",
     "Sustena_Assistant": "Sustena.AI Assistant",
     "Send": "Send",
-    "Sorry, I encountered an error_Please try again":"Sorry, I encountered an error. Please tryagain.",
+    "Sorry, I encountered an error_Please try again":"Sorry, I encountered an error. Please try again later.",
     "Clear Chat":"Clear Chat",
     "Close Chat":"Close Chat",
     "Ask about sustainability":"Ask about sustainability..."

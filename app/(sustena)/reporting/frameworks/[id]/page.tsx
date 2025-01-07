@@ -45,7 +45,7 @@ export default async function Home({ params }: { params: { id: string } }) {
         </div>
         <div className="p-5 border rounded">
           <div className="flex justify-between">
-            <p className="text-xl font-semibold">Assessments</p>
+            <p className="text-xl font-semibold">{t("fe_assessments.assessments")}</p>
             <ActiveFrameworkAssessmentButton
               framework={activeFrameworkName}
               frameworkId={id}

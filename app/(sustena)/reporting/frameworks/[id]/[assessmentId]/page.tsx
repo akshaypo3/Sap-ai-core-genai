@@ -68,7 +68,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
             </div>
           </div>
         <div className="p-5 border rounded">
-            <p className="text-xl font-semibold mb-10">Questions</p>
+            <p className="text-xl font-semibold mb-10">{t("fe_assessments.questions")}</p>
          <AssessmentQuestionsTable questionData={questions} FrameworkID={id} AssessmentID={assessmentId} users={users} userId={userId}/>
         </div>
       </ContentLayout>

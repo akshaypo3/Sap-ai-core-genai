@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Button } from '@/components/ui/button';
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { useTranslations } from 'next-intl';
 
 // Initialize Supabase client
 const supabase = createClient();
@@ -58,6 +59,7 @@ const UploadButton = () => {
       router.refresh();
     }
   };
+  const t = useTranslations('datahub')
 
   return (
 
@@ -72,7 +74,7 @@ const UploadButton = () => {
       {file ? file.name : 'Select File'}
     </Button>
     <Button onClick={handleUpload} disabled={!file || uploading} className="bg-green-600">
-      {uploading ? 'Uploading...' : 'Upload to Supabase'}
+      {uploading ? t('Uploading') : t('Upload to Supabase')}
     </Button>
   </div>
   

@@ -20,6 +20,7 @@ import Globallanguage from "@/components/settings/timezone/globallanuage";
 import GoogleMapsApi from "@/components/settings/timezone/GoogleMapsApi";
 import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 import EmailTemplatesList from "@/components/settings/emailTemp/EmailTemplatesList";
+import { fetchEmailTemplates } from "@/lib/settings/emailtemplates/action"; 
 
 export default async function Home() {
   const supabase = createClient();
@@ -47,6 +48,8 @@ export default async function Home() {
     { href: "/settings/administration", text: t("administration.Administration") }
   ];
 
+  const emailTemplatesData = await fetchEmailTemplates()
+
   return (
     <ContentLayout title="Administration">
       <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
@@ -63,9 +66,9 @@ export default async function Home() {
           {/* <TabsTrigger value="frameworks">{t("administration.Frameworks")}</TabsTrigger> */}
           <TabsTrigger value="emailTempalate">{t("administration.E-mail Templates")}</TabsTrigger>
           <TabsTrigger value="smtp">{t("administration.SMTP")}</TabsTrigger>
-          <TabsTrigger value="glossary">Glossary</TabsTrigger>
+          <TabsTrigger value="glossary">{t("administration.Glossary")}</TabsTrigger>
           <TabsTrigger value="anthropicai">{t("administration.Anthropic AI")}</TabsTrigger>
-          <TabsTrigger value="ai">AI</TabsTrigger>
+          <TabsTrigger value="ai">{t("administration.AI")}</TabsTrigger>
         </TabsList>
 
         <div className="bg-white p-5 border rounded">
@@ -84,7 +87,7 @@ export default async function Home() {
 
           <TabsContent value="emailTempalate">
             {/* {t("administration.E-mail Templates")} */}
-            <EmailTemplatesList/>
+            <EmailTemplatesList emailTemplatesData={emailTemplatesData}/>
           </TabsContent>
 
           <TabsContent value="smtp">

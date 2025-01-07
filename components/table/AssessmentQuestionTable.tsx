@@ -246,10 +246,10 @@ const AssessmentQuestionsTable = ({
                       className={
                         question.is_required === false ||
                         question.is_required === "false"
-                          ? "bg-orange-200 text-orange-800"
+                          ? "bg-orange-200 text-orange-800 hover:bg-orange-200"
                           : question.is_required === true ||
                             question.is_required === "true"
-                          ? "bg-green-200 text-green-800"
+                          ? "bg-green-200 text-green-800 hover:bg-green-200"
                           : ""
                       }
                     >
@@ -263,10 +263,10 @@ const AssessmentQuestionsTable = ({
                       className={
                         question.answered === false ||
                         question.answered === "false"
-                          ? "bg-red-200 text-red-800"
+                          ? "bg-red-200 text-red-800 hover:bg-red-200"
                           : question.answered === true ||
                             question.answered === "true"
-                          ? "bg-blue-200 text-blue-800"
+                          ? "bg-blue-200 text-blue-800 hover:bg-blue-200"
                           : ""
                       }
                     >
