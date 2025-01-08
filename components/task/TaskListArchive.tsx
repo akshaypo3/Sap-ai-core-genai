@@ -18,11 +18,12 @@ import {
   } from "lucide-react";
   import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getTasks_archieved } from "@/lib/task/data";
+import { getTranslations } from "next-intl/server";
   
   
   export default async function TaskListArchieve() {
     const tasks = await getTasks_archieved();
-    
+    const t = await getTranslations("tasks-com");
     return (
       <Table>
         <TableHeader>
@@ -30,49 +31,49 @@ import { getTasks_archieved } from "@/lib/task/data";
             <TableHead className="w-[70px]">
               <div className="flex items-center space-x-1">
                 <Text className="size-4 me-1" />
-                <span>Title</span>
+                <span>{t("Title")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <Rows4 className="size-4 me-1" />
-                <span>Description</span>
+                <span>{t("Description")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <Users className="size-4 me-1" />
-                <span>Assigned to</span>
+                <span>{t("Assigned to")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <Users className="size-4 me-1" />
-                <span>Created By</span>
+                <span>{t("Created By")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <CircleArrowRight className="size-4 me-1" />
-                <span>Status</span>
+                <span>{t("Status")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <CalendarDays className="size-4 me-1" />
-                <span>Start Date</span>
+                <span>{t("Start Date")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <CalendarDays className="size-4 me-1" />
-                <span>Due Date</span>
+                <span>{t("Due Date")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <SquarePen className="size-4 me-1" />
-                <span>Updated At</span>
+                <span>{t("Updated At")}</span>
               </div>
             </TableHead>
           </TableRow>

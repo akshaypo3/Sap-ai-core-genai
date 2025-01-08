@@ -5,6 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { getQuestionComments } from '@/lib/frameworks/action';
 import { DeleteQuestionCommentButtonDialog } from './Buttons';
 import { AddQuestionCommentButtonDialog } from './AddQuestionComment';
+import { useTranslations } from 'next-intl';
 
 
 export  function QuestionComments({ QuestionId,frameworkId,assessmentID,isOpen}) {
@@ -41,9 +42,10 @@ export  function QuestionComments({ QuestionId,frameworkId,assessmentID,isOpen})
   const userId=comments1.userId
   const actualTime = timezone1 || "UTC";
 
+  const t = useTranslations('reporting-com')
   return (
     <div className="w-full max-w-2xl">
-      <h2 className="font-semibold text-xl">Comments</h2>
+      <h2 className="font-semibold text-xl">{t("fe_frameworks.Comments")}</h2>
       <AddQuestionCommentButtonDialog QuestionId={QuestionId} frameworkId={frameworkId} assessmentID={assessmentID} fetchtherequireddata={fetchtherequireddata}/>
       <div className="grid">
         {comments?.map((comment) => (

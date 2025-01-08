@@ -888,7 +888,16 @@
     "Create Goal": "Create Goal",
     "Select Status": "Select Status",
     "Completed": "Completed",
-    "Add Values": "Add Values"
+    "Add Values": "Add Values",
+    "Are you sure to delete the goal:":"Are you sure to delete the goal:",
+    "Cancel":"Cancel",
+    "Visualization":"Visualization"
+  },
+  "guidance-com":{
+    "Business responsibility and sustainability reporting (BRSR) guidelines":"Business responsibility and sustainability reporting (BRSR) guidelines",
+    "Navigate the complexities of the Business Responsibility and Sustainability Reporting (BSRS) with ease":"Navigate the complexities of the Business Responsibility and Sustainability Reporting (BSRS) with ease",
+    "Read More":"Read More",
+    "Vaspp":"Vaspp"
   },
   "reporting-com": {
     "Sections": "Sections",
@@ -1119,7 +1128,46 @@
     "FY": "FY",
     "Link": "Link",
     "In Progress": "In Progress",
-    "Show progress": "Show progress"
+    "Show progress": "Show progress",
+    "fe_frameworks":{
+      "Assessment Name":"Assessment Name",
+      "Start Date":"Start Date",
+      "Framework":"Framework",
+      "End Date":"End Date",
+      "Creating":"Creating...",
+      "Create Assessment":"Create Assessment",
+      "view":"View",
+      "Actions":"Actions",
+      "Created By":"Created By",
+      "Name":"Name",
+      "Status":"Status",
+      "Active Frameworks":"Active Frameworks",
+      "Select":"Select",
+      "Help text:":"Help text:",
+      "Select your answer":"Select your answer",
+      "Select your answers":"Select your answers",
+      "Create Answer":"Create Answer",
+      "Comments":"Comments",
+      "Activity Logs":"Activity Logs",
+      "Yes":"Yes",
+      "No":"No",
+      "Answer":"Answer",
+      "Enter your numeric answer":"Enter your numeric answer",
+      "Delete":"Delete",
+      "Enter":"Enter",
+      "No rows available":"No rows available",
+      "Add Row":"Add Row",
+      "Enter your answer":"Enter your answer...",
+      "Add a comment":"Add a comment",
+      "Add Comment":"Add Comment",
+      "Type your comment here":"Type your comment here.",
+      "New Assessment":"New Assessment",
+      "New Assessment function description":"New Assessment function description",
+      "Are you sure to delete the comment:":"Are you sure to delete the comment:",
+      "Delete comment":"Delete comment",
+      "Cancel":"Cancel",
+      "Delete Comment":"Delete Comment"
+    }
   },
   "settings-com": {
     "Anthropic API Demo": "Anthropic API Demo",
@@ -1279,7 +1327,26 @@
     "IN_PROGRESS": "IN PROGRESS",
     "NEEDS_CLARIFICATION": "NEEDS CLARIFICATION",
     "DONE": "DONE",
-    "Status": "Status"
+    "Status": "Status",
+    "Archive Task":"Archive Task",
+    "Are you sure you want to archive the task?":"Are you sure you want to archive the task?",
+    "Archiving":"Archiving...",
+    "Archive":"Archive",
+    "Adding":"Adding...",
+    "Delete Task":"Delete Task",
+    "Are you sure you want to delete the task?":"Are you sure you want to delete the task?",
+    "Deleting":"Deleting...",
+    "Actions":"Actions",
+    "View":"View",
+    "Title":"Title",
+    "Updated At":"Updated At",
+    "Assigned to":"Assigned to",
+    "Select status":"Select status",
+    "Activity Logs":"Activity Logs",
+    "Saving":"Saving...",
+    "Save":"Save",
+    "View Linked Section":"View Linked Section",
+    "Task Details":"Task Details"
   },
   "ui": {
     "Login": "Login",
@@ -1306,7 +1373,8 @@
     "System": "System",
     "Select File": "Select File",
     "Uploading": "Uploading...",
-    "Upload to Supabase": "Upload to Supabase"
+    "Upload to Supabase": "Upload to Supabase",
+    "Back":"Back"
   },
   "materiality-com": {
     "New Assessment": "New Assessment",
@@ -1551,7 +1619,15 @@
     "Inbox":"Inbox",
     "Archive":"Archive",
     "New":"New",
-    "View":"View"  
+    "View":"View",
+    "No inbox notifications available":"No inbox notifications available",
+    "No archived notifications available":"No archived notifications available",
+    "Please enable notifications to view notifications":"Please enable notifications to view notifications"
+  },
+  "portal-layout":{
+    "Profile":"Profile",
+    "Dashboard":"Dashboard",
+    "Account":"Account"
   }
 }
 

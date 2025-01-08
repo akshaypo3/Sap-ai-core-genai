@@ -13,6 +13,7 @@ import { columns_task_log } from '../table/TaskLogsTableColumns';
 import { Comments } from './commentdialog';
 import { ArchiveTaskButtonDialog } from './ArchieveTaskButton';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export function UpdateTaskDialogForm({
   taskId,
@@ -106,19 +107,20 @@ export function UpdateTaskDialogForm({
     setIsOpen(false); // Close the main task dialog
   };
 
+  const t = useTranslations("tasks-com");
   return (
     <>
       {/* Main Task Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[1000px] max-h-[80vh] overflow-y-auto" aria-labelledby="dialog-title" aria-describedby="dialog-description">
           <DialogHeader>
-            <DialogTitle id="dialog-title" className="text-left">Task Details</DialogTitle>
+            <DialogTitle id="dialog-title" className="text-left">{t("Task Details")}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit}>
             <div className="grid gap-4">
               <div className="flex justify-end w-full pl-2">
                 <div className="flex flex-col w-1/3">
-                  <label className="text-sm font-medium leading-none mb-1">Assigned To</label>
+                  <label className="text-sm font-medium leading-none mb-1">{t("Assigned To")}</label>
                   <Select
                     name="assigned_to"
                     value={assignedTo}
@@ -126,7 +128,7 @@ export function UpdateTaskDialogForm({
                     className="w-full mb-1"
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select User" />
+                      <SelectValue placeholder={t("Select User")} />
                     </SelectTrigger>
                     <SelectContent>
                       {users.map((user) => (
@@ -141,7 +143,7 @@ export function UpdateTaskDialogForm({
 
               <div className="flex justify-between w-full">
                 <div className="flex flex-col w-1/3">
-                  <label className="text-sm font-medium leading-none mb-1">Task Title</label>
+                  <label className="text-sm font-medium leading-none mb-1">{t("Task Title")}</label>
                   <input
                     className="flex h-9 rounded-md border border-input bg-gray-200 px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring mb-1"
                     value={title}
@@ -153,7 +155,7 @@ export function UpdateTaskDialogForm({
                   <label className="text-sm font-medium leading-none mb-1">Linked To</label>     
                   <Link href={link}>
                     <Button variant="outline" className='w-full'>
-                      <span>View Linked Section</span>
+                      <span>{t("View Linked Section")}</span>
                     </Button>
                   </Link>
                 </div>
@@ -161,7 +163,7 @@ export function UpdateTaskDialogForm({
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium leading-none">Description</label>
+                <label className="text-sm font-medium leading-none">{t("Description")}</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -173,7 +175,7 @@ export function UpdateTaskDialogForm({
               <div className="flex mt-5 justify-between items-center">
                 <DialogClose asChild>
                   <Button className="w-1/8" type="submit" disabled={isPending}>
-                    {isPending ? 'Saving...' : 'Save'}
+                    {isPending ? t('Saving') : t('Save')}
                   </Button>
                 </DialogClose>
 
@@ -181,7 +183,7 @@ export function UpdateTaskDialogForm({
                   className="w-1/8 bg-red-500 hover:bg-red-600"
                   onClick={handleArchiveButtonClick}
                 >
-                  Archive
+                  {t("Archive")}
                 </Button>
               </div>
             </div>
@@ -189,15 +191,15 @@ export function UpdateTaskDialogForm({
 
           <Tabs defaultValue="comments" className="w-full" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="comments">Comments</TabsTrigger>
-              <TabsTrigger value="activitylog">Activity Log</TabsTrigger>
+              <TabsTrigger value="comments">{t("Comments")}</TabsTrigger>
+              <TabsTrigger value="activitylog">{t("Activity Logs")}</TabsTrigger>
             </TabsList>
             <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
               <TabsContent value="comments">
                 <Comments taskId={taskId} isOpen={true} />
               </TabsContent>
               <TabsContent value="activitylog">
-                <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
+                <h2 className="font-semibold text-xl mb-3">{t("Activity Logs")}</h2>
                 <div className="min-w-full table-auto border-collapse">
                   <DataTable columns={columns_task_log} data={Logs} filter={'user'} sort={'Created At'} />
                 </div>

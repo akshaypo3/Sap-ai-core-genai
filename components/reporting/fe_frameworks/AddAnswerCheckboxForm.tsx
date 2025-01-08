@@ -20,6 +20,7 @@ import { getQuestionLogsById } from "@/lib/frameworks/action";
 import { DataTable } from "@/components/table/data-table";
 import { question_table_log } from "@/components/table/QuestionLogsTableColumns";
 import { QuestionComments } from "./QuestionComments";
+import { useTranslations } from "next-intl";
 
 // Validation schema ensuring that the answer is either "Yes" or "No"
 export const answerEditorFormSchema = z.object({
@@ -115,6 +116,7 @@ export default function CreateAnswerCheckboxForm({
       fetchLogs();
   }, [open]);
 
+  const t = useTranslations('reporting-com')
   return (
     <>
     <Form {...form}>
@@ -127,13 +129,13 @@ export default function CreateAnswerCheckboxForm({
           </div>
           <div className="mb-4">
             <p>
-              <strong>Help text:</strong> {QuestionData?.help_text}
+              <strong>{t("fe_frameworks.Help text:")}</strong> {QuestionData?.help_text}
             </p>
           </div>
 
           <FormField control={form.control} name="answer" render={({ field }) => (
             <FormItem>
-              <FormLabel>Select your answer</FormLabel>
+              <FormLabel>{t("fe_frameworks.Select your answer")}</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Checkbox
@@ -141,7 +143,7 @@ export default function CreateAnswerCheckboxForm({
                     onCheckedChange={(checked) => handleCheckboxChange(checked)} // Change the answer to "Yes" or "No"
                     className="h-6 w-6"
                   />
-                  <span>{field.value === "Yes" ? "Yes" : "No"}</span> {/* Display Yes/No based on checkbox */}
+                  <span>{field.value === "Yes" ? t("fe_frameworks.Yes") : t("fe_frameworks.No")}</span> {/* Display Yes/No based on checkbox */}
                 </div>
               </FormControl>
               <FormMessage />
@@ -152,22 +154,22 @@ export default function CreateAnswerCheckboxForm({
         <div className="flex mt-5">
           <div className="flex-auto">
             <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? "Creating..." : "Create Answer"}
+              {loading ? t("fe_frameworks.Creating") : t("fe_frameworks.Create Answer")}
             </Button>
           </div>
         </div>
       </form>
       <Tabs defaultValue="comments" className="w-full" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="comments">Comments</TabsTrigger>
-              <TabsTrigger value="activitylog">Activity Log</TabsTrigger>
+              <TabsTrigger value="comments">{t("fe_frameworks.Comments")}</TabsTrigger>
+              <TabsTrigger value="activitylog">{t("fe_frameworks.Activity Logs")}</TabsTrigger>
             </TabsList>
             <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
               <TabsContent value="comments">
               <QuestionComments QuestionId={QuestionData.id} frameworkId={FrameworkID} assessmentID={AssessmentID} isOpen={true} />
               </TabsContent>
               <TabsContent value="activitylog">
-                <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
+                <h2 className="font-semibold text-xl mb-3">{t("fe_frameworks.Activity Logs")}</h2>
                 <div className="overflow-x-auto max-w-[880px]">
                 <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'}/>
                 </div>

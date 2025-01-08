@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { DeleteTaskDialog } from './DeleteTaskDialog';
 import { UpdateTaskDialogForm } from './ViewTaskDialog';
 import { ArchiveTaskDialog } from './ArchieveTaskDialog';
+import { useTranslations } from 'next-intl';
 
   export function TaskActionsMenu({ id, title, description,users,assigned_to_username,userid, link }: { id: string,title: string,description: string,users: string,assigned_to_username: string,userid: string, link:string}) {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -26,22 +27,22 @@ import { ArchiveTaskDialog } from './ArchieveTaskDialog';
   // const handleArchiveButtonClick = () => {
   //   setIsArchiveDialogOpen(true);  // Open archive dialog when button is clicked
   // };
-     
+    const t = useTranslations("tasks-com");
     return (
       <>
         <DropdownMenu>
           <DropdownMenuTrigger><Button variant="outline" className="px-3 border-none">...</Button></DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("Actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={() => setShowViewDialog(true)} className="hover:cursor-pointer">
-              View
+              {t("View")}
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setShowArchiveDialog(true)} className="hover:cursor-pointer">
-              Archive
+              {t("Archive")}
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="hover:cursor-pointer">
-              Delete
+              {t("Delete")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

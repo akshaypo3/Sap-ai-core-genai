@@ -22,6 +22,7 @@ import CreateAnswerNumericForm from "./AddAnswerNumericForm";
 import { deleteQuestionCommentDialog } from "@/lib/frameworks/action";
 import { Pencil, TrashIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 interface AnswerButtonButtonProps {
   QuestionData: any;
@@ -37,16 +38,17 @@ export function ActiveFrameworkAssessmentButton({
   frameworkId: string;
 }) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations('reporting-com')
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>Create Assessment</Button>
+        <Button>{t("fe_frameworks.Create Assessment")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Assessment</DialogTitle>
+          <DialogTitle>{t("fe_frameworks.New Assessment")}</DialogTitle>
           <DialogDescription>
-            New Assessment function description
+            {t("fe_frameworks.New Assessment function description")}
           </DialogDescription>
         </DialogHeader>
         <CreateActiveAssessmentForm
@@ -81,7 +83,7 @@ const col=QuestionData.qu_columns;
         return <div>No form available for this question type</div>;
     }
   };
-
+  const t = useTranslations('reporting-com')
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
@@ -91,7 +93,7 @@ const col=QuestionData.qu_columns;
       </DialogTrigger>
       <DialogContent  className="sm:max-w-[1000px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Answer</DialogTitle>
+          <DialogTitle>{t("fe_frameworks.Answer")}</DialogTitle>
         </DialogHeader>
         {renderForm()}
       </DialogContent>
@@ -120,18 +122,18 @@ export function DeleteQuestionCommentButtonDialog({
       console.error("Failed to delete comment:", error);
     }
   };
-
+  const t = useTranslations('reporting-com')
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm">
           <TrashIcon className="w-4 h-4 mr-1" />
-          Delete
+          {t("fe_frameworks.Delete")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Delete comment</DialogTitle>
+          <DialogTitle className="text-center">{t("fe_frameworks.Delete comment")}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
@@ -139,8 +141,8 @@ export function DeleteQuestionCommentButtonDialog({
               htmlFor="name"
               className="text-center overflow-hidden max-h-32" // Adjust max-h value as needed
             >
-              Are you sure to delete the comment:{" "}
-              <b className="font-bold text-lg font-semibold text-red-600">
+              {t("fe_frameworks.Are you sure to delete the comment:")}{" "}
+              <b className="font-bold text-lg text-red-600">
                 {commentId.comment} <span className="text-black">?</span>
               </b>
             </Label>
@@ -150,12 +152,12 @@ export function DeleteQuestionCommentButtonDialog({
         <DialogFooter className="flex justify-between mt-4">
           <div className="flex justify-end space-x-2 mt-4">
             <DialogTrigger asChild>
-              <Button>Cancel</Button>
+              <Button>{t("fe_frameworks.Cancel")}</Button>
             </DialogTrigger>
             <form action={deleteCommentWithId}>
               <DialogClose asChild>
                 <Button type="submit" variant="destructive">
-                  Delete Comment
+                  {t("fe_frameworks.Delete Comment")}
                 </Button>
               </DialogClose>
             </form>

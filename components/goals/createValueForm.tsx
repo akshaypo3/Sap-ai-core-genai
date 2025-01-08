@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useTranslations } from "next-intl";
 
 interface goalFormProps {
   open: boolean;
@@ -70,6 +71,8 @@ export default function CreateValueForm({
     closeDialog();
   };
 
+  const t = useTranslations('goals')
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
@@ -78,7 +81,7 @@ export default function CreateValueForm({
           name="target_value"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Target Value</FormLabel>
+              <FormLabel>{t("Target Value")}</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Target Value" {...field} />
               </FormControl>
@@ -92,7 +95,7 @@ export default function CreateValueForm({
           name="baseline_value"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Baseline Value</FormLabel>
+              <FormLabel>{t("Baseline Value")}</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Baseline Value" {...field} />
               </FormControl>
@@ -106,7 +109,7 @@ export default function CreateValueForm({
           name="current_value"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Current Value</FormLabel>
+              <FormLabel>{t("Current Value")}</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Current Value" {...field} />
               </FormControl>
@@ -120,7 +123,7 @@ export default function CreateValueForm({
           name="status"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Status</FormLabel>
+              <FormLabel>{t("Status")}</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -130,8 +133,8 @@ export default function CreateValueForm({
                     <SelectValue placeholder="Select Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="TRUE">Completed</SelectItem>
-                    <SelectItem value="FALSE">In Progress</SelectItem>
+                    <SelectItem value="TRUE">{t("Completed")}</SelectItem>
+                    <SelectItem value="FALSE">{t("In Progress")}</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -145,7 +148,7 @@ export default function CreateValueForm({
           name="unit_of_measure"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Unit of Measure</FormLabel>
+              <FormLabel>{t("Unit of Measure")}</FormLabel>
               <FormControl>
                 <Input
                   type="text"
@@ -163,7 +166,7 @@ export default function CreateValueForm({
           name="comments"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Comments</FormLabel>
+              <FormLabel>{t("Comments")}</FormLabel>
               <FormControl>
                 <Input type="text" placeholder="Comments" {...field} />
               </FormControl>
@@ -173,7 +176,7 @@ export default function CreateValueForm({
         />
 
         <Button className="w-full mt-4" type="submit">
-          Add Values
+          {t("Add Values")}
         </Button>
       </form>
     </Form>
