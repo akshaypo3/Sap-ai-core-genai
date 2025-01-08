@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { DeleteCommentButton, DeleteCommentButtonDialog } from "./buttons";
 import { AddCommentButton, AddCommentButtonDialog } from "./AddCommentButton";
 import { getTimeZone } from "@/lib/settings/timezone/action";
-
+import { useTranslations } from 'next-intl';
 
 export  function Comments({ taskId,isOpen}) {
 
@@ -45,10 +45,10 @@ export  function Comments({ taskId,isOpen}) {
   const timezone1=comments1.timezone
   const userId=comments1.userId
   const actualTime = timezone1 || "UTC";
-
+  const t = useTranslations("tasks-com");
   return (
     <div className="w-full max-w-2xl">
-      <h2 className="font-semibold text-xl">Comments</h2>
+      <h2 className="font-semibold text-xl">{t("Comments")}</h2>
       <AddCommentButtonDialog taskId={taskId} />
       <div className="grid">
         {comments?.map((comment) => (

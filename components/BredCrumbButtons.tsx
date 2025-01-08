@@ -2,6 +2,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export function BackButton() {
   const router = useRouter();
@@ -14,10 +15,10 @@ export function BackButton() {
   if (pathname === "/dashboard") {
     return null;
   }
-
+  const t = useTranslations('ui')
   return (
     <Button className="bg-green-500" onClick={handleBackClick}>
-      Back
+      {t("Back")}
     </Button>
   );
 }

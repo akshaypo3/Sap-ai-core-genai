@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import { useTranslations } from "next-intl";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -68,7 +69,7 @@ export default function CreateActiveAssessmentForm({
       setLoading(false);
     }
   };
-
+  const t = useTranslations('reporting-com')
   return (
     <Form {...form}>
       <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
@@ -77,9 +78,9 @@ export default function CreateActiveAssessmentForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Assessment Name</FormLabel>
+              <FormLabel>{t("fe_frameworks.Assessment Name")}</FormLabel>
               <FormControl>
-                <Input placeholder="Name" {...field} />
+                <Input placeholder={t("fe_frameworks.Assessment Name")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,9 +91,9 @@ export default function CreateActiveAssessmentForm({
           name="startDate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Start Date</FormLabel>
+              <FormLabel>{t("fe_frameworks.Start Date")}</FormLabel>
               <FormControl>
-                <Input placeholder="Start Date" type="date" {...field} />
+                <Input placeholder={t("fe_frameworks.Start Date")} type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,9 +104,9 @@ export default function CreateActiveAssessmentForm({
           name="endDate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>End Date</FormLabel>
+              <FormLabel>{t("fe_frameworks.End Date")}</FormLabel>
               <FormControl>
-                <Input placeholder="End Date" type="date" {...field} />
+                <Input placeholder={t("fe_frameworks.End Date")} type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +117,7 @@ export default function CreateActiveAssessmentForm({
           name="framework"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Framework</FormLabel>
+              <FormLabel>{t("fe_frameworks.Framework")}</FormLabel>
               <FormControl>
                 <Input type="text" {...field} readOnly />
               </FormControl>
@@ -127,7 +128,7 @@ export default function CreateActiveAssessmentForm({
         <Input type="hidden" name="frameworkId" value={frameworkId} />
         <div className="flex justify-center mt-4">
           <Button type="submit" className="w-full">
-            {loading ? "Creating..." : "Create Assessment"}
+            {loading ? t("fe_frameworks.Creating") : t("fe_frameworks.Create Assessment")}
           </Button>
         </div>
       </form>

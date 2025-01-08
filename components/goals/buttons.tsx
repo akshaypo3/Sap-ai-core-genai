@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Trash2, X } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { Label } from "@/components/ui/label";
-
+import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -23,16 +23,17 @@ import CreateValueForm from "@/components/goals/createValueForm";
 import { useState } from "react";
 
 export function AddGoal() {
+  const t = useTranslations('goals')
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">Add Goal</Button>
+        <Button className="mb-3 bg-green-600">{t("Add Goal")}</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>
-          <DialogTitle>Add Goal</DialogTitle>
-          <DialogDescription>Add Goal Function Description</DialogDescription>
+          <DialogTitle>{t("Add Goal")}</DialogTitle>
+          <DialogDescription>{t("Add Goal Function Description")}</DialogDescription>
         </DialogHeader>
         <CreateGoalForm open={open} setOpen={setOpen}/>
       </DialogContent>
@@ -41,19 +42,17 @@ export function AddGoal() {
 }
 
 export function AddValue({ goalId }: { goalId: string }) {
-  console.log(goalId);
- 
+  const t = useTranslations('goals')
   const [open, setOpen] = useState(false);
-
   return (
     <Dialog open={open} onOpenChange={setOpen}> 
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">Add Value</Button> 
+        <Button className="mb-3 bg-green-600">{t("Add Value")}</Button> 
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>
-          <DialogTitle>Add Value</DialogTitle>
-          <DialogDescription>Add Goal Values</DialogDescription>
+          <DialogTitle>{t("Add Value")}</DialogTitle>
+          <DialogDescription>{t("Add Goal Values")}</DialogDescription>
         </DialogHeader>
         <CreateValueForm goalId={goalId} open={open} setOpen={setOpen} />
       </DialogContent>
@@ -62,26 +61,29 @@ export function AddValue({ goalId }: { goalId: string }) {
 }
 
 export function ViewGoalButton({ goalId }: { goalId: string }) {
+  const t = useTranslations('goals')
   return (
     <>
       <Link href={`/materiality/goals/${goalId}`}>
-        <Button className="mb-3 bg-green-600">View Goal</Button>
+        <Button className="mb-3 bg-green-600">{t("View Goal")}</Button>
       </Link>
     </>
   );
 }
 
 export function ViewGoalActivityButton({ activityId }: { activityId: string }) {
+  const t = useTranslations('goals')
   return (
     <>
       <Link href={`/materiality/goals/changedlogs/${activityId}`}>
-        <Button className="mb-3 bg-green-600">View Changes</Button>
+        <Button className="mb-3 bg-green-600">{t("View Changes")}</Button>
       </Link>
     </>
   );
 }
 
 export function DeleteGoalButton({ goalId }: { goalId: string }) {
+  const t = useTranslations('goals')
   const deleteGoalWithId = deleteGoal.bind(null, goalId.id);
   return (
     <Dialog>
@@ -95,7 +97,7 @@ export function DeleteGoalButton({ goalId }: { goalId: string }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Delete goal</DialogTitle>
+          <DialogTitle className="text-center">{t("Delete goal")}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
@@ -103,8 +105,8 @@ export function DeleteGoalButton({ goalId }: { goalId: string }) {
               htmlFor="name"
               className="text-center overflow-hidden max-h-35" // Adjust max-h value as needed
             >
-              Are you sure to delete the goal:{" "}
-              <b className="font-bold text-lg font-semibold text-red-600">
+              {t("Are you sure to delete the goal:")}{" "}
+              <b className="font-bold text-lg text-red-600">
                 {goalId.name} <span className="text-black">?</span>
               </b>
             </Label>
@@ -114,12 +116,12 @@ export function DeleteGoalButton({ goalId }: { goalId: string }) {
         <DialogFooter className="flex justify-between mt-4">
           <div className="flex justify-end space-x-2 mt-4">
             <DialogTrigger asChild>
-              <Button>Cancel</Button>
+              <Button>{t("Cancel")}</Button>
             </DialogTrigger>
             <form action={deleteGoalWithId}>
               <DialogClose asChild>
                 <Button type="submit" variant="destructive">
-                  Delete Goal
+                  {t("Delete Goal")}
                 </Button>
               </DialogClose>
             </form>
@@ -131,6 +133,7 @@ export function DeleteGoalButton({ goalId }: { goalId: string }) {
 }
 
 export function UpdateGoalButton({ goal }: { goal: any }) {
+  const t = useTranslations('goals')
   return (
     <Dialog>
       <DialogTrigger>
@@ -138,13 +141,13 @@ export function UpdateGoalButton({ goal }: { goal: any }) {
           type="submit"
           className="px-2 mr-3 bg-green-600 h-7 hover:bg-green-900 rounded-md"
         >
-          Update Goal
+          {t("Update Goal")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>
-          <DialogTitle>Update Goal</DialogTitle>
-          <DialogDescription>Update the goal details below.</DialogDescription>
+          <DialogTitle>{t("Update Goal")}</DialogTitle>
+          <DialogDescription>{t("Update the goal details below")}</DialogDescription>
         </DialogHeader>
         <UpdateGoalForm goal={goal}/>
       </DialogContent>

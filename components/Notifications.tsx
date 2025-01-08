@@ -111,7 +111,7 @@ export async function Notifications() {
                     )
                   ) : (
                     <p className="text-sm">
-                      No inbox notifications available
+                      {t("No inbox notifications available")}
                     </p>
                   )}
                 </TabsContent>
@@ -150,13 +150,13 @@ export async function Notifications() {
                     )
                   ) : (
                     <p className="text-sm">
-                      No archived notifications available
+                      {t("No archived notifications available")}
                     </p>
                   )}
                 </TabsContent>
               </>
             ) : (
-              <p className="text-sm">Please enable notifications to see.</p>
+              <p className="text-sm">{t("Please enable notifications to view notifications")}.</p>
             )}
           </div>
         </Tabs>

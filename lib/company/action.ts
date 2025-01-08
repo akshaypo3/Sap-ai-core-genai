@@ -155,7 +155,7 @@ export async function addLocation(formData: FormData) {
     }
    
     revalidatePath('/materiality/company');
-    redirect('/materiality/company');
+    return redirect('/materiality/company');
 }
 
 export async function saveCompanyDetailsFromAssessment(formData: FormData) {

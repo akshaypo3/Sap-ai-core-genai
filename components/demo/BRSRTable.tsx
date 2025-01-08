@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Pencil, ChevronDown, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type User = {
   id: string;
@@ -90,6 +91,8 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
     }
   };
 
+  const t = useTranslations('demo')
+
   return (
     <div className="container mx-auto py-10 space-y-8">
       {sortedSections.map((section) => (
@@ -110,10 +113,10 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-1/2">Question</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Assigned To</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead className="w-1/2">{t("Question")}</TableHead>
+                      <TableHead>{t("Status")}</TableHead>
+                      <TableHead>{t("Assigned To")}</TableHead>
+                      <TableHead className="text-right">{t("Actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -163,10 +166,10 @@ const BRSRTable = ({ brsrData }: { brsrData: DataPoint[] }) => {
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead className="w-1/2">Question</TableHead>
-                              <TableHead>Status</TableHead>
-                              <TableHead>Assigned To</TableHead>
-                              <TableHead className="text-right">Actions</TableHead>
+                              <TableHead className="w-1/2">{t("Question")}</TableHead>
+                              <TableHead>{t("Status")}</TableHead>
+                              <TableHead>{t("Assigned To")}</TableHead>
+                              <TableHead className="text-right">{t("Actions")}</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>

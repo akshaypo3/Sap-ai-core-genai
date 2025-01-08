@@ -10,15 +10,18 @@ import {
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { UserIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function ActiveFramewrokCards({
   activeFrameworks,
 }: {
   activeFrameworks: any;
 }) {
+
+  const t = useTranslations('reporting-com')
   return (
     <>
-      <h1 className="font-bold text-lg mt-10">Active Frameworks</h1>
+      <h1 className="font-bold text-lg mt-10">{t("fe_frameworks.Active Frameworks")}</h1>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mt-4">
         {activeFrameworks.map((framework:any) => (
           <Card key="1" className="flex flex-col h-full">
@@ -83,7 +86,7 @@ export default function ActiveFramewrokCards({
                   size="sm"
                   className="bg-green-500 hover:bg-green-600 text-white hover:text-white"
                 >
-                  Select
+                  {t("fe_frameworks.Select")}
                 </Button>
               </Link>
             </CardFooter>

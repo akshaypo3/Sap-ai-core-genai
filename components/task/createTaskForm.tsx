@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import SendMailForm from "@/components/settings/emailTemp/SendMailForm";
+import { useTranslations } from "next-intl";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 20));
 
@@ -120,15 +121,16 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
   const taskLink = "http://localhost:3000/task"; 
   const category = "createTaskForm";
 
+  const t = useTranslations("tasks-com");
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-1.5 mb-2">
           <FormField control={control} name="title" render={({ field }) => (
             <FormItem>
-              <FormLabel>Task Title</FormLabel>
+              <FormLabel>{t("Task Title")}</FormLabel>
               <FormControl>
-                <Input placeholder="Task Title" {...field} />
+                <Input placeholder={t("Task Title")} {...field} />
               </FormControl>
               <FormMessage>{errors.title?.message}</FormMessage>
             </FormItem>
@@ -136,9 +138,9 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
 
           <FormField control={control} name="description" render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>{t("Description")}</FormLabel>
               <FormControl>
-                <Input placeholder="Task Description" {...field} />
+                <Input placeholder={t("Task Description")} {...field} />
               </FormControl>
               <FormMessage>{errors.description?.message}</FormMessage>
             </FormItem>
@@ -146,11 +148,11 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
 
           <FormField control={control} name="assigned_to" render={({ field }) => (
             <FormItem>
-              <FormLabel>Assigned To</FormLabel>
+              <FormLabel>{t("Assigned To")}</FormLabel>
               <FormControl>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select user" />
+                    <SelectValue placeholder={t("Select user")} />
                   </SelectTrigger>
                   <SelectContent>
                     {users?.map((user) => (
@@ -167,7 +169,7 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
 
           <FormField control={control} name="created_by" render={({ field }) => (
             <FormItem>
-              <FormLabel>Created By</FormLabel>
+              <FormLabel>{t("Created By")}</FormLabel>
               {createdByUser ? (
                 <>
                   <Input
@@ -179,14 +181,14 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
                   <Input type="hidden" name="created_by" value={createdByUser.id} />
                 </>
               ) : (
-                <p>User not found</p>
+                <p>{t("User not found")}</p>
               )}
             </FormItem>
           )} />
 
           <FormField control={control} name="start_date" render={({ field }) => (
             <FormItem>
-              <FormLabel>Start Date</FormLabel>
+              <FormLabel>{t("Start Date")}</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
@@ -196,7 +198,7 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
 
           <FormField control={control} name="due_date" render={({ field }) => (
             <FormItem>
-              <FormLabel>Due Date</FormLabel>
+              <FormLabel>{t("Due Date")}</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
@@ -207,7 +209,7 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
           <div className="flex mt-5">
             <div className="flex-auto">
               <Button className="w-full" type="submit">
-                {loading ? "Adding..." : "Add Task"}
+                {loading ? t("Adding") : t("Add Task")}
               </Button>
             </div>
           </div>

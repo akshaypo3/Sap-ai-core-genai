@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createQuestionCommentDialog } from "@/lib/frameworks/action";
+import { useTranslations } from "next-intl";
 
 export function AddQuestionCommentButtonDialog({ QuestionId,frameworkId,assessmentID,fetchtherequireddata }: { QuestionId:string,frameworkId: string ,assessmentID:string}) {
     const ref = useRef<HTMLFormElement>(null);
@@ -16,13 +17,14 @@ export function AddQuestionCommentButtonDialog({ QuestionId,frameworkId,assessme
       ref.current?.reset();
       fetchtherequireddata(); 
     };
-  
+    
+    const t = useTranslations('reporting-com')
     return (
       <form ref={ref} onSubmit={handleSubmit} className="grid gap-6 mb-3">
         <div className="w-full gap-1.5">
-          <Label htmlFor="comment">Add a comment</Label>
+          <Label htmlFor="comment">{t("fe_frameworks.Add a comment")}</Label>
           <Textarea
-            placeholder="Type your comment here."
+            placeholder={t("fe_frameworks.Type your comment here")}
             id="comment"
             name="comment"
             required
@@ -32,7 +34,7 @@ export function AddQuestionCommentButtonDialog({ QuestionId,frameworkId,assessme
           <Input type="hidden" value={frameworkId} name="frameworkId" />
           <Input type="hidden" value={assessmentID} name="assessmentID" />
           <Button size="sm" className="mt-3" type="submit">
-            Add Comment
+            {t("fe_frameworks.Add Comment")}
           </Button>
         </div>
       </form>

@@ -20,6 +20,7 @@ import { getActiveAssessmentsById } from "@/lib/frameworks/data";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 export default async function ActiveAssessmentList({
   activeFrameworkName,
@@ -40,7 +41,7 @@ export default async function ActiveAssessmentList({
   };
 
   const assessments = await getActiveAssessmentsById(frameworkId);
-
+  const t = await getTranslations('reporting-com')
   return (
     <div className="border rounded p-5 mt-10">
       <Table>
@@ -49,43 +50,43 @@ export default async function ActiveAssessmentList({
             <TableHead>
               <div className="flex items-center space-x-1">
                 <Text className="size-4 me-1" />
-                <span>Name</span>
+                <span>{t("fe_frameworks.Name")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <Rows4 className="size-4 me-1" />
-                <span>Framework</span>
+                <span>{t("fe_frameworks.Framework")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <UserIcon className="size-4 me-1" />
-                <span>Created By</span>
+                <span>{t("fe_frameworks.Created By")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <CircleArrowRight className="size-4 me-1" />
-                <span>Status</span>
+                <span>{t("fe_frameworks.Status")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <CalendarDays className="size-4 me-1" />
-                <span>Start Date</span>
+                <span>{t("fe_frameworks.Start Date")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <CalendarDays className="size-4 me-1" />
-                <span>End Date</span>
+                <span>{t("fe_frameworks.End Date")}</span>
               </div>
             </TableHead>
             <TableHead>
               <div className="flex items-center space-x-1">
                 <SquarePen className="size-4 me-1" />
-                <span>Actions</span>
+                <span>{t("fe_frameworks.Actions")}</span>
               </div>
             </TableHead>
           </TableRow>
@@ -127,7 +128,7 @@ export default async function ActiveAssessmentList({
                     variant="outline"
                     className="bg-green-500 hover:bg-green-600 text-white hover:text-white"
                   >
-                    view
+                    {t("fe_frameworks.view")}
                   </Button>
                 </Link>
               </TableCell>

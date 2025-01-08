@@ -28,6 +28,7 @@ import { getQuestionLogsById } from "@/lib/frameworks/action";
 import { DataTable } from "@/components/table/data-table";
 import { question_table_log } from "@/components/table/QuestionLogsTableColumns";
 import { QuestionComments } from "./QuestionComments";
+import { useTranslations } from "next-intl";
 
 interface AnswerFormProps {
   open: boolean;
@@ -158,6 +159,7 @@ export default function CreateAnswerTableForm({
     fetchLogs();
   }, [open]);
 
+  const t = useTranslations('reporting-com')
   return (
     <>
       <Form {...form}>
@@ -169,7 +171,7 @@ export default function CreateAnswerTableForm({
           </div>
           <div className="mb-4">
             <p>
-              <strong>Help text:</strong> {QuestionData?.help_text}
+              <strong>{t("fe_frameworks.Help text:")}</strong> {QuestionData?.help_text}
             </p>
           </div>
 
@@ -186,7 +188,7 @@ export default function CreateAnswerTableForm({
               }
               className="bg-blue-500 text-white hover:bg-blue-700"
             >
-              Add Row
+              {t("fe_frameworks.Add Row")}
             </Button>
           </div>
 
@@ -199,14 +201,14 @@ export default function CreateAnswerTableForm({
                       {column}
                     </TableHead>
                   ))}
-                  <TableHead className="px-4 py-2 border border-gray-300">Actions</TableHead>
+                  <TableHead className="px-4 py-2 border border-gray-300">{t("fe_frameworks.Actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {fields.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={QuestionData?.qu_columns1?.length + 1} className="text-center border border-gray-300">
-                      No rows available
+                      {t("fe_frameworks.No rows available")}
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -227,7 +229,7 @@ export default function CreateAnswerTableForm({
                                 if (fieldType === 'Dropdown' && fieldOptions.length > 0) {
                                   return (
                                     <select {...field} className="w-full p-2 border border-gray-300 rounded-md">
-                                      <option value="">Select {column}</option>
+                                      <option value="">{t("fe_frameworks.Select")} {column}</option>
                                       {fieldOptions.map((option: string, idx: number) => (
                                         <option key={idx} value={option}>{option}</option>
                                       ))}
@@ -238,7 +240,7 @@ export default function CreateAnswerTableForm({
                                     <input
                                       {...field}
                                       type="text"
-                                      placeholder={`Enter ${column}`}
+                                      placeholder={`${t("fe_frameworks.Enter")} ${column}`}
                                       className="w-full p-2 border border-gray-300 rounded-md"
                                     />
                                   );
@@ -254,7 +256,7 @@ export default function CreateAnswerTableForm({
                           onClick={() => remove(rowIndex)}
                           className="bg-red-500 text-white px-2 py-1 rounded-md"
                         >
-                          Delete
+                          {t("fe_frameworks.Delete")}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -270,21 +272,21 @@ export default function CreateAnswerTableForm({
               className="w-full"
               disabled={loading || !form.formState.isValid}
             >
-              {loading ? "Creating..." : "Create Answer"}
+              {loading ? t("fe_frameworks.Creating") : t("fe_frameworks.Create Answer")}
             </Button>
           </div>
         </form>
         <Tabs defaultValue="comments" className="w-full" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="comments">Comments</TabsTrigger>
-            <TabsTrigger value="activitylog">Activity Log</TabsTrigger>
+            <TabsTrigger value="comments">{t("fe_frameworks.Comments")}</TabsTrigger>
+            <TabsTrigger value="activitylog">{t("fe_frameworks.Activity Logs")}</TabsTrigger>
           </TabsList>
           <div className="bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 p-5 mt-1 border rounded-lg">
             <TabsContent value="comments">
               <QuestionComments QuestionId={QuestionData.id} frameworkId={FrameworkID} assessmentID={AssessmentID} isOpen={true} />
             </TabsContent>
             <TabsContent value="activitylog">
-              <h2 className="font-semibold text-xl mb-3">Activity Logs</h2>
+              <h2 className="font-semibold text-xl mb-3">{t("fe_frameworks.Activity Logs")}</h2>
               <div className="overflow-x-auto max-w-[880px]">
                 <DataTable columns={question_table_log} data={Logs} filter={'user'} sort={'Created At'} />
               </div>

@@ -24,6 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useTranslations } from "next-intl";
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -83,6 +84,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
     closeDialoge()
 };
 
+const t = useTranslations('goals')
   return (
     <Form {...form}>
     <form
@@ -95,7 +97,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Goal Name</FormLabel>
+          <FormLabel>{t("Goal Name")}</FormLabel>
           <FormControl>
             <Input placeholder="Goal Name" {...field} />
           </FormControl>
@@ -109,7 +111,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="description"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Description</FormLabel>
+          <FormLabel>{t("Description")}</FormLabel>
           <FormControl>
             <Input placeholder="Description" {...field} />
           </FormControl>
@@ -123,7 +125,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="target_value"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Target Value</FormLabel>
+          <FormLabel>{t("Target Value")}</FormLabel>
           <FormControl>
             <Input
               placeholder="Target Value"
@@ -140,7 +142,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="unit_of_measure"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Unit of Measure</FormLabel>
+          <FormLabel>{t("Unit of Measure")}</FormLabel>
           <FormControl>
             <Input placeholder="Unit of Measure" {...field} />
           </FormControl>
@@ -154,7 +156,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="start_date"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Start Date</FormLabel>
+          <FormLabel>{t("Start Date")}</FormLabel>
           <FormControl>
             <Input type="date" {...field}  />
           </FormControl>
@@ -168,7 +170,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="end_date"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>End Date</FormLabel>
+          <FormLabel>{t("End Date")}</FormLabel>
           <FormControl>
             <Input type="date" {...field} />
           </FormControl>
@@ -182,7 +184,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="baseline_value"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Baseline Value</FormLabel>
+          <FormLabel>{t("Baseline Value")}</FormLabel>
           <FormControl>
             <Input
               placeholder="Baseline Value"
@@ -199,7 +201,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="current_value"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Current Value</FormLabel>
+          <FormLabel>{t("Current Value")}</FormLabel>
           <FormControl>
             <Input
               placeholder="Current Value"
@@ -216,7 +218,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="owner"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Owner</FormLabel>
+          <FormLabel>{t("Owner")}</FormLabel>
           <FormControl>
             <Input placeholder="Owner" {...field} />
           </FormControl>
@@ -245,7 +247,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       )}
     /> */}
     <div className="w-full">
-      <Label htmlFor="status">Status</Label>
+      <Label htmlFor="status">{t("Status")}</Label>
       <Input type="hidden" name="status" defaultValue="FALSE"/>
       <Input defaultValue="In Progress" readOnly />
     </div>
@@ -255,7 +257,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="key_actions"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Key Actions</FormLabel>
+          <FormLabel>{t("Key Actions")}</FormLabel>
           <FormControl>
             <Input placeholder="Key Actions" {...field} />
           </FormControl>
@@ -269,7 +271,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="frequency_of_measurement"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Frequency of Measurement</FormLabel>
+          <FormLabel>{t("Frequency of Measurement")}</FormLabel>
           <FormControl>
             <Input placeholder="Frequency of Measurement" {...field} />
           </FormControl>
@@ -283,7 +285,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="completion_date"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Completion Date</FormLabel>
+          <FormLabel>{t("Completion Date")}</FormLabel>
           <FormControl>
             <Input type="date" {...field} />
           </FormControl>
@@ -297,7 +299,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="risks"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Risks</FormLabel>
+          <FormLabel>{t("Risks")}</FormLabel>
           <FormControl>
             <Input placeholder="Risks" {...field} />
           </FormControl>
@@ -311,7 +313,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="comments"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Comments</FormLabel>
+          <FormLabel>{t("Comments")}</FormLabel>
           <FormControl>
             <Input placeholder="Comments" {...field} />
           </FormControl>
@@ -325,7 +327,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
       name="visualization"
       render={({ field }) => (
     <FormItem>
-    <FormLabel>Visualization</FormLabel>
+    <FormLabel>{t("Visualization")}</FormLabel>
     <FormControl>
     <Select
       onValueChange={(value) => {
@@ -339,10 +341,10 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
     </SelectValue>
     </SelectTrigger>
     <SelectContent>
-    <SelectItem value="Bar Graph">Bar Graph</SelectItem>
-    <SelectItem value="Line Graph">Line Graph</SelectItem>
-    <SelectItem value="Pie Graph">Pie Graph</SelectItem>
-    <SelectItem value="Donut Graph">Donut Graph</SelectItem>
+    <SelectItem value="Bar Graph">{t("Bar Graph")}</SelectItem>
+    <SelectItem value="Line Graph">{t("Line Graph")}</SelectItem>
+    <SelectItem value="Pie Graph">{t("Pie Graph")}</SelectItem>
+    <SelectItem value="Donut Graph">{t("Donut Graph")}</SelectItem>
     </SelectContent>
     </Select>
     </FormControl>
@@ -353,7 +355,7 @@ const onSubmit = async (data: z.infer<typeof goalFormSchema>) => {
         <div className="flex mt-5">
           <div className="flex-auto">
               <Button className="w-full" type="submit">
-                Create Goal
+                {t("Create Goal")}
               </Button>
           </div>
         </div>
