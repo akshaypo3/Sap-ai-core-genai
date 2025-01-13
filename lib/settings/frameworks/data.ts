@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function fetchAllData() {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const frameworksResponse = await supabase.from("frameworks").select();
 

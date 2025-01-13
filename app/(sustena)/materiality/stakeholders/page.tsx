@@ -44,7 +44,7 @@ import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const stakeholders = await getStakeholders();
   const stakeholderGroups = await getStakeholderGroups();

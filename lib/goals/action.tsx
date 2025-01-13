@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function createGoal(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -131,7 +131,7 @@ export async function createGoal(formData: FormData) {
 }
 
 export async function deleteGoal(id: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -164,7 +164,7 @@ export async function deleteGoal(id: any) {
 }
 
 export async function updateGoal(id: string, goalData: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -232,7 +232,7 @@ export async function updateGoal(id: string, goalData: any) {
 }
 
 export async function addValue(formData:FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const targetValue = parseFloat(formData.get("target_value") as string) || 0;
   const baselineValue = parseFloat(formData.get("baseline_value") as string) || 0;

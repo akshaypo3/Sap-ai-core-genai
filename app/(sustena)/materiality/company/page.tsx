@@ -37,7 +37,7 @@ import CompanyProductsAndServices from "@/components/materiality/assessments/Com
 // import Subheader from "@/components/Subheader";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

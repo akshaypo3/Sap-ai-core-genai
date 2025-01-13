@@ -9,7 +9,7 @@ import { getUserInfo } from "@/lib/settings/users/data";
 import { getTimeZone } from "@/lib/settings/timezone/action";
 
 export async function createTask(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -144,7 +144,7 @@ export async function createTask(formData: FormData) {
 }
 
 export async function updateTask(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -223,7 +223,7 @@ export async function updateTask(formData: FormData) {
 
 
 cron.schedule("8 8 * * *", async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const today = new Date();
@@ -304,7 +304,7 @@ cron.schedule("8 8 * * *", async () => {
 
 
 export async function updateTaskStatus(taskId: string, newStatus: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   console.log("updateTaskStatus triggered");
 
   let updatedData: any = {
@@ -340,7 +340,7 @@ export async function updateTaskStatus(taskId: string, newStatus: string) {
 }
 
 export const createComment = async (formData: FormData) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -393,7 +393,7 @@ export const createComment = async (formData: FormData) => {
 };
 
 export const createCommentDialog = async (formData: FormData) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -446,7 +446,7 @@ export const createCommentDialog = async (formData: FormData) => {
 };
 
 export const deleteComment = async (commentId: string, taskId: string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -500,7 +500,7 @@ export const deleteComment = async (commentId: string, taskId: string) => {
 };
 
 export const deleteCommentDialog = async (commentId: string, taskId: string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -554,7 +554,7 @@ export const deleteCommentDialog = async (commentId: string, taskId: string) => 
 
 export async function deleteTaskWithId(id:string) {
   let taskId = id;
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
@@ -583,7 +583,7 @@ export async function deleteTaskWithId(id:string) {
 }
 
 export async function ArchiveTaskWithId(id: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -667,7 +667,7 @@ export async function ArchiveTaskWithId(id: string) {
 
 
 export async function updateTaskDetails(taskId, formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -744,7 +744,7 @@ export async function updateTaskDetails(taskId, formData) {
 
 
 export async function getComments(taskId:string){
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const timezone1 = await getTimeZone({ userId: userData.id })
   const userId=userData.id;
@@ -771,7 +771,7 @@ export async function getComments(taskId:string){
 }
 
 export async function getTaskLogs(taskId:string){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: tasklogs, error } = await supabase
   .from("task-activitylog")

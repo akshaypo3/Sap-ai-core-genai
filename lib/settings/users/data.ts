@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getUserGroups() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userGroups } = await supabase.from("groups").select();
 
@@ -9,7 +9,7 @@ export async function getUserGroups() {
 }
 
 export async function getAllUsers() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.admin.listUsers();
 
   if (error) {
@@ -21,7 +21,7 @@ export async function getAllUsers() {
 }
 
 export async function getUserInfo() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
@@ -35,7 +35,7 @@ export async function getUserInfo() {
 }
 
 export async function getActivityLog() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: activities, error } = await supabase
     .from("activitylog")
@@ -51,7 +51,7 @@ export async function getActivityLog() {
 }
 
 export async function getRoles() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: roles } = await supabase.from("Test_Role").select(`
       id,
       role,
@@ -62,7 +62,7 @@ export async function getRoles() {
 
 // Get profile data of users
 export async function getProfile() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // First query: Get the authenticated user
   const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -101,7 +101,7 @@ export async function getProfile() {
 
 // fetch all data joining with profile, role and group table
 export async function fetchUsersWithProfilesAndRoles() {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     // Step 1: Fetch all users from Supabase Auth
     const { data, error: userError } = await supabase.auth.admin.listUsers();
@@ -191,7 +191,7 @@ export async function fetchUsersWithProfilesAndRoles() {
 
 //Get the count of the users associated with Role
 export async function usercountForGroups() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: groups, error } = await supabase.from("groups").select(`
       id,
       group,
@@ -223,7 +223,7 @@ export async function usercountForGroups() {
 
 //Get the count of the users associated with Role
 export async function usercountForRole() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: roles, error } = await supabase.from("Test_Role").select(`
       id,
       role,
@@ -255,7 +255,7 @@ export async function usercountForRole() {
 
 //Get the users associated with Role
 export async function getRolesWithUsers(roleId) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("Test_Role")
     .select(
@@ -302,7 +302,7 @@ export async function getRolesWithUsers(roleId) {
 
 //Get the users associated with group
 export async function getGroupsWithUsers(groupId) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("groups")
     .select(
@@ -349,7 +349,7 @@ export async function getGroupsWithUsers(groupId) {
 
 //Get the users associated with other Role
 export async function otherRoleusers(roleId) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("Test_Role")
     .select(
@@ -396,7 +396,7 @@ export async function otherRoleusers(roleId) {
 
 //Get the users associated with other group
 export async function otherGroupusers(groupId) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("groups")
     .select(
@@ -442,7 +442,7 @@ export async function otherGroupusers(groupId) {
 }
 
 export async function getNotifications() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
 
   const userId = userData.id;

@@ -20,7 +20,7 @@ import UserProfile from "@/components/account/UserProfile"
 import NotifiactionSwitch from "@/components/settings/users/NotificationSwitch";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const groups = await getUserGroups();
   const roles = await getRoles();
   const {

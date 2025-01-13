@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getGoals() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: goals, error } = await supabase
     .from("goals")
@@ -17,7 +17,7 @@ export async function getGoals() {
 }
 
 export async function getGoalById(goalId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: goal, error } = await supabase
     .from("goals")
@@ -34,7 +34,7 @@ export async function getGoalById(goalId: string) {
 }
 
 export async function getActivityLogById(activityId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: log, error } = await supabase
     .from("goals-activitylog")
@@ -51,7 +51,7 @@ export async function getActivityLogById(activityId: string) {
 }
 
 export async function getActivityGoalLogs() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: activities, error } = await supabase
     .from("goals-activitylog")
@@ -66,7 +66,7 @@ export async function getActivityGoalLogs() {
   return activities;
 }
 export async function Goalhistory() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: goalsWithHistory, error } = await supabase
     .from("goals")

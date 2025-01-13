@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 
 
 export async function fetchAssessments() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     
@@ -26,7 +26,7 @@ export async function fetchAssessments() {
 
 
 export const updateAssessment = async (assessment) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { id, fyear, description, total_data_points, completed, under_review, to_be_assessed, status, material, non_material, frameworks } = assessment;
   
@@ -61,7 +61,7 @@ export const updateAssessment = async (assessment) => {
 
 
 export const createAssessment = async (newAssessment) => {
-  const supabase = createClient(); 
+  const supabase = await createClient(); 
 
   try {
     const { data, error } = await supabase
@@ -93,7 +93,7 @@ export const createAssessment = async (newAssessment) => {
 };
 
 export const deleteAssessment = async (id, fetchAssessments) => {
-  const supabase = createClient(); 
+  const supabase = await createClient(); 
 
   console.log("Attempting to delete assessment with ID:", id); 
 

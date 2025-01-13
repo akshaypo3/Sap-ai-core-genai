@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getLocations() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('company_locations')
       .select('*');
@@ -14,7 +14,7 @@ export async function getLocations() {
   }
 
   export async function getLocationTypes() {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase.rpc('get_location_types');
@@ -29,7 +29,7 @@ export async function getLocations() {
   }
 
   export async function getIROLocationTypes() {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase.rpc('fetch_enum_values');
@@ -44,7 +44,7 @@ export async function getLocations() {
   }
 
   export async function getCountries() {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase.rpc('get_countries');
@@ -59,7 +59,7 @@ export async function getLocations() {
   }
 
   export async function getProductsAndServices() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('products_services')
       .select('*');
@@ -72,7 +72,7 @@ export async function getLocations() {
     return data || [];
   }
   export async function GoogleApikey() {
-    const supabase = createClient(); 
+    const supabase = await createClient(); 
     const { data, error } = await supabase
         .from('googlemapsapi')
         .select('*')  
@@ -87,7 +87,7 @@ export async function getLocations() {
   }
 
   export async function getCompanyDetails() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('company_details')
       .select('*');
@@ -101,7 +101,7 @@ export async function getLocations() {
   }
 
   export async function getProduct(productid:string) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('products_services')
       .select('*')
@@ -117,7 +117,7 @@ export async function getLocations() {
   }
 
   export async function getLocation(locationid:string) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('company_locations')
       .select('*')
@@ -133,7 +133,7 @@ export async function getLocations() {
   }
 
   export async function getLocationIRO(locationid:string) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('iros_locations')
       .select('*')
@@ -147,7 +147,7 @@ export async function getLocations() {
     return data;
   }
   export async function getIROLocation(locationid:string) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('iros_locations')
       .select('*')
@@ -163,7 +163,7 @@ export async function getLocations() {
   }
 
   export async function getProductIRO(productid:string) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('iros_productsservices')
       .select('*')
@@ -179,7 +179,7 @@ export async function getLocations() {
 
   export async function getIROProduct(productid:string) {
     
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('iros_productsservices')
       .select('*')

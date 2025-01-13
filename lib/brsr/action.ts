@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server"; // Ensure the path is co
 
 // Function to fetch only active BRSR assessments
 export async function fetchAssessments() {
-  const supabase = createClient(); // Initialize Supabase client
+  const supabase = await createClient(); // Initialize Supabase client
 
   try {
     // Fetch all assessments from the brsr_assessments table
@@ -26,7 +26,7 @@ export async function fetchAssessments() {
 
 // Function to update a specific assessment by ID
 export const updateAssessment = async (assessment) => {
-  const supabase = createClient(); // Initialize Supabase client
+  const supabase = await createClient(); // Initialize Supabase client
 
   const { id, fyear, description, total_data_points, completed, under_review, to_be_assessed, framework, status, material, non_material } = assessment;
 
@@ -66,7 +66,7 @@ export const updateAssessment = async (assessment) => {
 
 // Function to create a new assessment
 export const createAssessment = async (newAssessment) => {
-  const supabase = createClient(); // Initialize Supabase client
+  const supabase = await createClient(); // Initialize Supabase client
 
   try {
     const { data, error } = await supabase
@@ -98,7 +98,7 @@ export const createAssessment = async (newAssessment) => {
 
 // Function to delete an assessment by ID with verification
 export const deleteAssessment = async (id, fetchAssessments) => {
-  const supabase = createClient(); 
+  const supabase = await createClient(); 
 
   console.log("Attempting to delete assessment with ID:", id); 
 

@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getTasks() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: tasks, error } = await supabase.from("tasks").select(`
     *,
@@ -26,7 +26,7 @@ export async function getTasks() {
 }
 
 export async function getTasks_archieved() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: tasks, error } = await supabase.from("tasks").select(`
     *,
@@ -50,7 +50,7 @@ export async function getTasks_archieved() {
 }
 
 export async function getUserProfiles() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userProfiles, error } = await supabase
     .from("user_profile")
@@ -65,7 +65,7 @@ export async function getUserProfiles() {
 }
 
 export async function getUserTasks(userId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: tasks, error } = await supabase.from("tasks").select(`
     *,
@@ -89,7 +89,7 @@ export async function getUserTasks(userId: string) {
 }
 
 export async function getTaskById(taskId: string) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data: task, error } = await supabase
       .from("tasks")
@@ -116,7 +116,7 @@ export async function getTaskById(taskId: string) {
 }
 
 export async function getComments(taskId:string){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: comments, error } = await supabase
   .from("comments")
@@ -134,7 +134,7 @@ export async function getComments(taskId:string){
 }
 
 export async function getallComments(){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: comments, error } = await supabase
   .from("comments")
@@ -151,7 +151,7 @@ export async function getallComments(){
 }
 
 export async function getTaskLogs(){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: tasklogs, error } = await supabase
   .from("task-activitylog")
@@ -167,7 +167,7 @@ export async function getTaskLogs(){
 }
 
 export async function getTaskActivityLogById(activityId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: log, error } = await supabase
     .from("task-activitylog")
@@ -184,7 +184,7 @@ export async function getTaskActivityLogById(activityId: string) {
 }
 
 export const getCommentsByTaskId = async (userId : string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("comments")

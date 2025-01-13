@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getTimeZone({ userId }: { userId: string }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   let initialTimezone = "UTC";
 
   const { data: userWithTimezone, error } = await supabase

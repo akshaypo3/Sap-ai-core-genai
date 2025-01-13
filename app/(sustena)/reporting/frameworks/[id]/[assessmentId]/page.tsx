@@ -15,7 +15,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
   const { assessmentId } = params;
   const { id } = params;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

@@ -48,7 +48,7 @@ export default async function taskPage({
   //   return notFound();
   // }
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

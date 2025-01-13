@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 // export async function fetchEmailTemplates() {
-//     const supabase = createClient();
+//     const supabase = await createClient();
 //     const { data, error } = await supabase.from("email_templates").select();
     
 //     if (error) {
@@ -13,7 +13,7 @@ import { createClient } from "@/utils/supabase/server";
 // }
 
 export async function fetchEmailLogs() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase.from("email_logs").select();
     
     if (error) {

@@ -23,7 +23,7 @@ import EmailTemplatesList from "@/components/settings/emailTemp/EmailTemplatesLi
 import { fetchEmailTemplates } from "@/lib/settings/emailtemplates/action"; 
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

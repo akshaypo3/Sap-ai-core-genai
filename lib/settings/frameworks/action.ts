@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-const supabase = createClient();
+const supabase = await createClient();
 
 export async function fetchActiveFrameworks() {
   const { data, error } = await supabase.from("frameworks").select("*");

@@ -25,7 +25,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 import { getGoalById } from "@/lib/goals/data";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

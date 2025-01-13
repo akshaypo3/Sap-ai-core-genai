@@ -13,7 +13,7 @@ import EditAnthropicButton from "./EditAntropic";
 import EditOpenAIButton from "./EditOpenAI";
 
 export default async function AnthropicData() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const AnthropicData = await Anthropic();
   const OpenAIData = await OpenAI();
 

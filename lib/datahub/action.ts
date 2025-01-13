@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 
 // Function to generate a signed URL for the file
 export async function downloadFile(name: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     if (!name) {

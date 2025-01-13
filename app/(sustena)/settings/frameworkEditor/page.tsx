@@ -39,7 +39,7 @@ import { getFEFramework } from "@/lib/frameworks/data";
 import { AddFrameworkEditorButton } from "@/components/settings/frameworkEditor/Buttons";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

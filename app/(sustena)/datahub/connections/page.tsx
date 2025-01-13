@@ -13,7 +13,7 @@ import { Slash } from "lucide-react"
 import DataHub from "@/components/datahub/DataHub";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

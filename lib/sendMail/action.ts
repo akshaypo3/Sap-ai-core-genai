@@ -18,7 +18,7 @@
   };
 
   const logEmail = async (recipientEmail, status, subject, templateId = null, errorMessage = null) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { error } = await supabase
       .from("email_logs")
       .insert([
@@ -37,7 +37,7 @@
   };
 
   const fetchEmailTemplate = async (templateName) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from("email_templates")
       .select("id, subject, body_text, body_html, sender_name, sender_email")

@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import GuidanceBRSRPage from "@/components/guidance/GuidanceBRSRCom";
 
 export default async function GuidaceBRSR() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
