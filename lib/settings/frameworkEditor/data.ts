@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getFEFrameworkById(frameworkId:string) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data: frameworks } = await supabase
     .from("fe_frameworks")
@@ -14,7 +14,7 @@ export async function getFEFrameworkById(frameworkId:string) {
 
 
   export async function getAssessmentQuestionById(questionId: string) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const { data: question, error } = await supabase
       .from("fe_assessment_questions")
@@ -31,7 +31,7 @@ export async function getFEFrameworkById(frameworkId:string) {
   }
 
   export async function getSectionsById(framework_id:any) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const { data: sections, error } = await supabase
       .from("fe_sections")
@@ -51,7 +51,7 @@ export async function getFEFrameworkById(frameworkId:string) {
   }
   
   export async function getSections(frameworkId: string) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const { data: sections, error } = await supabase
       .from("fe_sections")
@@ -74,7 +74,7 @@ export async function getFEFrameworkById(frameworkId:string) {
   }
   
   export async function getQuestion(frameworkId: string) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase
@@ -90,7 +90,7 @@ export async function getFEFrameworkById(frameworkId:string) {
   }
 
   export async function getAssesmentQuestion(id1) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase

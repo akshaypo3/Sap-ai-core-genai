@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getBRSRData() {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data: brsrData, error: brsrError } = await supabase
     .from('brsr_data')

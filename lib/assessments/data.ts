@@ -5,14 +5,14 @@ export interface DataPoint {
 }
 
 export async function getAR16Items(){
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: ar16Items } = await supabase.from('esrs_ar16').select();
     //console.log("AR16 Items: "+ ar16Items.length)
     return ar16Items;
 };
 
 export async function getAssessments(){
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: assessments } = await supabase.from('materialityassessments').select(`
         id,
         fyear,
@@ -29,14 +29,14 @@ export async function getAssessments(){
 };
 
 export async function getFrameworks(){
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: frameworks } = await supabase.from('frameworks').select();
     return frameworks;
 };
 
 
 export async function getAssessmentData(materialityassessmentsid) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data: esrsIrosData, error: irosError } = await supabase
@@ -80,7 +80,7 @@ export async function getAssessmentData(materialityassessmentsid) {
 }
 
   export async function getAssessmentDataforchart(materialityassessmentsid) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       // Query the esrs_iros table to fetch and sort rows with the specified assessment_id
@@ -106,7 +106,7 @@ export async function getAssessmentData(materialityassessmentsid) {
   }
 
   export async function getIroData(iroId:any) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
 
@@ -127,7 +127,7 @@ export async function getAssessmentData(materialityassessmentsid) {
   }
 
   export async function getEsrsIrosStats(materialityassessmentsid) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase
@@ -182,7 +182,7 @@ export async function getAssessmentData(materialityassessmentsid) {
   }
 
   export async function getEsrsIrosStatscount(materialityassessmentsid) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data: esrsIrosData, error } = await supabase

@@ -7,7 +7,7 @@ import { getUserInfo } from "@/lib/settings/users/data";
 import { getTimeZone } from "@/lib/settings/timezone/action";
 
 export async function createCdpAssessment(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const fyear = formData.get("fyear");
   
@@ -40,7 +40,7 @@ export async function createCdpAssessment(formData: FormData) {
   
 export async function deleteCdpAssessmentWithId(id:string) {
     let assessmentId = id;
-    const supabase = createClient();
+    const supabase = await createClient();
   
     try {
       const { data, error } = await supabase
@@ -69,7 +69,7 @@ export async function deleteCdpAssessmentWithId(id:string) {
   }
 
 export async function createactiveAssessment(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const name = formData.get("name");
   const startDate = formData.get("startDate");
@@ -130,18 +130,15 @@ export async function createactiveAssessment(formData: FormData) {
     if (insertError) {
       throw new Error(`Error inserting/updating questions: ${insertError.message}`);
     }
-
+    revalidatePath(`/reporting/frameworks/${frameworkId}`);
   } catch (error) {
     console.error("Error while adding new assessment: ", error);
-  } finally {
-    revalidatePath(`/reporting/frameworks/${frameworkId}`);
-    redirect(`/reporting/frameworks/${frameworkId}`);
   }
 }
 
 
 export async function creatanswerAssessment(formData: FormData, frameworkId: any, isUpdate: boolean,assessmentID:any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userId = userData.id;
   const userEmail = userData.email;
@@ -251,7 +248,7 @@ export async function creatanswerAssessment(formData: FormData, frameworkId: any
 }
 
 export async function fetchExistingAnswerForText(questionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const { data, error } = await supabase
       .from('fe_answers')
@@ -272,7 +269,7 @@ export async function fetchExistingAnswerForText(questionId: string) {
 
 
 export async function fetchExistingAnswerForMultipleChoice(questionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
  
   try {
     const { data, error } = await supabase
@@ -303,7 +300,7 @@ export async function fetchExistingAnswerForMultipleChoice(questionId: string) {
   }
 }
 export async function fetchExistingAnswerForCheckbox(questionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const { data, error } = await supabase
       .from('fe_answers')
@@ -323,7 +320,7 @@ export async function fetchExistingAnswerForCheckbox(questionId: string) {
   }
 }
 export async function fetchExistingAnswerForNumeric(questionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const { data, error } = await supabase
       .from('fe_answers')
@@ -343,7 +340,7 @@ export async function fetchExistingAnswerForNumeric(questionId: string) {
   }
 }
 export async function fetchExistingAnswerForTable(questionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
  
   try {
     const { data, error } = await supabase
@@ -374,7 +371,7 @@ export async function fetchExistingAnswerForTable(questionId: string) {
   }
 }
 export async function creatanswerAssessmentTable(formData: FormData, frameworkId: any,assessmentID:any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userId = userData.id;
   const userEmail = userData.email;
@@ -503,7 +500,7 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
 }
 
 export async function getQuestionLogsById(questionId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: questionsLogs, error } = await supabase
     .from("fe_question_logs")
     .select()
@@ -519,7 +516,7 @@ export async function getQuestionLogsById(questionId: string) {
 }
 
 export async function getQuestionComments(QuestionId: string,assessmentID:string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const timezone1 = await getTimeZone({ userId: userData.id })
   const userId=userData.id;
@@ -547,7 +544,7 @@ export async function getQuestionComments(QuestionId: string,assessmentID:string
 }
 
 export const deleteQuestionCommentDialog = async (commentId: string, frameworkId: any,assessmentID:any) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try { 
     const { data, error } = await supabase
@@ -569,7 +566,7 @@ export const deleteQuestionCommentDialog = async (commentId: string, frameworkId
   }
 };
 export const createQuestionCommentDialog = async (formData: FormData) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));

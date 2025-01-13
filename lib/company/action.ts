@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function addLocation(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const location = {
       name: formData.get('name') as string,
@@ -39,7 +39,7 @@ export async function addLocation(formData: FormData) {
   }
 
   export async function addLocationAssessment(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
   const assessmentId = formData.get('assessment_id') as string;
   
     const location = {
@@ -72,7 +72,7 @@ export async function addLocation(formData: FormData) {
   }
 
   export async function addProductService(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const productService = {
       type: formData.get('type') as string,
@@ -98,7 +98,7 @@ export async function addLocation(formData: FormData) {
   }
 
   export async function addProductServiceAssessment(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const assessmentId = formData.get('assessment_id');
   
     const productService = {
@@ -124,7 +124,7 @@ export async function addLocation(formData: FormData) {
   }
 
   export async function saveCompanyDetails(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const companyId = formData.get('company_id');
   
     if (typeof companyId !== 'string') {
@@ -155,11 +155,11 @@ export async function addLocation(formData: FormData) {
     }
    
     revalidatePath('/materiality/company');
-    return redirect('/materiality/company');
+    // return redirect('/materiality/company');
 }
 
 export async function saveCompanyDetailsFromAssessment(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const companyId = formData.get('company_id');
   const assessmentId = formData.get('assessment_id');
 
@@ -208,7 +208,7 @@ export async function saveCompanyDetailsFromAssessment(formData: FormData) {
 }
 
 export async function deleteCompanyLocationWithId(id:any){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase.from('company_locations').delete().eq('id',id);
@@ -228,7 +228,7 @@ export async function deleteCompanyLocationWithId(id:any){
 
 
 export async function deleteCompanyProductWithId(id){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase.from('products_services').delete().eq('id',id);
@@ -247,7 +247,7 @@ export async function deleteCompanyProductWithId(id){
 }
 
 export async function addIROLocation(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const location = {
     name: formData.get('name') as string,
@@ -276,7 +276,7 @@ export async function addIROLocation(formData: FormData) {
 }
 
 export async function addIROProduct(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const product = {
     name: formData.get('name') as string,
@@ -305,7 +305,7 @@ export async function addIROProduct(formData: FormData) {
 }
 
 export async function editLocationIRO(locationid, companyid, IROid, formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const description1 = formData.get("description");
 
   try {
@@ -331,7 +331,7 @@ export async function editLocationIRO(locationid, companyid, IROid, formData) {
 }
 
 export async function editProductIRO(productid, companyid, IROid, formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const description1 = formData.get("description");
 
   try {
@@ -357,7 +357,7 @@ export async function editProductIRO(productid, companyid, IROid, formData) {
 }
 
 export async function deleteLocationIRO(locationid, companyid, IROid) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const { data } = await supabase.from("iros_locations").delete().eq("id", IROid);
 
@@ -370,7 +370,7 @@ export async function deleteLocationIRO(locationid, companyid, IROid) {
 }
 
 export async function deleteProductIRO(productid, companyid, IROid) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const { data } = await supabase.from("iros_productsservices").delete().eq("id", IROid);
 
@@ -383,7 +383,7 @@ export async function deleteProductIRO(productid, companyid, IROid) {
 }
 
 export async function getLocationTypes() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase.rpc('get_location_types');
@@ -398,7 +398,7 @@ export async function getLocationTypes() {
 }
 
 export async function GoogleApikey() {
-  const supabase = createClient(); 
+  const supabase = await createClient(); 
   const { data, error } = await supabase
       .from('googlemapsapi')
       .select('*')  

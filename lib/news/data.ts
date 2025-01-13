@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getNewsArticles(){
-    const supabase = createClient();
+    const supabase = await createClient();
 
     try {
         const { data: newsArticles, error} = await supabase.from('news_articles').select('*');
@@ -20,7 +20,7 @@ export async function getNewsArticles(){
 }
 
 export async function getNewsArticlesById(newsArticleId:any){
-    const supabase = createClient();
+    const supabase = await createClient();
     const id = newsArticleId;
     try {
         const { data: newsArticle, error} = await supabase.from('news_articles').select('*').eq('id',id);

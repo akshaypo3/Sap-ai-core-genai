@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server"; // Adjust the path based
 
 // Function to fetch only active BRSR assessments
 export async function fetchAssessments() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Fetch all assessments from the esrs_assessments table
   const { data, error } = await supabase
@@ -22,7 +22,7 @@ export async function fetchAssessments() {
 
 // Function to edit a specific assessment by ID
 export async function updateAssessment(id, updatedFields) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Update the assessment with the given ID
   const { data, error } = await supabase
@@ -41,7 +41,7 @@ export async function updateAssessment(id, updatedFields) {
 
 // Function to create a new assessment
 export async function createAssessment(newAssessment) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Insert a new assessment into the esrs_assessments table
   const { data, error } = await supabase

@@ -14,7 +14,7 @@ interface EmailDetails {
 }
 
 export async function sendMail({ to, subject, text, html }: EmailDetails) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: settings, error } = await supabase
     .from("smtpsettings")
     .select()
@@ -68,7 +68,7 @@ export async function sendMail({ to, subject, text, html }: EmailDetails) {
   
   export async function createOrUpdateEmailSettings(formData:FormData){
     try {
-        const supabase = createClient();
+        const supabase = await createClient();
         const settings=0;
       if(settings==null){
   

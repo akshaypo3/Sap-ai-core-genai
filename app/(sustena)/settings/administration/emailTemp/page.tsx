@@ -24,7 +24,7 @@ import AddEmailButton from "@/components/settings/emailTemp/AddEmailButton";
 import AddEmailTemplate from "@/components/settings/emailTemp/AddEmailTemplate";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

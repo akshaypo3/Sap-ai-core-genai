@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { json } from "stream/consumers";
 
 export async function createFramework(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
  
   const name = formData.get("name");
   const description = formData.get("description");
@@ -44,7 +44,7 @@ export async function createFramework(formData: FormData) {
 }
  
 export async function deleteFramework(id: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
  
   try {
     const { data, error } = await supabase
@@ -69,7 +69,7 @@ export async function deleteFramework(id: string) {
 }
  
 export async function updateFramework(id: string, formData: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { name, description, framework_type, version, reporting_year, status } =
   formData;
 console.log(formData.get("name"))
@@ -100,7 +100,7 @@ console.log(formData.get("name"))
 }
  
 export async function createSection(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const section_code = formData.get("section_code");
   const name = formData.get("name");
   const description = formData.get("description");
@@ -182,7 +182,7 @@ export async function createSection(formData: FormData) {
 }
  
 export async function updateSection(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const section_code = formData.get("section_code");
   const name = formData.get("name");
   const description = formData.get("description");
@@ -221,7 +221,7 @@ export async function updateSection(formData: FormData) {
 }
 
 export async function createQuestion(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const section_code = formData.get("section_code");
   const section_id = formData.get("section_id");
   const question_text=formData.get("questionText");
@@ -307,7 +307,7 @@ export async function createQuestion(formData: FormData) {
 }
 
 export async function updateQuestion(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const question_text=formData.get("questionText");
   const help_text=formData.get("helpText");
   const question_type=formData.get("answerType");
@@ -377,7 +377,7 @@ export async function updateQuestion(formData: FormData) {
   }
 }
 export const deleteQuestion = async (questionId: string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
     
   try {
     const { data: questionData, error: fetchError } = await supabase
@@ -443,7 +443,7 @@ export const deleteQuestion = async (questionId: string) => {
 
  
 export const duplicateQuestion = async (duplicatedQuestionData: any) => {
-  const supabase = createClient();
+  const supabase = await createClient();
  
   try {
     const { data, error } = await supabase
@@ -466,7 +466,7 @@ export const duplicateQuestion = async (duplicatedQuestionData: any) => {
 };
 
 export const fetchQuestions = async (framework_id:string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   try {
     const { data, error } = await supabase
@@ -485,7 +485,7 @@ export const fetchQuestions = async (framework_id:string) => {
 };
 
 export async function DuplicateQuestion(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const section_code = formData.get("section_code");
   const section_id = formData.get("section_id");
   const question_text=formData.get("question_text");
@@ -559,7 +559,7 @@ export async function DuplicateQuestion(formData: FormData) {
 }
 
 export async function upwardDownwardCreateQuestion(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const section_code = formData.get("section_code");
   const section_id = formData.get("section_id");
   const question_text = formData.get("questionText");
@@ -745,7 +745,7 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
 }
 
 export async function saveReorderedQuestionsOnServer(questions: any, framework_id: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const firstUpdates = questions.map((question: any) => ({
     id: question.id,

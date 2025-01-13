@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function getAllUsers() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.admin.listUsers();
 
   if (error) {
@@ -18,7 +18,7 @@ export async function getAllUsers() {
 }
 
 export async function getUserGroups() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userGroups } = await supabase.from("groups").select();
 
@@ -26,7 +26,7 @@ export async function getUserGroups() {
 }
 
 export async function getRoles() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: roles } = await supabase.from("Test_Role").select(`
       id,
       role,
@@ -36,7 +36,7 @@ export async function getRoles() {
 }
 
 export async function deleteGroup(id: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -65,7 +65,7 @@ export async function deleteGroup(id: any) {
 }
 
 export async function createGroup(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -101,7 +101,7 @@ export async function createGroup(formData: FormData) {
 
 export async function createUser(formData: FormData) {
   console.log("formData", formData);
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -143,7 +143,7 @@ export async function createUser(formData: FormData) {
 
 // Delete the user from the Supabase
 export async function deleteUser(user_id: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -182,7 +182,7 @@ export async function deleteUser(user_id: any) {
 }
 
 export async function createRole(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -218,7 +218,7 @@ export async function createRole(formData: FormData) {
 
 export async function deleteRole(id: any) {
   //console.log("delete role", id);
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -247,7 +247,7 @@ export async function deleteRole(id: any) {
 // Create/Assign role Group & Role
 
 export async function editProfile(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userID = userData.id;
   const userName = formData.get("username");
@@ -275,7 +275,7 @@ export async function editProfile(formData: FormData) {
 // Edit the user profile from the Supabase
 export async function editUserRoleGroup(user_id: any, formData) {
   console.log("user_id", user_id);
-  const supabase = createClient();
+  const supabase = await createClient();
   // const userName = formData.get("username");
   // const userEmail = formData.get("userEmail");
   const userGroupId = formData.get("groupID");
@@ -313,7 +313,7 @@ export async function editUserRoleGroup(user_id: any, formData) {
 
 // Assign the role to user
 export async function assignRole(role_ID: any, formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userID = formData.get("userID");
   const roleID = role_ID;
   try {
@@ -333,7 +333,7 @@ export async function assignRole(role_ID: any, formData) {
 
 // Assign the role to user
 export async function assignGroup(group_ID: any, formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const userID = formData.get("userID");
   const groupID = group_ID;
   try {
@@ -352,7 +352,7 @@ export async function assignGroup(group_ID: any, formData) {
 }
 
 export async function changelanguage(language: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   console.log(language);
 
   try {
@@ -389,7 +389,7 @@ export async function changelanguage(language: any) {
 }
 
 export async function Globallanguagedata() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("global_language")
@@ -400,7 +400,7 @@ export async function Globallanguagedata() {
 }
 
 export async function NotificationToggler(newStatus: any, userId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("user_profile")
     .update({ notifications: newStatus })

@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server"; // Adjust the path based
 
 // Function to fetch only active plans
 export async function fetchPlans() {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Fetching only plans with active status set to true
     const { data, error } = await supabase
@@ -23,7 +23,7 @@ export async function fetchPlans() {
 
 // Function to edit a specific plan by ID
 export async function updatePlan(id, updatedFields) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Update the plan with the given ID
     const { data, error } = await supabase

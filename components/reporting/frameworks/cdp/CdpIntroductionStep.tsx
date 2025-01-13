@@ -16,7 +16,7 @@ import { getCompanyDetails } from "@/lib/company/data";
 import { saveCompanyDetailsFromAssessment } from "@/lib/company/action";
 
 export default async function CdpIntroductionStep(id: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const companyDetails = await getCompanyDetails();
   const assessmentId = id.id;
 

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
 export async function changeTimezone(userId: any, newTimezone: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const { data, error } = await supabase
       .from("user_profile")
@@ -21,7 +21,7 @@ export async function changeTimezone(userId: any, newTimezone: any) {
 }
 
 export async function getTimeZone({ userId }: { userId: string }) {
-  const supabase = createClient();
+  const supabase = await createClient();
   let initialTimezone = "UTC";
 
   const { data: userWithTimezone, error } = await supabase

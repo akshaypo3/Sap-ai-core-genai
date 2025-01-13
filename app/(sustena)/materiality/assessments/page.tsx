@@ -38,7 +38,7 @@ import { AssessmentsActionsMenu } from "@/components/materiality/assessments/Ass
 import { getFrameworks } from "@/lib/assessments/data";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

@@ -26,7 +26,7 @@ export default async function AdminEmailPage({ params }: PageProps) {
     return <div>{t("administration.Email Template not found")}.</div>;
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

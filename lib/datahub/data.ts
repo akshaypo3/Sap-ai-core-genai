@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function getallFiles() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.storage.from('uploads').list('files', {
       limit: 100,
       offset: 0,

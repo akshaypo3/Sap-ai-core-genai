@@ -9,8 +9,9 @@ import { signIn } from "@/lib/login";
 import { useEffect, useState, useRef } from "react";
 import { Globallanguagedata } from "@/lib/settings/users/action";
 import Cookies from "js-cookie";
+import { useSearchParams } from "next/navigation";
 
-export default function Login({ searchParams }: { searchParams: { message: string } }) {
+export default function Login() {
   const t = useTranslations("login");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +42,8 @@ export default function Login({ searchParams }: { searchParams: { message: strin
   useEffect(() => {
     fetchLanguageData(); // Call language fetch when the component mounts
   }, []); // This ensures the effect runs only once when the component mounts
-
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md mx-auto my-auto justify-center gap-2 rounded-md p-7">
       <div className="flex justify-center mb-6">
@@ -55,7 +57,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
         <SubmitButton formAction={signIn} className="bg-green-500 hover:bg-green-600 rounded-lg px-4 py-2 text-foreground mb-2 text-white">
           {t("sign_in_button")}
         </SubmitButton>
-        {searchParams?.message && <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">{searchParams.message}</p>}
+        {message && <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">{message}</p>}
       </form>
     </div>
   );

@@ -14,7 +14,7 @@ import {getTranslations} from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let user;
 try {

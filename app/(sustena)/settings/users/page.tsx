@@ -23,7 +23,7 @@ import ActivityLog from '@/components/settings/users/ActivityLog';
 import { Users } from 'lucide-react';
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

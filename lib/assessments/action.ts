@@ -8,7 +8,7 @@ import { getUserInfo } from "@/lib/settings/users/data";
 import errorMap from "zod/lib/locales/en";
 
 export async function populateLonglist(assessmentId:string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   console.log("Trying to populate for Assessment ID: " + assessmentId);
 
   try {
@@ -50,7 +50,7 @@ export async function populateLonglist(assessmentId:string) {
 }
 
 export async function createAssessment(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const year = formData.get("year");
   const framework = formData.get("framework");
@@ -83,7 +83,7 @@ export async function createAssessment(formData: FormData) {
 }
 
 export async function saveIroEntries(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const assessment_id = formData.get("assessment_id") as string;
   const iro_id = formData.get("iro_id") as string;
@@ -180,7 +180,7 @@ export async function saveIroEntries(formData: FormData) {
 }
 
 export async function markIroAsNotMaterial(formData:FormData){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const assessmentId = formData.get("assessment_id");
   const iroId = formData.get("iro_id");
@@ -207,7 +207,7 @@ export async function markIroAsNotMaterial(formData:FormData){
 
 export async function deleteAssessmentWithId(id:string) {
   let assessmentId = id;
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
@@ -237,7 +237,7 @@ export async function deleteAssessmentWithId(id:string) {
 
 export async function handleNextStep(id,nextStep){
   let assessmentId = id;
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data } = await supabase.from('materialityassessments').update({
@@ -254,7 +254,7 @@ export async function handleNextStep(id,nextStep){
 
 
 export async function duplicateIro(assessmentId: string, iroId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     // Fetch the IRO to duplicate
@@ -305,7 +305,7 @@ export async function duplicateIro(assessmentId: string, iroId: string) {
 }
 
 export async function CreateCustomIRo(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const topic = formData.get("topic");
   const sub_topic = formData.get("sub_topic");
   const sub_sub_topic = formData.get("sub_sub_topic");
@@ -353,13 +353,10 @@ export async function CreateCustomIRo(formData: FormData) {
       throw new Error("Error inserting custom iros in esrs_iros: " + error.message);
     }
 
-    // revalidatePath(`/materiality/assessments/${assesmentId}/5`);
+    revalidatePath(`/materiality/assessments/${assesmentId}/5`);
     // redirect(`/materiality/assessments/${assesmentId}/5`);
   } catch (error:any) {
     console.error("Error while inserting custom IRo in esrs_iros: ", error.message);
-  } finally{
-    revalidatePath(`/materiality/assessments/${assesmentId}/5`);
-    redirect(`/materiality/assessments/${assesmentId}/5`);
   }
 }
 
@@ -378,7 +375,7 @@ export async function AddCatalogIro({
   esrs_id: string;
   assessment_id: string;
   }){
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data : catalogIros, error } = await supabase
@@ -407,7 +404,7 @@ export async function AddCatalogIro({
 }
 
 export async function addIroUserTask(formData: FormData){
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
@@ -548,7 +545,7 @@ export async function addIroUserTask(formData: FormData){
 }
 
 export async function addIroUserTaskQuestion(formData: FormData){
-  const supabase = createClient();
+  const supabase = await createClient();
   const userData = await getUserInfo();
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));

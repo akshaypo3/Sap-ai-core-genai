@@ -8,7 +8,7 @@ import { sendMail } from "@/lib/settings/smtp/action";
 // Create Stakeholder
 
 export async function createStakeholder(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const levels = ["low", "medium", "high"];
 
@@ -58,7 +58,7 @@ export async function createStakeholder(formData: FormData) {
 
 export async function deleteStakeholder(id: any,assessmentId:any) {
   //console.log("stakeholder", id);
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const deletedStakeholder = await supabase
       .from("stakeholders")
@@ -75,7 +75,7 @@ export async function deleteStakeholder(id: any,assessmentId:any) {
 // Create Stakeholder Group
 
 export async function createStakeholderGroup(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const groupName = formData.get("name");
   const groupDesc = formData.get("description");
@@ -100,7 +100,7 @@ export async function createStakeholderGroup(formData: FormData) {
 }
 
 export async function createStakeholderGroupAssessment(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const groupName = formData.get("name");
   const groupDesc = formData.get("description");
@@ -166,7 +166,7 @@ export async function createStakeholderGroupAssessment(formData: FormData) {
 //   }
 // }
 export async function createStakeholderQuestions(id: any, formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const question1 = formData.get("question");
   const mandatory1 = formData.get("mandatory");
 
@@ -185,7 +185,7 @@ export async function createStakeholderQuestions(id: any, formData) {
   }
 }
 export async function deleteStakeholderQuestions(id: any, assessmentId: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     const deletedStakeholder = await supabase
       .from("stakeholder_questions")
@@ -200,7 +200,7 @@ export async function deleteStakeholderQuestions(id: any, assessmentId: any) {
 }
 
 export async function createStakeholderUser(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const email = formData.get("email");
   const password = formData.get("password");
   const group = formData.get("group");

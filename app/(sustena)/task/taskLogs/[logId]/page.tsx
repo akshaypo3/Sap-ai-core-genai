@@ -33,7 +33,7 @@ export default async function ActivityPage({
 }: {
   params: { logId: string };
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

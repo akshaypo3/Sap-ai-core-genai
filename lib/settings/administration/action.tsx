@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { getUserInfo } from "@/lib/settings/users/data";
 
 export async function createGlossary(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
   
     const GlossaryName = formData.get("title");
     const GlossaryDesc = formData.get("description");
@@ -45,7 +45,7 @@ export async function createGlossary(formData: FormData) {
   }
 
   export async function deleteGlossary(id: any,language: any) {
-    const supabase = createClient();
+    const supabase = await createClient();
     
      let tableName;
     switch (language) {
@@ -78,7 +78,7 @@ export async function createGlossary(formData: FormData) {
   }
 
   export async function editGlossary(id,language, formData) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const description1 = formData.get("description");
     const id1=id
 
@@ -119,7 +119,7 @@ export async function createGlossary(formData: FormData) {
   }
 
   export async function editAnthropic(id:any,formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
     
    
     const API_Key = formData.get("API_Key");
@@ -148,7 +148,7 @@ export async function createGlossary(formData: FormData) {
   }
   
   export async function editOpenAPI(id:any,formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const API_Key = formData.get("API_Key");
     const Token_Limit_per_Month = formData.get("Token_Limit_per_Month");
     console.log(id,API_Key,Token_Limit_per_Month);
@@ -174,7 +174,7 @@ export async function createGlossary(formData: FormData) {
   }
 
   export async function updateGoogleMapsApi(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const API_Key = formData.get("API_Key");
     const apiId = formData.get("apiId")
 

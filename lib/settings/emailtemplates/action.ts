@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server"; 
 
 export async function fetchEmailTemplates() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.from("email_templates").select();
   if (error) {
     console.error("Error fetching email templates:", error);
@@ -12,7 +12,7 @@ export async function fetchEmailTemplates() {
 }
 
 export const deleteEmailTemplate = async (id: string) => {
-  const supabase = createClient(); 
+  const supabase = await createClient(); 
   const { error } = await supabase
     .from("email_templates")
     .delete()
@@ -39,7 +39,7 @@ export const addEmailTemplate = async (
   reply_to: string,
   version: number
 ) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data, error } = await supabase
     .from("email_templates")
@@ -83,7 +83,7 @@ export const updateEmailTemplate = async (
   version: number,
   id: string 
 ) => {
-  const supabase = createClient(); 
+  const supabase = await createClient(); 
 
   const { data, error } = await supabase
     .from("email_templates")
@@ -113,7 +113,7 @@ export const updateEmailTemplate = async (
 };
 
 export const fetchEmailTemplateById = async (id: string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("email_templates") 
     .select("*")

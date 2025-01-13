@@ -10,7 +10,7 @@ export default async function Home({ params }: { params: { step: string; id: str
   const { step, id } = params;
   const t = await getTranslations('materiality'); 
   const stepNumber = parseInt(step, 10);
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

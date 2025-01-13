@@ -9,7 +9,7 @@ import { AddGlossaryButton } from "./buttons";
 
 
 export default async function GlossaryDetails() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const glossaryItems_en = await getGlossaryitems_en();
   const glossaryItems_de = await getGlossaryitems_de();
 

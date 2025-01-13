@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 
 export async function fetchPlans() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase.from("plans").select();
     
     if (error) {

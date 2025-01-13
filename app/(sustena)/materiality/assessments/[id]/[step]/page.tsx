@@ -20,13 +20,13 @@ import { getUserProfiles } from "@/lib/task/data";
 import Stackholdergroup from "@/components/materiality/stakeholders/StackholderGroup";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
-  const { step, id } = params;
+  const { step, id } = await params;
   const t = await getTranslations('materiality'); 
   const stepNumber = parseInt(step, 10);
   const assessmentData = await getAssessmentData(id);
   const AR16Items = await getAR16Items()
   const users = await getUserProfiles();
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

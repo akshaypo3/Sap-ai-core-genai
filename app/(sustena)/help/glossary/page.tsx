@@ -23,7 +23,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 import { Globallanguagedata } from "@/lib/settings/users/action";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   let glossaryItems: any[] = [];
   //const glossaryItems = await getGlossaryitems();
   const result = await Globallanguagedata();

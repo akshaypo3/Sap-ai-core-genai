@@ -9,7 +9,7 @@ import { ModeToggle } from "@/components/ThemeToggle";
 import { getTranslations } from 'next-intl/server';
 
 async function Header() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -18,7 +18,7 @@ async function Header() {
   const signOut = async () => {
     "use server";
 
-    const supabase = createClient();
+    const supabase = await createClient();
     await supabase.auth.signOut();
     return redirect("/login");
   };

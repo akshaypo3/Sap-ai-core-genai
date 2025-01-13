@@ -24,7 +24,7 @@ export default function ActiveFramewrokCards({
       <h1 className="font-bold text-lg mt-10">{t("fe_frameworks.Active Frameworks")}</h1>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mt-4">
         {activeFrameworks.map((framework:any) => (
-          <Card key="1" className="flex flex-col h-full">
+          <Card key={framework.id} className="flex flex-col h-full">
             {framework.framework_type == "CDP" && (
               <img
                 src="/cdp_banner.png?height=200&width=300"

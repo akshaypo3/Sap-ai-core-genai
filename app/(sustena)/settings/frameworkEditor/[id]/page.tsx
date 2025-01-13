@@ -35,7 +35,7 @@ export default async function DetailFramework({
     return notFound();
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

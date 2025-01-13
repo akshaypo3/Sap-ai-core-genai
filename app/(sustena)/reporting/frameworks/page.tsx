@@ -39,7 +39,7 @@ import ActiveFramewrokCards from "@/components/reporting/fe_frameworks/ActiveFra
 import { getFEFramework } from "@/lib/frameworks/data";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
