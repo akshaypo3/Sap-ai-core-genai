@@ -526,6 +526,12 @@
       "totalquestionans":"Total Questions Answered",
       "totalquestionunans":"Total Questions Not Answered",
       "questions":"Questions"
+    },
+    "templates":{
+      "title": "Templates Dashboard",
+      "Templates": "Templates",
+      "Dashboard": "Dashboard",
+      "Reporting": "Reporting"
     }
   },
   "settings": {
@@ -1600,7 +1606,8 @@
     "Users":"Users",
     "Administration":"Administration",
     "Questions":"Questions",
-    "Framework Editor":"Framework Editor"
+    "Framework Editor":"Framework Editor",
+    "Templates":"Templates"
   },
   "portal":{
     "dashboard":{
