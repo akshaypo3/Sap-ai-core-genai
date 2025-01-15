@@ -1,3 +1,4 @@
+
 "use server";
 
 const cron = require("node-cron");
@@ -41,3 +42,20 @@ export async function createTemplate(formData: FormData) {
       console.error("Error while adding new templates: ", error);
     }
   }
+
+export async function deleteTemplate(templateId:any) {
+  const supabase = await createClient();
+  try {
+    const { data } = await supabase
+      .from("reporting_templates")
+      .delete()
+      .eq("id", templateId);
+      
+  } catch (error) {
+    console.error("Error while deleting Template", error);
+  } finally {
+    revalidatePath("/reporting/templates");
+    redirect("/reporting/templates");
+  }
+}
+
