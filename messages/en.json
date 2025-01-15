@@ -531,7 +531,14 @@
       "title": "Templates Dashboard",
       "Templates": "Templates",
       "Dashboard": "Dashboard",
-      "Reporting": "Reporting"
+      "Reporting": "Reporting",
+      "Template Name":"Template Name",
+      "Description":"Description",
+      "Category":"Category",
+      "Content":"Content",
+      "Create":"Create Template",
+      "AddTemplate":"Add Template",
+      "AddDescription":"Add Template Function Description"
     }
   },
   "settings": {

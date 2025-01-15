@@ -6,6 +6,7 @@ import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { AddTemplateButton } from "@/components/reporting/templates/AddTemplateButton";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -34,7 +35,10 @@ export default async function Home() {
             backButton={<BackButton />}
           />
         </div>
-        hi
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-neutral-800 rounded-t-md">
+                  <h3 className="text-xl font-semibold">{t("templates.Templates")}</h3>
+                    <AddTemplateButton />
+                </div>
       </ContentLayout>
     </>
   );
