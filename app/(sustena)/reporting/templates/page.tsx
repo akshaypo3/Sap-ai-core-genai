@@ -5,6 +5,7 @@ import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { AddTemplateButton } from "@/components/reporting/templates/AddTemplateButton";
 import { DataTable } from "@/components/table/data-table";
 import { TemplatesTable } from "@/components/table/templatesTable";
 import { getTemplates } from "@/lib/templates/data";
@@ -38,9 +39,9 @@ export default async function Home() {
           />
         </div>
         <div className="flex items-center justify-between bg-gray-50 dark:bg-neutral-800 rounded-t-md">
-          <h3 className="text-xl font-semibold">Templates</h3>
+          <h3 className="text-xl font-semibold">{t("templates.Templates")}</h3>
           <div className="flex justify-end mt-4">
-            {/* <Button className="bg-green-500">Add Template</Button> */}
+            <AddTemplateButton />
           </div>
         </div>
 
