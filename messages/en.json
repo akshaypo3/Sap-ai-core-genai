@@ -1300,7 +1300,9 @@
     "Topic":"Topic",
     "Sub Sub Topic":"Sub Sub Topic",
     "Question":"Question",
-    "Mandatory":"Mandatory"
+    "Mandatory":"Mandatory",
+    "Category":"Category",
+    "Content":"Content"
   },
   "tasks-com": {
     "Add a comment": "Add a comment",
