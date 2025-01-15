@@ -121,6 +121,13 @@ export function getMenuList(pathname: string): Group[] {
           icon: FileText,
           submenus: []
         }, 
+        {
+          href: "/reporting/templates",
+          label: t("Templates"),
+          active: pathname.includes("/reporting/templates"),
+          icon: FileText,
+          submenus: []
+        }, 
       ]
     },
     {
