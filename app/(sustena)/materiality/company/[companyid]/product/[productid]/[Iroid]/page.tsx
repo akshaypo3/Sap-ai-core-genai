@@ -24,7 +24,7 @@ export default async function IroProductPage({
 }: {
   params: { Iroid: string };
 }) {
-  const { Iroid: Iroid } = params;
+  const { Iroid: Iroid } = await params;
 
   const iro = await getIROProduct(Iroid);
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { redirect, useSearchParams } from "next/navigation";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import {
   Breadcrumb,
@@ -32,9 +31,11 @@ import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home({ params }: { params: { iroid: string, id: string } }) {
-  const { id } = params;
+  // const { id } = params;
+  const { id, iroid } = await params;
   const assessmentData = await getEsrsIrosStats(id);
-  const { iroid } = params;
+  // const { iroid } = params;
+ 
   const percentage = (((assessmentData.material + assessmentData.not_material + assessmentData.under_review) / assessmentData.total_count) * 100);
 
   const t = await getTranslations('materiality'); // Fetch translations

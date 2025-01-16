@@ -16,7 +16,7 @@ interface PageProps {
 }
 
 export default async function AdminEmailPage({ params }: PageProps) {
-  const { editEmailTemp } = params; 
+  const { editEmailTemp } = await params; 
   
   const t = await getTranslations('settings');
   const templates = await fetchEmailTemplates();

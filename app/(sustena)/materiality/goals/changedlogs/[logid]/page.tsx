@@ -26,7 +26,7 @@ export default async function ActivityPage({
 }) {
   const t = await getTranslations('materiality'); 
 
-  const { logid: activityId } = params;
+  const { logid: activityId } = await params;
   const activity = await getActivityLogById(activityId);
 
   if (!activity) {

@@ -43,7 +43,7 @@ export default async function ActivityPage({
     return redirect("/login");
   }
 
-  const { logId: activityId } = params;
+  const { logId: activityId } = await params;
 
   const activity = await getTaskActivityLogById(activityId);
   const comments = await getCommentsByTaskId(user.id);

@@ -6,7 +6,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 import CdpAssessmentStepsOverview from "@/components/reporting/frameworks/cdp/CdpAssessmentSteps";
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params;
   const t = await getTranslations("materiality");
 
   const breadcrumbs = [

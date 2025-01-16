@@ -15,7 +15,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home({ params }: { params: { id: string } }) {
 
-  const { id } = params;
+  const { id } = await params;
   const t = await getTranslations('materiality');
   const breadcrumbs = [
     { href: "/materiality/dashboard/", text: t('company.location.Company Location') },

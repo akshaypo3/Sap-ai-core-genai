@@ -27,7 +27,7 @@ export default async function GoalPage({
   params: { id: string };
 }) {
   const t = await getTranslations('materiality');
-  const { id: goalId } = params;
+  const { id: goalId } = await params;
 
   const goal = await getGoalById(goalId);
 

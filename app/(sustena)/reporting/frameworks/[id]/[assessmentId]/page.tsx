@@ -12,9 +12,9 @@ import { Label } from "@/components/ui/label";
 import { getUserProfiles } from "@/lib/task/data";
 
 export default async function Home({ params }: { params: { assessmentId: string, id: string } }) {
-  const { assessmentId } = params;
-  const { id } = params;
-
+  // const { assessmentId } = params;
+  // const { id } = params;
+  const { id, assessmentId } = await params;
   const supabase = await createClient();
   const {
     data: { user },

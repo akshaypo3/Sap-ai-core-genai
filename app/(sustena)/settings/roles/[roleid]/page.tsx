@@ -29,7 +29,7 @@ export default async function roleDetailsPage({
 }: {
   params: { roleid: string };
 }) {
-  const { roleid } = params;
+  const { roleid } = await params;
   const roleDetails = await getRolesWithUsers(roleid);
   const roleData = roleDetails;
   const otherUsersDetails = await otherRoleusers(roleid);

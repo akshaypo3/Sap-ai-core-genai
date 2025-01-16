@@ -56,7 +56,7 @@ import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params; 
   const AssessmentData = await getAssessmentDataforchart(id);
   const assessmentData = await getAssessmentData(id);
 

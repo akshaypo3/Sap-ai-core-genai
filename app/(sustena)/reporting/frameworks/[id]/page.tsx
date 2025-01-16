@@ -9,7 +9,7 @@ import ActiveAssessmentList from "@/components/reporting/fe_frameworks/ActiveAss
 import { getAssesmentQuestion } from "@/lib/settings/frameworkEditor/data";
 
 export default async function Home({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params;
   const t = await getTranslations("reporting");
 
   const breadcrumbs = [
