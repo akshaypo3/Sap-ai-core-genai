@@ -7,7 +7,7 @@ import CdpIntroductionStep from "@/components/reporting/frameworks/cdp/CdpIntrod
 import CdpIdentificationStep from "@/components/reporting/frameworks/cdp/CdpIdentificationStep";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
-  const { step, id } = params;
+  const { step, id } = await params;
   const t = await getTranslations('materiality'); 
   const stepNumber = parseInt(step, 10);
   const supabase = await createClient();

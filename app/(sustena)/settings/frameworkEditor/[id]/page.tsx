@@ -25,7 +25,7 @@ export default async function DetailFramework({
 }: {
   params: { id: string };
 }) {
-  const { id: frameworkId } = params;
+  const { id: frameworkId } = await params;
   const framework = await getFEFrameworkById(frameworkId);
   const sections = await getSections(frameworkId);
   const questions = await getQuestion(frameworkId);

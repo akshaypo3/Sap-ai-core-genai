@@ -40,7 +40,7 @@ export default async function taskPage({
 }: {
   params: { taskid: string };
 }) {
-  const { taskid: taskId } = params;
+  const { taskid: taskId } = await params;
 
   const task = await getTaskById(taskId);
 

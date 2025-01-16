@@ -9,7 +9,7 @@ import { columns_product_IRO } from "@/components/table/ProductsIROTableColumns"
 import { getTranslations } from 'next-intl/server';
 
 export default async function Home({ params }: { params: { companyid: string; productid: string } }) {
-  const { companyid, productid } = params;
+  const { companyid, productid } = await params;
   
 const product = await getProduct(productid)
 const productIRO = await getProductIRO(productid)

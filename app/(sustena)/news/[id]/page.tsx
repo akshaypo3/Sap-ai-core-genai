@@ -36,7 +36,7 @@ export default async function NewsArticle({ params }: { params: { id: string } }
     return redirect("/login");
   }
 
-  const { id } = params;
+  const { id } = await params;
   let newsArticle = await getNewsArticlesById(id);
   newsArticle = newsArticle[0];
 

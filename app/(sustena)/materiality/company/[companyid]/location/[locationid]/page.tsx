@@ -11,8 +11,8 @@ import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 import { getTranslations } from 'next-intl/server';
 
 export default async function Home({ params }: { params: { companyid: string; locationid: string } }) {
-  const { companyid, locationid } = params;
-  
+  // const { companyid, locationid } = params;
+  const { companyid, locationid } = await params; 
 const location = await getLocation(locationid)
 const locationIRO = await getLocationIRO(locationid)
 const apiKey = await GetGoogleMapsApi()

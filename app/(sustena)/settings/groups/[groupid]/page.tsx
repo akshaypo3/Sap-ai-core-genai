@@ -31,7 +31,7 @@ export default async function roleDetailsPage({
 }: {
   params: { groupid: string };
 }) {
-  const { groupid } = params;
+  const { groupid } = await params;
   const groupDetails = await getGroupsWithUsers(groupid);
   const groupData = groupDetails;
   // console.log("groupDetails", groupData);
