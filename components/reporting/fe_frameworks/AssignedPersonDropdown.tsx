@@ -32,6 +32,7 @@ export default function AssignedUserDropdownQuestions({
   }, [items.id]);
   
   const handleUserChange = async (newSelectedUserId: string) => {
+    setSelectedUserId(newSelectedUserId);
     if (!newSelectedUserId) return;
 
     const formData = new FormData(formRef.current as HTMLFormElement);

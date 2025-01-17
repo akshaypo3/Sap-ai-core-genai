@@ -238,13 +238,10 @@ export async function creatanswerAssessment(formData: FormData, frameworkId: any
   if (updateErrorquestion) {
     throw new Error("Error updating assessment: " + updateErrorquestion.message);
   }
-
+  revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   } catch (error) {
     console.error("Error while adding/updating answer: ", error);
-  } finally {
-    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
-    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
-  }
+  } 
 }
 
 export async function fetchExistingAnswerForText(questionId: string) {
@@ -490,12 +487,9 @@ export async function creatanswerAssessmentTable(formData: FormData, frameworkId
         console.log("Error while inserting the insert log in fe_question_logs:",error)
       }
     }
- 
+    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   } catch (error) {
     console.error("Error while adding/updating answer: ", error);
-  } finally {
-    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
-    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
 }
 
