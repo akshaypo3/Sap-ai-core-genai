@@ -1,10 +1,9 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { Badge } from "../ui/badge";
+"use client"
+import React, { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
 import AssignedUserDropdownQuestions from "../reporting/fe_frameworks/AssignedPersonDropdown";
 import { AnswerButton } from "../reporting/fe_frameworks/Buttons";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -29,6 +28,7 @@ const AssessmentQuestionsTable = ({
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   const [filtersBySection, setFiltersBySection] = useState<any>({});
   const [searchQueries, setSearchQueries] = useState<any>({});
+  const [hierarchicalData, setHierarchicalData] = useState<any>(null);
 
   const requiredFields = [
     { label: "All", value: "all" },
@@ -37,95 +37,98 @@ const AssessmentQuestionsTable = ({
   ];
 
   const uniqueTypes = Array.from(
-    new Set(questionData.map((item: any) => item.question_type)),
+    new Set(questionData.map((item: any) => item.question_type))
   );
 
-  useEffect(() => {
-    // Initialize filter and search state for each section
-    const initialFilters: any = {};
-    const initialSearchQueries: any = {};
-    const sections = [
-      ...new Set(questionData.map((item: any) => item.original_question_id?.section_id?.name || "N/A")),
-    ];
-    sections.forEach((section) => {
-      initialFilters[section] = {
-        is_required: "all",
-        question_type: "all",
-      };
-      initialSearchQueries[section] = ""; // Initialize search query for each section
-    });
-    setFiltersBySection(initialFilters);
-    setSearchQueries(initialSearchQueries);
 
-    filterData(initialSearchQueries, initialFilters);
+  const organizeHierarchicalData = (questions: any[]) => {
+    const hierarchy: any = {};
+    
+
+    const sectionNames = new Map();
+    questions.forEach(question => {
+      if (question.original_question_id?.section_id?.name) {
+        sectionNames.set(question.section_code, question.original_question_id.section_id.name);
+      }
+    });
+    
+    questions.forEach(question => {
+      const sectionCode = question.section_code;
+      const parts = sectionCode.split('.');
+      
+
+      const mainSection = parts[0];
+      
+
+      const parentSectionName = sectionNames.get(mainSection) || `Section ${mainSection}`;
+      const currentSectionName = sectionNames.get(sectionCode) || 
+                               question.original_question_id?.section_id?.name || 
+                               `Section ${sectionCode}`;
+      
+
+      if (!hierarchy[mainSection]) {
+        hierarchy[mainSection] = {
+          code: mainSection,
+          name: parentSectionName,
+          subsections: {},
+          questions: []
+        };
+      }
+      
+      if (parts.length === 1) {
+
+        hierarchy[mainSection].questions.push(question);
+      } else {
+
+        const subsectionKey = `${parts[0]}.${parts[1]}`;
+        const subsectionName = sectionNames.get(subsectionKey) || 
+                             question.original_question_id?.section_id?.name;
+        
+        if (!hierarchy[mainSection].subsections[subsectionKey]) {
+          hierarchy[mainSection].subsections[subsectionKey] = {
+            code: subsectionKey,
+            name: subsectionName,
+            parentName: parentSectionName,
+            questions: [],
+            subsubsections: {}
+          };
+        }
+        
+        if (parts.length === 2) {
+
+          hierarchy[mainSection].subsections[subsectionKey].questions.push(question);
+        } else {
+
+          const subsubKey = sectionCode;
+          const subsubName = sectionNames.get(subsubKey) || 
+                           question.original_question_id?.section_id?.name;
+          
+          if (!hierarchy[mainSection].subsections[subsectionKey].subsubsections[subsubKey]) {
+            hierarchy[mainSection].subsections[subsectionKey].subsubsections[subsubKey] = {
+              code: subsubKey,
+              name: subsubName,
+              parentName: subsectionName,
+              questions: []
+            };
+          }
+          hierarchy[mainSection].subsections[subsectionKey].subsubsections[subsubKey].questions.push(question);
+        }
+      }
+    });
+    
+    return hierarchy;
+  };
+
+  useEffect(() => {
+    const organized = organizeHierarchicalData(questionData);
+    setHierarchicalData(organized);
   }, [questionData]);
 
-  const handleSearch = (section: string, e: any) => {
-    const query = e.target.value;
-    const updatedSearchQueries = { ...searchQueries, [section]: query };
-    setSearchQueries(updatedSearchQueries);
-    filterData(updatedSearchQueries, filtersBySection);
-  };
-
-  const handleFilterChange = (section: string, e: any) => {
-    const { name, value } = e.target;
-    const updatedFilters = { ...filtersBySection[section], [name]: value };
-    setFiltersBySection((prev: any) => ({
-      ...prev,
-      [section]: updatedFilters,
-    }));
-    filterData(searchQueries, { ...filtersBySection, [section]: updatedFilters });
-  };
-
-  const filterData = (searchQueries: any, appliedFilters: any) => {
-    const filteredBySection: any = {};
-
-    Object.keys(appliedFilters).forEach((sectionName) => {
-      let filtered = data.filter(
-        (item: any) =>
-          item.original_question_id?.section_id?.name === sectionName
-      );
-
-      const sectionFilters = appliedFilters[sectionName];
-      const searchQuery = searchQueries[sectionName];
-
-      // Apply search query
-      if (searchQuery) {
-        filtered = filtered.filter((item: any) =>
-          item.question_text?.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      }
-
-      // Apply filters for this section
-      if (sectionFilters.is_required && sectionFilters.is_required !== "all") {
-        filtered = filtered.filter(
-          (item: any) =>
-            item.is_required === (sectionFilters.is_required === "true")
-        );
-      }
-
-      if (sectionFilters.question_type && sectionFilters.question_type !== "all") {
-        filtered = filtered.filter(
-          (item: any) => item.question_type === sectionFilters.question_type
-        );
-      }
-
-      filteredBySection[sectionName] = filtered;
-    });
-
-    setFilteredData(filteredBySection);
-  };
-
-  const handleSectionToggle = (sectionName: string) => {
-    setExpandedSections((prev) => {
-      const newExpandedSections = new Set(prev);
-      if (newExpandedSections.has(sectionName)) {
-        newExpandedSections.delete(sectionName);
-      } else {
-        newExpandedSections.add(sectionName);
-      }
-      return newExpandedSections;
-    });
+  const calculateCounts = (questions: any[]) => {
+    const totalQuestions = questions.length;
+    const answeredQuestions = questions.filter(q => q.answered === true || q.answered === "true").length;
+    const pendingQuestions = totalQuestions - answeredQuestions;
+    return { totalQuestions, answeredQuestions, pendingQuestions };
   };
 
   const requiredStatus = (is_required: any) => {
@@ -133,12 +136,12 @@ const AssessmentQuestionsTable = ({
       return "Required";
     }
     if (is_required === false || is_required === "false") {
-      return "Unrequired";
+      return "Optional";
     }
     return is_required;
   };
 
-  const Answeredstatus = (answered: any) => {
+  const answeredStatus = (answered: any) => {
     if (answered === true || answered === "true") {
       return "Yes";
     }
@@ -148,221 +151,194 @@ const AssessmentQuestionsTable = ({
     return answered;
   };
 
-  const { toast } = useToast();
-  const handleUserAdded = (message: string) => {
-    toast({
-      variant: "success",
-      title: message,
-    });
+  const renderQuestionTable = (questions: any[]) => (
+    <div className="p-2 overflow-x-auto rounded-md border border-neutral-200 dark:border-neutral-800">
+      <table className="min-w-full table-auto">
+        <thead>
+          <tr>
+            <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">Question Code</th>
+            <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">Question Name</th>
+            <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">Type</th>
+            <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">Required</th>
+            <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">Answered</th>
+            <th className="p-2 w-[155px] text-center font-semibold border-b text-zinc-500 text-sm">Assigned Person</th>
+            <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {questions.map((question: any) => (
+            <tr key={question.id} className="border-b border-gray-300 text-sm">
+              <td className="p-3 text-center">{question.question_code}</td>
+              <td className="p-3 text-left">{question.question_text}</td>
+              <td className="p-3 text-center">{question.question_type}</td>
+              <td className="p-3 text-center">
+                <Badge
+                  className={
+                    question.is_required ? "bg-green-200 text-green-800 hover:bg-green-200"
+                    : "bg-orange-200 text-orange-800 hover:bg-orange-200"
+                  }
+                >
+                  {requiredStatus(question.is_required)}
+                </Badge>
+              </td>
+              <td className="p-3 text-center">
+                <Badge
+                  className={
+                    question.answered ? "bg-blue-200 text-blue-800 hover:bg-blue-200"
+                    : "bg-red-200 text-red-800 hover:bg-red-200"
+                  }
+                >
+                  {answeredStatus(question.answered)}
+                </Badge>
+              </td>
+              <td className="p-3 text-center">
+                <AssignedUserDropdownQuestions
+                  items={question}
+                  users={users}
+                  userId={userId}
+                  handleUserAdded={() => {}}
+                  FrameworkID={FrameworkID}
+                />
+              </td>
+              <td className="p-3 text-center">
+                <div className="flex justify-center items-center space-x-2">
+                  <AnswerButton
+                    QuestionData={question}
+                    FrameworkID={FrameworkID}
+                    AssessmentID={AssessmentID}
+                  />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  const renderSubSubSection = (subsubsection: any, subsubKey: string) => {
+    const counts = calculateCounts(subsubsection.questions);
+    return (
+      <div key={subsubKey} className="ml-8 mb-4 bg-gray-50 rounded-lg p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h4 className="text-lg font-medium">{subsubsection.name || subsubKey}</h4>
+            <p className="text-sm text-gray-600">Sub-section of {subsubsection.parentName}</p>
+          </div>
+          <div className="flex space-x-4">
+            <Badge variant="outline" className="bg-blue-50">Questions: {counts.totalQuestions}</Badge>
+            <Badge variant="outline" className="bg-green-50">Answered: {counts.answeredQuestions}</Badge>
+            <Badge variant="outline" className="bg-orange-50">Pending: {counts.pendingQuestions}</Badge>
+          </div>
+        </div>
+        {renderQuestionTable(subsubsection.questions)}
+      </div>
+    );
   };
 
-  // Calculate Question, Answered, and Pending counts for each section
-  const calculateCounts = (sectionName: string) => {
-    const sectionData = filteredData[sectionName] || [];
-    const totalQuestions = sectionData.length;
-    const answeredQuestions = sectionData.filter((q: any) => q.answered === true || q.answered === "true").length;
-    const pendingQuestions = totalQuestions - answeredQuestions;
-    return { totalQuestions, answeredQuestions, pendingQuestions };
+  const renderSubSection = (subsection: any, subsectionKey: string) => {
+    const counts = calculateCounts(subsection.questions);
+    const subsubsectionQuestions = Object.values(subsection.subsubsections).flatMap((s: any) => s.questions);
+    const totalCounts = calculateCounts([...subsection.questions, ...subsubsectionQuestions]);
+
+    return (
+      <div key={subsectionKey} className="ml-4 mb-4">
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xl font-medium">{subsection.name || subsectionKey}</h3>
+              <p className="text-sm text-gray-600">Sub-section of {subsection.parentName}</p>
+            </div>
+            <div className="flex space-x-4">
+              <Badge variant="outline" className="bg-blue-50">Questions: {totalCounts.totalQuestions}</Badge>
+              <Badge variant="outline" className="bg-green-50">Answered: {totalCounts.answeredQuestions}</Badge>
+              <Badge variant="outline" className="bg-orange-50">Pending: {totalCounts.pendingQuestions}</Badge>
+            </div>
+          </div>
+        </div>
+        
+        {subsection.questions.length > 0 && (
+          <div className="mb-4">
+            {renderQuestionTable(subsection.questions)}
+          </div>
+        )}
+        
+        {Object.entries(subsection.subsubsections).map(([key, subsubsection]: [string, any]) => 
+          renderSubSubSection(subsubsection, key)
+        )}
+      </div>
+    );
+  };
+
+  const renderMainSection = (section: any, sectionKey: string) => {
+    const mainSectionQuestions = section.questions;
+    const subsectionQuestions = Object.values(section.subsections).flatMap((s: any) => {
+      const subQuestions = s.questions;
+      const subsubQuestions = Object.values(s.subsubsections).flatMap((ss: any) => ss.questions);
+      return [...subQuestions, ...subsubQuestions];
+    });
+    
+    const totalCounts = calculateCounts([...mainSectionQuestions, ...subsectionQuestions]);
+
+    return (
+      <div key={sectionKey} className="mb-6">
+        <div 
+          className="bg-white rounded-lg shadow-md p-4 cursor-pointer"
+          onClick={() => {
+            setExpandedSections(prev => {
+              const newSet = new Set(prev);
+              if (newSet.has(sectionKey)) {
+                newSet.delete(sectionKey);
+              } else {
+                newSet.add(sectionKey);
+              }
+              return newSet;
+            });
+          }}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <h2 className="text-2xl font-semibold flex items-center gap-2">
+                <span className="text-gray-600">{section.code}</span>
+                <span>{section.name}</span>
+                {expandedSections.has(sectionKey) ? (
+                  <ChevronDown className="h-6 w-6" />
+                ) : (
+                  <ChevronRight className="h-6 w-6" />
+                )}
+              </h2>
+            </div>
+            <div className="flex space-x-4">
+              <Badge variant="outline" className="bg-blue-50">Questions: {totalCounts.totalQuestions}</Badge>
+              <Badge variant="outline" className="bg-green-50">Answered: {totalCounts.answeredQuestions}</Badge>
+              <Badge variant="outline" className="bg-orange-50">Pending: {totalCounts.pendingQuestions}</Badge>
+            </div>
+          </div>
+        </div>
+
+        {expandedSections.has(sectionKey) && (
+          <div className="mt-4">
+            {mainSectionQuestions.length > 0 && (
+              <div className="mb-4">
+                {renderQuestionTable(mainSectionQuestions)}
+              </div>
+            )}
+            
+            {Object.entries(section.subsections).map(([key, subsection]: [string, any]) => 
+              renderSubSection(subsection, key)
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
-    <>
-      {/* Render tables for each section */}
-      {Object.keys(filteredData).map((sectionName) => (
-        <div key={sectionName} className="bg-white rounded-lg shadow-md overflow-hidden mb-2">
-          {/* Section Name as a Toggle */}
-          <div
-            className="flex items-center justify-between p-4 bg-gray-50 cursor-pointer"
-            onClick={() => handleSectionToggle(sectionName)}
-          >
-            <div className="flex items-center space-x-2">
-              <h3 className="text-xl font-semibold">{sectionName}</h3>
-              {expandedSections.has(sectionName) ? (
-                <ChevronDown className="h-5 w-5" />
-              ) : (
-                <ChevronRight className="h-5 w-5" />
-              )}
-            </div>
-
-            {/* Display Question, Answered, and Pending Badge */}
-            <div className="flex space-x-4">
-              {(() => {
-                const { totalQuestions, answeredQuestions, pendingQuestions } = calculateCounts(sectionName);
-                return (
-                  <>
-                    <Badge variant="outline" className="bg-blue-50">
-                      Question: {totalQuestions}
-                    </Badge>
-                    <Badge variant="outline" className="bg-green-50">
-                      Answered: {answeredQuestions}
-                    </Badge>
-                    <Badge variant="outline" className="bg-orange-50">
-                      Pending: {pendingQuestions}
-                    </Badge>
-                  </>
-                );
-              })()}
-            </div>
-          </div>
-
-          {/* If section is expanded, show the filters, search, and table */}
-          {expandedSections.has(sectionName) && (
-            <div>
-              {/* Search and Filters aligned as in your example */}
-              <div className="mb-4 flex items-center gap-4">
-                {/* Search Input for the Section */}
-                <Input
-                  type="text"
-                  placeholder={`Search questions in ${sectionName}...`}
-                  className="border p-2 w-1/3"
-                  value={searchQueries[sectionName]}
-                  onChange={(e) => handleSearch(sectionName, e)}
-                />
-
-                <div className="flex space-x-4 ml-auto">
-                  {/* Question Type Filter */}
-                  <Select
-                    name="question_type"
-                    value={filtersBySection[sectionName]?.question_type !== "all" ? filtersBySection[sectionName]?.question_type : ""}
-                    onValueChange={(value) =>
-                      handleFilterChange(sectionName, { target: { name: "question_type", value } })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Question Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      {uniqueTypes.map((type, index) => (
-                        <SelectItem key={index} value={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  {/* Required Filter */}
-                  <Select
-                    name="is_required"
-                    value={filtersBySection[sectionName]?.is_required !== "all" ? filtersBySection[sectionName]?.is_required : ""}
-                    onValueChange={(value) =>
-                      handleFilterChange(sectionName, { target: { name: "is_required", value } })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Question" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {requiredFields.map((required) => (
-                        <SelectItem key={required.value} value={required.value}>
-                          {required.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Render the table */}
-              <div className="p-2 overflow-x-auto rounded-md border border-neutral-200 dark:border-neutral-800">
-                <table className="min-w-full table-auto">
-                  <thead>
-                    <tr>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Question Code
-                      </th>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Question Name
-                      </th>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Section
-                      </th>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Type
-                      </th>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Required
-                      </th>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Answered
-                      </th>
-                      <th className="p-2 w-[155px] text-center font-semibold border-b text-zinc-500 text-sm">
-                        Assigned Person
-                      </th>
-                      <th className="p-2 text-center font-semibold border-b text-zinc-500 text-sm">
-                        Answer
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData[sectionName].map((question: any) => (
-                      <tr key={question.id} className="border-b border-gray-300 text-sm">
-                        <td className="p-3 text-center">{question.question_code}</td>
-                        <td className="p-3 text-center">{question.question_text}</td>
-                        <td className="p-3 text-center">{question.original_question_id?.section_id?.name || "N/A"}</td>
-                        <td className="p-3 text-center">{question.question_type}</td>
-                        <td className="p-3 text-center">
-                          {question.is_required !== undefined && (
-                            <Badge
-                              className={
-                                question.is_required === false ||
-                                question.is_required === "false"
-                                  ? "bg-orange-200 text-orange-800 hover:bg-orange-200"
-                                  : question.is_required === true ||
-                                    question.is_required === "true"
-                                  ? "bg-green-200 text-green-800 hover:bg-green-200"
-                                  : ""
-                              }
-                            >
-                              {requiredStatus(question.is_required)}
-                            </Badge>
-                          )}
-                        </td>
-                        <td className="p-3 text-center">
-                          {question.answered !== undefined && (
-                            <Badge
-                              className={
-                                question.answered === false ||
-                                question.answered === "false"
-                                  ? "bg-red-200 text-red-800 hover:bg-red-200"
-                                  : question.answered === true ||
-                                    question.answered === "true"
-                                  ? "bg-blue-200 text-blue-800 hover:bg-blue-200"
-                                  : ""
-                              }
-                            >
-                              {Answeredstatus(question.answered)}
-                            </Badge>
-                          )}
-                        </td>
-                        <td className="p-3 text-center">
-                          <AssignedUserDropdownQuestions
-                            items={question}
-                            users={users}
-                            userId={userId}
-                            handleUserAdded={handleUserAdded}
-                            FrameworkID={FrameworkID}
-                          />
-                        </td>
-                        <td className="p-3 text-center">
-                          <div className="flex justify-center items-center space-x-2">
-                            <AnswerButton
-                              QuestionData={question}
-                              FrameworkID={FrameworkID}
-                              AssessmentID={AssessmentID}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-    </>
+    <div className="space-y-4">
+      {hierarchicalData && Object.entries(hierarchicalData).map(([key, section]: [string, any]) => 
+        renderMainSection(section, key)
+      )}
+    </div>
   );
 };
 
