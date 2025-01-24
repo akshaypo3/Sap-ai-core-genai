@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import { Button } from "@/components/ui/button";
-import { getAssessmentQuestionsById } from "@/lib/frameworks/data";
+import { getAssessmentQuestionsById, getAssessmentQuestionsByIdnew } from "@/lib/frameworks/data";
 import AssessmentQuestionsTable from "@/components/table/AssessmentQuestionTable";
 import { idText } from "typescript";
 import { Label } from "@/components/ui/label";
@@ -29,9 +29,10 @@ export default async function Home({ params }: { params: { assessmentId: string,
     { href: `/reporting/frameworks/${id}`, text: t("fe_assessments.assessments") },
   ];
 
-  const questions = await getAssessmentQuestionsById(assessmentId)
-  const answeredCount = questions.filter(question => question.answered === true).length;
-  const unansweredCount = questions.filter(question => question.answered === false).length;
+  const questions = await getAssessmentQuestionsByIdnew(assessmentId,id)
+  const framework = await getAssessmentQuestionsById(assessmentId)
+  const answeredCount = framework.filter(question => question.answered === true).length;
+  const unansweredCount = framework.filter(question => question.answered === false).length;
   const users = await getUserProfiles();
   
   return (
@@ -51,7 +52,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
                 <Label className="font-semibold text-gray-700 dark:text-gray-300">
                   {t("fe_assessments.totalquestion")}
                 </Label>
-                <p className="text-gray-800 dark:text-gray-100">{questions?.length}</p>
+                <p className="text-gray-800 dark:text-gray-100">{framework?.length}</p>
               </div>
               <div className="p-6 bg-gray-100 dark:bg-neutral-800 rounded-md shadow-md text-center">
                 <Label className="font-semibold text-gray-700 dark:text-gray-300">
@@ -69,7 +70,7 @@ export default async function Home({ params }: { params: { assessmentId: string,
           </div>
         <div className="p-5 border rounded">
             <p className="text-xl font-semibold mb-10">{t("fe_assessments.sections")}</p>
-         <AssessmentQuestionsTable questionData={questions} FrameworkID={id} AssessmentID={assessmentId} users={users} userId={userId}/>
+         <AssessmentQuestionsTable questionData={questions} FrameworkID={id} AssessmentID={assessmentId} users={users} userId={userId} frameworkquestion={framework}/>
         </div>
       </ContentLayout>
     </>

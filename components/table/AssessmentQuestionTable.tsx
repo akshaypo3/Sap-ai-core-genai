@@ -1,12 +1,11 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import AssignedUserDropdownQuestions from "../reporting/fe_frameworks/AssignedPersonDropdown";
 import { AnswerButton } from "../reporting/fe_frameworks/Buttons";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import SectionUserDropdown from "../reporting/fe_frameworks/SectionUserDropdown";
+import { addIroUserSectionQuestions } from "@/lib/assessments/action";
 
 interface QuestionsProps {
   questionData: any;
@@ -14,6 +13,7 @@ interface QuestionsProps {
   AssessmentID: string;
   users: any;
   userId: any;
+  frameworkquestion: any;
 }
 
 const AssessmentQuestionsTable = ({
@@ -22,135 +22,183 @@ const AssessmentQuestionsTable = ({
   AssessmentID,
   users,
   userId,
+  frameworkquestion
 }: QuestionsProps) => {
-  const [data, setData] = useState(questionData);
-  const [filteredData, setFilteredData] = useState<any>({});
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
-  const [filtersBySection, setFiltersBySection] = useState<any>({});
-  const [searchQueries, setSearchQueries] = useState<any>({});
+  const [expandedSections, setExpandedSections] = useState<Map<string, boolean>>(new Map());
   const [hierarchicalData, setHierarchicalData] = useState<any>(null);
 
-  const requiredFields = [
-    { label: "All", value: "all" },
-    { label: "Required", value: "true" },
-    { label: "Unrequired", value: "false" },
-  ];
-
-  const uniqueTypes = Array.from(
-    new Set(questionData.map((item: any) => item.question_type))
+  // Render badge counts for questions
+  const renderBadgeCounts = (counts: any) => (
+    <div className="flex space-x-4">
+      <Badge variant="outline" className="bg-blue-50">Questions: {counts.totalQuestions}</Badge>
+      <Badge variant="outline" className="bg-green-50">Answered: {counts.answeredQuestions}</Badge>
+      <Badge variant="outline" className="bg-orange-50">Pending: {counts.pendingQuestions}</Badge>
+    </div>
   );
 
+  const handleSectionUserChange = async (assignments: { questionId: string, userId: string, questionCode: string }[]) => {
+    try {
+      await addIroUserSectionQuestions(assignments);
+      const updatedData = organizeHierarchicalData(questionData);  // Reorganize data with updated assignments
+      const organizedSections = organizeSections(updatedData);
+      setHierarchicalData(organizedSections);
+    } catch (error) {
+      console.error("Error assigning user to question:", error);
+    }
+  };
 
+  // Organizing sections and subsections
+  // const organizeSections = (sections: any[]) => {
+  //   const sectionMap = {};
+  //   const rootSections = [];
+
+  //   Object.keys(sections).forEach((sectionCode) => {
+  //     const section = sections[sectionCode];
+
+  //     section.subsections = [];  // Initialize subsections array
+  //     sectionMap[section.id] = section;
+
+  //     // Add to root sections if the parentid is null
+  //     if (section.parentid === null) {
+  //       rootSections.push(section);
+  //     } else {
+  //       const parentSection = sectionMap[section.parentid];
+  //       if (parentSection) {
+  //         parentSection.subsections.push(section);  // Add subsections to their parent section
+  //       }
+  //     }
+  //   });
+
+  //   return rootSections;
+  // };
+  const organizeSections = (sections) => {
+    const sectionMap = {};  // To store sections by ID
+    const rootSections = [];  // To store root sections (those without a parent)
+  
+    // First pass: Build the sectionMap with all sections
+    Object.keys(sections).forEach((sectionCode) => {
+      const section = sections[sectionCode];  // Get section using the key (sectionCode)
+      section.subsections = [];  // Initialize subsections array
+      sectionMap[section.id] = section;  // Map sections by their ID
+    });
+  
+    // Second pass: Organize subsections under their parent sections
+    Object.keys(sections).forEach((sectionCode) => {
+      const section = sections[sectionCode];  // Get section using the key (sectionCode)
+  
+      if (section.parentid === null || section.parentid === undefined) {
+        // If no parentid, it's a root section
+        rootSections.push(section);
+      } else {
+        const parentSection = sectionMap[section.parentid];
+        if (parentSection) {
+          parentSection.subsections.push(section);  // Assign section as a subsector of its parent
+        } else {
+          console.warn(`No parent found for section ${sectionCode}. Waiting for parent section to be added.`);
+        }
+      }
+  
+      console.log(`Organized Section: ${sectionCode} Parent: ${section.parentid}`);
+    });
+  
+    return rootSections;  // Return the root sections
+  };
+  
+  
+  
+  // Organize hierarchical data for questions and sections
   const organizeHierarchicalData = (questions: any[]) => {
     const hierarchy: any = {};
-    
-
     const sectionNames = new Map();
-    questions.forEach(question => {
-      if (question.original_question_id?.section_id?.name) {
-        sectionNames.set(question.section_code, question.original_question_id.section_id.name);
-      }
-    });
-    
-    questions.forEach(question => {
+
+    questions.forEach((question) => {
       const sectionCode = question.section_code;
-      const parts = sectionCode.split('.');
-      
+      const sectionid = question.id;
+      const parentsectionid = question.parent_section_id;
+      const secname = question.name;
 
-      const mainSection = parts[0];
-      
-
-      const parentSectionName = sectionNames.get(mainSection) || `Section ${mainSection}`;
-      const currentSectionName = sectionNames.get(sectionCode) || 
-                               question.original_question_id?.section_id?.name || 
-                               `Section ${sectionCode}`;
-      
-
-      if (!hierarchy[mainSection]) {
-        hierarchy[mainSection] = {
-          code: mainSection,
-          name: parentSectionName,
-          subsections: {},
-          questions: []
-        };
-      }
-      
-      if (parts.length === 1) {
-
-        hierarchy[mainSection].questions.push(question);
+      if (question.fe_questions?.length) {
+        question.fe_questions.forEach((feQuestion: any) => {
+          if (feQuestion.fe_assessment_questions) {
+            feQuestion.fe_assessment_questions.forEach((assessmentQuestion: any) => {
+              const mainSection = sectionCode;
+              if (!hierarchy[mainSection]) {
+                hierarchy[mainSection] = {
+                  code: mainSection,
+                  id: sectionid,
+                  parentid: parentsectionid,
+                  name: sectionNames.get(mainSection) || `Section  ${secname}`,
+                  questions: []
+                };
+              }
+              hierarchy[mainSection].questions.push(assessmentQuestion);
+            });
+          }
+        });
       } else {
-
-        const subsectionKey = `${parts[0]}.${parts[1]}`;
-        const subsectionName = sectionNames.get(subsectionKey) || 
-                             question.original_question_id?.section_id?.name;
-        
-        if (!hierarchy[mainSection].subsections[subsectionKey]) {
-          hierarchy[mainSection].subsections[subsectionKey] = {
-            code: subsectionKey,
-            name: subsectionName,
-            parentName: parentSectionName,
-            questions: [],
-            subsubsections: {}
+        const mainSection = sectionCode;
+        if (!hierarchy[mainSection]) {
+          hierarchy[mainSection] = {
+            code: mainSection,
+            id: sectionid,
+            parentid: parentsectionid,
+            name: sectionNames.get(mainSection) || `Section  ${secname}`,
+            questions: []
           };
         }
-        
-        if (parts.length === 2) {
-
-          hierarchy[mainSection].subsections[subsectionKey].questions.push(question);
-        } else {
-
-          const subsubKey = sectionCode;
-          const subsubName = sectionNames.get(subsubKey) || 
-                           question.original_question_id?.section_id?.name;
-          
-          if (!hierarchy[mainSection].subsections[subsectionKey].subsubsections[subsubKey]) {
-            hierarchy[mainSection].subsections[subsectionKey].subsubsections[subsubKey] = {
-              code: subsubKey,
-              name: subsubName,
-              parentName: subsectionName,
-              questions: []
-            };
-          }
-          hierarchy[mainSection].subsections[subsectionKey].subsubsections[subsubKey].questions.push(question);
-        }
       }
     });
-    
+
+    Object.keys(hierarchy).forEach((key) => {
+      hierarchy[key].questions.sort((a: any, b: any) => a.order_index - b.order_index);
+    });
     return hierarchy;
   };
 
   useEffect(() => {
     const organized = organizeHierarchicalData(questionData);
-    setHierarchicalData(organized);
+    const organizedSections = organizeSections(organized);
+    console.log(organizedSections);
+    setHierarchicalData(organizedSections);
   }, [questionData]);
 
-  const calculateCounts = (questions: any[]) => {
-    const totalQuestions = questions.length;
-    const answeredQuestions = questions.filter(q => q.answered === true || q.answered === "true").length;
+  const handleSectionAssign = (userId: string, section: any) => {
+    const assignments: { questionId: string; userId: string; questionCode: string }[] = [];
+    const assignUserRecursively = (sec: any) => {
+      sec.questions.forEach((question: any) => {
+        question.assigned_to = userId;
+        assignments.push({ questionId: question.id, userId, questionCode: question.question_code });
+      });
+      sec.subsections.forEach((subSection: any) => {
+        assignUserRecursively(subSection);
+      });
+    };
+    assignUserRecursively(section);
+    handleSectionUserChange(assignments)
+  };
+
+  // Calculate total, answered, and pending questions (including nested subsections)
+  const calculateCounts = (section: any) => {
+    const allQuestions = [
+      ...section.questions, // Main section questions
+      ...Object.values(section.subsections).flatMap((sub: any) => calculateCounts(sub).allQuestions) // Recursively get all questions from nested subsections
+    ];
+
+    const totalQuestions = allQuestions.length;
+    const answeredQuestions = allQuestions.filter(
+      (q) => q.answered === true || q.answered === "true"
+    ).length;
     const pendingQuestions = totalQuestions - answeredQuestions;
-    return { totalQuestions, answeredQuestions, pendingQuestions };
+
+    return {
+      totalQuestions,
+      answeredQuestions,
+      pendingQuestions,
+      allQuestions
+    };
   };
 
-  const requiredStatus = (is_required: any) => {
-    if (is_required === true || is_required === "true") {
-      return "Required";
-    }
-    if (is_required === false || is_required === "false") {
-      return "Optional";
-    }
-    return is_required;
-  };
-
-  const answeredStatus = (answered: any) => {
-    if (answered === true || answered === "true") {
-      return "Yes";
-    }
-    if (answered === false || answered === "false") {
-      return "No";
-    }
-    return answered;
-  };
-
+  // Render questions table for each section
   const renderQuestionTable = (questions: any[]) => (
     <div className="p-2 overflow-x-auto rounded-md border border-neutral-200 dark:border-neutral-800">
       <table className="min-w-full table-auto">
@@ -172,23 +220,13 @@ const AssessmentQuestionsTable = ({
               <td className="p-3 text-left">{question.question_text}</td>
               <td className="p-3 text-center">{question.question_type}</td>
               <td className="p-3 text-center">
-                <Badge
-                  className={
-                    question.is_required ? "bg-green-200 text-green-800 hover:bg-green-200"
-                    : "bg-orange-200 text-orange-800 hover:bg-orange-200"
-                  }
-                >
-                  {requiredStatus(question.is_required)}
+                <Badge className={question.is_required ? "bg-green-200 text-green-800" : "bg-orange-200 text-orange-800"}>
+                  {question.is_required ? "Required" : "Optional"}
                 </Badge>
               </td>
               <td className="p-3 text-center">
-                <Badge
-                  className={
-                    question.answered ? "bg-blue-200 text-blue-800 hover:bg-blue-200"
-                    : "bg-red-200 text-red-800 hover:bg-red-200"
-                  }
-                >
-                  {answeredStatus(question.answered)}
+                <Badge className={question.answered ? "bg-blue-200 text-blue-800" : "bg-red-200 text-red-800"}>
+                  {question.answered ? "Yes" : "No"}
                 </Badge>
               </td>
               <td className="p-3 text-center">
@@ -196,18 +234,11 @@ const AssessmentQuestionsTable = ({
                   items={question}
                   users={users}
                   userId={userId}
-                  handleUserAdded={() => {}}
                   FrameworkID={FrameworkID}
                 />
               </td>
               <td className="p-3 text-center">
-                <div className="flex justify-center items-center space-x-2">
-                  <AnswerButton
-                    QuestionData={question}
-                    FrameworkID={FrameworkID}
-                    AssessmentID={AssessmentID}
-                  />
-                </div>
+                <AnswerButton QuestionData={question} FrameworkID={FrameworkID} AssessmentID={AssessmentID} />
               </td>
             </tr>
           ))}
@@ -216,128 +247,98 @@ const AssessmentQuestionsTable = ({
     </div>
   );
 
-  const renderSubSubSection = (subsubsection: any, subsubKey: string) => {
-    const counts = calculateCounts(subsubsection.questions);
-    return (
-      <div key={subsubKey} className="ml-8 mb-4 bg-gray-50 rounded-lg p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h4 className="text-lg font-medium">{subsubsection.name || subsubKey}</h4>
-            <p className="text-sm text-gray-600">Sub-section of {subsubsection.parentName}</p>
-          </div>
-          <div className="flex space-x-4">
-            <Badge variant="outline" className="bg-blue-50">Questions: {counts.totalQuestions}</Badge>
-            <Badge variant="outline" className="bg-green-50">Answered: {counts.answeredQuestions}</Badge>
-            <Badge variant="outline" className="bg-orange-50">Pending: {counts.pendingQuestions}</Badge>
-          </div>
-        </div>
-        {renderQuestionTable(subsubsection.questions)}
-      </div>
-    );
-  };
+  // Render each section and its subsections
+  // Toggle handler for both sections and subsections
+const handleToggle = (section: any, sectionKey: string, parentKey: string = '') => {
+  const uniqueSectionKey = parentKey ? `${parentKey}-${sectionKey}` : sectionKey; // Unique key for section
 
-  const renderSubSection = (subsection: any, subsectionKey: string) => {
-    const counts = calculateCounts(subsection.questions);
-    const subsubsectionQuestions = Object.values(subsection.subsubsections).flatMap((s: any) => s.questions);
-    const totalCounts = calculateCounts([...subsection.questions, ...subsubsectionQuestions]);
+  setExpandedSections((prev) => {
+    const newMap = new Map(prev); // Copy the current state of expanded sections
+    const currentState = newMap.get(uniqueSectionKey); // Get current state (expanded/collapsed)
+    const newState = !currentState; // Toggle the expanded state of the clicked section
 
-    return (
-      <div key={subsectionKey} className="ml-4 mb-4">
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-2">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-xl font-medium">{subsection.name || subsectionKey}</h3>
-              <p className="text-sm text-gray-600">Sub-section of {subsection.parentName}</p>
-            </div>
-            <div className="flex space-x-4">
-              <Badge variant="outline" className="bg-blue-50">Questions: {totalCounts.totalQuestions}</Badge>
-              <Badge variant="outline" className="bg-green-50">Answered: {totalCounts.answeredQuestions}</Badge>
-              <Badge variant="outline" className="bg-orange-50">Pending: {totalCounts.pendingQuestions}</Badge>
-            </div>
-          </div>
-        </div>
-        
-        {subsection.questions.length > 0 && (
-          <div className="mb-4">
-            {renderQuestionTable(subsection.questions)}
-          </div>
-        )}
-        
-        {Object.entries(subsection.subsubsections).map(([key, subsubsection]: [string, any]) => 
-          renderSubSubSection(subsubsection, key)
-        )}
-      </div>
-    );
-  };
+    // Update the section's expanded state
+    newMap.set(uniqueSectionKey, newState);
 
-  const renderMainSection = (section: any, sectionKey: string) => {
-    const mainSectionQuestions = section.questions;
-    const subsectionQuestions = Object.values(section.subsections).flatMap((s: any) => {
-      const subQuestions = s.questions;
-      const subsubQuestions = Object.values(s.subsubsections).flatMap((ss: any) => ss.questions);
-      return [...subQuestions, ...subsubQuestions];
-    });
-    
-    const totalCounts = calculateCounts([...mainSectionQuestions, ...subsectionQuestions]);
+    // If section is being collapsed, collapse all its subsections
+    if (!newState) {
+      collapseSubsections(section, newMap, uniqueSectionKey);
+    }
 
-    return (
-      <div key={sectionKey} className="mb-6">
-        <div 
-          className="bg-white rounded-lg shadow-md p-4 cursor-pointer"
-          onClick={() => {
-            setExpandedSections(prev => {
-              const newSet = new Set(prev);
-              if (newSet.has(sectionKey)) {
-                newSet.delete(sectionKey);
-              } else {
-                newSet.add(sectionKey);
-              }
-              return newSet;
-            });
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <h2 className="text-2xl font-semibold flex items-center gap-2">
-                <span className="text-gray-600">{section.code}</span>
-                <span>{section.name}</span>
-                {expandedSections.has(sectionKey) ? (
-                  <ChevronDown className="h-6 w-6" />
-                ) : (
-                  <ChevronRight className="h-6 w-6" />
-                )}
-              </h2>
-            </div>
-            <div className="flex space-x-4">
-              <Badge variant="outline" className="bg-blue-50">Questions: {totalCounts.totalQuestions}</Badge>
-              <Badge variant="outline" className="bg-green-50">Answered: {totalCounts.answeredQuestions}</Badge>
-              <Badge variant="outline" className="bg-orange-50">Pending: {totalCounts.pendingQuestions}</Badge>
-            </div>
-          </div>
-        </div>
+    return newMap; // Return updated state of sections
+  });
+};
 
-        {expandedSections.has(sectionKey) && (
-          <div className="mt-4">
-            {mainSectionQuestions.length > 0 && (
-              <div className="mb-4">
-                {renderQuestionTable(mainSectionQuestions)}
-              </div>
+// Collapse all subsections recursively
+const collapseSubsections = (sec: any, expandedState: Map<string, boolean>, parentKey: string) => {
+  sec.subsections.forEach((sub: any) => {
+    const childKey = `${parentKey}-${sub.code}`;
+    expandedState.set(childKey, false); // Collapse the subsections
+    collapseSubsections(sub, expandedState, childKey); // Recursively collapse nested subsections
+  });
+};
+
+// Collapse the parent section, but do not affect its subsections here
+const collapseSectionOnly = (sec: any, expandedState: Map<string, boolean>, parentKey: string) => {
+  const sectionKey = `${parentKey}-${sec.code}`;
+  expandedState.set(sectionKey, false); // Collapse the parent section without affecting subsections
+};
+
+// Recursive rendering of each section and its subsections
+const renderSection = (section: any, sectionKey: string, parentKey: string = '', depth: number = 1) => {
+  const uniqueSectionKey = parentKey ? `${parentKey}-${sectionKey}` : sectionKey; // Unique key for each section
+  const isExpanded = expandedSections.get(uniqueSectionKey) || false; // Check if the section is expanded or not
+  const totalCounts = calculateCounts(section);
+  
+  return (
+    <div key={uniqueSectionKey} className="mb-6">
+      <div
+        className="bg-white rounded-lg shadow-md p-4 cursor-pointer"
+        onClick={() => handleToggle(section, sectionKey, parentKey)} // Toggle the section
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <span className="text-gray-600">{section.code}</span>
+            <span>{section.name}</span>
+            {isExpanded ? (
+              <ChevronDown className="h-6 w-6" />
+            ) : (
+              <ChevronRight className="h-6 w-6" />
             )}
-            
-            {Object.entries(section.subsections).map(([key, subsection]: [string, any]) => 
-              renderSubSection(subsection, key)
-            )}
-          </div>
-        )}
+          </h2>
+          <div className="ml-auto flex items-center gap-4">
+              <SectionUserDropdown
+                users={users}
+                section={section}
+                userId={userId}
+                FrameworkID={FrameworkID}
+                handleUserAdded={(message: string) => console.log(message)}
+                handleSectionAssign={handleSectionAssign}
+              />
+              {renderBadgeCounts(totalCounts)}
+            </div>
+        </div>
       </div>
-    );
-  };
+
+      {/* Render the subsections only if the section is expanded */}
+      {isExpanded && (
+        <div className={`mt-4 pl-${depth * 4}`}> {/* Add padding for nested subsections */}
+          {section.questions.length > 0 && renderQuestionTable(section.questions)} {/* Render questions */}
+
+          {section.subsections.map((sub: any) =>
+            renderSection(sub, sub.code, uniqueSectionKey, depth + 1)  // Render subsections recursively
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 
   return (
     <div className="space-y-4">
-      {hierarchicalData && Object.entries(hierarchicalData).map(([key, section]: [string, any]) => 
-        renderMainSection(section, key)
-      )}
+      {hierarchicalData &&
+        Object.entries(hierarchicalData).map(([key, section]: [string, any]) => renderSection(section, key))}
     </div>
   );
 };
