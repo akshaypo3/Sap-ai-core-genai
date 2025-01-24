@@ -23,6 +23,11 @@ export const TemplatesTable: ColumnDef<TemplatesData>[] = [
     ),
   },
   {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
+    },
+  {
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => (
@@ -43,11 +48,6 @@ export const TemplatesTable: ColumnDef<TemplatesData>[] = [
   //     cell: ({ row }) => (
   //       <div className="lowercase">{row.getValue("category")}</div>
   //     ),
-  //   },
-  //   {
-  //     accessorKey: "description",
-  //     header: "Description",
-  //     cell: ({ row }) => <span>{row.getValue("description") || "NA"}</span>,
   //   },
   //   {
   //     accessorKey: "ontent",
