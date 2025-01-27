@@ -550,6 +550,7 @@ export async function addIroUserTaskQuestion(formData: FormData){
   const userEmail = userData.email;
   const userName = userEmail.substring(0, userEmail.indexOf("@"));
 
+  const id = formData.get("id");
   const title = formData.get("title");
   const description = formData.get("description");
   const assigned_to = formData.get("assigned_to");
@@ -566,121 +567,153 @@ export async function addIroUserTaskQuestion(formData: FormData){
     .toISOString()
     .split("T")[0]; 
 
+
   try {
+
     const { data, error } = await supabase
-      .from("tasks")
-      .insert({
-        title: title,
-        description: description,
-        assigned_to: assigned_to,
-        created_by: created_by,
-        status: status,
-        start_date: new Date().toISOString().split('T')[0],
-        due_date: due_date,
-        link: `/reporting/frameworks/${frameworkId}/${assessmentId}`
+      .from('fe_assessment_questions')
+      .update({
+        assigned_to: assigned_to
       })
+      .eq('id', id)
       .select();
+      
+    // const { data, error } = await supabase
+    //   .from("tasks")
+    //   .insert({
+    //     title: title,
+    //     description: description,
+    //     assigned_to: assigned_to,
+    //     created_by: created_by,
+    //     status: status,
+    //     start_date: new Date().toISOString().split('T')[0],
+    //     due_date: due_date,
+    //     link: `/reporting/frameworks/${frameworkId}/${assessmentId}`
+    //   })
+    //   .select();
 
-    if (error) {
-      console.log("Error while inserting the task in the database :", error.message);
-    }
+    // if (error) {
+    //   console.log("Error while inserting the task in the database :", error.message);
+    // }
 
-    if (!error && data) {
-      const taskId = data[0]?.id;
-      const { error: logError } = await supabase
-        .from("task-activitylog")
-        .insert({
-          created_at: new Date().toISOString(),
-          activity: `Task '${title}' created`,
-          user: userName,
-          changes: {
-            user: userName,
-            activity: `Task '${title}' created`,
-            created_at: new Date().toISOString(),
-            title: title,
-            description: description,
-            assigned_to: assigned_to,
-            created_by: created_by,
-            status: status,
-            start_date: new Date().toISOString().split('T')[0],
-            due_date: due_date,
-          },
-          task_id : taskId
-        });
+    // if (!error && data) {
+    //   const taskId = data[0]?.id;
+    //   const { error: logError } = await supabase
+    //     .from("task-activitylog")
+    //     .insert({
+    //       created_at: new Date().toISOString(),
+    //       activity: `Task '${title}' created`,
+    //       user: userName,
+    //       changes: {
+    //         user: userName,
+    //         activity: `Task '${title}' created`,
+    //         created_at: new Date().toISOString(),
+    //         title: title,
+    //         description: description,
+    //         assigned_to: assigned_to,
+    //         created_by: created_by,
+    //         status: status,
+    //         start_date: new Date().toISOString().split('T')[0],
+    //         due_date: due_date,
+    //       },
+    //       task_id : taskId
+    //     });
 
-      if (logError) {
-        console.error("Error inserting into task-activitylog:", logError);
-      }
-    }
+    //   if (logError) {
+    //     console.error("Error inserting into task-activitylog:", logError);
+    //   }
+    // }
 
-    const { data: createdUserData, error: createdUserError } = await supabase
-      .from("user_profile")
-      .select("userEmail")
-      .eq("id", created_by)
-      .single();
+    // const { data: createdUserData, error: createdUserError } = await supabase
+    //   .from("user_profile")
+    //   .select("userEmail")
+    //   .eq("id", created_by)
+    //   .single();
 
-    if (createdUserError || !createdUserData) {
-      throw new Error("Error fetching created user's email");
-    }
+    // if (createdUserError || !createdUserData) {
+    //   throw new Error("Error fetching created user's email");
+    // }
 
-    const { data: notificationData, error: notificationDataError } = await supabase
-    .from("notifications")
-    .insert({
-      user_id :created_by,
-      name : userName,
-      message : `'${title}' has been assigned to you`,
-      type: "task",
-      link: `/task/${data[0]?.id}`
-      // archived
-    })
+    // const { data: notificationData, error: notificationDataError } = await supabase
+    // .from("notifications")
+    // .insert({
+    //   user_id :created_by,
+    //   name : userName,
+    //   message : `'${title}' has been assigned to you`,
+    //   type: "task",
+    //   link: `/task/${data[0]?.id}`
+    //   // archived
+    // })
 
-    if(notificationDataError){
-      console.error("Error while adding notification");
-    }
+    // if(notificationDataError){
+    //   console.error("Error while adding notification");
+    // }
     
-    const createdUserEmail = createdUserData.userEmail;
+    // const createdUserEmail = createdUserData.userEmail;
 
-    const createdEmailDetails = {
-      to: createdUserEmail,
-      subject: "SMTP Test Mail",
-      text: "MTP Test Mail",
-      html: `<p><strong>SMTP Test successful</strong>
-       <p>Click <a href="http://localhost:3000/task" target="_blank">here</a> to go for tasks.</p>`,
-    };
+    // const createdEmailDetails = {
+    //   to: createdUserEmail,
+    //   subject: "SMTP Test Mail",
+    //   text: "MTP Test Mail",
+    //   html: `<p><strong>SMTP Test successful</strong>
+    //    <p>Click <a href="http://localhost:3000/task" target="_blank">here</a> to go for tasks.</p>`,
+    // };
 
-    const createdEmailResponse = await sendMail(createdEmailDetails);
-    if (!createdEmailResponse) {
-      console.error("Error sending email notification to created user");
-    }
+    // const createdEmailResponse = await sendMail(createdEmailDetails);
+    // if (!createdEmailResponse) {
+    //   console.error("Error sending email notification to created user");
+    // }
 
-    if (created_by !== assigned_to) {
-      const { data: assignedUserData, error: assignedUserError } =
-        await supabase
-          .from("user_profile")
-          .select("userEmail")
-          .eq("id", assigned_to)
-          .single();
+    // if (created_by !== assigned_to) {
+    //   const { data: assignedUserData, error: assignedUserError } =
+    //     await supabase
+    //       .from("user_profile")
+    //       .select("userEmail")
+    //       .eq("id", assigned_to)
+    //       .single();
 
-      if (assignedUserError || !assignedUserData) {
-        throw new Error("Error fetching assigned user's email");
-      }
+    //   if (assignedUserError || !assignedUserData) {
+    //     throw new Error("Error fetching assigned user's email");
+    //   }
 
-      const assignedUserEmail = assignedUserData.userEmail;
+    //   const assignedUserEmail = assignedUserData.userEmail;
 
-      const assignedEmailDetails = {
-        to: assignedUserEmail,
-        subject: "SMTP Test Mail",
-        text: "MTP Test Mail",
-        html: `<p><strong>SMTP Test successful</strong>
-        <p>Click <a href="http://localhost:3000/task" target="_blank">here</a> to go for tasks.</p>`,
-      };
+    //   const assignedEmailDetails = {
+    //     to: assignedUserEmail,
+    //     subject: "SMTP Test Mail",
+    //     text: "MTP Test Mail",
+    //     html: `<p><strong>SMTP Test successful</strong>
+    //     <p>Click <a href="http://localhost:3000/task" target="_blank">here</a> to go for tasks.</p>`,
+    //   };
 
-      const assignedEmailResponse = await sendMail(assignedEmailDetails);
-      if (!assignedEmailResponse) {
-        console.error("Error sending email notification to assigned user");
+    //   const assignedEmailResponse = await sendMail(assignedEmailDetails);
+    //   if (!assignedEmailResponse) {
+    //     console.error("Error sending email notification to assigned user");
+    //   }
+    // }
+    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentId}`);
+  } catch (error) {
+    console.error("Error while adding user to the question task:", error);
+  } 
+}
+
+export async function addIroUserSectionQuestions(assignments: { questionId: string, userId: string,questionCode:string }[]) {
+  const supabase = await createClient();
+  try {
+    for (const { questionId, userId,questionCode } of assignments) {
+      const { data, error } = await supabase
+        .from('fe_assessment_questions')
+        .update({ assigned_to: userId }) 
+        .eq('id', questionId) 
+        .select();
+
+      if (error) {
+        console.error(`Error updating question with id ${questionId} ${questionCode}:`, error);
+      } else {
+        console.log(`Successfully updated question with id ${questionId} ${questionCode}`);
       }
     }
   } catch (error) {
-    console.error("Error while adding task:", error);
-  } 
+    console.error("Error while adding user to the question task:", error);
+  }
 }

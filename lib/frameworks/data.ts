@@ -54,3 +54,53 @@ export async function getAssessmentQuestionsById(assessmentId: string) {
 
   return questions;
 }
+
+export async function getAssessmentQuestionsByIdnew(assessmentId: string, frameworkId: string) {
+  const supabase = await createClient();
+
+  const { data: sections, error } = await supabase
+  .from("fe_sections")
+  .select(`
+    *,
+    parent_section:parent_section_id (
+      name
+    ),
+    fe_questions (
+      *,
+      fe_assessment_questions (
+        *,
+        assessment_id
+      )
+    )
+  `)
+  .eq("framework_id", frameworkId)  // Filter by framework_id
+  .eq("fe_questions.fe_assessment_questions.assessment_id", assessmentId)
+
+  if (error) {
+    console.error('Supabase Error:', error);
+    return [];
+  }
+
+  sections.forEach(section => {
+    if (section.fe_questions) {
+      section.fe_questions.forEach((feQuestion: any) => {
+        if (feQuestion.fe_assessment_questions) {
+          // Sort fe_assessment_questions by order_index
+          feQuestion.fe_assessment_questions.sort((a: any, b: any) => {
+            return a.order_index - b.order_index;
+          });
+        }
+      });
+    }
+  });
+  
+  // Now, sort the sections array itself by order_index
+  sections.sort((a: any, b: any) => {
+    return a.order_index - b.order_index;  // Sorting sections by order_index
+  });
+  
+
+  return sections;
+}
+
+

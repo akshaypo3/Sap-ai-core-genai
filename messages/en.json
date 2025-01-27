@@ -525,7 +525,8 @@
       "totalquestion":"Total Questions",
       "totalquestionans":"Total Questions Answered",
       "totalquestionunans":"Total Questions Not Answered",
-      "questions":"Questions"
+      "questions":"Questions",
+      "sections":"Sections"
     },
     "templates":{
       "title": "Templates Dashboard",
