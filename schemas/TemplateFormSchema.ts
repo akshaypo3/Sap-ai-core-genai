@@ -7,8 +7,6 @@ export const TemplateFormSchema = z.object({
   
   category: z.string().min(3, "Category Name is required"),
   
-  content: z.string().min(3, "Content Name is required"),
-  
   created_by: z.string().optional(),
   
   updated_by: z.string().optional(),

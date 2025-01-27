@@ -181,7 +181,7 @@ export default function IroTable({ assessmentData, assessmentId, AR16Items, user
       <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 space-y-8">
       <div className="space-x-4 p-3">
           <CustomIROButton assesmentId={assessmentId}/>
-          {/* <IRoCatalogButton data={AR16Items} assesmentId={assessmentId}/> */}
+          <IRoCatalogButton data={AR16Items} assesmentId={assessmentId}/>
       </div>
         {Object.entries(groupedData).map(([code, { items, stats }]) => (
           <div
@@ -193,7 +193,7 @@ export default function IroTable({ assessmentData, assessmentId, AR16Items, user
               onClick={() => toggleSection(code)}
             >
               <div className="flex items-center space-x-2">
-                <h3 className="text-xl font-semibold">BRSR {code}</h3>
+                <h3 className="text-xl font-semibold">ESRS {code}</h3>
                 {expandedSections.includes(code) ? (
                   <ChevronDown className="h-5 w-5" />
                 ) : (

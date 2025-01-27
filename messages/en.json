@@ -539,7 +539,11 @@
       "Content":"Content",
       "Create":"Create Template",
       "AddTemplate":"Add Template",
-      "AddDescription":"Add Template Function Description"
+      "AddDescription":"Add Template Function Description",
+      "Delete Template":"Delete Template",
+      "Deleting":"Deleting...",
+      "Cancel":"Cancel",
+      "Are you sure to delete the Template:":"Are you sure to delete the Template:"
     }
   },
   "settings": {

@@ -36,7 +36,6 @@ export default function CreateTemplateForm({ open, setOpen }: TemplateFormProps)
       name: "",
       description: "",
       category: "",
-      content: "",
       created_by: "",
       updated_by: "",
     },
@@ -47,7 +46,6 @@ export default function CreateTemplateForm({ open, setOpen }: TemplateFormProps)
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("category", data.category);
-    formData.append("content", data.content);
     await createTemplate(formData);
     closeDialoge();
   };
@@ -56,7 +54,7 @@ export default function CreateTemplateForm({ open, setOpen }: TemplateFormProps)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid w-full items-center gap-1.5 mb-2">
           {/* Template Name */}
           <FormField control={form.control} name="name" render={({ field }) => (
@@ -91,19 +89,8 @@ export default function CreateTemplateForm({ open, setOpen }: TemplateFormProps)
             </FormItem>
           )} />
 
-          {/* Content */}
-          <FormField control={form.control} name="content" render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("Content")}</FormLabel>
-              <FormControl>
-                <Input placeholder={t("Category")} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )} />
-
           {/* Submit Button */}
-          <div className="flex mt-5">
+          <div className="flex">
             <div className="flex-auto">
               <Button className="w-full" type="submit">
                 {t("Create")}

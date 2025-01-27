@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { deleteTemplate } from "@/lib/templates/action";
+import { useTranslations } from "next-intl";
 
 export function DeleteTemplateButton({
   templateId,
@@ -31,7 +32,7 @@ export function DeleteTemplateButton({
       setIsOpen(false);
     });
   };
-
+  const t = useTranslations("reporting.templates");
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -44,12 +45,12 @@ export function DeleteTemplateButton({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Delete Template</DialogTitle>
+          <DialogTitle className="text-center">{t("Delete Template")}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-1 py-1">
           <div className="grid grid-cols-1 items-center gap-4">
             <Label htmlFor="name" className="text-center">
-              Are you sure to delete the Template:{" "}
+              {t("Are you sure to delete the Template:")}{" "}
               <b className="font-semibold text-lg text-red-600">
                 {templateName} <span className="text-black">?</span>
               </b>
@@ -59,13 +60,13 @@ export function DeleteTemplateButton({
 
         <DialogFooter className="flex justify-between mt-4">
           <div className="flex justify-end space-x-2 mt-4">
-            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+            <Button onClick={() => setIsOpen(false)}>{t("Cancel")}</Button>
             <Button
               onClick={handleDelete}
               variant="destructive"
               disabled={isPending}
             >
-              {isPending ? "Deleting..." : "Delete Template"}
+              {isPending ? t("Deleting") : t("Delete Template")}
             </Button>
           </div>
         </DialogFooter>

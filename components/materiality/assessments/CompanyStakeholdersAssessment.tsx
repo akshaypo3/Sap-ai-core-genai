@@ -1,5 +1,4 @@
 import React from "react";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -18,8 +17,7 @@ import {
 } from "@/components/materiality/stakeholders/buttons";
 import { getTranslations } from "next-intl/server";
 import NextStepButton from "@/components/materiality/assessments/NextStepButton";
-import { UserIcon } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ChevronDown, ChevronUp, Equal, UserIcon } from "lucide-react";
 
 export default async function CompanyStakeholdersAssessment(id: any) {
   const assessmentId = id.id;
@@ -32,23 +30,23 @@ export default async function CompanyStakeholdersAssessment(id: any) {
     if (isRelevance) {
       // Logic for relevance score (1-6)
       if (score >= 1 && score <= 2) {
-        return { label: "Low", color: "bg-green-300" };
+        return {icon:<ChevronDown />, alt: "Low" };
       } else if (score >= 3 && score <= 4) {
-        return { label: "Medium", color: "bg-green-500" };
+        return { icon:<Equal />, alt: "Medium" };
       } else if (score >= 5 && score <= 6) {
-        return { label: "High", color: "bg-green-700" };
+        return { icon:<ChevronUp />, alt: "High" };
       }
     } else {
       // Logic for interest, influence, and knowledge scores (1-3)
       switch (score) {
         case 1:
-          return { label: "Low", color: "bg-green-300" };
+          return { icon:<ChevronDown />, alt: "Low" };
         case 2:
-          return { label: "Medium", color: "bg-green-500" };
+          return { icon:<Equal />, alt: "Medium" };
         case 3:
-          return { label: "High", color: "bg-green-700" };
+          return { icon:<ChevronUp />, alt: "High" };
         default:
-          return { label: "Unknown", color: "bg-gray-500" };
+          return { imgSrc: "/images/unknown.png", alt: "Unknown" };
       }
     }
   };
@@ -91,26 +89,16 @@ export default async function CompanyStakeholdersAssessment(id: any) {
                     : item.stakeholder_groups.group}
                 </TableCell>
                 <TableCell>
-                  <Badge className={getBadgeProps(item.interest_score).color}>
-                    {getBadgeProps(item.interest_score).label}
-                  </Badge>
+                  {getBadgeProps(item.interest_score).icon}                 
                 </TableCell>
                 <TableCell>
-                  <Badge className={getBadgeProps(item.influence_score).color}>
-                    {getBadgeProps(item.influence_score).label}
-                  </Badge>
+                  {getBadgeProps(item.influence_score).icon}
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    className={getBadgeProps(item.relevance_score, true).color}
-                  >
-                    {getBadgeProps(item.relevance_score, true).label}
-                  </Badge>
+                  {getBadgeProps(item.relevance_score, true).icon}                  
                 </TableCell>
                 <TableCell>
-                  <Badge className={getBadgeProps(item.knowledge_score).color}>
-                    {getBadgeProps(item.knowledge_score).label}
-                  </Badge>
+                  {getBadgeProps(item.knowledge_score).icon}                  
                 </TableCell>
                 <TableCell>
                   <DeleteStakeholderButton stakeholder={item} assessmentId={assessmentId}/>
