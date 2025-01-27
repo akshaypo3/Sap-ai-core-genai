@@ -105,9 +105,9 @@ export function DeleteStakeholderButton({
       <DialogTrigger asChild>
         <Button
           type="submit"
-          className="px-2 bg-red-600 h-7 hover:bg-red-900 rounded-md"
+          className="px-2 h-7 bg-transparent hover:bg-white"
         >
-          <Trash2 className="w-4 text-white" />
+          <Trash2 className="w-5 text-black" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
@@ -164,7 +164,7 @@ export function AddUserButton({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="bg-green-600">Add User</Button>
+        <Button className="bg-transparent text-black hover:bg-white">Add User</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
