@@ -411,3 +411,20 @@ export async function NotificationToggler(newStatus: any, userId: string) {
   }
   return data;
 }
+
+export async function userrolecheck(email: string) {
+  const supabase = await createClient();
+
+  const { data: user, error } = await supabase
+  .from("user_profile")
+  .select(`
+    *,
+    usergroup:user_roleID (
+      role
+    )
+  `)
+  .eq("userEmail", email)
+  return user;
+}
+
+
