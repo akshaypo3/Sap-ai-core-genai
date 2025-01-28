@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { getTranslations } from 'next-intl/server'; 
 import Cookies from "js-cookie";
-import { Globallanguagedata } from "./settings/users/action";
+import { Globallanguagedata, userrolecheck } from "./settings/users/action";
 
 export async function signIn(formData: FormData) {
   const t = await getTranslations('login');
@@ -21,12 +21,15 @@ export async function signIn(formData: FormData) {
     const errorMessage = t ? t('error_message') : 'An error occurred during sign-in.'; // Fallback message
     return redirect(`/login?message=${encodeURIComponent(errorMessage)}`);
   }
-  
+  const userdetail= await userrolecheck(email);
+  const role=userdetail[0].usergroup.role || "other"
   const result = await Globallanguagedata();
   const language = result?.language || "en"; // Default to "en" if no language is found
 
   // Set the language in cookies
   Cookies.set("locale", language);
-
+if(role == "Stakeholder")
+  return redirect("/portal/dashboard")
+else
   return redirect("/dashboard");
 } 
