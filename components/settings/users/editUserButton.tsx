@@ -29,12 +29,30 @@ export default function EditUserButton({ id }: { id: { userId: string; allGroups
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+  
+    // Extract the selected groupID and roleID from the form
+    const selectedGroupID = formData.get("groupID") as string;
+    const selectedRoleID = formData.get("roleID") as string;
+  
+  
+    const selectedGroup = groups.find(group => group.id === selectedGroupID);
+    const selectedRole = roles.find(role => role.id === selectedRoleID);
+  
+  
+    if (selectedGroup) {
+      formData.append("groupName", selectedGroup.group);
+    }
+    if (selectedRole) {
+      formData.append("roleName", selectedRole.role);
+    }
+  
     startTransition(async () => {
-      await editUserRoleGroup(id.userId, new FormData(event.currentTarget));
+      await editUserRoleGroup(id1, formData);
       setIsOpen(false);
-      // Optionally, you can trigger a refresh of the user list here
     });
   };
+  
 
  const t = useTranslations("settings-com")
   return (

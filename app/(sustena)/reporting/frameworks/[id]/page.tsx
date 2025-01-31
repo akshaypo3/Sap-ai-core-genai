@@ -7,8 +7,25 @@ import { ActiveFrameworkAssessmentButton, AnswerButton } from "@/components/repo
 import { getFEFramework } from "@/lib/frameworks/data";
 import ActiveAssessmentList from "@/components/reporting/fe_frameworks/ActiveAssessmentList";
 import { getAssesmentQuestion } from "@/lib/settings/frameworkEditor/data";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { id: string } }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const { id } = await params;
   const t = await getTranslations("reporting");
 

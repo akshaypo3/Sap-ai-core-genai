@@ -18,6 +18,8 @@ import { AddLocationButton } from "@/components/materiality/company/buttons";
 import Stackholderquestions from "@/components/materiality/stakeholders/Stackholdersquestions";
 import { getUserProfiles } from "@/lib/task/data";
 import Stackholdergroup from "@/components/materiality/stakeholders/StackholderGroup";
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
   const { step, id } = await params;
@@ -30,6 +32,15 @@ export default async function Home({ params }: { params: { step: string; id: str
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const userId = user?.id;
   const renderStepContent = () => {
     switch (stepNumber) {

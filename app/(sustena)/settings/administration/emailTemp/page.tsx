@@ -22,6 +22,7 @@ import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 import EmailTemplatesList from "@/components/settings/emailTemp/EmailTemplatesList";
 import AddEmailButton from "@/components/settings/emailTemp/AddEmailButton";
 import AddEmailTemplate from "@/components/settings/emailTemp/AddEmailTemplate";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -33,7 +34,12 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const smtpSettings = await getSmtpSettings();
   const { initialTimezone } = await getTimeZone({ userId: user.id });
   const apiId = await GetGoogleMapsApi();

@@ -25,6 +25,9 @@ import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import { getUserGroups, otherGroupusers } from "@/lib/settings/users/data";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function roleDetailsPage({
   params,
@@ -39,7 +42,20 @@ export default async function roleDetailsPage({
   if (!groupDetails) {
     // return notFound();
   }
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const t = await getTranslations('settings');
   const breadcrumbs = [
     { href: "/dashboard/", text: t("groups.Dashboard") },

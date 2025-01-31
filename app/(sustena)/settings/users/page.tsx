@@ -21,6 +21,7 @@ import RolesTable from '@/components/settings/users/RolesTable';
 import GrouptsTable from '@/components/settings/users/GroupsTable';
 import ActivityLog from '@/components/settings/users/ActivityLog';
 import { Users } from 'lucide-react';
+import { userrolecheck } from '@/lib/settings/users/action';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -29,6 +30,12 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+ 
+ if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+   return redirect("/portal/dashboard")
+ }
 
   const users = await getAllUsers();
   const userGroups = await getUserGroups();

@@ -74,11 +74,16 @@ export default function CreateUserForm({ open, setOpen }: CreateUserFormProps) {
 
   async function onSubmit(data) {
     try {
+      const selectedGroup = groupsData.find(group => group.id === data.groupID);
+      const selectedRole = rolesData.find(role => role.id === data.roleID);
+
       const formData = new FormData();
       formData.append("name", data.email);
       formData.append("password", data.password);
       formData.append("groupID", data.groupID);
       formData.append("roleID", data.roleID);
+      formData.append("groupName", selectedGroup ? selectedGroup.group : "NA");
+      formData.append("roleName", selectedRole ? selectedRole.role : "NA");
 
       const response = await createUser(formData);
       closeDialoge();

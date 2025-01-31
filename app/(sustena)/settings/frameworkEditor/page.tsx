@@ -37,6 +37,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 import FETable from "@/components/table/table-fe-framework";
 import { getFEFramework } from "@/lib/frameworks/data";
 import { AddFrameworkEditorButton } from "@/components/settings/frameworkEditor/Buttons";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -48,7 +49,12 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const t = await getTranslations("settings");
   const breadcrumbs = [
     { href: "/dashboard/", text: t("frameworkEditor.Home") },

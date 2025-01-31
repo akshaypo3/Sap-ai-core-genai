@@ -37,6 +37,7 @@ import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import ActiveFramewrokCards from "@/components/reporting/fe_frameworks/ActiveFrameCards";
 import { getFEFramework } from "@/lib/frameworks/data";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -48,7 +49,12 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const t = await getTranslations('reporting');
   const breadcrumbs = [
     { href: "/dashboard/", text: t("frameworks.Home") }

@@ -17,8 +17,25 @@ import { BreadCrumbCom } from '@/components/BredCrumb';
 import { BackButton } from '@/components/BredCrumbButtons';
 import BRSROverview from '@/components/demo/BRSROverview';
 import ESRSOverview from '@/components/demo/ESRSOverview';
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { userrolecheck } from '@/lib/settings/users/action';
 
 export default async function Page({ params }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const t = await getTranslations('reporting');// Server-side translation
 
   // Define breadcrumbs

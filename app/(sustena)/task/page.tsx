@@ -48,6 +48,7 @@ import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import TaskList from "@/components/task/TaskList";
 import TaskListArchive from "@/components/task/TaskListArchive";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 
 export default async function Home() {
@@ -60,7 +61,12 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const tasks = await getTasks();
   const loggedTasks = await getUserTasks(user.id);
   const users = await getUserProfiles();

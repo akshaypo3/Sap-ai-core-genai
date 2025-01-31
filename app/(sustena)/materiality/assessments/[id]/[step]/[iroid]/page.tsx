@@ -29,12 +29,27 @@ import { Progress } from "@/components/ui/progress";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { iroid: string, id: string } }) {
-  // const { id } = params;
+  const supabase = await createClient();
   const { id, iroid } = await params;
   const assessmentData = await getEsrsIrosStats(id);
-  // const { iroid } = params;
+  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+ 
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
  
   const percentage = (((assessmentData.material + assessmentData.not_material + assessmentData.under_review) / assessmentData.total_count) * 100);
 

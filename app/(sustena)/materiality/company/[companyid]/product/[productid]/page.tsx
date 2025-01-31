@@ -7,9 +7,26 @@ import { AddProductIROButton } from "@/components/materiality/company/buttons";
 import { DataTable } from "@/components/table/data-table";
 import { columns_product_IRO } from "@/components/table/ProductsIROTableColumns";
 import { getTranslations } from 'next-intl/server';
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { companyid: string; productid: string } }) {
   const { companyid, productid } = await params;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   
 const product = await getProduct(productid)
 const productIRO = await getProductIRO(productid)

@@ -18,6 +18,7 @@ import { getIROLocation } from "@/lib/company/data";
 import EditLocationIROButton from "@/components/materiality/company/EditLocationIRO";
 import { DeleteLocationIROButton } from "@/components/materiality/company/DeleteLocationIRO";
 import { getTranslations } from 'next-intl/server';
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function IroLocationPage({
   params,
@@ -40,7 +41,12 @@ export default async function IroLocationPage({
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
  
+ if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+   return redirect("/portal/dashboard")
+ }
   const t = await getTranslations('materiality');
   const timezone = await getTimeZone({ userId: user.id });
   const actualTime = timezone.userWithTimezone.timezone;

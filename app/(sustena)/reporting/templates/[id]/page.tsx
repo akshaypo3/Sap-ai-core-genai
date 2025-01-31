@@ -9,6 +9,7 @@ import { BackButton } from "@/components/BredCrumbButtons";
 import { getTemplates } from "@/lib/templates/data";
 import TiptapTemplate from "@/components/reporting/templates/TiptapTemplate";
 import { getUsers } from "@/lib/templates/data";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -22,7 +23,12 @@ export default async function Home({ params }: { params: { id: string } }) {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const t = await getTranslations("reporting.templates");
 
   const templateContent = await getTemplates();
