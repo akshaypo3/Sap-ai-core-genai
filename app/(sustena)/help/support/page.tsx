@@ -22,6 +22,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SearchIcon, MailIcon, PhoneIcon, BookOpenIcon, Slash } from "lucide-react";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -33,7 +34,12 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   // Use getTranslations to fetch translations
   const t = await getTranslations('support');
   const breadcrumbs = [

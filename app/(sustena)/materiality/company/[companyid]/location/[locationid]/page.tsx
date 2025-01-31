@@ -9,10 +9,27 @@ import { columns_location_IRO } from "@/components/table/LocationsIROTableColumn
 import GoogleMaps from "@/components/materiality/company/GoogleMaps";
 import { GetGoogleMapsApi } from "@/lib/settings/administration/data";
 import { getTranslations } from 'next-intl/server';
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { companyid: string; locationid: string } }) {
   // const { companyid, locationid } = params;
-  const { companyid, locationid } = await params; 
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
+const { companyid, locationid } = await params; 
 const location = await getLocation(locationid)
 const locationIRO = await getLocationIRO(locationid)
 const apiKey = await GetGoogleMapsApi()

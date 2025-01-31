@@ -4,8 +4,25 @@ import { getTranslations } from "next-intl/server";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
 import CdpAssessmentStepsOverview from "@/components/reporting/frameworks/cdp/CdpAssessmentSteps";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { id: string } }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const { id } = await params;
   const t = await getTranslations("materiality");
 

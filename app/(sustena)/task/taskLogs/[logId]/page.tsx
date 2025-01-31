@@ -27,6 +27,7 @@ import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function ActivityPage({
   params,
@@ -42,7 +43,12 @@ export default async function ActivityPage({
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const { logId: activityId } = await params;
 
   const activity = await getTaskActivityLogById(activityId);

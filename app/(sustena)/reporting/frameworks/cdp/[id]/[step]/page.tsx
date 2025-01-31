@@ -5,6 +5,8 @@ import { getTranslations } from 'next-intl/server';
 import CdpAssessmentStepsOverview from "@/components/reporting/frameworks/cdp/CdpAssessmentSteps";
 import CdpIntroductionStep from "@/components/reporting/frameworks/cdp/CdpIntroductionStep";
 import CdpIdentificationStep from "@/components/reporting/frameworks/cdp/CdpIdentificationStep";
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
   const { step, id } = await params;
@@ -15,7 +17,15 @@ export default async function Home({ params }: { params: { step: string; id: str
     data: { user },
   } = await supabase.auth.getUser();
   const userId = user?.id;
+  if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const renderStepContent = () => {
     switch (stepNumber) {
       case 1:

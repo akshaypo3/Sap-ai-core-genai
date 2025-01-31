@@ -10,6 +10,8 @@ import AssessmentQuestionsTable from "@/components/table/AssessmentQuestionTable
 import { idText } from "typescript";
 import { Label } from "@/components/ui/label";
 import { getUserProfiles } from "@/lib/task/data";
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { assessmentId: string, id: string } }) {
   // const { assessmentId } = params;
@@ -19,6 +21,15 @@ export default async function Home({ params }: { params: { assessmentId: string,
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const userId = user?.id;
 
   const t = await getTranslations("reporting");

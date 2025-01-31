@@ -20,6 +20,7 @@ import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function GoalPage({
   params,
@@ -43,7 +44,12 @@ export default async function GoalPage({
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const timezone = await getTimeZone({ userId: user.id });
   const actualTime = timezone.userWithTimezone.timezone;
   const breadcrumbs = [

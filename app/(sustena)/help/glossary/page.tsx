@@ -20,7 +20,7 @@ import { getTranslations } from 'next-intl/server'; // Updated import
 import { Slash } from "lucide-react";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
-import { Globallanguagedata } from "@/lib/settings/users/action";
+import { Globallanguagedata, userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -45,7 +45,12 @@ else{
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   // Use getTranslations to fetch translations
   const t = await getTranslations('glossary');
 

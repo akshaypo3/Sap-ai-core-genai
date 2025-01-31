@@ -1,5 +1,6 @@
 import React from "react";
 import { ContentLayout } from "@/components/sustena-layout/content-layout";
+import { createClient } from "@/utils/supabase/server";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -54,15 +55,30 @@ import { getTranslations } from "next-intl/server";
 import AssessmentStepsOverview from "@/components/materiality/assessments/AssessmentStepsOverview";
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home({ params }: { params: { id: string } }) {
+  const supabase = await createClient();
   const { id } = await params; 
   const AssessmentData = await getAssessmentDataforchart(id);
   const assessmentData = await getAssessmentData(id);
 
   const AssessmentData1 = await getAssessmentDataforchart(id);
   const AssessmentData2 = await getEsrsIrosStatscount(id);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+ if (!user) {
+    return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const {
     assessmentChartConfig,
     ScattaredassessmentChartConfig,

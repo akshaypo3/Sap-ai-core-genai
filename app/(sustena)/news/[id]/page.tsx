@@ -17,6 +17,7 @@ import { getTimeZone } from "@/lib/settings/timezone/data";
 import { getTranslations } from 'next-intl/server';
 
 import Image from "next/image";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 const estimateReadTime = (content) => {
   const wordsPerMinute = 200;
@@ -35,7 +36,12 @@ export default async function NewsArticle({ params }: { params: { id: string } }
   if (!user) {
     return redirect("/login");
   }
+  const roleforpage=user.user_metadata.roles || "other"
+  
 
+if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+  return redirect("/portal/dashboard")
+}
   const { id } = await params;
   let newsArticle = await getNewsArticlesById(id);
   newsArticle = newsArticle[0];

@@ -30,6 +30,7 @@ import { columns_product } from "@/components/table/ProductsTableColumns";
 import CompanyDetails from "@/components/materiality/assessments/CompanyDetails";
 import CompanyLocations from "@/components/materiality/assessments/CompanyLocations";
 import CompanyProductsAndServices from "@/components/materiality/assessments/CompanyProductsAndServices";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 
 
@@ -44,6 +45,12 @@ export default async function Home() {
 
   if (!user) {
     return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+  
+  if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+    return redirect("/portal/dashboard")
   }
 
   const t = await getTranslations('materiality'); // Fetch translations from the company namespace

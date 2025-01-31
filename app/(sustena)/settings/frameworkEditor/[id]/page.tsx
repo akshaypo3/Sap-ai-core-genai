@@ -18,6 +18,7 @@ import CreateQuestionPage, { AddSectionButton, EditSectionButton } from "@/compo
 import CreateQuestionSectionPage from "@/components/settings/frameworkEditor/QuestionPage";
 import EditQuestionSectionPage from "@/components/settings/frameworkEditor/EditQuestionButton";
 import QuestionList from "@/components/settings/frameworkEditor/QuestionList";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 
 export default async function DetailFramework({
@@ -43,6 +44,12 @@ export default async function DetailFramework({
 
   if (!user) {
     return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+  
+  if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+    return redirect("/portal/dashboard")
   }
 
   const t = await getTranslations("settings");

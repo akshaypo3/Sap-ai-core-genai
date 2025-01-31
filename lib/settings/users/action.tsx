@@ -110,6 +110,8 @@ export async function createUser(formData: FormData) {
   const userGroupID = formData.get("groupID");
   const userRoleID = formData.get("roleID");
   const profileUserName = email.substring(0, email.indexOf("@"));
+  const groupName=formData.get("groupName");
+  const roleName=formData.get("roleName");
 
   try {
     const { data, error } = await supabase.auth.admin.createUser({
@@ -132,6 +134,14 @@ export async function createUser(formData: FormData) {
         user_roleID: userRoleID,
         userEmail: email,
       });
+
+      await supabase.auth.admin.updateUserById(data.user.id, {
+        user_metadata: {
+          roles: roleName,
+          groups: groupName,
+        },
+      });
+
     }
   } catch (error) {
     console.error("Error creating user:", error);
@@ -280,6 +290,8 @@ export async function editUserRoleGroup(user_id: any, formData) {
   // const userEmail = formData.get("userEmail");
   const userGroupId = formData.get("groupID");
   const userRoleId = formData.get("roleID");
+  const userGroup = formData.get("groupName");
+  const userRole = formData.get("roleName"); 
   console.log("SELECTD ID", user_id);
   try {
     const { data, error } = await supabase
@@ -289,13 +301,13 @@ export async function editUserRoleGroup(user_id: any, formData) {
         user_roleID: userRoleId,
       })
       .eq("id", user_id);
-    // const newProfile = await supabase.from('user_profile').insert(
-    //   {
-    //     user_groupID:userGroupId,
-    //     user_roleID:userRoleId,
-    //     username:userName,
-    //     userEmail:userEmail
-    //   });
+
+      await supabase.auth.admin.updateUserById(user_id, {
+        user_metadata: {
+          roles: userRole,
+          groups: userGroup,
+        },
+      });
 
     if (error) {
       throw new Error(error.message);

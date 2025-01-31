@@ -8,6 +8,8 @@ import { ContentLayout } from "@/components/sustena-layout/content-layout";
 import UpdateEmailTemp from "@/components/settings/emailTemp/UpdateEmailTemp";
 import { fetchEmailTemplates } from '@/lib/settings/emailtemplates/action';
 import { getTranslations } from 'next-intl/server';
+import { redirect } from "next/navigation";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 interface PageProps {
   params: {
@@ -32,7 +34,12 @@ export default async function AdminEmailPage({ params }: PageProps) {
   if (!user) {
     return <div>{t("administration.Unauthorized Please log in")}.</div>;
   }
-
+  const roleforpage=user.user_metadata.roles || "other"
+  
+  
+  if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+    return redirect("/portal/dashboard")
+  }
   const smtpSettings = await getSmtpSettings();
   const { initialTimezone } = await getTimeZone({ userId: user.id });
 

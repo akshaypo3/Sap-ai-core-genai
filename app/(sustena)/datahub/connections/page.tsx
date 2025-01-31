@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react"
 import DataHub from "@/components/datahub/DataHub";
+import { userrolecheck } from "@/lib/settings/users/action";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -21,6 +22,12 @@ export default async function Home() {
 
   if (!user) {
     return redirect("/login");
+  }
+  const roleforpage=user.user_metadata.roles || "other"
+  
+  
+  if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
+    return redirect("/portal/dashboard")
   }
 
   return (
