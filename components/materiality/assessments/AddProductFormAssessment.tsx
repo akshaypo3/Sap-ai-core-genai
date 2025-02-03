@@ -11,9 +11,13 @@ import { DialogClose } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addProductServiceAssessment } from '@/lib/company/action';
+interface AddProductFormAssessmentFormProps {
+	id:string;
+    companyID:string;
+}
 
-export default function AddProductFormAssessment(id:any) {
-    const assessmentId = id.id;
+export function AddProductFormAssessment({ id,companyID }: AddProductFormAssessmentFormProps) {
+    const assessmentId = id;
     console.log("AID inside AddProductForm: ",assessmentId)
     return (
         <form action={addProductServiceAssessment}>
@@ -22,6 +26,11 @@ export default function AddProductFormAssessment(id:any) {
               type="hidden"
               name="assessment_id"
               value={assessmentId}
+            />
+            <input
+              type="hidden"
+              name="companyID"
+              value={companyID}
             />
                 <Label htmlFor="type">Product or Service?</Label>
                 <Select name="type" required>

@@ -8,9 +8,10 @@ import AddLocationForm from "@/components/materiality/company/AddLocationForm";
 interface AddLocationButtonFormProps {
     type: string[];
     api: string;
+    companyID:string;
 }
 
-export function AddLocationButton({ type, api }: AddLocationButtonFormProps) {
+export function AddLocationButton({ type, api,companyID }: AddLocationButtonFormProps) {
     const [open, setOpen] = React.useState(false);
 
     const handleInteractOutside = (e: any) => {
@@ -42,7 +43,7 @@ export function AddLocationButton({ type, api }: AddLocationButtonFormProps) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="relative">
-                        <AddLocationForm type={type} api={api} open={open}  setOpen={setOpen} onClose={() => setOpen(false)} />
+                        <AddLocationForm type={type} api={api} companyID={companyID} open={open}  setOpen={setOpen} onClose={() => setOpen(false)} />
                 </div>
             </DialogContent>
         </Dialog>

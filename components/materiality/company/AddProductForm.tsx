@@ -28,12 +28,14 @@ import { productServiceFormSchema } from '@/schemas/productServiceFormSchema';
 const wait = () => new Promise((resolve) => setTimeout(resolve, 20));
 
 interface AddProductFormProps {
+  companyID:string;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AddProductForm({open,setOpen }: AddProductFormProps) {
-    const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
+export default function AddProductForm({companyID,open,setOpen }: AddProductFormProps) {
+    //const company_id = 'cc3de9de-f00b-49b7-ad4e-1db31a49ef11'//added static company id
+    const company_id = companyID;
     const [loading, setLoading] = useState(false);
 
 

@@ -18,17 +18,17 @@ import { AddLocationButton } from "@/components/materiality/company/AddLocationB
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
 import { DataTable } from "@/components/table/data-table";
 import { columns_location } from "@/components/table/LocationsTableColumns";
-import { getLocations, getLocationTypes, GoogleApikey } from "@/lib/company/data";
+import { CompanyID, getLocations, getLocationTypes, GoogleApikey } from "@/lib/company/data";
 import { getTranslations } from 'next-intl/server';
 
 export default async function CompanyLocations() {
   const t = await getTranslations("materiality");
-
+const company = await CompanyID();
   const locations = await getLocations();
   const type = await getLocationTypes();
   let api = await GoogleApikey();
   api=api.key
-
+  const companyID=company[0].id
   return (
     <>
       <div className="bg-white dark:bg-neutral-950 rounded-md border p-3 mt-5">
@@ -36,7 +36,7 @@ export default async function CompanyLocations() {
           <h3 className="text-xl font-semibold">
             {t("company.locations.title")}
           </h3>
-          <AddLocationButton type={type} api={api}/>
+          <AddLocationButton type={type} api={api} companyID={companyID}/>
         </div>
         <div className="min-w-full table-auto border-collapse">
           <DataTable

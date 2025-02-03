@@ -16,8 +16,11 @@ import AddLocationIROForm from "./AddLocationIROForm";
 import AddProductIROForm from "./AddProductIROForm";
 import { useTranslations } from "next-intl";
 import React from 'react';
+interface AddProductButtonFormProps {
+    companyID:string;
+}
 
-export function AddProductButton(){
+export function AddProductButton({companyID}: AddProductButtonFormProps) {
     const [open, setOpen] = React.useState(false);
       return (
           <Dialog open={open} onOpenChange={setOpen}>
@@ -29,7 +32,7 @@ export function AddProductButton(){
               Add the products and services accounting for 90% of the turnover
             </DialogDescription>
           </DialogHeader>
-          <AddProductForm open={open}  setOpen={setOpen}/>
+          <AddProductForm companyID={companyID} open={open}  setOpen={setOpen}/>
         </DialogContent>
       </Dialog>
           

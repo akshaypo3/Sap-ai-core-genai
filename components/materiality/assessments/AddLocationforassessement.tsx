@@ -10,9 +10,10 @@ interface AddLocationButtonFormProps {
 	id:string;
     type: string[];
     api: string;
+    companyID:string;
 }
 
-export function AddLocationButtonAssessment({ id, type, api }: AddLocationButtonFormProps) {
+export function AddLocationButtonAssessment({ id, type, api, companyID }: AddLocationButtonFormProps) {
     const [open, setOpen] = React.useState(false);
 
     const handleInteractOutside = (e: any) => {
@@ -44,7 +45,7 @@ export function AddLocationButtonAssessment({ id, type, api }: AddLocationButton
                     </DialogDescription>
                 </DialogHeader>
                 <div className="relative">
-                        <AddLocationAssessmentForm id={id} type={type} api={api} open={open}  setOpen={setOpen} onClose={() => setOpen(false)} />
+                        <AddLocationAssessmentForm id={id} type={type} api={api} companyID={companyID} open={open}  setOpen={setOpen} onClose={() => setOpen(false)} />
                 </div>
             </DialogContent>
         </Dialog>
