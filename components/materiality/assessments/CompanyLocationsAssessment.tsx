@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { DeleteLocationButton } from "@/components/materiality/company/DeleteLocationButton";
 import { DataTable } from "@/components/table/data-table";
 import { columns_location } from "@/components/table/LocationsTableColumns";
-import { getLocations, getLocationTypes, GoogleApikey } from "@/lib/company/data";
+import { CompanyID, getLocations, getLocationTypes, GoogleApikey } from "@/lib/company/data";
 import { getTranslations } from 'next-intl/server';
 import NextStepButton from "./NextStepButton";
 import { AddLocationButtonAssessment } from "./AddLocationforassessement";
@@ -30,6 +30,8 @@ export default async function CompanyLocations(id:any) {
   const type = await getLocationTypes();
   let api = await GoogleApikey();
   api=api.key
+  const company = await CompanyID();
+    const companyID=company[0].id;
 
   return (
     <>
@@ -39,7 +41,7 @@ export default async function CompanyLocations(id:any) {
             {t("company.locations.title")}
           </h3>
           <div>
-          <AddLocationButtonAssessment id={assessmentId} type={type} api={api}/>
+          <AddLocationButtonAssessment id={assessmentId} type={type} api={api} companyID={companyID}/>
           <NextStepButton id={id} step={3}/>
           </div>
         </div>

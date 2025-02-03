@@ -20,6 +20,7 @@ import { getUserProfiles } from "@/lib/task/data";
 import Stackholdergroup from "@/components/materiality/stakeholders/StackholderGroup";
 import { redirect } from "next/navigation";
 import { userrolecheck } from "@/lib/settings/users/action";
+import { CompanyID } from "@/lib/company/data";
 
 export default async function Home({ params }: { params: { step: string; id: string } }) {
   const { step, id } = await params;
@@ -29,6 +30,8 @@ export default async function Home({ params }: { params: { step: string; id: str
   const AR16Items = await getAR16Items()
   const users = await getUserProfiles();
   const supabase = await createClient();
+  const company = await CompanyID();
+  const companyID=company[0].id;
   const {
     data: { user },
   } = await supabase.auth.getUser();

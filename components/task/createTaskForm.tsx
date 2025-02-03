@@ -22,6 +22,7 @@ import {
 import SendMailForm from "@/components/settings/emailTemp/SendMailForm";
 import { useTranslations } from "next-intl";
 
+
 const wait = () => new Promise((resolve) => setTimeout(resolve, 20));
 
 interface AddTaskFormProps {

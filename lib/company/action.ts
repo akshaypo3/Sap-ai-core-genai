@@ -104,6 +104,7 @@ export async function addLocation(formData: FormData) {
     const productService = {
       type: formData.get('type') as string,
       name: formData.get('name') as string,
+      companyid: formData.get('companyID') as string,
       description: formData.get('description') as string,
       turnover_percentage: parseFloat(formData.get('turnover_percentage') as string),
     };

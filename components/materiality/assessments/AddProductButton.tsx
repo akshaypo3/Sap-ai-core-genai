@@ -7,11 +7,16 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-  import AddProductFormAssessment from "@/components/materiality/assessments/AddProductFormAssessment";
+import { AddProductFormAssessment } from "./AddProductFormAssessment";
 
-  export function AddProductButton(id:any){
-    const assessmentId = id.id;
-    console.log("ID INSIDE BUTTON:",assessmentId);
+  interface AddProductButtonFormProps {
+    id:string;
+      companyID:string;
+  }
+  
+  export function AddProductButton({ id, companyID }: AddProductButtonFormProps) {
+    const assessmentId = id;
+    console.log("ID INSIDE BUTTON:",assessmentId ,companyID);
     return (
       <>
       <Dialog>
@@ -23,7 +28,7 @@ import {
               Add the products and services accounting for 90% of the turnover
             </DialogDescription>
           </DialogHeader>
-          <AddProductFormAssessment id={assessmentId}/>
+          <AddProductFormAssessment id={assessmentId} companyID={companyID}/>
         </DialogContent>
       </Dialog>
       </>

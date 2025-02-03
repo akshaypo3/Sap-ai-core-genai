@@ -32,14 +32,15 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 20));
 interface AddLocationFormProps {
     id: string;
     type: string[];  
-    api: string;    
+    api: string;
+    companyID: string;    
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
  
 const libraries: ("places")[] = ['places'];
  
-export default function AddLocationAssessmentForm({ id,type, api, open,setOpen }: AddLocationFormProps) {
+export default function AddLocationAssessmentForm({ id,type, api,companyID, open,setOpen }: AddLocationFormProps) {
     const [address, setAddress] = useState('');
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
@@ -52,7 +53,8 @@ export default function AddLocationAssessmentForm({ id,type, api, open,setOpen }
  
     const googleMapsApiKey = api;
     const locationTypes = type;
-    const company_id = "cc3de9de-f00b-49b7-ad4e-1db31a49ef11";
+    //const company_id = "cc3de9de-f00b-49b7-ad4e-1db31a49ef11";
+    const company_id = companyID;
     const [loading, setLoading] = useState(false);
 
     function closeDialoge(){

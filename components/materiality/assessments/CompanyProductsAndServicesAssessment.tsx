@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
 import {AddProductButton} from "@/components/materiality/assessments/AddProductButton"
-import { getProductsAndServices, getLocations, getCompanyDetails } from "@/lib/company/data";
+import { getProductsAndServices, getLocations, getCompanyDetails, CompanyID } from "@/lib/company/data";
 import { getTranslations } from 'next-intl/server';
 import { DataTable } from "@/components/table/data-table"; 
 import { columns_product } from "@/components/table/ProductsTableColumns";
@@ -17,6 +17,8 @@ export default async function CompanyProductsAndServices(id:any) {
   const t = await getTranslations('materiality'); // Fetch translations from the company namespace
   const products = await getProductsAndServices();
   const assessmentId = id.id;
+  const company = await CompanyID();
+  const companyID=company[0].id
 
   return (
     <>
@@ -27,7 +29,7 @@ export default async function CompanyProductsAndServices(id:any) {
             {t("company.products.title")}
           </h3>
           <div>
-          <AddProductButton id={assessmentId}/>
+          <AddProductButton id={assessmentId} companyID={companyID}/>
           <NextStepButton id={id} step={"4"}/>
           </div>
           

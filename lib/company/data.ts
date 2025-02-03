@@ -12,6 +12,18 @@ export async function getLocations() {
     }
     return data || [];
   }
+  export async function CompanyID() { 
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('company_details')
+      .select('*');
+    
+    if (error) {
+      console.error('Error fetching company:', error); 
+      return [];
+    }
+    return data || [];
+  }
 
   export async function getLocationTypes() {
     const supabase = await createClient();
