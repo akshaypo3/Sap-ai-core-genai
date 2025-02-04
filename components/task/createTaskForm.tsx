@@ -22,7 +22,6 @@ import {
 import SendMailForm from "@/components/settings/emailTemp/SendMailForm";
 import { useTranslations } from "next-intl";
 
-
 const wait = () => new Promise((resolve) => setTimeout(resolve, 20));
 
 interface AddTaskFormProps {
@@ -84,7 +83,9 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
 
       const response = await createTask(formData);
 
+      // Set taskCreated to true after successful task creation
       setTaskCreated(true);
+      setStatus(data.status); // Update task status
       closeDialoge();
     } catch (error) {
       console.error("Error creating task:", error);
@@ -97,32 +98,22 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
     if (status === "DONE" && taskCreated) {
       const assignedUser = users.find(user => user.id === form.getValues("assigned_to"));
       if (assignedUser) {
-        const taskLink = `http://localhost:3000/task`; 
-        const category = "createTaskForm";
-
-        // Trigger SendMailForm when task status is DONE
-        <SendMailForm
-          recipientEmail={assignedUser.userEmail}
-          placeholders={{
-            name: assignedUser.username,
-            taskName: form.getValues("title"),
-            taskLink: taskLink,
-            category: category,
-          }}
-        />;
+        // Task status is DONE and task has been created, we can now trigger email form.
+        setAssignedUser(assignedUser);
       }
     }
-  }, [status, taskCreated, form, users]);
+  }, [status, taskCreated, users, form]);
+
+  const [assignedUser, setAssignedUser] = useState<any | null>(null);
+  const taskLink = "http://localhost:3000/task"; 
+  const category = "createTaskForm";
+
+  const t = useTranslations("tasks-com");
 
   if (users.length === 0 || !createdByUser) {
     return <div>Loading...</div>;
   }
 
-  const assignedUser = users.find(user => user.id === form.getValues("assigned_to"));
-  const taskLink = "http://localhost:3000/task"; 
-  const category = "createTaskForm";
-
-  const t = useTranslations("tasks-com");
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -217,7 +208,7 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
         </div>
       </form>
 
-      {taskCreated && assignedUser && (
+      {taskCreated && assignedUser && status === "DONE" && (
         <SendMailForm
           recipientEmail={assignedUser.userEmail}
           placeholders={{
