@@ -35,13 +35,13 @@ import { useTranslations } from 'next-intl';
           <DropdownMenuContent>
             <DropdownMenuLabel>{t("Actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => setShowViewDialog(true)} className="hover:cursor-pointer">
+            <DropdownMenuItem onSelect={() => setTimeout(() => setShowViewDialog(true), 0)} className="hover:cursor-pointer">
               {t("View")}
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => setShowArchiveDialog(true)} className="hover:cursor-pointer">
+            <DropdownMenuItem onSelect={() => setTimeout(() => setShowArchiveDialog(true), 0)} className="hover:cursor-pointer">
               {t("Archive")}
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="hover:cursor-pointer">
+            <DropdownMenuItem onSelect={() => setTimeout(() => setShowDeleteDialog(true), 0)} className="hover:cursor-pointer">
               {t("Delete")}
             </DropdownMenuItem>
           </DropdownMenuContent>

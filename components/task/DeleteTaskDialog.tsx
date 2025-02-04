@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
 import { useState } from 'react';
-import { useTransition } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,15 +13,20 @@ import { deleteTaskWithId } from '@/lib/task/action';
 import { useTranslations } from 'next-intl';
 
 export function DeleteTaskDialog({ taskId, isOpen, setIsOpen }: { taskId: string, isOpen: boolean, setIsOpen: (isOpen: boolean) => void }) {
-  const [isPending, startTransition] = useTransition();
-
-  const handleDelete = () => {
-    startTransition(async () => {
-      await deleteTaskWithId(taskId);
-      setIsOpen(false);
-    });
-  };
+  const [isPending, setIsPending] = useState(false);
   const t = useTranslations("tasks-com");
+
+  const handleDelete = async () => {
+    setIsPending(true);
+    try {
+      await deleteTaskWithId(taskId);
+      setIsOpen(false);  // Close the dialog after the task is deleted
+    } catch (error) {
+      console.error("Failed to delete task", error);
+      setIsPending(false);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>

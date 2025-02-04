@@ -169,6 +169,7 @@ export function UpdateTaskDialogForm({
                   onChange={(e) => setDescription(e.target.value)}
                   className="flex h-48 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   id="dialog-description"
+                  aria-labelledby="dialog-title"
                 />
               </div>
 

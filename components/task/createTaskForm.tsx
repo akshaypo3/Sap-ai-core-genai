@@ -144,7 +144,7 @@ export default function AddTaskForm({ createdId, open, setOpen }: AddTaskFormPro
               <FormControl>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("Select user")} />
+                    <SelectValue placeholder={t("Select User")} />
                   </SelectTrigger>
                   <SelectContent>
                     {users?.map((user) => (
