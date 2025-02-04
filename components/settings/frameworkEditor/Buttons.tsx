@@ -124,11 +124,11 @@ export function DeleteFrameworkEditorButton({
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <Button
+      <Button  variant="ghost" 
           type="submit"
-          className="px-2 bg-red-600 h-7 hover:bg-red-900 rounded-md"
+          className="px-2 h-7 rounded-md bg-white"
         >
-          <Trash2 className="w-4 text-white" />
+          <Trash2 className="w-4 text-black" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
@@ -172,7 +172,7 @@ export function ViewFrameworkButton({ frameworkId }: { frameworkId: string }) {
   return (
     <>
       <Link href={`/settings/frameworkEditor/${frameworkId}`}>
-        <Button className="px-2 h-7 bg-gray-200 hover:bg-gray-400 text-black">
+        <Button  variant="ghost"  className="px-2 h-7 bg-gray-200 hover:bg-gray-400 text-black">
           <Eye className="w-4"/>
         </Button>
       </Link>
@@ -185,10 +185,10 @@ export function EditFrameworkEditorButton(frameworkData) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-      <Button
-          className="px-2 bg-green-600 h-7 hover:bg-green-900 dark:bg-green-500 dark:hover:bg-green-600 rounded-md"
+      <Button  variant="ghost" 
+          className="px-2 h-7 bg-white rounded-md "
         >
-          <Pencil className="w-4 text-white" />
+          <Pencil className="w-4 text-black" />
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -210,10 +210,10 @@ export function DuplicateFrameworkEditorButton({ userId, frameworkData }: Duplic
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
       <DialogTrigger>
-      <Button
-          className="px-2 bg-blue-600 h-7 hover:bg-blue-900 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-md"
+      <Button  variant="ghost" 
+          className="px-2 h-7 rounded-md bg-white"
         >
-          <Copy className="w-4 text-white" />
+          <Copy className="w-4 text-black" />
         </Button>
       </DialogTrigger>
       </DialogTrigger>
