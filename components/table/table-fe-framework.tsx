@@ -11,6 +11,7 @@ import {
 import { ViewFrameworkButton } from "../settings/frameworkEditor/Buttons";
 import { DeleteFrameworkEditorButton, DuplicateFrameworkEditorButton, EditFrameworkEditorButton } from "../settings/frameworkEditor/Buttons";
 import { Input } from "../ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const FETable = ({ frameworksData ,userId}) => {
   const [data, setData] = useState(frameworksData);
@@ -96,7 +97,7 @@ const FETable = ({ frameworksData ,userId}) => {
     setSortOrder({ field, direction: newDirection }); // Update the sort order state
   };
 
-
+  
   return (
     <>
       <div className="mb-4 flex items-center gap-4">
@@ -166,69 +167,45 @@ const FETable = ({ frameworksData ,userId}) => {
       </div>
 
       <div className="overflow-x-auto rounded-md border border-neutral-200 dark:border-neutral-800">
-        <table className="min-w-full table-auto border-collapse border">
-          <thead>
-            <tr>
-              <th
-                className="bg-gray-100 dark:bg-neutral-800 cursor-pointer p-3 text-center"
-                onClick={() => handleSort("name")}
-              >
-                Name
-                <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-              </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 cursor-pointer p-3 text-center">
-                Framework Type
-              </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">Version</th>
-              <th
-                className="bg-gray-100 dark:bg-neutral-800 cursor-pointer p-3 text-center"
-                onClick={() => handleSort("status")}
-              >
-                Status
-                <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-              </th>
-              <th
-                className="bg-gray-100 dark:bg-neutral-800 cursor-pointer p-3 text-center"
-              >
-                Reporting Year
-              </th>
-              <th
-                className="bg-gray-100 dark:bg-neutral-800 cursor-pointer p-3 text-center"
-                onClick={() => handleSort("created_at")}
-              >
-                Created Date
-                <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-              </th>
-              <th className="bg-gray-100 dark:bg-neutral-800 p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHeader className="text-center">
+            <TableRow>
+              <TableCell className="text-gray-500" onClick={() => handleSort("name")}>Name<ArrowUpDown className="ml-2 h-4 w-4 inline" /></TableCell>
+              <TableCell className="text-gray-500" >Framework Type</TableCell>
+              <TableCell className="text-gray-500"  >Version</TableCell>
+              <TableCell className="text-gray-500"  onClick={() => handleSort("status")}>Status<ArrowUpDown className="ml-2 h-4 w-4 inline" /></TableCell>
+              <TableCell className="text-gray-500" >Reporting Year</TableCell>
+              <TableCell className="text-gray-500"  onClick={() => handleSort("created_at")}>Created Date<ArrowUpDown className="ml-2 h-4 w-4 inline" /></TableCell>
+              <TableCell className="text-gray-500" >Actions</TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {filteredData.map((framework) => (
-              <tr key={framework.id}>
-                <td className="border p-3 text-center">{framework.name}</td>
-                <td className="border p-3 text-center">{framework.framework_type}</td>
-                <td className="border p-3 text-center">{framework.version}</td>
-                <td className="border p-3 text-center">
+              <TableRow key={framework.id}>
+                <TableCell className="p-3 text-center border-t border-b">{framework.name}</TableCell>
+                <TableCell className="p-3 text-center border-t border-b">{framework.framework_type}</TableCell>
+                <TableCell className="p-3 text-center border-t border-b">{framework.version}</TableCell>
+                <TableCell className="p-3 text-center border-t border-b">
                   <span
                     className={`px-2 py-1 rounded ${framework.status === "active" ? "bg-green-500" : framework.status === "draft" ? "bg-yellow-500" : "bg-red-500"} text-white`}
                   >
                     {framework.status}
                   </span>
-                </td>
-                <td className="border p-3 text-center">{framework.reporting_year}</td>
-                <td className="border p-3 text-center">{new Date(framework.created_at).toLocaleDateString()}</td>
-                <td className="border p-3 text-center">
+                </TableCell>
+                <TableCell className="p-3 text-center border-t border-b">{framework.reporting_year}</TableCell>
+                <TableCell className="p-3 text-center border-t border-b">{new Date(framework.created_at).toLocaleDateString()}</TableCell>
+                <TableCell className="p-3 text-center border-t border-b">
                 <div className="flex justify-center items-center space-x-2">
                   <EditFrameworkEditorButton frameworkData={framework} />
                   <DeleteFrameworkEditorButton frameworkId={framework} />
                   <DuplicateFrameworkEditorButton userId={userId} frameworkData={framework} />
                   <ViewFrameworkButton frameworkId={framework.id}/>
                 </div>
-              </td>
-              </tr>
+              </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </>
   );
