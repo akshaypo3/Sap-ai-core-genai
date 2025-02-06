@@ -1,0 +1,45 @@
+.columns {
+  display: flex; 
+  gap: 24px;
+  padding: 8px 0; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.column {
+  flex: 1; 
+  overflow: auto;
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  padding: 8px; 
+  background-color: none; 
+}
+
+.columnsbar {
+  display: flex;
+  gap: 24px;
+  padding: 8px 0;
+  width: 100%;
+  background-color: none;
+  box-sizing: border-box;
+}
+
+.columnsmall {
+  flex: 0 0 30%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: none;
+  overflow: auto;
+}
+
+.columnbig {
+  flex: 0 0 68.4%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: none;
+  overflow: auto;
+}
+
+

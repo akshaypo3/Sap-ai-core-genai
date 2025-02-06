@@ -1314,7 +1314,8 @@
     "Question":"Question",
     "Mandatory":"Mandatory",
     "Category":"Category",
-    "Content":"Content"
+    "Content":"Content",
+    "Answer":"Answer"
   },
   "tasks-com": {
     "Add a comment": "Add a comment",
