@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { getTranslations } from 'next-intl/server';
 import { BreadCrumbCom } from "@/components/BredCrumb";
 import { BackButton } from "@/components/BredCrumbButtons";
+import Stackholderquestions from "@/components/portal/StakeholderQuestions";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -31,6 +32,7 @@ export default async function Home() {
         <div className="mb-8 p-10 flex items-center justify-between bg-white dark:bg-neutral-950 rounded-md border">
           <BreadCrumbCom title={t('questions.title')} breadcrumbs={breadcrumbs} backButton={<BackButton/>}/>
         </div>
+        <Stackholderquestions/>
       </ContentLayout>
     </>
   );
