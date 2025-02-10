@@ -20,7 +20,7 @@ export default async function CompanyDetails() {
           <h3 className="text-xl font-semibold">{t("company.title")}</h3>
         </div>
         <div className="my-10">
-          <form action={saveCompanyDetails} method="POST">
+          <form action={saveCompanyDetails}>
             <Input
               type="hidden"
               name="company_id"
