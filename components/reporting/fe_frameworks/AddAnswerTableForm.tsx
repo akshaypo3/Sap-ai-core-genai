@@ -65,7 +65,7 @@ export default function CreateAnswerTableForm({
     answers: z.array(
       z.object(
         (QuestionData.qu_columns1 || []).reduce((acc, col) => {
-          const sanitizedColumn = col.replace(/\./g, "_");  // Sanitize column names
+          const sanitizedColumn = col.replace(/[.,]/g, "_");// Sanitize column names
           acc[sanitizedColumn] = z.string().min(1, { message: `${col} is required.` });
           return acc;
         }, {})
@@ -81,7 +81,7 @@ export default function CreateAnswerTableForm({
         ? fetchExistingAnswers
         : [
           (QuestionData.qu_columns1 || []).reduce((acc: any, col: string) => {
-            acc[col] = "";
+            acc[col] = '';
             return acc;
           }, {}),
         ],
@@ -158,6 +158,12 @@ export default function CreateAnswerTableForm({
   useEffect(() => {
     fetchLogs();
   }, [open]);
+  useEffect(() => {
+    console.log(QuestionData.qu_columns1);
+    console.log("Form Values:", form.getValues());  // Logs the current form values
+    console.log("Field Array Length:", fields.length);  // Logs the number of rows in the field array
+
+}, [form, fields]);
 
   const t = useTranslations('reporting-com')
   return (
@@ -180,7 +186,7 @@ export default function CreateAnswerTableForm({
               onClick={() =>
                 append(
                   QuestionData?.qu_columns1?.reduce((acc: any, col: string) => {
-                    const sanitizedColumn = col.replace(/\./g, "_");  // Sanitize column name
+                    const sanitizedColumn = col.replace(/[.,]/g, "_");  // Sanitize column name
                     acc[sanitizedColumn] = "";  // Start with empty value for each sanitized column
                     return acc;
                   }, {})
@@ -223,7 +229,8 @@ export default function CreateAnswerTableForm({
                         return (
                           <TableCell key={colIndex} className="px-1 py-1 border border-gray-300">
                             <Controller
-                              name={`answers.${rowIndex}.${column.replace(/\./g, "_")}`}  // Sanitize column name
+                              name={`answers.${rowIndex}.${column.replace(/[.,]/g, "_")}`}  // Replace both '.' and ',' with '_'
+                              // Sanitize column name
                               control={form.control}
                               render={({ field }) => {
                                 if (fieldType === 'Dropdown' && fieldOptions.length > 0) {
