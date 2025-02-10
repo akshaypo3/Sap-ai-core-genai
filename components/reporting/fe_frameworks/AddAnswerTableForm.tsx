@@ -158,12 +158,6 @@ export default function CreateAnswerTableForm({
   useEffect(() => {
     fetchLogs();
   }, [open]);
-  useEffect(() => {
-    console.log(QuestionData.qu_columns1);
-    console.log("Form Values:", form.getValues());  // Logs the current form values
-    console.log("Field Array Length:", fields.length);  // Logs the number of rows in the field array
-
-}, [form, fields]);
 
   const t = useTranslations('reporting-com')
   return (
