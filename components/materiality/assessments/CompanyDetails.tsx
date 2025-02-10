@@ -12,7 +12,6 @@ export default async function CompanyDetails() {
   const supabase = await createClient();
   const t = await getTranslations("materiality");
   const companyDetails = await getCompanyDetails();
-  //console.log("Company ID: ",companyDetails[0].id)
 
   return (
     <>
@@ -21,35 +20,41 @@ export default async function CompanyDetails() {
           <h3 className="text-xl font-semibold">{t("company.title")}</h3>
         </div>
         <div className="my-10">
-          <form action={saveCompanyDetails}>
+          <form action={saveCompanyDetails} method="POST">
             <Input
               type="hidden"
               name="company_id"
               value={companyDetails[0]?.id || ""}
-              placeholder={companyDetails[0]?.id || ""}
             />
+
             <Label htmlFor="companyname">{t("company.companyName")}</Label>
             <Input
               type="text"
               name="companyname"
-              placeholder={companyDetails[0]?.name || ""}
+              defaultValue={companyDetails[0]?.name || ""}
+              required
             />
-            <Label htmlFor="company_strategy">
-              {t("company.companyStrategy")}
-            </Label>
+
+            <Label htmlFor="company_strategy">{t("company.companyStrategy")}</Label>
             <Textarea
               id="company_strategy"
               name="company_strategy"
-              placeholder={companyDetails[0]?.company_strategy || ""}
+              defaultValue={companyDetails[0]?.company_strategy || ""}
+              //placeholder={companyDetails[0]?.company_strategy || ""}
+              required
             />
+
             <Label htmlFor="business_model">{t("company.businessModel")}</Label>
             <Textarea
               id="business_model"
               name="business_model"
-              placeholder={companyDetails[0]?.business_model || ""}
+              defaultValue={companyDetails[0]?.business_model || ""}
+              //placeholder={companyDetails[0]?.business_model || ""}
+              required
             />
+
             <div className="flex">
-              <Button className="mt-5 justify-end">
+              <Button className="mt-5 justify-end" type="submit">
                 {t("company.updateDetails")}
               </Button>
             </div>
