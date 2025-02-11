@@ -221,33 +221,43 @@ export async function createStakeholderUser(formData: FormData) {
   }
 
   try {
+    const { data: userGroupID } = await supabase.from("groups").select().eq("group", group);
+    const { data: userRoleID } = await supabase.from("Test_Role").select().eq("role", group);
+    const groupid1=userGroupID[0].id;
+    const roleid1=userRoleID[0].id;
     const { data: userData, error: createAuthUserError } =
       await supabase.auth.admin.createUser({
         email,
         password,
         email_confirm: true,
       });
+      await supabase.auth.admin.updateUserById(userData.user.id, {
+        user_metadata: {
+          roles: group,
+          groups: group,
+        },
+      });
 
-    const { data: groupsData, error: groupsError } = await supabase
-      .from("groups")
-      .insert({
-        group: group,
-      })
-      .select()
+    // const { data: groupsData, error: groupsError } = await supabase
+    //   .from("groups")
+    //   .insert({
+    //     group: group,
+    //   })
+    //   .select()
 
-    if (groupsError) {
-      console.log("error while inserting group details in groups", groupsError);
-    }
+    // if (groupsError) {
+    //   console.log("error while inserting group details in groups", groupsError);
+    // }
 
-    if (!createAuthUserError && groupsData) {
+    if (!createAuthUserError) {
       const { data: userProfileData, error: userProfileError } = await supabase
       .from("user_profile")
       .insert({
         id: userData.user.id,
         username: stakeholderName,
         userEmail: email,
-        user_groupID:groupsData[0].id,
-        user_roleID:"c0c92519-db66-4433-a9e6-f18be52ad05e"
+        user_groupID:groupid1,
+        user_roleID:roleid1
       });
       
       if (userProfileError) {
