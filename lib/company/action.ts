@@ -34,7 +34,7 @@ export async function addLocation(formData: FormData) {
     }
   
     revalidatePath('/materiality/company');
-    redirect('/materiality/company')
+    //redirect('/materiality/company')
     // return { success: true, data };
   }
 
@@ -68,7 +68,7 @@ export async function addLocation(formData: FormData) {
     }
   
    revalidatePath(`/materiality/assessments/${assessmentId}/2`);
-    redirect(`/materiality/assessments/${assessmentId}/2`);
+    //redirect(`/materiality/assessments/${assessmentId}/2`);
   }
 
   export async function addProductService(formData: FormData) {
@@ -93,7 +93,7 @@ export async function addLocation(formData: FormData) {
     }
 
     revalidatePath('/materiality/company');
-    redirect('/materiality/company')
+    //redirect('/materiality/company')
     // return { success: true, data };
   }
 
@@ -120,7 +120,7 @@ export async function addLocation(formData: FormData) {
     }
 
     revalidatePath(`/materiality/assessments/${assessmentId}/3`);
-    redirect(`/materiality/assessments/${assessmentId}/3`);
+    //redirect(`/materiality/assessments/${assessmentId}/3`);
     // return { success: true, data };
   }
 
@@ -205,7 +205,7 @@ export async function saveCompanyDetailsFromAssessment(formData: FormData) {
   }
 
   revalidatePath(`/materiality/assessments/${assessmentId}/2`);
-  redirect(`/materiality/assessments/${assessmentId}/2`);
+  //redirect(`/materiality/assessments/${assessmentId}/2`);
 }
 
 export async function deleteCompanyLocationWithId(id:any){
@@ -223,7 +223,7 @@ export async function deleteCompanyLocationWithId(id:any){
     console.log("Error while deleting company location");
   } finally{
     revalidatePath('/materiality/company');
-    redirect('/materiality/company');
+    //redirect('/materiality/company');
   }
 }
 
@@ -243,7 +243,7 @@ export async function deleteCompanyProductWithId(id){
     console.log("Error while deleting company product");
   } finally{
     revalidatePath('/materiality/company');
-    redirect('/materiality/company');
+    //redirect('/materiality/company');
   }
 }
 
@@ -272,7 +272,7 @@ export async function addIROLocation(formData: FormData) {
   }
 
   revalidatePath(`/materiality/company/${location.company_id}/location/${location.location_id}`);
-  redirect(`/materiality/company/${location.company_id}/location/${location.location_id}`)
+  //redirect(`/materiality/company/${location.company_id}/location/${location.location_id}`)
   // return { success: true, data };
 }
 
@@ -301,7 +301,7 @@ export async function addIROProduct(formData: FormData) {
   }
 
   revalidatePath(`/materiality/company/${product.company_id}/product/${product.product_id}`);
-  redirect(`/materiality/company/${product.company_id}/product/${product.product_id}`)
+  //redirect(`/materiality/company/${product.company_id}/product/${product.product_id}`)
   // return { success: true, data };
 }
 
@@ -327,7 +327,7 @@ export async function editLocationIRO(locationid, companyid, IROid, formData) {
     return { success: false, message: error.message }; // Return error details
   } finally {
     revalidatePath(`/materiality/company/${companyid}/location/${locationid}/${IROid}`);
-    redirect(`/materiality/company/${companyid}/location/${locationid}/${IROid}`);
+    //redirect(`/materiality/company/${companyid}/location/${locationid}/${IROid}`);
   }
 }
 
@@ -353,7 +353,7 @@ export async function editProductIRO(productid, companyid, IROid, formData) {
     return { success: false, message: error.message }; // Return error details
   } finally {
     revalidatePath(`/materiality/company/${companyid}/product/${productid}/${IROid}`);
-    redirect(`/materiality/company/${companyid}/product/${productid}/${IROid}`);
+    //redirect(`/materiality/company/${companyid}/product/${productid}/${IROid}`);
   }
 }
 
@@ -366,7 +366,7 @@ export async function deleteLocationIRO(locationid, companyid, IROid) {
     console.error("Error while deleting Location IRO", error);
   } finally {
     revalidatePath(`/materiality/company/${companyid}/location/${locationid}`);
-    redirect(`/materiality/company/${companyid}/location/${locationid}`);
+    //redirect(`/materiality/company/${companyid}/location/${locationid}`);
   }
 }
 
@@ -379,7 +379,7 @@ export async function deleteProductIRO(productid, companyid, IROid) {
     console.error("Error while deleting Location IRO", error);
   } finally {
     revalidatePath(`/materiality/company/${companyid}/product/${productid}`);
-    redirect(`/materiality/company/${companyid}/product/${productid}`);
+    //redirect(`/materiality/company/${companyid}/product/${productid}`);
   }
 }
 

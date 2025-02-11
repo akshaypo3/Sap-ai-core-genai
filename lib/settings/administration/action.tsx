@@ -40,7 +40,7 @@ export async function createGlossary(formData: FormData) {
       console.error("Error while adding Glossary", error);
     } finally {
       revalidatePath("/settings/administration");
-      redirect("/settings/administration");
+      //redirect("/settings/administration");
     }
   }
 
@@ -73,7 +73,7 @@ export async function createGlossary(formData: FormData) {
       console.log("Error while deleting Glossary", error);
     } finally {
       revalidatePath("/settings/administration");
-      redirect("/settings/administration");
+      //redirect("/settings/administration");
     }
   }
 
@@ -114,7 +114,7 @@ export async function createGlossary(formData: FormData) {
       return { success: false, message: error.message }; // Return error details
     } finally {
       revalidatePath("/settings/administration");
-      redirect("/settings/administration");
+      //redirect("/settings/administration");
     }
   }
 
@@ -143,7 +143,7 @@ export async function createGlossary(formData: FormData) {
       console.error("Error while update Antropic", error.message);
     } finally {
       revalidatePath("/settings/administration");
-        redirect("/settings/administration");
+        //redirect("/settings/administration");
     }
   }
   
@@ -169,7 +169,7 @@ export async function createGlossary(formData: FormData) {
       console.error("Error while update OpenAI", error.message);
     } finally {
       revalidatePath("/settings/administration");
-        redirect("/settings/administration");
+        //redirect("/settings/administration");
     }
   }
 
@@ -193,6 +193,6 @@ export async function createGlossary(formData: FormData) {
       console.error("Error while updating GoogleMaps Api key", error);
     } finally {
       revalidatePath("/settings/administration");
-      redirect("/settings/administration");
+      //redirect("/settings/administration");
     }
   }

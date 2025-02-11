@@ -60,7 +60,7 @@ export async function deleteGroup(id: any) {
     console.error("Error while deleting Group:", error);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -95,7 +95,7 @@ export async function createGroup(formData: FormData) {
     console.error("Error while adding Group:", error);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -147,7 +147,7 @@ export async function createUser(formData: FormData) {
     console.error("Error creating user:", error);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -187,7 +187,7 @@ export async function deleteUser(user_id: any) {
     console.log("Error while deleting User", error);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -222,7 +222,7 @@ export async function createRole(formData: FormData) {
     console.error("Error while adding Role", error);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -250,7 +250,7 @@ export async function deleteRole(id: any) {
     console.error("Error while deleting Role", error);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -278,7 +278,7 @@ export async function editProfile(formData: FormData) {
     console.error("Error while adding Profile", error.message);
   } finally {
     revalidatePath("/account");
-    redirect("/account");
+   // redirect("/account");
   }
 }
 
@@ -319,7 +319,7 @@ export async function editUserRoleGroup(user_id: any, formData) {
     console.error("Error while adding Profile", error.message);
   } finally {
     revalidatePath("/settings/users");
-    redirect("/settings/users");
+    //redirect("/settings/users");
   }
 }
 
@@ -339,7 +339,7 @@ export async function assignRole(role_ID: any, formData) {
     console.error("Error while adding UserProfile", error.message);
   } finally {
     revalidatePath(`/settings/roles/${role_ID}`); //redirect to same role detais page
-    redirect(`/settings/roles/${role_ID}`);
+    //redirect(`/settings/roles/${role_ID}`);
   }
 }
 
@@ -359,7 +359,7 @@ export async function assignGroup(group_ID: any, formData) {
     console.error("Error while adding UserProfile", error.message);
   } finally {
     revalidatePath(`/settings/groups/${groupID}`); //redirect to same role detais page
-    redirect(`/settings/groups/${groupID}`);
+    //redirect(`/settings/groups/${groupID}`);
   }
 }
 
@@ -396,7 +396,7 @@ export async function changelanguage(language: any) {
   } finally {
     // Revalidate the path and redirect after changing language
     revalidatePath("/settings/administration");
-    redirect("/settings/administration");
+    //redirect("/settings/administration");
   }
 }
 

@@ -139,7 +139,7 @@ export async function createTask(formData: FormData) {
     console.error("Error while adding task:", error);
   } finally {
     revalidatePath("/task");
-    redirect("/task");
+    //redirect("/task");
   }
 }
 
@@ -217,7 +217,7 @@ export async function updateTask(formData: FormData) {
     console.error("Error in updateTask function:", error);
   } finally {
     revalidatePath(`/task/${id}`);
-    redirect(`/task/${id}`);
+    //redirect(`/task/${id}`);
   }
 }
 
@@ -388,7 +388,7 @@ export const createComment = async (formData: FormData) => {
     return null;
   } finally {
     revalidatePath(`/task/${taskID}`);
-    redirect(`/task/${taskID}`);
+    //redirect(`/task/${taskID}`);
   }
 };
 
@@ -441,7 +441,7 @@ export const createCommentDialog = async (formData: FormData) => {
     return null;
   } finally {
     revalidatePath(`/task/`);
-    redirect(`/task/`);
+    //redirect(`/task/`);
   }
 };
 
@@ -495,7 +495,7 @@ export const deleteComment = async (commentId: string, taskId: string) => {
   } finally {
     
     revalidatePath(`/task/${taskId}`);
-    redirect(`/task/${taskId}`);
+    //redirect(`/task/${taskId}`);
   }
 };
 
@@ -548,7 +548,7 @@ export const deleteCommentDialog = async (commentId: string, taskId: string) => 
     return null;
   } finally {
     revalidatePath(`/task/`);
-    redirect(`/task/`);
+    //redirect(`/task/`);
   }
 };
 
@@ -661,7 +661,7 @@ export async function ArchiveTaskWithId(id: string) {
   }
   finally {
     revalidatePath("/task");
-    redirect("/task");
+    //redirect("/task");
   }
 }
 
@@ -738,7 +738,7 @@ export async function updateTaskDetails(taskId, formData) {
     console.error("Error in updateTask function:", error);
   } finally {
     revalidatePath("/task");
-    redirect("/task");
+    //redirect("/task");
   }
 }
 
