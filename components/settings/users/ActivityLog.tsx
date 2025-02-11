@@ -3,7 +3,7 @@ import { columns_activity } from "@/components/table/UsersActivityLogsTableColum
 import { getTranslations } from "next-intl/server";
 
 export default async function ActivityLog({activityLogs}){
-    const t = await getTranslations();
+    const t = await getTranslations('settings-com');
     return(
         <>
             <div>

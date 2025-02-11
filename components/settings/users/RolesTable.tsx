@@ -4,7 +4,7 @@ import { AddRoleButton } from  "@/components/settings/roles/buttons"
 import { getTranslations } from "next-intl/server";
 
 export default async function RolesTable({rolesData}){
-    const t = await getTranslations();
+    const t = await getTranslations('settings-com');
     return(
         <>
             <div>
