@@ -11,9 +11,7 @@ export const glossaryFormSchema = z.object({
   .regex(/^[A-Za-z\s]+$/, {
     message: "Name must only contian letters and spaces.",
   }),
-  description:z.string().min(100,{
-    message: "Description must be at least 100 characters.",
-  }),
+  description:z.string().optional(),
   language: z
   .string()
   .optional()

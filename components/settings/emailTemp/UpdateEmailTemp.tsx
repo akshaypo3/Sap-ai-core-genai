@@ -9,7 +9,7 @@ import { useTranslations } from "use-intl";
 
 const emailTemplateSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().optional(),
   template_key: z.string().min(1, "Template Key is required"),
   subject: z.string().min(1, "Subject is required"),
   sender_name: z.string().min(1, "Sender Name is required"),

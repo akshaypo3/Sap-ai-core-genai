@@ -3,7 +3,7 @@ import { z } from "zod";
 export const goalFormSchema = z.object({
   name: z.string().min(3, "Goal Name is required"),
 
-  description: z.string().min(10, "Description is required"),
+  description: z.string().optional(),
 
   target_value: z
     .string()
