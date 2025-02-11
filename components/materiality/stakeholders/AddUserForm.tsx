@@ -21,11 +21,11 @@ export default function CreateUserForm({
         <Input type="hidden" value={stakeHolderId} name="stakeHolderId" />
         <Input type="hidden" value={stakeholderName} name="stakeholderName" />
         <Label htmlFor="email">Email</Label>
-        <Input type="text" name="email" placeholder="youremail@gmail.com"/>
+        <Input type="text" name="email" placeholder="stakeholderemail@gmail.com" autoComplete="off"/>
         <Label htmlFor="password">Password</Label>
-        <Input type="password"  name="password" placeholder="Password"/>
+        <Input type="password"  name="password"  placeholder="Password" autocomplete="new-password"/>
         <Label htmlFor="group">Group</Label>
-        <Input type="text"  name="group" value="stakeholder" readOnly/>
+        <Input type="text"  name="group" value="Stakeholder" readOnly/>
         <div className="flex mt-5">
           <div className="flex-auto">
             <DialogClose asChild>
