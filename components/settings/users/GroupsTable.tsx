@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 
  
 export default async function GrouptsTable({groupsData}){
-    const t = await getTranslations();
+    const t = await getTranslations('settings-com');
     return(
         <>
             <div>
