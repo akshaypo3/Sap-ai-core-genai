@@ -78,7 +78,7 @@ export async function createAssessment(formData: FormData) {
     console.error("Error while adding assessment: ", error.message);
   } finally {
     revalidatePath('/materiality/assessments');
-    redirect('/materiality/assessments');
+    //redirect('/materiality/assessments');
   }
 }
 
@@ -175,7 +175,7 @@ export async function saveIroEntries(formData: FormData) {
     console.error("Caught error while saving IRO Data:", error);
   } finally {
     revalidatePath(`/materiality/assessments/${assessment_id}/5`);
-    redirect(`/materiality/assessments/${assessment_id}/5`);
+    //redirect(`/materiality/assessments/${assessment_id}/5`);
   }
 }
 
@@ -201,7 +201,7 @@ export async function markIroAsNotMaterial(formData:FormData){
       console.log(error);
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/5`);
-    redirect(`/materiality/assessments/${assessmentId}/5`);
+    //redirect(`/materiality/assessments/${assessmentId}/5`);
   }
 }
 
@@ -248,7 +248,7 @@ export async function handleNextStep(id,nextStep){
     throw error;
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/${nextStep}`);
-    redirect(`/materiality/assessments/${assessmentId}/${nextStep}`);
+    //redirect(`/materiality/assessments/${assessmentId}/${nextStep}`);
   }
 }
 
@@ -297,7 +297,7 @@ export async function duplicateIro(assessmentId: string, iroId: string) {
 
     // Revalidate the path to refresh the page
     revalidatePath(`/materiality/assessments/${assessmentId}/5`);
-    redirect(`/materiality/assessments/${assessmentId}/5`);
+    //redirect(`/materiality/assessments/${assessmentId}/5`);
   } catch (error: any) {
     console.error("Error while duplicating IRO:", error.message);
     throw error;
@@ -399,7 +399,7 @@ export async function AddCatalogIro({
     console.error("Error while inserting catalog IRo in esrs_iros: ", error.message);
   } finally{
     revalidatePath(`/materiality/assessments/${assessment_id}/5`);
-    redirect(`/materiality/assessments/${assessment_id}/5`);
+    //redirect(`/materiality/assessments/${assessment_id}/5`);
   }
 }
 

@@ -50,7 +50,7 @@ export async function createStakeholder(formData: FormData) {
     console.error("Error while adding stakeholder");
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/4`);
-    redirect(`/materiality/assessments/${assessmentId}/4`);
+    //redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 
@@ -68,7 +68,7 @@ export async function deleteStakeholder(id: any,assessmentId:any) {
     console.error("Error while deleting stakeholder");
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/4`);
-    redirect(`/materiality/assessments/${assessmentId}/4`);
+    //redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 
@@ -95,7 +95,7 @@ export async function createStakeholderGroup(formData: FormData) {
     console.error("Error while adding stakeholder group");
   } finally {
     revalidatePath("/materiality/stakeholders");
-    redirect("/materiality/stakeholders");
+   // redirect("/materiality/stakeholders");
   }
 }
 
@@ -121,7 +121,7 @@ export async function createStakeholderGroupAssessment(formData: FormData) {
     console.error("Error while adding stakeholder group");
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/4`);
-    redirect(`/materiality/assessments/${assessmentId}/4`);
+   // redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 
@@ -181,7 +181,7 @@ export async function createStakeholderQuestions(id: any, formData) {
     console.error("Error while adding stakeholder question");
   } finally {
     revalidatePath(`/materiality/assessments/${id}/4`);
-    redirect(`/materiality/assessments/${id}/4`);
+    //redirect(`/materiality/assessments/${id}/4`);
   }
 }
 export async function deleteStakeholderQuestions(id: any, assessmentId: any) {
@@ -195,7 +195,7 @@ export async function deleteStakeholderQuestions(id: any, assessmentId: any) {
     console.error("Error while deleting stakeholder questions");
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/4`);
-    redirect(`/materiality/assessments/${assessmentId}/4`);
+    //redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }
 
@@ -292,6 +292,6 @@ export async function createStakeholderUser(formData: FormData) {
     console.error("Error while adding user");
   } finally {
     revalidatePath(`/materiality/assessments/${assessmentId}/4`);
-    redirect(`/materiality/assessments/${assessmentId}/4`);
+    //redirect(`/materiality/assessments/${assessmentId}/4`);
   }
 }

@@ -23,7 +23,7 @@ export default function CreateUserForm({
         <Label htmlFor="email">Email</Label>
         <Input type="text" name="email" placeholder="stakeholderemail@gmail.com" autoComplete="off"/>
         <Label htmlFor="password">Password</Label>
-        <Input type="password"  name="password"  placeholder="Password" autocomplete="new-password"/>
+        <Input type="password"  name="password"  placeholder="Password" autoComplete="new-password"/>
         <Label htmlFor="group">Group</Label>
         <Input type="text"  name="group" value="Stakeholder" readOnly/>
         <div className="flex mt-5">

@@ -33,7 +33,7 @@ export async function createCdpAssessment(formData: FormData) {
       console.error("Error while adding cdp assessment: ", error);
     } finally {
       revalidatePath('/reporting/frameworks/cdp');
-      redirect('/reporting/frameworks/cdp');
+      //redirect('/reporting/frameworks/cdp');
     }
   }
 
@@ -556,7 +556,7 @@ export const deleteQuestionCommentDialog = async (commentId: string, frameworkId
     return null;
   } finally {
    revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
-    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+    //redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
 };
 export const createQuestionCommentDialog = async (formData: FormData) => {
@@ -596,6 +596,6 @@ export const createQuestionCommentDialog = async (formData: FormData) => {
     return null;
   } finally {
     revalidatePath(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
-    redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
+    //redirect(`/reporting/frameworks/${frameworkId}/${assessmentID}`);
   }
 };

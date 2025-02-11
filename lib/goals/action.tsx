@@ -126,7 +126,7 @@ export async function createGoal(formData: FormData) {
     console.error("Error while adding Goal:", error);
   } finally {
     revalidatePath("/materiality/goals");
-    redirect("/materiality/goals");
+    //redirect("/materiality/goals");
   }
 }
 
@@ -159,7 +159,7 @@ export async function deleteGoal(id: any) {
     console.error("Error while deleting Goal:", error);
   } finally {
     revalidatePath("/materiality/goals");
-    redirect("/materiality/goals");
+    //redirect("/materiality/goals");
   }
 }
 
@@ -227,7 +227,7 @@ export async function updateGoal(id: string, goalData: any) {
     console.error("Error updating goal:", error);
   } finally {
     revalidatePath("/materiality/goals");
-    redirect("/materiality/goals");
+    //redirect("/materiality/goals");
   }
 }
 
@@ -310,6 +310,6 @@ export async function addValue(formData:FormData) {
     console.error("Error while adding value:", error);
   } finally {
     revalidatePath("/materiality/goals");
-    redirect("/materiality/goals");
+    //redirect("/materiality/goals");
   }
 }

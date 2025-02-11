@@ -39,7 +39,7 @@ export async function createFramework(formData: FormData) {
     console.error("Error while adding framework:", error);
   } finally {
     revalidatePath("/settings/frameworkEditor");
-    redirect("/settings/frameworkEditor");
+    //redirect("/settings/frameworkEditor");
   }
 }
  
@@ -64,7 +64,7 @@ export async function deleteFramework(id: string) {
     console.error("Error while deleting framework:", error);
   } finally {
     revalidatePath("/settings/frameworkEditor");
-    redirect("/settings/frameworkEditor");
+    //redirect("/settings/frameworkEditor");
   }
 }
  
@@ -95,7 +95,7 @@ console.log(formData.get("name"))
     console.error("Error updating FrameworkEditor:", error);
   } finally {
     revalidatePath("/settings/frameworkEditor");
-    redirect("/settings/frameworkEditor");
+    //redirect("/settings/frameworkEditor");
   }
 }
  
@@ -177,7 +177,7 @@ export async function createSection(formData: FormData) {
     console.error("Error while adding section:", error);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
  
@@ -216,7 +216,7 @@ export async function updateSection(formData: FormData) {
     console.error("Error while updating section:", error);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 
@@ -302,7 +302,7 @@ export async function createQuestion(formData: FormData) {
     console.error("Error while adding section:", error);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 
@@ -373,7 +373,7 @@ export async function updateQuestion(formData: FormData) {
   } 
   finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 export const deleteQuestion = async (questionId: string) => {
@@ -461,7 +461,7 @@ export const duplicateQuestion = async (duplicatedQuestionData: any) => {
     return { success: false, error: err.message };
   }finally {
     revalidatePath(`/settings/frameworkEditor${id}`);
-    redirect(`/settings/frameworkEditor${id}`);
+    //redirect(`/settings/frameworkEditor${id}`);
   }
 };
 
@@ -554,7 +554,7 @@ export async function DuplicateQuestion(formData: FormData) {
     console.error("Error while adding section:", error);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 
@@ -740,7 +740,7 @@ export async function upwardDownwardCreateQuestion(formData: FormData) {
     console.error("Error while adding section:", error);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 
@@ -788,7 +788,7 @@ export async function saveReorderedQuestionsOnServer(questions: any, framework_i
     console.error("An error occurred while rearranging questions:", err);
   } finally {
     revalidatePath(`/settings/frameworkEditor/${framework_id}`);
-    redirect(`/settings/frameworkEditor/${framework_id}`);
+    //redirect(`/settings/frameworkEditor/${framework_id}`);
   }
 }
 
