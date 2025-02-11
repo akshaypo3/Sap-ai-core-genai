@@ -5,10 +5,7 @@ export const stakeholderFormSchema = z.object({
     .string()
     .min(3, { message: "Name is required." })
     .max(100, { message: "Name must be less than 100 characters." }),
-  description: z
-    .string()
-    .min(20, { message: "Description is required." })
-    .max(200, { message: "Description must be less than 200 characters." }),
+  description: z.string().optional(),
   groupId: z
     .string()
     .min(1, { message: "Stakeholder group is required" }),

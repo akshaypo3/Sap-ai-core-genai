@@ -5,9 +5,7 @@ export const taskFormSchema = z.object({
     .string()
     .min(3, "Title must be at least 3 characters."),
 
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters."),
+  description: z.string().optional(),
 
   assigned_to: z.string().nonempty("Assigned user is required."),
 

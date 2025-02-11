@@ -20,10 +20,7 @@ export const sectionEditorFormSchema = z.object({
     .min(1, { message: "Section Name is required." })
     .max(255, { message: "Section Name must not exceed 255 characters." }),
 
-  description: z
-    .string()
-    .min(1, { message: "Description is required." })
-    .max(500, { message: "Description must not exceed 500 characters." }),
+  description: z.string().optional(),
     
   // parent_section_id: z
   // .string()

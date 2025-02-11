@@ -3,7 +3,7 @@ import { z } from "zod";
 export const TemplateFormSchema = z.object({
   name: z.string().min(3, "Template Name is required"),
 
-  description: z.string().min(10, "Description is required"),
+  description: z.string().optional(),
   
   category: z.string().min(3, "Category Name is required"),
   

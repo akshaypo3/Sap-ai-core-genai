@@ -5,9 +5,7 @@ export const locationFormSchema = z.object({
     name: z
     .string()
     .min(3, "Title must be at least 3 characters."),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters."),
+  description: z.string().optional(),
   location_type: z.string().nonempty('Location Type is required'),
   employee_count: z.string().nonempty('Employee Count is required'),
   autocomplete: z.string().min(3,'Please enter a valid location'),

@@ -8,11 +8,7 @@ export const frameworkEditorformSchema = z.object({
     .min(1, { message: "Framework Name is required." })
     .max(100, { message: "Framework Name must not exceed 100 characters." }),
 
-  description: z
-    .string()
-    .min(10, { message: "Description must be atleast 10 characters." })
-    .max(200, { message: "Description must not exceed 200 characters." }),
-
+  description: z.string().optional(),
   framework_type: z
     .string()
     .min(1, { message: "Framework Type is required." })
