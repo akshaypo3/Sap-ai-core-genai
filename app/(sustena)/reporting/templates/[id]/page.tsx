@@ -10,6 +10,7 @@ import { getTemplates } from "@/lib/templates/data";
 import TiptapTemplate from "@/components/reporting/templates/TiptapTemplate";
 import { getUsers } from "@/lib/templates/data";
 import { userrolecheck } from "@/lib/settings/users/action";
+import { getAnsweredQuestions } from "@/lib/templates/data";
 
 export default async function Home({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -44,6 +45,7 @@ if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
   const userNameData = await getUsers(user.id)
   const userName = userNameData?.username || "Unknown User";
 
+  const questions = await getAnsweredQuestions()
   return (
     <>
       <ContentLayout title={t("Templates")}>
@@ -58,6 +60,7 @@ if (roleforpage === "Stakeholder" || typeof roleforpage === 'undefined') {
           templateId={id}
           templateContent={templateMatchedContent.content}
           userName={userName}
+          questions={questions}
         />
       </ContentLayout>
     </>
