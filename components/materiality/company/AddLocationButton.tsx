@@ -30,7 +30,9 @@ export function AddLocationButton({ type, api,companyID }: AddLocationButtonForm
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger>
-                <Button>Add Location</Button>
+            <div className="px-4 py-2 bg-black text-white font-semibold rounded-md text-sm cursor-pointer hover:bg-gray-800">
+            Add Location
+            </div>
             </DialogTrigger>
             <DialogContent 
                 className="overflow-visible"

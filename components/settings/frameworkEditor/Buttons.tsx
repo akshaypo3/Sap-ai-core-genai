@@ -80,7 +80,9 @@ export function AddFrameworkEditorButton({userId}:{userId:string}) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>Add Framework</Button>
+      <div className="px-4 py-2 bg-black text-white font-semibold rounded-md text-sm cursor-pointer hover:bg-gray-800">
+         Add Framework
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -124,12 +126,9 @@ export function DeleteFrameworkEditorButton({
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <Button  variant="ghost" 
-          type="submit"
-          className="px-2 h-7 rounded-md bg-white"
-        >
-          <Trash2 className="w-4 text-black" />
-        </Button>
+      <div className="px-2 h-7 bg-white rounded-md cursor-pointer flex items-center justify-center text-black text-sm">
+        <Trash2 className="w-4 text-black" />
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
@@ -172,9 +171,9 @@ export function ViewFrameworkButton({ frameworkId }: { frameworkId: string }) {
   return (
     <>
       <Link href={`/settings/frameworkEditor/${frameworkId}`}>
-        <Button  variant="ghost"  className="px-2 h-7 bg-gray-200 hover:bg-gray-400 text-black">
-          <Eye className="w-4"/>
-        </Button>
+      <div className="px-2 h-7 bg-white rounded-md cursor-pointer flex items-center justify-center text-black text-sm">
+        <Eye className="w-4"/>
+        </div>
       </Link>
     </>
   )
@@ -185,11 +184,9 @@ export function EditFrameworkEditorButton(frameworkData) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-      <Button  variant="ghost" 
-          className="px-2 h-7 bg-white rounded-md "
-        >
-          <Pencil className="w-4 text-black" />
-        </Button>
+        <div className="px-2 h-7 bg-white rounded-md cursor-pointer flex items-center justify-center text-black text-sm">
+        <Pencil className="w-4 text-black" />
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -209,13 +206,9 @@ export function DuplicateFrameworkEditorButton({ userId, frameworkData }: Duplic
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-      <DialogTrigger>
-      <Button  variant="ghost" 
-          className="px-2 h-7 rounded-md bg-white"
-        >
-          <Copy className="w-4 text-black" />
-        </Button>
-      </DialogTrigger>
+      <div className="px-2 h-7 bg-white rounded-md cursor-pointer flex items-center justify-center text-black text-sm">
+        <Copy className="w-4 text-black" />
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -291,7 +284,9 @@ export function CoreAddSectionButton({ parentSections, frameworkId}) {
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>Add Section</Button>
+      <div className="px-4 py-2 bg-black text-white font-semibold rounded-md text-sm cursor-pointer hover:bg-gray-800">
+            Add Section
+            </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -311,13 +306,11 @@ export function DuplicateQuestion({ questionData, sections }: DuplicateQuestionB
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-       <Button
-        variant="outline"
-        color="blue"
-        className="px-2 bg-blue-600 h-9 hover:bg-blue-900 rounded-md"
-        >
-        <CopyIcon className="w-4 text-white" />
-        </Button>
+      <div
+  className="px-2 bg-blue-600 h-9 hover:bg-blue-900 rounded-md cursor-pointer flex items-center justify-center"
+>
+  <CopyIcon className="w-4 text-white" />
+</div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -337,12 +330,11 @@ export function AddQuestionUpward({framework_id, section_code, section_id, quest
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-      <Button
-        variant="outline"
-        color="blue"
-        className="px-2 bg-gray-600 h-9 hover:bg-gray-900 rounded-md"
-        ><MoveUp className="w-4 text-white"/>
-        </Button>
+      <div
+        className="px-2 bg-gray-600 h-9 hover:bg-gray-900 rounded-md cursor-pointer flex items-center justify-center"
+      >
+        <MoveUp className="w-4 text-white" />
+      </div>
       </DialogTrigger>
       <DialogContent className="max-w-[700px]">
         <DialogHeader>
@@ -362,11 +354,11 @@ export function AddQuestionDownward({framework_id, section_code, section_id, que
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button
-        variant="outline"
-        color="blue"
-        className="px-2 bg-gray-500 h-9 hover:bg-gray-900 rounded-md"><MoveDown className="w-4 text-white"/>
-        </Button>
+      <div
+        className="px-2 bg-gray-500 h-9 hover:bg-gray-900 rounded-md cursor-pointer flex items-center justify-center"
+      >
+        <MoveDown className="w-4 text-white" />
+      </div>
       </DialogTrigger>
       <DialogContent className="max-w-[700px]">
         <DialogHeader>
@@ -386,9 +378,9 @@ export function RearrangeQuestions({questionData, framework_id}) {
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button className="bg-green-600">
-          Rearrange Questions
-        </Button>
+        <div className="mb-3 bg-green-600 text-sm text-white font-medium rounded-md px-4 py-2 cursor-pointer hover:bg-green-700">
+        Rearrange Questions
+        </div>
       </DialogTrigger>
       <DialogContent className="max-w-[1100px] w-full">
         <DialogHeader>

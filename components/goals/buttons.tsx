@@ -28,7 +28,9 @@ export function AddGoal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add Goal")}</Button>
+        <div className="mb-3 bg-green-600 text-sm text-white font-medium rounded-md px-4 py-2 cursor-pointer hover:bg-green-700">
+        {t("Add Goal")}
+        </div>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>
@@ -47,7 +49,9 @@ export function AddValue({ goalId }: { goalId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}> 
       <DialogTrigger>
-        <Button className="mb-3 bg-green-600">{t("Add Value")}</Button> 
+        <div className="mb-3 bg-green-600 text-sm text-white font-medium rounded-md px-4 py-2 cursor-pointer hover:bg-green-700">
+        {t("Add Value")}
+        </div>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>
@@ -121,7 +125,7 @@ export function DeleteGoalButton({ goalId }: { goalId: string }) {
             <form action={deleteGoalWithId}>
               <DialogClose asChild>
                 <Button type="submit" variant="destructive">
-                  {t("Delete Goal")}
+                  {t("Delete goal")}
                 </Button>
               </DialogClose>
             </form>
@@ -137,12 +141,9 @@ export function UpdateGoalButton({ goal }: { goal: any }) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button
-          type="submit"
-          className="px-2 mr-3 bg-green-600 h-7 hover:bg-green-900 rounded-md"
-        >
-          {t("Update Goal")}
-        </Button>
+      <div className="px-2 mr-3 bg-green-600 h-7 hover:bg-green-900 rounded-md text-white font-medium text-sm cursor-pointer flex items-center justify-center">
+      {t("Update Goal")}
+      </div>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto p-4">
         <DialogHeader>

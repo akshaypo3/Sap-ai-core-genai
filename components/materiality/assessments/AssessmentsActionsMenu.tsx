@@ -22,7 +22,7 @@ import { useTranslations } from 'next-intl';
     return (
       <>
         <DropdownMenu>
-          <DropdownMenuTrigger><Button variant="outline" className="px-3 border-none">...</Button></DropdownMenuTrigger>
+          <DropdownMenuTrigger><div className="px-3 border border-transparent hover:border-gray-300 hover:bg-gray-100 rounded-md cursor-pointer">...</div></DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />

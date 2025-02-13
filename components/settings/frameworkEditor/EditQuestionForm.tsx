@@ -128,12 +128,11 @@ export function EditQuestionFormDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-      <Button
-          type="button"
-          className="px-2 bg-green-600 h-9 hover:bg-green-900 rounded-md"
-        >
+      <div
+          className="px-2 bg-green-600 h-9 hover:bg-green-900 rounded-md cursor-pointer flex items-center justify-center"
+         >
           <Pencil className="w-4 text-white" />
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="max-w-[700px]">
         <DialogHeader>
