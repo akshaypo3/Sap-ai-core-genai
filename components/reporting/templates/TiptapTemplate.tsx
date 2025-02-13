@@ -124,15 +124,15 @@ const TiptapTemplate = ({
     }
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     saveContent();
-  //   }, 60000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      saveContent();
+    }, 60000);
 
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [editor, templateId]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [editor, templateId]);
 
   useEffect(() => {
     if (!editor || !templateContent) return;
