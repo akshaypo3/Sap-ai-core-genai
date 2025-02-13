@@ -114,7 +114,7 @@ export function UpdateTaskDialogForm({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[1000px] max-h-[80vh] overflow-y-auto" aria-labelledby="dialog-title" aria-describedby="dialog-description">
           <DialogHeader>
-            <DialogTitle id="dialog-title" className="text-left">{t("Task Details")}</DialogTitle>
+            <DialogTitle className="text-left">{t("Task Details")}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit}>
             <div className="grid gap-4">

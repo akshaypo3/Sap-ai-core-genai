@@ -13,6 +13,10 @@ import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Placeholder from "@tiptap/extension-placeholder";
 import { PDFDocument } from "pdf-lib";
 import html2canvas from "html2canvas";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
 
 import Collaboration from "@tiptap/extension-collaboration";
 import * as Y from "yjs";
@@ -59,6 +63,8 @@ import {
   Undo2,
   Redo2,
   Trash2,
+  PanelLeftOpen,
+  Type,
 } from "lucide-react";
 
 import {
@@ -67,6 +73,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import TemplateSidebar from "./Sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const doc = new Y.Doc();
 
@@ -74,12 +87,18 @@ const TiptapTemplate = ({
   templateId,
   templateContent,
   userName,
+  isSidebarOpen,
+  setIsSidebarOpen,
 }: {
   templateId: string;
   templateContent: any;
   userName: string;
+  isSidebarOpen: any;
+  setIsSidebarOpen: any;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("#676f7a");
+  const [selectedFontSize, setSelectedFontSize] = useState("16px");
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -93,7 +112,6 @@ const TiptapTemplate = ({
     }
     setIsLoading(true);
     const contentWithComponents = editor.getJSON();
-    console.log("data", contentWithComponents);
     const jsonData = JSON.stringify(contentWithComponents);
     const cleanedContent = jsonData.replace(/<card-component\s*\/?>/g, "");
     try {
@@ -106,15 +124,15 @@ const TiptapTemplate = ({
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      saveContent();
-    }, 60000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     saveContent();
+  //   }, 60000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [editor, templateId]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [editor, templateId]);
 
   useEffect(() => {
     if (!editor || !templateContent) return;
@@ -136,7 +154,7 @@ const TiptapTemplate = ({
     }
 
     const provider = new TiptapCollabProvider({
-      name: "document.name",
+      name: `document-${templateId}`,
       appId: "7j9y6m10",
       token: "notoken",
       document: doc,
@@ -243,20 +261,76 @@ const TiptapTemplate = ({
     }
   };
 
+  const colors = [
+    "#000000",
+    "#0747a6",
+    "#008da6",
+    "#006644",
+    "#ff991f",
+    "#bf2600",
+    "#403294",
+    "#676f7a",
+    "#4c9aff",
+    "#00b8d9",
+    "#36b37e",
+    "#ffc400",
+    "#ff5630",
+    "#6554c0",
+    "#ffffff",
+    "#b3d4ff",
+    "#b3f5ff",
+    "#abf5d1",
+    "#fff0b3",
+    "#ffbdad",
+    "#eae6ff",
+  ];
+
+  const applyColor = (color: any) => {
+    setSelectedColor(color);
+    editor.chain().focus().setColor(color).run();
+  };
+
+  const fontSizes = [
+    "12px",
+    "14px",
+    "16px",
+    "18px",
+    "20px",
+    "22px",
+    "24px",
+    "26px",
+    "28px",
+    "32px",
+    "36px",
+    "48px",
+    "72px",
+  ];
+
+  const applyFontSize = (size: any) => {
+    setSelectedFontSize(size);
+    editor.chain().focus().setMark("textStyle", { fontSize: size }).run();
+  };
+
   return (
     <>
       <div className="flex items-center justify-between bg-gray-50 dark:bg-neutral-800 rounded-t-md mb-5">
         <h3 className="text-xl font-bold">Edit Template</h3>
-        {/* <div className="flex justify-end mt-4">
-          <Button
+        <div className="flex items-center gap-4">
+          {/* <Button
             onClick={saveContent}
             disabled={isLoading || !editor.can().chain().focus().undo().run()}
           >
             {isLoading ? "Saving Template..." : "Save Template"}
-          </Button>
-        </div> */}
-        <div className="flex justify-end mt-4">
+          </Button> */}
           <Button onClick={handleExportPDF}>Download</Button>
+          {!isSidebarOpen && (
+            <Button
+              onClick={() => setIsSidebarOpen(true)}
+              className="transition-transform duration-300 ease-in-out hover:scale-110 active:scale-95"
+            >
+              <PanelLeftOpen />
+            </Button>
+          )}
         </div>
       </div>
       <div className="control-group">
@@ -373,6 +447,39 @@ const TiptapTemplate = ({
               </TooltipTrigger>
               <TooltipContent>
                 <p>Paragraph</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="text-black px-4 py-2 rounded-md hover:bg-green-600 hover:text-white focus:outline-none m-1 w-20"
+                    >
+                      <Type />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <div className="grid grid-cols-3 gap-2 p-2">
+                      {fontSizes.map((size: any) => (
+                        <DropdownMenuItem
+                          key={size}
+                          onClick={() => applyFontSize(size)}
+                          className="cursor-pointer hover:bg-gray-50"
+                        >
+                          <span className="text-md">{size}</span>
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Font Size</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -660,22 +767,34 @@ const TiptapTemplate = ({
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger>
-                <Button
-                  variant="outline"
-                  onClick={() =>
-                    editor.chain().focus().setColor("#22c55e").run()
-                  }
-                  className={`${
-                    editor.isActive("textStyle", { color: "#22c55e" })
-                      ? "bg-green-500"
-                      : ""
-                  } text-black px-4 py-2 rounded-md hover:bg-green-600 hover:text-white focus:outline-none m-1 w-20`}
-                >
-                  <Brush />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="text-black px-4 py-2 rounded-md  hover:bg-green-600 hover:text-white focus:outline-none m-1 w-20"
+                    >
+                      <Brush style={{ color: selectedColor }} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <div className="grid grid-cols-7">
+                      {colors.map((color: any) => (
+                        <DropdownMenuItem
+                          key={color}
+                          onClick={() => applyColor(color)}
+                        >
+                          <div
+                            className="w-8 h-8 rounded border cursor-pointer"
+                            style={{ backgroundColor: color }}
+                          ></div>
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Color</p>
+                <p>Colors</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -927,19 +1046,37 @@ export default ({
   templateId,
   templateContent,
   userName,
+  questions,
 }: {
   templateId: string;
   templateContent: any;
   userName: string;
+  questions: any;
 }) => {
   const provider = new HocuspocusProvider({
     url: "ws://127.0.0.1:1234",
     name: `document-${templateId}`,
+    document: doc,
   });
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const extensions = [
     Color.configure({ types: [TextStyle.name, ListItem.name] }),
-    TextStyle.configure({ types: [ListItem.name] }),
+    TextStyle.extend({
+      addAttributes() {
+        return {
+          fontSize: {
+            default: null,
+            parseHTML: (element) => element.style.fontSize || null,
+            renderHTML: (attributes) => {
+              if (!attributes.fontSize) return {};
+              return { style: `font-size: ${attributes.fontSize}` };
+            },
+          },
+        };
+      },
+    }),
     StarterKit.configure({
       heading: {
         levels: [1, 2, 3, 4, 5, 6],
@@ -964,6 +1101,12 @@ export default ({
         color: "#22c55e",
       },
     }),
+    Table.configure({
+      resizable: false,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
     // Placeholder.configure({
     //   placeholder:
     //     'Write something … It’ll be shared with everyone else looking at this example.',
@@ -983,19 +1126,36 @@ export default ({
     : `${templateContent ?? ""} <card-component /> `;
 
   return (
-    <div className="p-5 border rounded prose max-w-none">
-      <EditorProvider
-        slotBefore={
-          <TiptapTemplate
-            templateId={templateId}
-            templateContent={templateContent}
-            userName={userName}
+    <div className="flex gap-4">
+      <div
+        className={`p-5 border rounded prose transition-all ${
+          isSidebarOpen ? "max-w-[65%]" : "max-w-full"
+        }`}
+      >
+        <EditorProvider
+          slotBefore={
+            <TiptapTemplate
+              templateId={templateId}
+              templateContent={templateContent}
+              userName={userName}
+              isSidebarOpen={isSidebarOpen}
+              setIsSidebarOpen={setIsSidebarOpen}
+            />
+          }
+          extensions={extensions}
+          content={content}
+          immediatelyRender={false}
+        ></EditorProvider>
+      </div>
+
+      {isSidebarOpen && (
+        <div className="flex-1 max-w-[35%]">
+          <TemplateSidebar
+            toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+            questions={questions}
           />
-        }
-        extensions={extensions}
-        content={content}
-        immediatelyRender={false}
-      ></EditorProvider>
+        </div>
+      )}
     </div>
   );
 };
