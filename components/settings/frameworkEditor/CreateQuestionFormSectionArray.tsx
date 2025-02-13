@@ -110,7 +110,9 @@ export function QuestionFormSectionDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full bg-green-600">Add Question</Button>
+        <div className="mb-3 bg-green-600 text-sm text-white font-medium rounded-md px-4 py-2 cursor-pointer hover:bg-green-700">
+        Add Question
+        </div>
       </DialogTrigger>
       <DialogContent className="max-w-[700px]">
         <DialogHeader>

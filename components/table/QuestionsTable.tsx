@@ -245,24 +245,13 @@ const QuestionsTable = ({ framework_id,sections,questionData}: CreateQuestionTab
                 <TableCell className="border px-4 py-2 text-center">{question.section?.name}</TableCell>
                 <TableCell className="border px-4 py-2 text-center">
                   <div className="flex items-center justify-center space-x-2">
-                    {/* <Button
-                      variant="outline"
-                      color="blue"
-                      onClick={() => handleDuplicate(question)}
-                      className="px-2 bg-blue-600 h-9 hover:bg-blue-900 rounded-md"
-                    >
-                      <CopyIcon className="w-4 text-white" />
-                    </Button> */}
                     <DuplicateQuestion questionData={question} sections={sections}/>
-                    <Button
-                      variant="outline"
-                      color="red"
+                    <div 
+                      className="px-2 bg-red-600 h-9 hover:bg-red-900 rounded-md cursor-pointer flex items-center justify-center text-white text-sm" 
                       onClick={() => handleDelete(question)}
-                      className="px-2 bg-red-600 h-9 hover:bg-red-900 rounded-md"
                     >
                       <Trash2Icon className="w-4 text-white" />
-                    </Button>
-
+                    </div>
                     <EditQuestionSectionPage Questiondata={question} />
                     <AddQuestionUpward framework_id={question.framework_id} section_id={question.section_id} section_code={question.section?.section_code} questionData={question} key1={"upward"}/>
                     <AddQuestionDownward framework_id={question.framework_id} section_id={question.section_id} section_code={question.section?.section_code} questionData={question} key1={"downward"}/>

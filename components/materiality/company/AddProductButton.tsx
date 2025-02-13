@@ -24,7 +24,11 @@ export function AddProductButton({companyID}: AddProductButtonFormProps) {
     const [open, setOpen] = React.useState(false);
       return (
           <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger><Button>Add Product/Service</Button></DialogTrigger>
+        <DialogTrigger>
+        <div className="px-4 py-2 bg-black text-white font-semibold rounded-md text-sm cursor-pointer hover:bg-gray-800">
+        Add Product/Service
+        </div>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Product/Service</DialogTitle>

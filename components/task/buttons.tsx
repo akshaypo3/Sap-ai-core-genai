@@ -29,7 +29,9 @@ export function AddTask(createdId: any) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>{t("Add Task")}</Button>
+      <div className="px-4 py-2 bg-black text-white font-semibold rounded-md cursor-pointer hover:bg-gray-800">
+      {t("Add Task")}
+      </div>
       </DialogTrigger>
       <DialogContent className="p-4">
         <DialogHeader>

@@ -26,7 +26,9 @@ export function AddGroupButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button>{t("Add Group")}</Button>
+      <div className="px-4 py-2 bg-black text-white font-semibold rounded-md text-sm cursor-pointer hover:bg-gray-800">
+        {t("settings-com.Add Group")}
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

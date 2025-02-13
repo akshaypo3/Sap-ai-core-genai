@@ -24,9 +24,9 @@ export function AddUserButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button className="bg-black dark:bg-green-600 dark:text-neutral-50">
-          {t("Add User")}
-        </Button>
+      <div className="px-4 py-2 bg-black text-white font-semibold rounded-md text-sm cursor-pointer hover:bg-gray-800">
+        {t("Add User")}
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
