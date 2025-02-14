@@ -113,7 +113,14 @@ export function getMenuList(pathname: string): Group[] {
           active: pathname.includes("/reporting/frameworks"),
           icon: BookText,
           submenus: []
-        },        
+        },   
+        {
+          href: "/reporting/CBAM",
+          label: t("CBAM"),
+          active: pathname.includes("/reporting/CBAM"),
+          icon: BookText,
+          submenus: []
+        },   
         {
           href: "/reporting/reports",
           label: t("Reports"),

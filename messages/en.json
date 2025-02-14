@@ -499,6 +499,16 @@
         "Action":"Action"
       }
     },
+    "CBAM": {
+      "title": "CBAM",
+      "Carbon Border Adjustment Mechanism": "Carbon Border Adjustment Mechanism",
+      "Dashboard": "Dashboard",
+      "Frameworks": "Frameworks",
+      "Assessments":"Assessments",
+      "Imported Goods Details":"Imported Goods Details",
+      "Home":"Home",
+      "Goods":"Goods"
+    },
     "reports": {
       "title": "Reporting Dashboard",
       "Reports": "Reports",
@@ -1186,6 +1196,31 @@
       "Delete comment":"Delete comment",
       "Cancel":"Cancel",
       "Delete Comment":"Delete Comment"
+    },
+    "cbam":{
+      "Assessment Name":"Assessment Name",
+      "Start Date":"Start Date",
+      "Framework":"Framework",
+      "End Date":"End Date",
+      "Creating":"Creating...",
+      "Create Assessment":"Create Assessment",
+      "view":"View",
+      "Actions":"Actions",
+      "Created By":"Created By",
+      "Name":"Name",
+      "Status":"Status",
+      "Active Frameworks":"Active Frameworks",
+      "Select":"Select",
+      "Help text:":"Help text:",
+      "Select your answer":"Select your answer",
+      "Select your answers":"Select your answers",
+      "Create Answer":"Create Answer",
+      "New Assessment":"New Assessment",
+      "New Assessment function description":"New Assessment function description",
+      "Add Goods":"Add Goods",
+      "Enter the imported goods details":"Enter the imported goods details",
+      "Add Imported Good":"Add Imported Good",
+      "Imported Goods Details":"Imported Goods Details"
     }
   },
   "settings-com": {
@@ -1626,7 +1661,8 @@
     "Administration":"Administration",
     "Questions":"Questions",
     "Framework Editor":"Framework Editor",
-    "Templates":"Templates"
+    "Templates":"Templates",
+    "CBAM":"CBAM"
   },
   "portal":{
     "dashboard":{
