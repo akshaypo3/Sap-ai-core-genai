@@ -1,4 +1,5 @@
 {
+  "kind": "Deployment",
   "name": "gemini-llama-deployment",
   "executableId": "gemini-backend-executable",
   "scenarioId": "gemini-llama-scenario",
