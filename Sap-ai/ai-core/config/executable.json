@@ -1,8 +1,14 @@
 {
-  "name": "gemini-backend-executable",
-  "scenarioId": "gemini-llama-scenario",
-  "image": "docker.io/akshay1p1/gemini-backend:llama",
-  "type": "docker",
-  "inputs": [],
-  "outputs": []
+  "apiVersion": "aicore.sap.com/v1alpha1",
+  "kind": "Executable",
+  "metadata": {
+    "name": "gemini-backend-executable"
+  },
+  "spec": {
+    "scenarioId": "gemini-llama-scenario",
+    "type": "docker",
+    "image": "docker.io/akshay1p1/gemini-backend:llama",
+    "inputs": [],
+    "outputs": []
+  }
 }
