@@ -1,0 +1,8 @@
+{
+  "name": "gemini-backend-executable",
+  "scenarioId": "gemini-llama-scenario",
+  "image": "docker.io/akshay1p1/gemini-backend:llama",
+  "type": "docker",
+  "inputs": [],
+  "outputs": []
+}

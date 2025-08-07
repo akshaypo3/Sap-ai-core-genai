@@ -1,0 +1,11 @@
+{
+  "name": "gemini-llama-deployment",
+  "executableId": "gemini-backend-executable",
+  "scenarioId": "gemini-llama-scenario",
+  "deploymentConfiguration": {
+    "resources": {
+      "cpu": "500m",
+      "memory": "1Gi"
+    }
+  }
+}
